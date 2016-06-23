@@ -1,7 +1,7 @@
 {
   "name": "powerbi-models",
   "version": "0.2.0",
-  "description": "Collection of functions to validate PowerBI messages using json schema.  Also contains shared interfaces for all messages to ensure host and iframe agree.",
+  "description": "Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK. For each model there is a TypeScript interface, a json schema definitions, and a validation function to ensure and object is valid.",
   "main": "dist/models.js",
   "typings": "dist/models.d.ts",
   "directories": {
