@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "filter": {
+      "type": "object"
+    },
+    "filterPaneEnabled": {
+      "type": "boolean",
+      "messages": {
+        "type": "filterPaneEnabled must be a boolean"
+      }
+    },
+    "pageName": {
+      "type": "string",
+      "messages": {
+        "type": "pageName must be a string"
+      }
+    },
+    "pageNavigationEnabled": {
+      "type": "boolean",
+      "messages": {
+        "type": "pageNavigationEnabled must be a boolean"
+      }
+    }
+  }
+}

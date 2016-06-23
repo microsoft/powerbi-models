@@ -1,0 +1,8 @@
+{
+  "dependencies": {},
+  "globalDependencies": {
+    "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
+    "jsen": "registry:dt/jsen#0.0.0+20160328204314",
+    "karma-jasmine": "registry:dt/karma-jasmine#0.0.0+20160316155526"
+  }
+}

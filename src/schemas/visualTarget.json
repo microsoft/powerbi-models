@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "visual"
+      ],
+      "messages": {
+        "type": "type must be a string",
+        "enum": "type must be 'visual'",
+        "required": "type is required"
+      }
+    },
+    "id": {
+      "type": "string",
+      "messages": {
+        "type": "id must be a string",
+        "required": "id is required"
+      }
+    }
+  },
+  "required": [
+    "type",
+    "id"
+  ]
+}

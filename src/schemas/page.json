@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "messages": {
+        "type": "name must be a string",
+        "required": "name is required"
+      }
+    },
+    "displayName": {
+      "type": "string",
+      "messages": {
+        "type": "displayName must be a string",
+        "required": "displayName is required"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "displayName"
+  ]
+}
