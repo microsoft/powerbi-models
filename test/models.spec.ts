@@ -156,6 +156,20 @@ describe('Unit | Models', function () {
       // Assert
       testForExpectedMessage(errors, filterInvalidMessage);
     });
+
+    it(`should return undefined settings is valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
   });
 });
 
