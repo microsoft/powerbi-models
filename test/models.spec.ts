@@ -158,3 +158,218 @@ describe('Unit | Models', function () {
     });
   });
 });
+
+describe("Unit | Filters", function () {
+  describe("ValueFilter", function () {
+    it("should accept values as separate arguments", function () {
+      // Arrange
+      
+      // Act
+      const valueFilter = new models.ValueFilter({ table: "t", column: "c" }, "In", 1, 2);
+      
+      // Assert
+      expect(valueFilter.values).toEqual([1,2]);
+    });
+    
+    it("should accept values as an array", function () {
+      // Arrange
+      const values = [1,2];
+      
+      // Act
+      const valueFilter = new models.ValueFilter({ table: "t", column: "c" }, "In", values);
+      
+      // Assert
+      expect(valueFilter.values).toEqual(values);
+    });
+    
+    it("should return valid json format when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.IValueFilter = {
+        $schema: "http://powerbi.com/product/schema#basic",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: "In",
+        values: [
+          1,
+          2,
+          3
+        ]
+      };
+      
+      // Act
+      const filter = new models.ValueFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.values);
+      
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+    
+    it("valiator should return false if object does not validate against schema", function () {
+      // Arrange
+      const malformedFilter: any = {
+        target: {
+          table: "c",
+          column: "d"
+        }
+      };
+      
+      // Act
+      const errors = models.validateValueFilter(malformedFilter);
+      
+      // Assert
+      expect(errors).toBeDefined();
+    });
+    
+    it("should be able to be validated using json schema", function () {
+      // Arrange
+      const expectedFilter: models.IValueFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: <any>"x",
+        values: [
+          "a",
+          "b",
+        ]
+      };
+      
+      // Act
+      const filter = new models.ValueFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        ...expectedFilter.values);
+      
+      // Assert
+      expect(models.validateValueFilter(filter.toJSON())).toBeUndefined();
+    });
+  });
+  
+  describe("AdvancedFilter", function () {
+    it("should throw an error if logical operator is not a non-empty string", function () {
+      // Arrange
+      const condition: models.IAdvancedFilterCondition = {
+        value: "a",
+        operator: "LessThan"
+      };
+      
+      // Act
+      const attemptToCreateFilter = () => {
+        return new models.AdvancedFilter({ table: "t", column: "c" }, <any>1, condition);
+      };
+      
+      // Assert
+      expect(attemptToCreateFilter).toThrowError();
+    });
+    
+    it("should throw an error if more than two conditions are provided", function () {
+      // Arrange
+      const conditions: models.IAdvancedFilterCondition[] = [
+        {
+          value: "a",
+          operator: "LessThan"
+        },
+        {
+          value: "b",
+          operator: "LessThan"
+        },
+        {
+          value: "c",
+          operator: "LessThan"
+        }
+      ];
+      
+      
+      // Act
+      const attemptToCreateFilter = () => {
+        return new models.AdvancedFilter({ table: "Table", column: "c" }, "And", ...conditions);
+      };
+      
+      // Assert
+      expect(attemptToCreateFilter).toThrowError();
+    });
+    
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.IAdvancedFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        logicalOperator: "And",
+        conditions: [
+          {
+            value: "a",
+            operator: "LessThan"
+          },
+          {
+            value: "b",
+            operator: "LessThan"
+          }
+        ]
+      };
+      
+      // Act
+      const filter = new models.AdvancedFilter(
+        expectedFilter.target,
+        expectedFilter.logicalOperator,
+        ...expectedFilter.conditions);
+      
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+    
+    it("valiator should return false if object does not validate against schema", function () {
+      // Arrange
+      const malformedFilter: any = {
+        filter: {
+          entity: "c",
+          property: "d"
+        }
+      };
+      
+      // Act
+      const errors = models.validateAdvancedFilter(malformedFilter);
+      
+      // Assert
+      expect(errors).toBeDefined();
+    });
+    
+    it("should be able to be validated using json schema", function () {
+      // Arrange
+      const expectedFilter: models.IAdvancedFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        logicalOperator: "And",
+        conditions: [
+          {
+            value: "a",
+            operator: "Is"
+          },
+          {
+            value: "b",
+            operator: "Is"
+          }
+        ]
+      };
+      
+      // Act
+      const filter = new models.AdvancedFilter(
+        expectedFilter.target,
+        expectedFilter.logicalOperator,
+        ...expectedFilter.conditions);
+      
+      // Assert
+      expect(models.validateAdvancedFilter(filter.toJSON())).toBeUndefined();
+    });
+  });
+});
