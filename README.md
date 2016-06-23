@@ -1,6 +1,8 @@
 # powerbi-models
 
-Collection of functions to validate PowerBI messages using json schema.  Also contains shared interfaces for all messages to ensure host and iframe agree.
+Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK.
+
+For each model there is a TypeScript interface, a json schema definitions, and a validation function to ensure and object is valid.
 
 ## Getting Started
 
@@ -21,9 +23,15 @@ let testObject = { x: 1 };
 const errors = models.validateLoad(testObject);
 
 if(errors) {
-  console.warn(errors) 
+  console.warn(errors);
 }
 
-...
-
+```
+Would output to the console:
+```
+[
+  {
+    message: 'accessToken is required'
+  }
+]
 ```
