@@ -3,7 +3,20 @@
   "type": "object",
   "properties": {
     "filter": {
-      "type": "object"
+      "type": "object",
+      "oneOf": [
+        {
+          "valueFilter": {
+            "$ref": "#valueFilter"
+          }
+        },
+        {
+          "advancedFilter": {
+            "$ref": "#advancedFilter"
+          }
+        }
+      ],
+      "invalidMessage": "filter property is invalid"
     },
     "filterPaneEnabled": {
       "type": "boolean",

@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "target": {
+      "type": "object",
+      "properties": {
+        "table": {
+          "type": "string"
+        },
+        "column": {
+          "type": "string"
+        },
+        "hierarchy": {
+          "type": "string"
+        },
+        "hierarchyLevel": {
+          "type": "string"
+        },
+        "measure": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "table"
+      ]
+    },
+    "logicalOperator": {
+      "type": "string"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "operator": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "operator"
+        ]
+      }
+    }
+  },
+  "required": [
+    "target",
+    "logicalOperator",
+    "conditions"
+  ]
+}

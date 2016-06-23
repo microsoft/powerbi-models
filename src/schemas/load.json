@@ -15,7 +15,8 @@
       "messages": {
         "type": "id must be a string",
         "required": "id is required"
-      }
+      },
+      "invalidMessage": "id property is invalid"
     },
     "settings": {
       "$ref": "#settings"

@@ -1,8 +1,8 @@
 module.exports = {
-  entry: './test/protocol.spec.ts',
+  entry: './test/models.spec.ts',
   output: {
     path: __dirname + "/tmp",
-    filename: 'protocol.spec.js'
+    filename: 'models.spec.js'
   },
   devtool: 'source-map',
   resolve: {
