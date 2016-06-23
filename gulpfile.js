@@ -1,5 +1,6 @@
 var gulp = require('gulp-help')(require('gulp'));
-var rename = require('gulp-rename'),
+var del = require('del'),
+    rename = require('gulp-rename'),
     replace = require('gulp-replace'),
     uglify = require('gulp-uglify'),
     karma = require('karma'),
@@ -12,6 +13,7 @@ var rename = require('gulp-rename'),
 
 gulp.task('build', 'Build for release', function (done) {
     return runSequence(
+        'clean:dist',
         'compile:ts',
         'min',
         'generatecustomdts',
@@ -21,6 +23,7 @@ gulp.task('build', 'Build for release', function (done) {
 
 gulp.task('test', 'Runs all tests', function (done) {
     return runSequence(
+        'clean:tmp',
         'compile:spec',
         'test:js',
         done
@@ -40,6 +43,18 @@ gulp.task('min', 'Minify build files', function () {
             suffix: '.min'
         }))
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('clean:dist', 'Clean dist folder', function () {
+    return del([
+        './dist/**/*'
+    ]);
+});
+
+gulp.task('clean:tmp', 'Clean tmp folder', function () {
+    return del([
+        './tmp/**/*'
+    ]);
 });
 
 gulp.task('compile:spec', 'Compile spec tests', function () {
