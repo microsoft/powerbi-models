@@ -52,7 +52,7 @@ gulp.task('generatecustomdts', 'Generate dts with no exports', function (done) {
     return gulp.src(['./dist/*.d.ts'])
         .pipe(replace(/export\s/g, ''))
         .pipe(rename(function (path) {
-            path.basename = "httpPostMessage-noexports.d";
+            path.basename = "models-noexports.d";
         }))
         .pipe(gulp.dest('dist/'));
 });
