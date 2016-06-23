@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://pbix.visualstudio.com/DefaultCollection/PaaS/_git/powerbi-models"
+    "url": "https://github.com/Microsoft/powerbi-models"
   },
   "keywords": [
     "Microsoft",
