@@ -3,26 +3,56 @@
   "type": "object",
   "properties": {
     "target": {
-      "type": "object",
-      "properties": {
-        "table": {
-          "type": "string"
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "table": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "table",
+            "column"
+          ]
         },
-        "column": {
-          "type": "string"
+        {
+          "type": "object",
+          "properties": {
+            "table": {
+              "type": "string"
+            },
+            "hierarchy": {
+              "type": "string"
+            },
+            "hierarchyLevel": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "table",
+            "hierarchy",
+            "hierarchyLevel"
+          ]
         },
-        "hierarchy": {
-          "type": "string"
-        },
-        "hierarchyLevel": {
-          "type": "string"
-        },
-        "measure": {
-          "type": "string"
+        {
+          "type": "object",
+          "properties": {
+            "table": {
+              "type": "string"
+            },
+            "measure": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "table",
+            "measure"
+          ]
         }
-      },
-      "required": [
-        "table"
       ]
     },
     "logicalOperator": {

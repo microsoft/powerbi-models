@@ -232,7 +232,7 @@ describe("Unit | Filters", function () {
       };
       
       // Act
-      const errors = models.validateValueFilter(malformedFilter);
+      const errors = models.validateFilter(malformedFilter);
       
       // Assert
       expect(errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Unit | Filters", function () {
         ...expectedFilter.values);
       
       // Assert
-      expect(models.validateValueFilter(filter.toJSON())).toBeUndefined();
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
   });
   
@@ -349,7 +349,7 @@ describe("Unit | Filters", function () {
       };
       
       // Act
-      const errors = models.validateAdvancedFilter(malformedFilter);
+      const errors = models.validateFilter(malformedFilter);
       
       // Assert
       expect(errors).toBeDefined();
@@ -383,7 +383,7 @@ describe("Unit | Filters", function () {
         ...expectedFilter.conditions);
       
       // Assert
-      expect(models.validateAdvancedFilter(filter.toJSON())).toBeUndefined();
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
   });
 });

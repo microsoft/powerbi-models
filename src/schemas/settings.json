@@ -6,14 +6,10 @@
       "type": "object",
       "oneOf": [
         {
-          "valueFilter": {
-            "$ref": "#valueFilter"
-          }
+          "$ref": "#valueFilter"
         },
         {
-          "advancedFilter": {
-            "$ref": "#advancedFilter"
-          }
+          "$ref": "#advancedFilter"
         }
       ],
       "invalidMessage": "filter property is invalid"
