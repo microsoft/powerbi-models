@@ -90,7 +90,7 @@ export interface IVisualTarget {
   id: string;
 }
 
-declare type ITarget = (IPageTarget | IVisualTarget);
+export declare type ITarget = (IPageTarget | IVisualTarget);
 
 export const validateTarget = validate(targetSchema);
 
