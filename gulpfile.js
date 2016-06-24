@@ -37,7 +37,7 @@ gulp.task('compile:ts', 'Compile source files', function() {
 });
 
 gulp.task('min', 'Minify build files', function () {
-    return gulp.src(['./dist/models.js'])
+    return gulp.src(['!./dist/*.min.js', './dist/models.js'])
         .pipe(uglify())
         .pipe(rename({
             suffix: '.min'
