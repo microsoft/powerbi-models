@@ -1,11 +1,10 @@
 language: node_js
 node_js:
     - node
-    - '6'
     - '5'
     - '4'
 install:
-    - npm intall -g typings typescript
+    - npm install -g typings typescript
     - typings install
     - npm install
 script:
