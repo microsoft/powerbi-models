@@ -16,6 +16,8 @@ describe('Unit | Models', function () {
     const accessTokenInvalidTypeMessage = models.loadSchema.properties.accessToken.messages.type;
     const idRequiredMessage = models.loadSchema.properties.id.messages.required;
     const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
+    const filterInvalidMessage = models.loadSchema.properties.filter.invalidMessage;
+    const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -89,13 +91,45 @@ describe('Unit | Models', function () {
       // Assert
       expect(errors).toBeUndefined();
     });
+
+    it(`should return errors with one containing message '${filterInvalidMessage}' if filter is not a valid valueFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filter: { x: 1 }
+        }
+      };
+
+      // Act
+      const errors = models.validateLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, filterInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${pageNameInvalidTypeMessage}' if pageName is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          pageName: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
   });
 
   describe('validateSettings', function () {
-    const filterInvalidMessage = models.settingsSchema.properties.filter.invalidMessage;
     const filterPaneEnabledInvalidTypeMessage = models.settingsSchema.properties.filterPaneEnabled.messages.type;
-    const pageNavigationEnabledInvalidTypeMessage = models.settingsSchema.properties.pageNavigationEnabled.messages.type;
-    const pageNameInvalidTypeMessage = models.settingsSchema.properties.pageName.messages.type;
+    const navContentPaneEnabledInvalidTypeMessage = models.settingsSchema.properties.navContentPaneEnabled.messages.type;
 
     it(`should return errors with one containing message '${filterPaneEnabledInvalidTypeMessage}' if filterPaneEnabled is not a boolean`, function () {
       // Arrange
@@ -112,11 +146,11 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, filterPaneEnabledInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${pageNavigationEnabledInvalidTypeMessage}' if pageNavigationEnabled is not a boolean`, function () {
+    it(`should return errors with one containing message '${navContentPaneEnabledInvalidTypeMessage}' if navContentPaneEnabled is not a boolean`, function () {
       // Arrange
       const testData = {
         settings: {
-          pageNavigationEnabled: 1
+          navContentPaneEnabled: 1
         }
       };
 
@@ -124,37 +158,7 @@ describe('Unit | Models', function () {
       const errors = models.validateSettings(testData.settings);
 
       // Assert
-      testForExpectedMessage(errors, pageNavigationEnabledInvalidTypeMessage);
-    });
-
-    it(`should return errors with one containing message '${pageNameInvalidTypeMessage}' if pageName is not a string`, function () {
-      // Arrange
-      const testData = {
-        settings: {
-          pageName: 1
-        }
-      };
-
-      // Act
-      const errors = models.validateSettings(testData.settings);
-
-      // Assert
-      testForExpectedMessage(errors, pageNameInvalidTypeMessage);
-    });
-
-    it(`should return errors with one containing message '${filterInvalidMessage}' if filter is not a valid valueFilter or advancedFilter`, function () {
-      // Arrange
-      const testData = {
-        settings: {
-          filter: { x: 1 }
-        }
-      };
-
-      // Act
-      const errors = models.validateSettings(testData.settings);
-
-      // Assert
-      testForExpectedMessage(errors, filterInvalidMessage);
+      testForExpectedMessage(errors, navContentPaneEnabledInvalidTypeMessage);
     });
 
     it(`should return undefined settings is valid`, function () {
