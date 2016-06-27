@@ -20,6 +20,24 @@
     },
     "settings": {
       "$ref": "#settings"
+    },
+    "pageName": {
+      "type": "string",
+      "messages": {
+        "type": "pageName must be a string"
+      }
+    },
+    "filter": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#valueFilter"
+        },
+        {
+          "$ref": "#advancedFilter"
+        }
+      ],
+      "invalidMessage": "filter property is invalid"
     }
   },
   "required": [
