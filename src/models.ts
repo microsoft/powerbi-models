@@ -52,10 +52,8 @@ function validate(schema: any, options?: any) {
 }
 
 export interface ISettings {
-  filter?: any;
   filterPaneEnabled?: boolean;
-  pageName?: string;
-  pageNavigationEnabled?: boolean;
+  navContentPaneEnabled?: boolean;
 }
 
 export const validateSettings = validate(settingsSchema, {
@@ -69,6 +67,8 @@ export interface ILoadConfiguration {
   accessToken: string;
   id: string;
   settings?: ISettings;
+  pageName?: string;
+  filter?: any;
 }
 
 export const validateLoad = validate(loadSchema, {
