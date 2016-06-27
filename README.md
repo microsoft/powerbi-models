@@ -2,7 +2,7 @@
 
 Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK.
 
-For each model there is a TypeScript interface, a json schema definitions, and a validation function to ensure and object is valid.
+For each model there is a TypeScript interface, a json schema definitions, and a validation function to ensure a given object is a valid model.
 
 ## Getting Started
 
