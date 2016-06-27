@@ -5,6 +5,9 @@ node_js:
     - '5'
     - '4'
 install:
+    - npm intall -g typings typescript
+    - typings install
     - npm install
 script:
-    - npm test
+    - gulp build
+    - gulp test
