@@ -1,4 +1,5 @@
 # powerbi-models
+[![Build Status](https://travis-ci.com/Microsoft/powerbi-models.svg?token=nXyWFYxRu6tVxUMJAuJr&branch=master)](https://travis-ci.com/Microsoft/powerbi-models)
 
 Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK.
 
