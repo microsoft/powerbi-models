@@ -11,6 +11,9 @@
     "prepublish": "gulp build",
     "test": "gulp test --chrome"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Microsoft/powerbi-models"
