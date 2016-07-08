@@ -390,4 +390,60 @@ describe("Unit | Filters", function () {
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
   });
+
+  describe('validateTarget', function () {
+    it("valiator should return false if object does not validate against page target schema", function () {
+      // Arrange
+      const malformedPageTarget = {
+        type: "page",
+      };
+      
+      // Act
+      const errors = models.validateTarget(malformedPageTarget);
+      
+      // Assert
+      expect(errors).toBeDefined();
+    });
+
+    it("valiator should return false if object does not validate against visual target schema", function () {
+      // Arrange
+      const malformedVisualTarget = {
+        type: "visual",
+      };
+      
+      // Act
+      const errors = models.validateTarget(malformedVisualTarget);
+      
+      // Assert
+      expect(errors).toBeDefined();
+    });
+
+    it(`should return no error if visual target is valid`, function () {
+      // Arrange
+      let validVisualTarget: models.IVisualTarget = {
+        type: 'visual',
+        id: 'visualId'
+      };
+
+      // Act
+      const errors = models.validateTarget(validVisualTarget);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return no error if page target is valid`, function () {
+      // Arrange
+      const validPageTarget: models.IPageTarget = {
+        type: 'page',
+        name: 'page1'
+      };
+
+      // Act
+      const errors = models.validateTarget(validPageTarget);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
 });
