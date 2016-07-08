@@ -92,7 +92,12 @@ export interface IVisualTarget {
 
 export declare type ITarget = (IPageTarget | IVisualTarget);
 
-export const validateTarget = validate(targetSchema);
+export const validateTarget = validate(targetSchema, {
+  schemas: {
+    pageTarget: pageTargetSchema,
+    visualTarget: visualTargetSchema
+  }
+});
 
 export interface IPage {
   name: string;
