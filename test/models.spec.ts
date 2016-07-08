@@ -395,7 +395,7 @@ describe("Unit | Filters", function () {
     it("valiator should return false if object does not validate against page target schema", function () {
       // Arrange
       const malformedPageTarget = {
-        type: "page",
+        type: 'page',
       };
       
       // Act
@@ -408,7 +408,7 @@ describe("Unit | Filters", function () {
     it("valiator should return false if object does not validate against visual target schema", function () {
       // Arrange
       const malformedVisualTarget = {
-        type: "visual",
+        type: 'visual',
       };
       
       // Act
