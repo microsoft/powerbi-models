@@ -212,7 +212,7 @@ export class ValueFilter extends Filter {
     /**
      * Accept values as array instead of as individual arguments
      * new ValueFilter('a', 'b', 1, 2);
-     * new valueFilter('a', 'b', [1,2]);
+     * new ValueFilter('a', 'b', [1,2]);
      */
     if(Array.isArray(values[0])) {
       this.values = <any>values[0];
@@ -263,8 +263,8 @@ export class AdvancedFilter extends Filter {
     
     /**
      * Accept conditions as array instead of as individual arguments
-     * new ValueFilter('a', 'b', "And", { value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" });
-     * new valueFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
+     * new AdvancedFilter('a', 'b', "And", { value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" });
+     * new AdvancedFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
      */
     if(Array.isArray(conditions[0])) {
       this.conditions = <any>conditions[0];
