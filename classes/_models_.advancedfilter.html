@@ -96,7 +96,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_.advancedfilter.html#conditions" class="tsd-kind-icon">conditions</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_.advancedfilter.html#conditiona" class="tsd-kind-icon">conditionA</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_.advancedfilter.html#conditionb" class="tsd-kind-icon">conditionB</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_.advancedfilter.html#logicaloperator" class="tsd-kind-icon">logical<wbr>Operator</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_models_.advancedfilter.html#schemaurl" class="tsd-kind-icon">schema<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_models_.advancedfilter.html#target" class="tsd-kind-icon">target</a></li>
@@ -119,14 +120,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Advanced<wbr>Filter<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="../modules/_models_.html#ifiltertarget" class="tsd-signature-type">IFilterTarget</a>, logicalOperator<span class="tsd-signature-symbol">: </span><a href="../modules/_models_.html#advancedfilterlogicaloperators" class="tsd-signature-type">AdvancedFilterLogicalOperators</a>, <span class="tsd-signature-symbol">...</span>conditions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_.advancedfilter.html" class="tsd-signature-type">AdvancedFilter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Advanced<wbr>Filter<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="../modules/_models_.html#ifiltertarget" class="tsd-signature-type">IFilterTarget</a>, logicalOperator<span class="tsd-signature-symbol">: </span><a href="../modules/_models_.html#advancedfilterlogicaloperators" class="tsd-signature-type">AdvancedFilterLogicalOperators</a>, conditionA<span class="tsd-signature-symbol">: </span><a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a>, conditionB<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_.advancedfilter.html" class="tsd-signature-type">AdvancedFilter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_models_.filter.html">Filter</a>.<a href="_models_.filter.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L247">models.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L248">models.ts:248</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -138,7 +139,10 @@
 									<h5>logicalOperator: <a href="../modules/_models_.html#advancedfilterlogicaloperators" class="tsd-signature-type">AdvancedFilterLogicalOperators</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>conditions: <a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>conditionA: <a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> conditionB: <a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_models_.advancedfilter.html" class="tsd-signature-type">AdvancedFilter</a></h4>
@@ -149,12 +153,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="conditions" class="tsd-anchor"></a>
-					<h3>conditions</h3>
-					<div class="tsd-signature tsd-kind-icon">conditions<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="conditiona" class="tsd-anchor"></a>
+					<h3>conditionA</h3>
+					<div class="tsd-signature tsd-kind-icon">conditionA<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L247">models.ts:247</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L247">models.ts:247</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="conditionb" class="tsd-anchor"></a>
+					<h3>conditionB</h3>
+					<div class="tsd-signature tsd-kind-icon">conditionB<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_models_.iadvancedfiltercondition.html" class="tsd-signature-type">IAdvancedFilterCondition</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L248">models.ts:248</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">logical<wbr>Operator<span class="tsd-signature-symbol">:</span> <a href="../modules/_models_.html#advancedfilterlogicaloperators" class="tsd-signature-type">AdvancedFilterLogicalOperators</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L246">models.ts:246</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L246">models.ts:246</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +189,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_models_.filter.html">Filter</a>.<a href="_models_.filter.html#schemaurl">schemaUrl</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L184">models.ts:184</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L184">models.ts:184</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -186,7 +200,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_models_.filter.html">Filter</a>.<a href="_models_.filter.html#target">target</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L186">models.ts:186</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L186">models.ts:186</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -197,7 +211,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_models_.filter.html">Filter</a>.<a href="_models_.filter.html#schema">schema</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L185">models.ts:185</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L185">models.ts:185</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +222,7 @@
 					<aside class="tsd-sources">
 						<p>Overwrites <a href="_models_.filter.html">Filter</a>.<a href="_models_.filter.html#schemaurl-1">schemaUrl</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L244">models.ts:244</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L244">models.ts:244</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -226,7 +240,7 @@
 							<aside class="tsd-sources">
 								<p>Overwrites <a href="_models_.filter.html">Filter</a>.<a href="_models_.filter.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/952fb17/src/models.ts#L285">models.ts:285</a></li>
+									<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L270">models.ts:270</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_models_.iadvancedfilter.html" class="tsd-signature-type">IAdvancedFilter</a></h4>
@@ -257,7 +271,10 @@
 								<a href="_models_.advancedfilter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_models_.advancedfilter.html#conditions" class="tsd-kind-icon">conditions</a>
+								<a href="_models_.advancedfilter.html#conditiona" class="tsd-kind-icon">conditionA</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_models_.advancedfilter.html#conditionb" class="tsd-kind-icon">conditionB</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_models_.advancedfilter.html#logicaloperator" class="tsd-kind-icon">logical<wbr>Operator</a>
