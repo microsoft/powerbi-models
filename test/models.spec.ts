@@ -253,7 +253,8 @@ describe("Unit | Filters", function () {
         operator: <any>"x",
         values: [
           "a",
-          "b",
+          100,
+          false
         ]
       };
       

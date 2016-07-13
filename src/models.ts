@@ -142,7 +142,7 @@ export interface IFilter {
 
 export interface IValueFilter extends IFilter {
   operator: BasicFilterOperators;
-  values: any[];
+  values: (string | number | boolean)[];
 }
 
 export type BasicFilterOperators = "In" | "NotIn";
@@ -202,7 +202,7 @@ export abstract class Filter {
 export class ValueFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#basic";
   operator: BasicFilterOperators;
-  values: (string | Number)[];
+  values: (string | number | boolean)[];
   
   constructor(
     target: IFilterTarget,
