@@ -8,17 +8,20 @@ For each model there is a TypeScript interface, a json schema definitions, and a
 ## Getting Started
 
 Install
-```
+
+```bash
 npm install --save powerbi-models
 ```
 
 Import
-```
+
+```typescript
 import * as models from 'powerbi-models';
 ```
 
 Usage
-```
+
+```typescript
 let testObject = { x: 1 };
 
 const errors = models.validateLoad(testObject);
@@ -29,7 +32,8 @@ if(errors) {
 
 ```
 Would output to the console:
-```
+
+```typescript
 [
   {
     message: 'accessToken is required'
