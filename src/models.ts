@@ -147,7 +147,7 @@ export interface IValueFilter extends IFilter {
 
 export type BasicFilterOperators = "In" | "NotIn";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
-export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
+export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
 export interface IAdvancedFilterCondition {
   value: any;
