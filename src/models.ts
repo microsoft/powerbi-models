@@ -244,12 +244,14 @@ export class AdvancedFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#advanced";
   
   logicalOperator: AdvancedFilterLogicalOperators;
-  conditions: IAdvancedFilterCondition[];
+  conditionA: IAdvancedFilterCondition;
+  conditionB: IAdvancedFilterCondition;
   
   constructor(
     target: IFilterTarget,
     logicalOperator: AdvancedFilterLogicalOperators,
-    ...conditions: IAdvancedFilterCondition[]
+    conditionA: IAdvancedFilterCondition,
+    conditionB?: IAdvancedFilterCondition
   ) {
     super(target);
     this.schemaUrl = AdvancedFilter.schemaUrl;
@@ -261,32 +263,19 @@ export class AdvancedFilter extends Filter {
     }
     
     this.logicalOperator = logicalOperator;
-    
-    if(conditions.length === 0) {
-      throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
-    }
-    if(conditions.length > 2) {
-      throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
-    }
-    
-    /**
-     * Accept conditions as array instead of as individual arguments
-     * new AdvancedFilter('a', 'b', "And", { value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" });
-     * new AdvancedFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
-     */
-    if(Array.isArray(conditions[0])) {
-      this.conditions = <any>conditions[0];
-    }
-    else {
-      this.conditions = conditions;
-    }
+    this.conditionA = conditionA;
+    this.conditionB = conditionB;
   }
   
   toJSON(): IAdvancedFilter {
     const filter = <IAdvancedFilter>super.toJSON();
     
     filter.logicalOperator = this.logicalOperator;
-    filter.conditions = this.conditions;
+    filter.conditions = [this.conditionA];
+    
+    if (this.conditionB) {
+      filter.conditions.push(this.conditionB);
+    }
     
     return filter;
   }

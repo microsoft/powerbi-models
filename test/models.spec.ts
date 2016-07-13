@@ -286,33 +286,6 @@ describe("Unit | Filters", function () {
       expect(attemptToCreateFilter).toThrowError();
     });
     
-    it("should throw an error if more than two conditions are provided", function () {
-      // Arrange
-      const conditions: models.IAdvancedFilterCondition[] = [
-        {
-          value: "a",
-          operator: "LessThan"
-        },
-        {
-          value: "b",
-          operator: "LessThan"
-        },
-        {
-          value: "c",
-          operator: "LessThan"
-        }
-      ];
-      
-      
-      // Act
-      const attemptToCreateFilter = () => {
-        return new models.AdvancedFilter({ table: "Table", column: "c" }, "And", ...conditions);
-      };
-      
-      // Assert
-      expect(attemptToCreateFilter).toThrowError();
-    });
-    
     it("should output the correct json when toJSON is called", function () {
       // Arrange
       const expectedFilter: models.IAdvancedFilter = {
@@ -338,7 +311,8 @@ describe("Unit | Filters", function () {
       const filter = new models.AdvancedFilter(
         expectedFilter.target,
         expectedFilter.logicalOperator,
-        ...expectedFilter.conditions);
+        expectedFilter.conditions[0],
+        expectedFilter.conditions[1]);
       
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);
@@ -385,7 +359,8 @@ describe("Unit | Filters", function () {
       const filter = new models.AdvancedFilter(
         expectedFilter.target,
         expectedFilter.logicalOperator,
-        ...expectedFilter.conditions);
+        expectedFilter.conditions[0],
+        expectedFilter.conditions[1]);
       
       // Assert
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
