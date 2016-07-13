@@ -446,4 +446,37 @@ describe("Unit | Filters", function () {
       expect(errors).toBeUndefined();
     });
   });
+
+  describe('determine filter type', function () {
+    it('isValueFilter should return true for objects with matching shemaUrl and false otherwise', function () {
+      // Arrange
+      const testData = {
+      	filter: new models.ValueFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        nonFilter: <models.IFilter>{}
+      };
+
+      // Act
+
+      // Assert
+      expect(models.isValueFilter(testData.filter.toJSON())).toBe(true);
+      expect(models.isValueFilter(testData.nonFilter)).toBe(false);
+    });
+
+    it('isAdvancedFilter should return true for objects with matching shemaUrl and false otherwise', function () {
+      // Arrange
+      const testData = {
+      	filter: new models.AdvancedFilter({ table: "a", column: "b" }, "And", 
+          { operator: "Contains", value: "x" },
+          { operator: "Contains", value: "x" }
+        ),
+        nonFilter: <models.IFilter>{}
+      };
+
+      // Act
+
+      // Assert
+      expect(models.isAdvancedFilter(testData.filter.toJSON())).toBe(true);
+      expect(models.isAdvancedFilter(testData.nonFilter)).toBe(false);
+    });
+  });
 });

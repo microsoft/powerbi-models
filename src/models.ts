@@ -159,6 +159,14 @@ export interface IAdvancedFilter extends IFilter {
   conditions: IAdvancedFilterCondition[];
 }
 
+export function isAdvancedFilter(filter: IFilter): Boolean {
+  return (filter.$schema === AdvancedFilter.schemaUrl);
+}
+
+export function isValueFilter(filter: IFilter): Boolean {
+  return (filter.$schema === ValueFilter.schemaUrl);
+}
+
 export function isMeasure(arg: any): arg is IFilterMeasureTarget {
   return arg.table !== undefined && arg.measure !== undefined;
 }
