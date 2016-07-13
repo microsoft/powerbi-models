@@ -1,1 +1,1 @@
-exclude: ['**/*']
+exclude: ['classes', 'interfaces', 'modules', '**/*.html']
