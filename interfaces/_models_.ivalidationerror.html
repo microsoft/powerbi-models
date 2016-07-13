@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IValueFilter | powerbi-models</title>
+	<title>IValidationError | powerbi-models</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -60,10 +60,10 @@
 					<a href="../modules/_models_.html">&quot;models&quot;</a>
 				</li>
 				<li>
-					<a href="_models_.ivaluefilter.html">IValueFilter</a>
+					<a href="_models_.ivalidationerror.html">IValidationError</a>
 				</li>
 			</ul>
-			<h1>Interface IValueFilter</h1>
+			<h1>Interface IValidationError</h1>
 		</div>
 	</div>
 </header>
@@ -74,12 +74,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_models_.ifilter.html" class="tsd-signature-type">IFilter</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">IValueFilter</span>
-							</li>
-						</ul>
+						<span class="target">IValidationError</span>
 					</li>
 				</ul>
 			</section>
@@ -87,59 +82,46 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_models_.ivaluefilter.html#_schema" class="tsd-kind-icon">$schema</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_models_.ivaluefilter.html#operator" class="tsd-kind-icon">operator</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_models_.ivaluefilter.html#target" class="tsd-kind-icon">target</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_models_.ivaluefilter.html#values" class="tsd-kind-icon">values</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_models_.ivalidationerror.html#keyword" class="tsd-kind-icon">keyword</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_models_.ivalidationerror.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_models_.ivalidationerror.html#path" class="tsd-kind-icon">path</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="_schema" class="tsd-anchor"></a>
-					<h3>$schema</h3>
-					<div class="tsd-signature tsd-kind-icon">$schema<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="keyword" class="tsd-anchor"></a>
+					<h3>keyword</h3>
+					<div class="tsd-signature tsd-kind-icon">keyword<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_models_.ifilter.html">IFilter</a>.<a href="_models_.ifilter.html#_schema">$schema</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L139">models.ts:139</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/36dd0c1/src/models.ts#L17">models.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="operator" class="tsd-anchor"></a>
-					<h3>operator</h3>
-					<div class="tsd-signature tsd-kind-icon">operator<span class="tsd-signature-symbol">:</span> <a href="../modules/_models_.html#basicfilteroperators" class="tsd-signature-type">BasicFilterOperators</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="message" class="tsd-anchor"></a>
+					<h3>message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L144">models.ts:144</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/36dd0c1/src/models.ts#L18">models.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="target" class="tsd-anchor"></a>
-					<h3>target</h3>
-					<div class="tsd-signature tsd-kind-icon">target<span class="tsd-signature-symbol">:</span> <a href="../modules/_models_.html#ifiltertarget" class="tsd-signature-type">IFilterTarget</a></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_models_.ifilter.html">IFilter</a>.<a href="_models_.ifilter.html#target">target</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L140">models.ts:140</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="values" class="tsd-anchor"></a>
-					<h3>values</h3>
-					<div class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a name="path" class="tsd-anchor"></a>
+					<h3>path</h3>
+					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/3a0398e/src/models.ts#L145">models.ts:145</a></li>
+							<li>Defined in <a href="https://github.com/Microsoft/powerbi-models/blob/36dd0c1/src/models.ts#L16">models.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,20 +142,17 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_models_.ivaluefilter.html" class="tsd-kind-icon">IValue<wbr>Filter</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_models_.ivalidationerror.html" class="tsd-kind-icon">IValidation<wbr>Error</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_models_.ivaluefilter.html#_schema" class="tsd-kind-icon">$schema</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_models_.ivalidationerror.html#keyword" class="tsd-kind-icon">keyword</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_models_.ivaluefilter.html#operator" class="tsd-kind-icon">operator</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_models_.ivalidationerror.html#message" class="tsd-kind-icon">message</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_models_.ivaluefilter.html#target" class="tsd-kind-icon">target</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_models_.ivaluefilter.html#values" class="tsd-kind-icon">values</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_models_.ivalidationerror.html#path" class="tsd-kind-icon">path</a>
 							</li>
 						</ul>
 					</li>
