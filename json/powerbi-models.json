@@ -1,0 +1,2357 @@
+{
+	"id": 0,
+	"name": "powerbi-models",
+	"kind": 0,
+	"flags": {},
+	"children": [
+		{
+			"id": 1,
+			"name": "\"models\"",
+			"kind": 1,
+			"kindString": "External module",
+			"flags": {
+				"isExported": true
+			},
+			"originalName": "C:/Users/mattm/Source/Repos/powerbi-models/src/models.ts",
+			"children": [
+				{
+					"id": 78,
+					"name": "AdvancedFilter",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 82,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {
+								"isExported": true
+							},
+							"signatures": [
+								{
+									"id": 83,
+									"name": "new AdvancedFilter",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 84,
+											"name": "target",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "IFilterTarget",
+												"id": 115
+											}
+										},
+										{
+											"id": 85,
+											"name": "logicalOperator",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "AdvancedFilterLogicalOperators",
+												"id": 117
+											}
+										},
+										{
+											"id": 86,
+											"name": "conditions",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {
+												"isRest": true
+											},
+											"type": {
+												"type": "reference",
+												"isArray": true,
+												"name": "IAdvancedFilterCondition",
+												"id": 46
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "AdvancedFilter",
+										"id": 78
+									},
+									"overwrites": {
+										"type": "reference",
+										"name": "Filter.__constructor",
+										"id": 59
+									}
+								}
+							],
+							"overwrites": {
+								"type": "reference",
+								"name": "Filter.__constructor",
+								"id": 59
+							}
+						},
+						{
+							"id": 81,
+							"name": "conditions",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"isArray": true,
+								"name": "IAdvancedFilterCondition",
+								"id": 46
+							}
+						},
+						{
+							"id": 80,
+							"name": "logicalOperator",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "AdvancedFilterLogicalOperators",
+								"id": 117
+							}
+						},
+						{
+							"id": 89,
+							"name": "schemaUrl",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isProtected": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Filter.schemaUrl",
+								"id": 56
+							}
+						},
+						{
+							"id": 91,
+							"name": "target",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "IFilterTarget",
+								"id": 115
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Filter.target",
+								"id": 58
+							}
+						},
+						{
+							"id": 90,
+							"name": "schema",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Filter.schema",
+								"id": 57
+							}
+						},
+						{
+							"id": 79,
+							"name": "schemaUrl",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"defaultValue": "\"http://powerbi.com/product/schema#advanced\"",
+							"overwrites": {
+								"type": "reference",
+								"name": "Filter.schemaUrl",
+								"id": 55
+							}
+						},
+						{
+							"id": 87,
+							"name": "toJSON",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isExported": true
+							},
+							"signatures": [
+								{
+									"id": 88,
+									"name": "toJSON",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IAdvancedFilter",
+										"id": 49
+									},
+									"overwrites": {
+										"type": "reference",
+										"name": "Filter.toJSON",
+										"id": 62
+									}
+								}
+							],
+							"overwrites": {
+								"type": "reference",
+								"name": "Filter.toJSON",
+								"id": 62
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								82
+							]
+						},
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								81,
+								80,
+								89,
+								91,
+								90,
+								79
+							]
+						},
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								87
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "Filter",
+							"id": 54
+						}
+					]
+				},
+				{
+					"id": 54,
+					"name": "Filter",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 59,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {
+								"isExported": true
+							},
+							"signatures": [
+								{
+									"id": 60,
+									"name": "new Filter",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 61,
+											"name": "target",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "IFilterTarget",
+												"id": 115
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Filter",
+										"id": 54
+									}
+								}
+							]
+						},
+						{
+							"id": 56,
+							"name": "schemaUrl",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isProtected": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 58,
+							"name": "target",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "IFilterTarget",
+								"id": 115
+							}
+						},
+						{
+							"id": 57,
+							"name": "schema",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 55,
+							"name": "schemaUrl",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isExported": true,
+								"isProtected": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 62,
+							"name": "toJSON",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isExported": true
+							},
+							"signatures": [
+								{
+									"id": 63,
+									"name": "toJSON",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IFilter",
+										"id": 38
+									}
+								}
+							]
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								59
+							]
+						},
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								56,
+								58,
+								57,
+								55
+							]
+						},
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								62
+							]
+						}
+					],
+					"extendedBy": [
+						{
+							"type": "reference",
+							"name": "ValueFilter",
+							"id": 64
+						},
+						{
+							"type": "reference",
+							"name": "AdvancedFilter",
+							"id": 78
+						}
+					]
+				},
+				{
+					"id": 64,
+					"name": "ValueFilter",
+					"kind": 128,
+					"kindString": "Class",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 68,
+							"name": "constructor",
+							"kind": 512,
+							"kindString": "Constructor",
+							"flags": {
+								"isExported": true
+							},
+							"signatures": [
+								{
+									"id": 69,
+									"name": "new ValueFilter",
+									"kind": 16384,
+									"kindString": "Constructor signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 70,
+											"name": "target",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "IFilterTarget",
+												"id": 115
+											}
+										},
+										{
+											"id": 71,
+											"name": "operator",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "BasicFilterOperators",
+												"id": 116
+											}
+										},
+										{
+											"id": 72,
+											"name": "values",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {
+												"isRest": true
+											},
+											"type": {
+												"type": "instrinct",
+												"isArray": true,
+												"name": "any"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "ValueFilter",
+										"id": 64
+									},
+									"overwrites": {
+										"type": "reference",
+										"name": "Filter.__constructor",
+										"id": 59
+									}
+								}
+							],
+							"overwrites": {
+								"type": "reference",
+								"name": "Filter.__constructor",
+								"id": 59
+							}
+						},
+						{
+							"id": 66,
+							"name": "operator",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "BasicFilterOperators",
+								"id": 116
+							}
+						},
+						{
+							"id": 75,
+							"name": "schemaUrl",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isProtected": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Filter.schemaUrl",
+								"id": 56
+							}
+						},
+						{
+							"id": 77,
+							"name": "target",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "IFilterTarget",
+								"id": 115
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Filter.target",
+								"id": 58
+							}
+						},
+						{
+							"id": 67,
+							"name": "values",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "union",
+								"isArray": true,
+								"types": [
+									{
+										"type": "instrinct",
+										"name": "string"
+									},
+									{
+										"type": "instrinct",
+										"name": "number"
+									},
+									{
+										"type": "instrinct",
+										"name": "boolean"
+									}
+								]
+							}
+						},
+						{
+							"id": 76,
+							"name": "schema",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Filter.schema",
+								"id": 57
+							}
+						},
+						{
+							"id": 65,
+							"name": "schemaUrl",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isStatic": true,
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"defaultValue": "\"http://powerbi.com/product/schema#basic\"",
+							"overwrites": {
+								"type": "reference",
+								"name": "Filter.schemaUrl",
+								"id": 55
+							}
+						},
+						{
+							"id": 73,
+							"name": "toJSON",
+							"kind": 2048,
+							"kindString": "Method",
+							"flags": {
+								"isExported": true
+							},
+							"signatures": [
+								{
+									"id": 74,
+									"name": "toJSON",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IValueFilter",
+										"id": 41
+									},
+									"overwrites": {
+										"type": "reference",
+										"name": "Filter.toJSON",
+										"id": 62
+									}
+								}
+							],
+							"overwrites": {
+								"type": "reference",
+								"name": "Filter.toJSON",
+								"id": 62
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Constructors",
+							"kind": 512,
+							"children": [
+								68
+							]
+						},
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								66,
+								75,
+								77,
+								67,
+								76,
+								65
+							]
+						},
+						{
+							"title": "Methods",
+							"kind": 2048,
+							"children": [
+								73
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "Filter",
+							"id": 54
+						}
+					]
+				},
+				{
+					"id": 49,
+					"name": "IAdvancedFilter",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 52,
+							"name": "$schema",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IFilter.$schema",
+								"id": 39
+							}
+						},
+						{
+							"id": 51,
+							"name": "conditions",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"isArray": true,
+								"name": "IAdvancedFilterCondition",
+								"id": 46
+							}
+						},
+						{
+							"id": 50,
+							"name": "logicalOperator",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "AdvancedFilterLogicalOperators",
+								"id": 117
+							}
+						},
+						{
+							"id": 53,
+							"name": "target",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "IFilterTarget",
+								"id": 115
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IFilter.target",
+								"id": 40
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								52,
+								51,
+								50,
+								53
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IFilter",
+							"id": 38
+						}
+					]
+				},
+				{
+					"id": 46,
+					"name": "IAdvancedFilterCondition",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 48,
+							"name": "operator",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "AdvancedFilterConditionOperators",
+								"id": 118
+							}
+						},
+						{
+							"id": 47,
+							"name": "value",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "any"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								48,
+								47
+							]
+						}
+					]
+				},
+				{
+					"id": 26,
+					"name": "IBaseFilterTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"comment": {
+						"shortText": "Copied powerbi-filters code into this file."
+					},
+					"children": [
+						{
+							"id": 27,
+							"name": "table",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								27
+							]
+						}
+					],
+					"extendedBy": [
+						{
+							"type": "reference",
+							"name": "IFilterColumnTarget",
+							"id": 28
+						},
+						{
+							"type": "reference",
+							"name": "IFilterHierarchyTarget",
+							"id": 31
+						},
+						{
+							"type": "reference",
+							"name": "IFilterMeasureTarget",
+							"id": 35
+						}
+					]
+				},
+				{
+					"id": 6,
+					"name": "IError",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 7,
+							"name": "message",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								7
+							]
+						}
+					]
+				},
+				{
+					"id": 38,
+					"name": "IFilter",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 39,
+							"name": "$schema",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 40,
+							"name": "target",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "IFilterTarget",
+								"id": 115
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								39,
+								40
+							]
+						}
+					],
+					"extendedBy": [
+						{
+							"type": "reference",
+							"name": "IValueFilter",
+							"id": 41
+						},
+						{
+							"type": "reference",
+							"name": "IAdvancedFilter",
+							"id": 49
+						}
+					]
+				},
+				{
+					"id": 28,
+					"name": "IFilterColumnTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 29,
+							"name": "column",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 30,
+							"name": "table",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IBaseFilterTarget.table",
+								"id": 27
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								29,
+								30
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IBaseFilterTarget",
+							"id": 26
+						}
+					]
+				},
+				{
+					"id": 31,
+					"name": "IFilterHierarchyTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 32,
+							"name": "hierarchy",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 33,
+							"name": "hierarchyLevel",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 34,
+							"name": "table",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IBaseFilterTarget.table",
+								"id": 27
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								32,
+								33,
+								34
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IBaseFilterTarget",
+							"id": 26
+						}
+					]
+				},
+				{
+					"id": 35,
+					"name": "IFilterMeasureTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 36,
+							"name": "measure",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 37,
+							"name": "table",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IBaseFilterTarget.table",
+								"id": 27
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								36,
+								37
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IBaseFilterTarget",
+							"id": 26
+						}
+					]
+				},
+				{
+					"id": 11,
+					"name": "ILoadConfiguration",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 12,
+							"name": "accessToken",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 16,
+							"name": "filter",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isOptional": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "any"
+							}
+						},
+						{
+							"id": 13,
+							"name": "id",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 15,
+							"name": "pageName",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isOptional": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 14,
+							"name": "settings",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isOptional": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "ISettings",
+								"id": 8
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								12,
+								16,
+								13,
+								15,
+								14
+							]
+						}
+					]
+				},
+				{
+					"id": 23,
+					"name": "IPage",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 25,
+							"name": "displayName",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 24,
+							"name": "name",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								25,
+								24
+							]
+						}
+					]
+				},
+				{
+					"id": 17,
+					"name": "IPageTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 19,
+							"name": "name",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 18,
+							"name": "type",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "stringLiteral",
+								"value": "page"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								19,
+								18
+							]
+						}
+					]
+				},
+				{
+					"id": 8,
+					"name": "ISettings",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 9,
+							"name": "filterPaneEnabled",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isOptional": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 10,
+							"name": "navContentPaneEnabled",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true,
+								"isOptional": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								9,
+								10
+							]
+						}
+					]
+				},
+				{
+					"id": 2,
+					"name": "IValidationError",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"children": [
+						{
+							"id": 4,
+							"name": "keyword",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 5,
+							"name": "message",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 3,
+							"name": "path",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								4,
+								5,
+								3
+							]
+						}
+					]
+				},
+				{
+					"id": 41,
+					"name": "IValueFilter",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 44,
+							"name": "$schema",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IFilter.$schema",
+								"id": 39
+							}
+						},
+						{
+							"id": 42,
+							"name": "operator",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "BasicFilterOperators",
+								"id": 116
+							}
+						},
+						{
+							"id": 45,
+							"name": "target",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "IFilterTarget",
+								"id": 115
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IFilter.target",
+								"id": 40
+							}
+						},
+						{
+							"id": 43,
+							"name": "values",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "union",
+								"isArray": true,
+								"types": [
+									{
+										"type": "instrinct",
+										"name": "string"
+									},
+									{
+										"type": "instrinct",
+										"name": "number"
+									},
+									{
+										"type": "instrinct",
+										"name": "boolean"
+									}
+								]
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								44,
+								42,
+								45,
+								43
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IFilter",
+							"id": 38
+						}
+					]
+				},
+				{
+					"id": 20,
+					"name": "IVisualTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 22,
+							"name": "id",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 21,
+							"name": "type",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "stringLiteral",
+								"value": "visual"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								22,
+								21
+							]
+						}
+					]
+				},
+				{
+					"id": 118,
+					"name": "AdvancedFilterConditionOperators",
+					"kind": 4194304,
+					"kindString": "Type alias",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "stringLiteral",
+								"value": "None"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "LessThan"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "LessThanOrEqual"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "GreaterThan"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "GreaterThanOrEqual"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "Contains"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "DoesNotContain"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "StartsWith"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "DoesNotStartWith"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "Is"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "IsNot"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "IsBlank"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "IsNotBlank"
+							}
+						]
+					}
+				},
+				{
+					"id": 117,
+					"name": "AdvancedFilterLogicalOperators",
+					"kind": 4194304,
+					"kindString": "Type alias",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "stringLiteral",
+								"value": "And"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "Or"
+							}
+						]
+					}
+				},
+				{
+					"id": 116,
+					"name": "BasicFilterOperators",
+					"kind": 4194304,
+					"kindString": "Type alias",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "stringLiteral",
+								"value": "In"
+							},
+							{
+								"type": "stringLiteral",
+								"value": "NotIn"
+							}
+						]
+					}
+				},
+				{
+					"id": 115,
+					"name": "IFilterTarget",
+					"kind": 4194304,
+					"kindString": "Type alias",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "reference",
+								"name": "IFilterColumnTarget",
+								"id": 28
+							},
+							{
+								"type": "reference",
+								"name": "IFilterHierarchyTarget",
+								"id": 31
+							},
+							{
+								"type": "reference",
+								"name": "IFilterMeasureTarget",
+								"id": 35
+							}
+						]
+					}
+				},
+				{
+					"id": 111,
+					"name": "ITarget",
+					"kind": 4194304,
+					"kindString": "Type alias",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "union",
+						"types": [
+							{
+								"type": "reference",
+								"name": "IPageTarget",
+								"id": 17
+							},
+							{
+								"type": "reference",
+								"name": "IVisualTarget",
+								"id": 20
+							}
+						]
+					}
+				},
+				{
+					"id": 93,
+					"name": "advancedFilterSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/advancedFilter.json')"
+				},
+				{
+					"id": 94,
+					"name": "filterSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/filter.json')"
+				},
+				{
+					"id": 95,
+					"name": "loadSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/load.json')"
+				},
+				{
+					"id": 96,
+					"name": "pageSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/page.json')"
+				},
+				{
+					"id": 97,
+					"name": "pageTargetSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/pageTarget.json')"
+				},
+				{
+					"id": 92,
+					"name": "require",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {},
+					"type": {
+						"type": "reference",
+						"name": "Function"
+					}
+				},
+				{
+					"id": 98,
+					"name": "settingsSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/settings.json')"
+				},
+				{
+					"id": 99,
+					"name": "targetSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/target.json')"
+				},
+				{
+					"id": 114,
+					"name": "validateFilter",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "reference",
+						"name": "(Anonymous function)"
+					},
+					"defaultValue": " validate(filterSchema, {\r\n  schemas: {\r\n    valueFilter: valueFilterSchema,\r\n    advancedFilter: advancedFilterSchema\r\n  }\r\n})"
+				},
+				{
+					"id": 110,
+					"name": "validateLoad",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "reference",
+						"name": "(Anonymous function)"
+					},
+					"defaultValue": " validate(loadSchema, {\r\n  schemas: {\r\n    settings: settingsSchema,\r\n    valueFilter: valueFilterSchema,\r\n    advancedFilter: advancedFilterSchema\r\n  }\r\n})"
+				},
+				{
+					"id": 113,
+					"name": "validatePage",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "reference",
+						"name": "(Anonymous function)"
+					},
+					"defaultValue": " validate(pageSchema)"
+				},
+				{
+					"id": 109,
+					"name": "validateSettings",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "reference",
+						"name": "(Anonymous function)"
+					},
+					"defaultValue": " validate(settingsSchema, {\r\n  schemas: {\r\n    valueFilter: valueFilterSchema,\r\n    advancedFilter: advancedFilterSchema\r\n  }\r\n})"
+				},
+				{
+					"id": 112,
+					"name": "validateTarget",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "reference",
+						"name": "(Anonymous function)"
+					},
+					"defaultValue": " validate(targetSchema, {\r\n  schemas: {\r\n    pageTarget: pageTargetSchema,\r\n    visualTarget: visualTargetSchema\r\n  }\r\n})"
+				},
+				{
+					"id": 100,
+					"name": "valueFilterSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/valueFilter.json')"
+				},
+				{
+					"id": 101,
+					"name": "visualTargetSchema",
+					"kind": 32,
+					"kindString": "Variable",
+					"flags": {
+						"isExported": true
+					},
+					"type": {
+						"type": "instrinct",
+						"name": "any"
+					},
+					"defaultValue": " require('./schemas/visualTarget.json')"
+				},
+				{
+					"id": 119,
+					"name": "isAdvancedFilter",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 120,
+							"name": "isAdvancedFilter",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 121,
+									"name": "filter",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IFilter",
+										"id": 38
+									}
+								}
+							],
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						}
+					]
+				},
+				{
+					"id": 128,
+					"name": "isColumn",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 129,
+							"name": "isColumn",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 130,
+									"name": "arg",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "instrinct",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						}
+					]
+				},
+				{
+					"id": 131,
+					"name": "isHierarchy",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 132,
+							"name": "isHierarchy",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 133,
+									"name": "arg",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "instrinct",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						}
+					]
+				},
+				{
+					"id": 125,
+					"name": "isMeasure",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 126,
+							"name": "isMeasure",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 127,
+									"name": "arg",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "instrinct",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						}
+					]
+				},
+				{
+					"id": 122,
+					"name": "isValueFilter",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {
+						"isExported": true
+					},
+					"signatures": [
+						{
+							"id": 123,
+							"name": "isValueFilter",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 124,
+									"name": "filter",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IFilter",
+										"id": 38
+									}
+								}
+							],
+							"type": {
+								"type": "instrinct",
+								"name": "boolean"
+							}
+						}
+					]
+				},
+				{
+					"id": 102,
+					"name": "normalizeError",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 103,
+							"name": "normalizeError",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 104,
+									"name": "error",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"name": "IValidationError",
+										"id": 2
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IError",
+								"id": 6
+							}
+						}
+					]
+				},
+				{
+					"id": 105,
+					"name": "validate",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
+					"signatures": [
+						{
+							"id": 106,
+							"name": "validate",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Takes in schema and returns function which can be used to validate the schema with better semantics around exposing errors"
+							},
+							"parameters": [
+								{
+									"id": 107,
+									"name": "schema",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "instrinct",
+										"name": "any"
+									}
+								},
+								{
+									"id": 108,
+									"name": "options",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isOptional": true
+									},
+									"type": {
+										"type": "instrinct",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "(Anonymous function)"
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Classes",
+					"kind": 128,
+					"children": [
+						78,
+						54,
+						64
+					]
+				},
+				{
+					"title": "Interfaces",
+					"kind": 256,
+					"children": [
+						49,
+						46,
+						26,
+						6,
+						38,
+						28,
+						31,
+						35,
+						11,
+						23,
+						17,
+						8,
+						2,
+						41,
+						20
+					]
+				},
+				{
+					"title": "Type aliases",
+					"kind": 4194304,
+					"children": [
+						118,
+						117,
+						116,
+						115,
+						111
+					]
+				},
+				{
+					"title": "Variables",
+					"kind": 32,
+					"children": [
+						93,
+						94,
+						95,
+						96,
+						97,
+						92,
+						98,
+						99,
+						114,
+						110,
+						113,
+						109,
+						112,
+						100,
+						101
+					]
+				},
+				{
+					"title": "Functions",
+					"kind": 64,
+					"children": [
+						119,
+						128,
+						131,
+						125,
+						122,
+						102,
+						105
+					]
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "External modules",
+			"kind": 1,
+			"children": [
+				1
+			]
+		}
+	]
+}
