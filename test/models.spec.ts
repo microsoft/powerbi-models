@@ -449,24 +449,11 @@ describe("Unit | Filters", function () {
   });
 
   describe('determine filter type', function () {
-    it('isBasicFilter should return true for objects with matching shemaUrl and false otherwise', function () {
+    it('getFilterType should return type of filter given a filter object', function () {
       // Arrange
       const testData = {
-      	filter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
-        nonFilter: <models.IFilter>{}
-      };
-
-      // Act
-
-      // Assert
-      expect(models.isBasicFilter(testData.filter.toJSON())).toBe(true);
-      expect(models.isBasicFilter(testData.nonFilter)).toBe(false);
-    });
-
-    it('isAdvancedFilter should return true for objects with matching shemaUrl and false otherwise', function () {
-      // Arrange
-      const testData = {
-      	filter: new models.AdvancedFilter({ table: "a", column: "b" }, "And", 
+      	basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And", 
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
         ),
@@ -476,8 +463,9 @@ describe("Unit | Filters", function () {
       // Act
 
       // Assert
-      expect(models.isAdvancedFilter(testData.filter.toJSON())).toBe(true);
-      expect(models.isAdvancedFilter(testData.nonFilter)).toBe(false);
+      expect(models.getFilterType(testData.basicFilter.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
+      expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
     });
   });
 });
