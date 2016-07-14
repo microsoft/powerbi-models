@@ -92,7 +92,7 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
 
-    it(`should return errors with one containing message '${filterInvalidMessage}' if filter is not a valid valueFilter or advancedFilter`, function () {
+    it(`should return errors with one containing message '${filterInvalidMessage}' if filter is not a valid basicFilter or advancedFilter`, function () {
       // Arrange
       const testData = {
         load: {
@@ -178,15 +178,15 @@ describe('Unit | Models', function () {
 });
 
 describe("Unit | Filters", function () {
-  describe("ValueFilter", function () {
+  describe("BasicFilter", function () {
     it("should accept values as separate arguments", function () {
       // Arrange
       
       // Act
-      const valueFilter = new models.ValueFilter({ table: "t", column: "c" }, "In", 1, 2);
+      const basicFilter = new models.BasicFilter({ table: "t", column: "c" }, "In", 1, 2);
       
       // Assert
-      expect(valueFilter.values).toEqual([1,2]);
+      expect(basicFilter.values).toEqual([1,2]);
     });
     
     it("should accept values as an array", function () {
@@ -194,15 +194,15 @@ describe("Unit | Filters", function () {
       const values = [1,2];
       
       // Act
-      const valueFilter = new models.ValueFilter({ table: "t", column: "c" }, "In", values);
+      const basicFilter = new models.BasicFilter({ table: "t", column: "c" }, "In", values);
       
       // Assert
-      expect(valueFilter.values).toEqual(values);
+      expect(basicFilter.values).toEqual(values);
     });
     
     it("should return valid json format when toJSON is called", function () {
       // Arrange
-      const expectedFilter: models.IValueFilter = {
+      const expectedFilter: models.IBasicFilter = {
         $schema: "http://powerbi.com/product/schema#basic",
         target: {
           table: "a",
@@ -217,7 +217,7 @@ describe("Unit | Filters", function () {
       };
       
       // Act
-      const filter = new models.ValueFilter(
+      const filter = new models.BasicFilter(
         expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.values);
@@ -244,7 +244,7 @@ describe("Unit | Filters", function () {
     
     it("should be able to be validated using json schema", function () {
       // Arrange
-      const expectedFilter: models.IValueFilter = {
+      const expectedFilter: models.IBasicFilter = {
         $schema: "http://powerbi.com/product/schema#advanced",
         target: {
           table: "a",
@@ -259,7 +259,7 @@ describe("Unit | Filters", function () {
       };
       
       // Act
-      const filter = new models.ValueFilter(
+      const filter = new models.BasicFilter(
         expectedFilter.target,
         expectedFilter.operator,
         ...expectedFilter.values);
@@ -449,18 +449,18 @@ describe("Unit | Filters", function () {
   });
 
   describe('determine filter type', function () {
-    it('isValueFilter should return true for objects with matching shemaUrl and false otherwise', function () {
+    it('isBasicFilter should return true for objects with matching shemaUrl and false otherwise', function () {
       // Arrange
       const testData = {
-      	filter: new models.ValueFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+      	filter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
         nonFilter: <models.IFilter>{}
       };
 
       // Act
 
       // Assert
-      expect(models.isValueFilter(testData.filter.toJSON())).toBe(true);
-      expect(models.isValueFilter(testData.nonFilter)).toBe(false);
+      expect(models.isBasicFilter(testData.filter.toJSON())).toBe(true);
+      expect(models.isBasicFilter(testData.nonFilter)).toBe(false);
     });
 
     it('isAdvancedFilter should return true for objects with matching shemaUrl and false otherwise', function () {

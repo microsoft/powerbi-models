@@ -7,7 +7,7 @@ export const pageSchema = require('./schemas/page.json');
 export const pageTargetSchema = require('./schemas/pageTarget.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const targetSchema = require('./schemas/target.json');
-export const valueFilterSchema = require('./schemas/valueFilter.json');
+export const basicFilterSchema = require('./schemas/basicFilter.json');
 export const visualTargetSchema = require('./schemas/visualTarget.json');
 
 import * as jsen from 'jsen';
@@ -58,7 +58,7 @@ export interface ISettings {
 
 export const validateSettings = validate(settingsSchema, {
   schemas: {
-    valueFilter: valueFilterSchema,
+    basicFilter: basicFilterSchema,
     advancedFilter: advancedFilterSchema
   }
 });
@@ -74,7 +74,7 @@ export interface ILoadConfiguration {
 export const validateLoad = validate(loadSchema, {
   schemas: {
     settings: settingsSchema,
-    valueFilter: valueFilterSchema,
+    basicFilter: basicFilterSchema,
     advancedFilter: advancedFilterSchema
   }
 });
@@ -108,7 +108,7 @@ export const validatePage = validate(pageSchema);
 
 export const validateFilter = validate(filterSchema, {
   schemas: {
-    valueFilter: valueFilterSchema,
+    basicFilter: basicFilterSchema,
     advancedFilter: advancedFilterSchema
   }
 });
@@ -140,7 +140,7 @@ export interface IFilter {
   target: IFilterTarget;
 }
 
-export interface IValueFilter extends IFilter {
+export interface IBasicFilter extends IFilter {
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
 }
@@ -163,8 +163,8 @@ export function isAdvancedFilter(filter: IFilter): boolean {
   return (filter.$schema === AdvancedFilter.schemaUrl);
 }
 
-export function isValueFilter(filter: IFilter): boolean {
-  return (filter.$schema === ValueFilter.schemaUrl);
+export function isBasicFilter(filter: IFilter): boolean {
+  return (filter.$schema === BasicFilter.schemaUrl);
 }
 
 export function isMeasure(arg: any): arg is IFilterMeasureTarget {
@@ -199,7 +199,7 @@ export abstract class Filter {
   };
 }
 
-export class ValueFilter extends Filter {
+export class BasicFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#basic";
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
@@ -211,7 +211,7 @@ export class ValueFilter extends Filter {
   ) {
     super(target);
     this.operator = operator;
-    this.schemaUrl = ValueFilter.schemaUrl;
+    this.schemaUrl = BasicFilter.schemaUrl;
     
     if(values.length === 0) {
       throw new Error(`values must be a non-empty array. You passed: ${values}`);
@@ -219,8 +219,8 @@ export class ValueFilter extends Filter {
     
     /**
      * Accept values as array instead of as individual arguments
-     * new ValueFilter('a', 'b', 1, 2);
-     * new ValueFilter('a', 'b', [1,2]);
+     * new BasicFilter('a', 'b', 1, 2);
+     * new BasicFilter('a', 'b', [1,2]);
      */
     if(Array.isArray(values[0])) {
       this.values = <any>values[0];
@@ -230,8 +230,8 @@ export class ValueFilter extends Filter {
     }
   }
   
-  toJSON(): IValueFilter {
-    const filter = <IValueFilter>super.toJSON();
+  toJSON(): IBasicFilter {
+    const filter = <IBasicFilter>super.toJSON();
     
     filter.operator = this.operator;
     filter.values = this.values;

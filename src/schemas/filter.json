@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "oneOf": [
     {
-      "$ref": "#valueFilter"
+      "$ref": "#basicFilter"
     },
     {
       "$ref": "#advancedFilter"
