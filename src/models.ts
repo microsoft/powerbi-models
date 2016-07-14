@@ -159,12 +159,29 @@ export interface IAdvancedFilter extends IFilter {
   conditions: IAdvancedFilterCondition[];
 }
 
-export function isAdvancedFilter(filter: IFilter): boolean {
-  return (filter.$schema === AdvancedFilter.schemaUrl);
+export enum FilterType {
+  Advanced,
+  Basic,
+  Unknown
 }
 
-export function isBasicFilter(filter: IFilter): boolean {
-  return (filter.$schema === BasicFilter.schemaUrl);
+export function getFilterType(filter: IFilter): FilterType {
+  const basicFilter = filter as IBasicFilter;
+  const advancedFilter = filter as IAdvancedFilter;
+
+  if ((typeof basicFilter.operator === "string")
+    && (Array.isArray(basicFilter.values))
+  ) {
+    return FilterType.Basic;
+  }
+  else if ((typeof advancedFilter.logicalOperator === "string")
+    && (Array.isArray(advancedFilter.conditions))
+  ) {
+    return FilterType.Advanced;
+  }
+  else {
+    return FilterType.Unknown;
+  }
 }
 
 export function isMeasure(arg: any): arg is IFilterMeasureTarget {
