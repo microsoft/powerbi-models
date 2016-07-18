@@ -262,10 +262,34 @@ describe("Unit | Filters", function () {
       const filter = new models.BasicFilter(
         expectedFilter.target,
         expectedFilter.operator,
-        ...expectedFilter.values);
+        expectedFilter.values);
       
       // Assert
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("can be constructed using either array form or individual arguments", function () {
+      // Arrange
+      const expectedFilter: models.IBasicFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: <any>"x",
+        values: [
+          "a",
+          100,
+          false
+        ]
+      };
+
+      // Act
+      const filter1 = new models.BasicFilter(expectedFilter.target, expectedFilter.operator, expectedFilter.values);
+      const filter2 = new models.BasicFilter(expectedFilter.target, expectedFilter.operator, ...expectedFilter.values);
+
+      // Assert
+      expect(filter1.toJSON()).toEqual(filter2.toJSON());
     });
   });
   
@@ -417,6 +441,35 @@ describe("Unit | Filters", function () {
       // Assert
       expect(errors).toBeUndefined();
       expect(errors2).toBeUndefined();
+    });
+
+    it("can be constructed using either array form or individual arguments", function () {
+      // Arrange
+      const expectedFilter: models.IAdvancedFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        logicalOperator: <any>"x",
+        conditions: [
+          {
+            value: "v1",
+            operator: "Contains"
+          },
+          {
+            value: "v2",
+            operator: "Contains"
+          }
+        ]
+      };
+
+      // Act
+      const filter1 = new models.AdvancedFilter(expectedFilter.target, expectedFilter.logicalOperator, expectedFilter.conditions);
+      const filter2 = new models.AdvancedFilter(expectedFilter.target, expectedFilter.logicalOperator, ...expectedFilter.conditions);
+
+      // Assert
+      expect(filter1.toJSON()).toEqual(filter2.toJSON());
     });
   });
 

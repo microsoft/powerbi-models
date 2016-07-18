@@ -224,7 +224,7 @@ export class BasicFilter extends Filter {
   constructor(
     target: IFilterTarget,
     operator: BasicFilterOperators,
-    ...values: any[]
+    ...values: ((string | number | boolean) | (string | number | boolean)[])[]
   ) {
     super(target);
     this.operator = operator;
@@ -240,10 +240,10 @@ export class BasicFilter extends Filter {
      * new BasicFilter('a', 'b', [1,2]);
      */
     if(Array.isArray(values[0])) {
-      this.values = <any>values[0];
+      this.values = <(string | number | boolean)[]>values[0];
     }
     else {
-      this.values = values;
+      this.values = <(string | number | boolean)[]>values;
     }
   }
   
@@ -266,7 +266,7 @@ export class AdvancedFilter extends Filter {
   constructor(
     target: IFilterTarget,
     logicalOperator: AdvancedFilterLogicalOperators,
-    ...conditions: IAdvancedFilterCondition[]
+    ...conditions: (IAdvancedFilterCondition | IAdvancedFilterCondition[])[]
   ) {
     super(target);
     this.schemaUrl = AdvancedFilter.schemaUrl;
@@ -292,10 +292,10 @@ export class AdvancedFilter extends Filter {
      * new AdvancedFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
      */
     if(Array.isArray(conditions[0])) {
-      this.conditions = <any>conditions[0];
+      this.conditions = <IAdvancedFilterCondition[]>conditions[0];
     }
     else {
-      this.conditions = conditions;
+      this.conditions = <IAdvancedFilterCondition[]>conditions;
     }
   }
   
