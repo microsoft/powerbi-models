@@ -150,7 +150,7 @@ export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
 export interface IAdvancedFilterCondition {
-  value: any;
+  value: (string | number | boolean);
   operator: AdvancedFilterConditionOperators;
 }
 

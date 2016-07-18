@@ -352,12 +352,27 @@ describe("Unit | Filters", function () {
           property: "d"
         }
       };
+      const malformedFilter2: any = {
+        target: {
+          table: 'a',
+          column: 'b'
+        },
+        logicalOperator: 'And',
+        conditions: [
+          {
+            value: { x: 1 },
+            operator: 'condition1'
+          }
+        ]
+      };
       
       // Act
       const errors = models.validateFilter(malformedFilter);
+      const errors2 = models.validateFilter(malformedFilter2);
       
       // Assert
       expect(errors).toBeDefined();
+      expect(errors2).toBeDefined();
     });
     
     it("should be able to be validated using json schema", function () {
@@ -375,20 +390,33 @@ describe("Unit | Filters", function () {
             operator: "Is"
           },
           {
-            value: "b",
+            value: true,
+            operator: "Is"
+          },
+          {
+            value: 1,
             operator: "Is"
           }
         ]
       };
       
-      // Act
       const filter = new models.AdvancedFilter(
         expectedFilter.target,
         expectedFilter.logicalOperator,
-        ...expectedFilter.conditions);
-      
+        ...expectedFilter.conditions.slice(0,2));
+
+      const filter2 = new models.AdvancedFilter(
+        expectedFilter.target,
+        expectedFilter.logicalOperator,
+        ...expectedFilter.conditions.slice(1,3));
+
+      // Act
+      const errors = models.validateFilter(filter.toJSON());
+      const errors2 = models.validateFilter(filter2.toJSON());
+
       // Assert
-      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+      expect(errors).toBeUndefined();
+      expect(errors2).toBeUndefined();
     });
   });
 
