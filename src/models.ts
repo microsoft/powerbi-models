@@ -104,6 +104,10 @@ export interface IPage {
   displayName: string;
 }
 
+export interface IVisual {
+  id: string;
+}
+
 export const validatePage = validate(pageSchema);
 
 export const validateFilter = validate(filterSchema, {
