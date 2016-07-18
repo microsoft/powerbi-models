@@ -226,7 +226,7 @@ describe("Unit | Filters", function () {
       expect(filter.toJSON()).toEqual(expectedFilter);
     });
     
-    it("valiator should return false if object does not validate against schema", function () {
+    it("validator should return false if object does not validate against schema", function () {
       // Arrange
       const malformedFilter: any = {
         target: {
@@ -344,7 +344,7 @@ describe("Unit | Filters", function () {
       expect(filter.toJSON()).toEqual(expectedFilter);
     });
     
-    it("valiator should return false if object does not validate against schema", function () {
+    it("validator should return false if object does not validate against schema", function () {
       // Arrange
       const malformedFilter: any = {
         filter: {
@@ -421,7 +421,7 @@ describe("Unit | Filters", function () {
   });
 
   describe('validateTarget', function () {
-    it("valiator should return false if object does not validate against page target schema", function () {
+    it("validator should return false if object does not validate against page target schema", function () {
       // Arrange
       const malformedPageTarget = {
         type: 'page',
@@ -434,7 +434,7 @@ describe("Unit | Filters", function () {
       expect(errors).toBeDefined();
     });
 
-    it("valiator should return false if object does not validate against visual target schema", function () {
+    it("validator should return false if object does not validate against visual target schema", function () {
       // Arrange
       const malformedVisualTarget = {
         type: 'visual',
