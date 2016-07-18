@@ -1,10 +1,19 @@
 language: node_js
 node_js:
-    - node
+- node
 install:
-    - npm install -g typings typescript
-    - npm link typescript
-    - typings install
-    - npm install
+- npm install -g typings typescript
+- npm link typescript
+- typings install
+- npm install
 script:
-    - gulp test
+- gulp test
+deploy:
+  provider: npm
+  email: nugetpowerbi@microsoft.com
+  api_key:
+    secure: Ly278uVy374sGmTSthu1W37D2314OF2F5hufF8eF3+JaZzFakbM+ld1mn0HOJh7jju3hHMwMLaQEtf2DDrXYsC5kDi37nVnisTPA7G9sWjdT2crW6iZHlnvqjK8I3/cU94NKNb7U3qIZjGL7xT/oyCoKTlHXp0C8VEo8PnnsnhoAIYfJYvyNUk3Vyh9OgyB+C21Ab3HYiK+9dWsFwD7lV96xIvOy8hH+d6OJjSyIYoUJckkI/sKfcJtiFi5e0TMw15tYlwgnRqe1DcREChudgi7bQ/1sqesZwtAT+2X3DiwA08Zmmnoz9txuJcJCRJLYFB3Ki09uOWKlcmIW/LauGeyReabfJXJBXynysJ4dLJfD89/t68LxW1mX0q2kPRs3COmY1IEds7gYJqfLqruyUVhIV7zTwqG5F3S56roLc7OJnA8XXmuQHWRcuNOGvf5PQZHdnVQWNilV1GaNytm19lpvnPX7E14zg2t1PCVtnkj/O/yFSStCOVsX0kI84A7R/hGLzx30nTqVUDe1K81v55mPlJAqc8ChdzZPzosQMIMJYT0bj0dSpHlbZZkZL2JlFdrfy4xH7YVkCPLxwT74lnFaQq6tc7XPfbAz7Ox5RXJ9qaOkyB8pujALbsbvyd0yCZxzFk0cP41vaSRjfGhoQq7M4IMeiv7EAQ8U9CcwwmY=
+  on:
+    tags: true
+    repo: Microsoft/powerbi-models
+    branch: dev
