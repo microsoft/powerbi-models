@@ -3,13 +3,13 @@ import * as models from '../src/models';
 describe('Unit | Models', function () {
   function testForExpectedMessage(errors: models.IError[], message: string) {
     expect(errors).toBeDefined();
-      errors
-        .forEach(error => {
-          if (error.message === message) {
-            expect(true).toBe(true);
-          }
-        });
-  } 
+    errors
+      .forEach(error => {
+        if (error.message === message) {
+          expect(true).toBe(true);
+        }
+      });
+  }
 
   describe('validateLoad', function () {
     const accessTokenRequiredMessage = models.loadSchema.properties.accessToken.messages.required;
@@ -181,25 +181,25 @@ describe("Unit | Filters", function () {
   describe("BasicFilter", function () {
     it("should accept values as separate arguments", function () {
       // Arrange
-      
+
       // Act
       const basicFilter = new models.BasicFilter({ table: "t", column: "c" }, "In", 1, 2);
-      
+
       // Assert
-      expect(basicFilter.values).toEqual([1,2]);
+      expect(basicFilter.values).toEqual([1, 2]);
     });
-    
+
     it("should accept values as an array", function () {
       // Arrange
-      const values = [1,2];
-      
+      const values = [1, 2];
+
       // Act
       const basicFilter = new models.BasicFilter({ table: "t", column: "c" }, "In", values);
-      
+
       // Assert
       expect(basicFilter.values).toEqual(values);
     });
-    
+
     it("should return valid json format when toJSON is called", function () {
       // Arrange
       const expectedFilter: models.IBasicFilter = {
@@ -215,17 +215,17 @@ describe("Unit | Filters", function () {
           3
         ]
       };
-      
+
       // Act
       const filter = new models.BasicFilter(
         expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.values);
-      
+
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);
     });
-    
+
     it("validator should return false if object does not validate against schema", function () {
       // Arrange
       const malformedFilter: any = {
@@ -234,14 +234,14 @@ describe("Unit | Filters", function () {
           column: "d"
         }
       };
-      
+
       // Act
       const errors = models.validateFilter(malformedFilter);
-      
+
       // Assert
       expect(errors).toBeDefined();
     });
-    
+
     it("should be able to be validated using json schema", function () {
       // Arrange
       const expectedFilter: models.IBasicFilter = {
@@ -257,13 +257,13 @@ describe("Unit | Filters", function () {
           false
         ]
       };
-      
+
       // Act
       const filter = new models.BasicFilter(
         expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.values);
-      
+
       // Assert
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
@@ -292,7 +292,7 @@ describe("Unit | Filters", function () {
       expect(filter1.toJSON()).toEqual(filter2.toJSON());
     });
   });
-  
+
   describe("AdvancedFilter", function () {
     it("should throw an error if logical operator is not a non-empty string", function () {
       // Arrange
@@ -300,16 +300,16 @@ describe("Unit | Filters", function () {
         value: "a",
         operator: "LessThan"
       };
-      
+
       // Act
       const attemptToCreateFilter = () => {
         return new models.AdvancedFilter({ table: "t", column: "c" }, <any>1, condition);
       };
-      
+
       // Assert
       expect(attemptToCreateFilter).toThrowError();
     });
-    
+
     it("should throw an error if more than two conditions are provided", function () {
       // Arrange
       const conditions: models.IAdvancedFilterCondition[] = [
@@ -326,17 +326,17 @@ describe("Unit | Filters", function () {
           operator: "LessThan"
         }
       ];
-      
-      
+
+
       // Act
       const attemptToCreateFilter = () => {
         return new models.AdvancedFilter({ table: "Table", column: "c" }, "And", ...conditions);
       };
-      
+
       // Assert
       expect(attemptToCreateFilter).toThrowError();
     });
-    
+
     it("should output the correct json when toJSON is called", function () {
       // Arrange
       const expectedFilter: models.IAdvancedFilter = {
@@ -357,17 +357,17 @@ describe("Unit | Filters", function () {
           }
         ]
       };
-      
+
       // Act
       const filter = new models.AdvancedFilter(
         expectedFilter.target,
         expectedFilter.logicalOperator,
         ...expectedFilter.conditions);
-      
+
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);
     });
-    
+
     it("validator should return false if object does not validate against schema", function () {
       // Arrange
       const malformedFilter: any = {
@@ -389,16 +389,16 @@ describe("Unit | Filters", function () {
           }
         ]
       };
-      
+
       // Act
       const errors = models.validateFilter(malformedFilter);
       const errors2 = models.validateFilter(malformedFilter2);
-      
+
       // Assert
       expect(errors).toBeDefined();
       expect(errors2).toBeDefined();
     });
-    
+
     it("should be able to be validated using json schema", function () {
       // Arrange
       const expectedFilter: models.IAdvancedFilter = {
@@ -423,16 +423,16 @@ describe("Unit | Filters", function () {
           }
         ]
       };
-      
+
       const filter = new models.AdvancedFilter(
         expectedFilter.target,
         expectedFilter.logicalOperator,
-        ...expectedFilter.conditions.slice(0,2));
+        ...expectedFilter.conditions.slice(0, 2));
 
       const filter2 = new models.AdvancedFilter(
         expectedFilter.target,
         expectedFilter.logicalOperator,
-        ...expectedFilter.conditions.slice(1,3));
+        ...expectedFilter.conditions.slice(1, 3));
 
       // Act
       const errors = models.validateFilter(filter.toJSON());
@@ -479,10 +479,10 @@ describe("Unit | Filters", function () {
       const malformedPageTarget = {
         type: 'page',
       };
-      
+
       // Act
       const errors = models.validateTarget(malformedPageTarget);
-      
+
       // Assert
       expect(errors).toBeDefined();
     });
@@ -492,10 +492,10 @@ describe("Unit | Filters", function () {
       const malformedVisualTarget = {
         type: 'visual',
       };
-      
+
       // Act
       const errors = models.validateTarget(malformedVisualTarget);
-      
+
       // Assert
       expect(errors).toBeDefined();
     });
@@ -529,12 +529,93 @@ describe("Unit | Filters", function () {
     });
   });
 
+  describe('validateFiltersContainer', function () {
+    it("validator should return errors if object does NOT validate against filtersContainer schema", function () {
+      // Arrange
+      const malformedFiltersContainer = {
+        abc: '123'
+      };
+
+      // Act
+      const errors = models.validateFiltersContainer(malformedFiltersContainer);
+
+      // Assert
+      expect(errors).toBeDefined();
+    });
+
+    it("validator should return no errors if object does validate against filtersContainer schema", function () {
+      // Arrange
+      const things: (string | number)[] = [
+        "a",
+        3234
+      ];
+
+      const basicFilter: models.IBasicFilter = {
+        $schema: "a",
+        target: {
+          table: "table",
+          column: "column"
+        },
+        operator: "In",
+        values: [
+          "A",
+          "B"
+        ]
+      };
+      const advancedFilter: models.IAdvancedFilter = {
+        $schema: "a",
+        target: {
+          table: "table",
+          hierarchy: "hierachy",
+          hierarchyLevel: "hierachyLevel"
+        },
+        logicalOperator: "Or",
+        conditions: [
+          {
+            value: "a",
+            operator: "Contains"
+          },
+          {
+            value: "b",
+            operator: "Contains"
+          }
+        ]
+      };
+
+      const wellformedFiltersContainer: models.IFiltersContainer = {
+        target: {
+          type: "page",
+          name: ""
+        },
+        filters: [
+          basicFilter,
+          advancedFilter
+        ]
+      };
+
+      const wellformedFiltersContainerWithoutTarget: models.IFiltersContainer = {
+        filters: [
+          basicFilter,
+          advancedFilter
+        ]
+      };
+
+      // Act
+      const errors = models.validateFiltersContainer(wellformedFiltersContainer);
+      const errorsNoTarget = models.validateFiltersContainer(wellformedFiltersContainerWithoutTarget);
+
+      // Assert
+      expect(errors).toBeUndefined();
+      expect(errorsNoTarget).toBeUndefined();
+    });
+  });
+
   describe('determine filter type', function () {
     it('getFilterType should return type of filter given a filter object', function () {
       // Arrange
       const testData = {
-      	basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
-        advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And", 
+        basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
         ),

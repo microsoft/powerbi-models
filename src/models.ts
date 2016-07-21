@@ -2,6 +2,7 @@ declare var require: Function;
 
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
+export const filtersContainerSchema = require('./schemas/filtersContainer.json');
 export const loadSchema = require('./schemas/load.json');
 export const pageSchema = require('./schemas/page.json');
 export const pageTargetSchema = require('./schemas/pageTarget.json');
@@ -104,7 +105,22 @@ export interface IPage {
   displayName: string;
 }
 
+export interface IVisual {
+  id: string;
+}
+
 export const validatePage = validate(pageSchema);
+
+export const validateFiltersContainer = validate(filtersContainerSchema, {
+  schemas: {
+    target: targetSchema,
+    pageTarget: pageTargetSchema,
+    visualTarget: visualTargetSchema,
+    filter: filterSchema,
+    basicFilter: basicFilterSchema,
+    advancedFilter: advancedFilterSchema
+  }
+})
 
 export const validateFilter = validate(filterSchema, {
   schemas: {
@@ -134,6 +150,11 @@ export interface IFilterMeasureTarget extends IBaseFilterTarget {
 }
 
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget);
+
+export interface IFiltersContainer {
+  target?: ITarget,
+  filters: (IBasicFilter | IAdvancedFilter)[]
+}
 
 export interface IFilter {
   $schema: string;
