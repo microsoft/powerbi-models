@@ -545,11 +545,6 @@ describe("Unit | Filters", function () {
 
     it("validator should return no errors if object does validate against filtersContainer schema", function () {
       // Arrange
-      const things: (string | number)[] = [
-        "a",
-        3234
-      ];
-
       const basicFilter: models.IBasicFilter = {
         $schema: "a",
         target: {
