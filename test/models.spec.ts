@@ -593,11 +593,20 @@ describe("Unit | Filters", function () {
         ]
       };
 
+      const wellformedFiltersContainerWithoutTarget: models.IFiltersContainer = {
+        filters: [
+          basicFilter,
+          advancedFilter
+        ]
+      };
+
       // Act
       const errors = models.validateFiltersContainer(wellformedFiltersContainer);
+      const errorsNoTarget = models.validateFiltersContainer(wellformedFiltersContainerWithoutTarget);
 
       // Assert
       expect(errors).toBeUndefined();
+      expect(errorsNoTarget).toBeUndefined();
     });
   });
 

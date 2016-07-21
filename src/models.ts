@@ -152,7 +152,7 @@ export interface IFilterMeasureTarget extends IBaseFilterTarget {
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget);
 
 export interface IFiltersContainer {
-  target: ITarget,
+  target?: ITarget,
   filters: (IBasicFilter | IAdvancedFilter)[]
 }
 
