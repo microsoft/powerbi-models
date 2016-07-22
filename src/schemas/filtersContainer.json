@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "level": {
+      "$ref": "#level"
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "$ref": "#filter"
+      }
+    }
+  },
+  "required": [
+    "filters"
+  ]
+}

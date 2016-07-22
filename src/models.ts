@@ -2,13 +2,14 @@ declare var require: Function;
 
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
+export const filtersContainerSchema = require('./schemas/filtersContainer.json');
 export const loadSchema = require('./schemas/load.json');
 export const pageSchema = require('./schemas/page.json');
-export const pageTargetSchema = require('./schemas/pageTarget.json');
+export const pageLevelSchema = require('./schemas/pageLevel.json');
 export const settingsSchema = require('./schemas/settings.json');
-export const targetSchema = require('./schemas/target.json');
+export const levelSchema = require('./schemas/level.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
-export const visualTargetSchema = require('./schemas/visualTarget.json');
+export const visualLevelSchema = require('./schemas/visualLevel.json');
 
 import * as jsen from 'jsen';
 
@@ -79,23 +80,23 @@ export const validateLoad = validate(loadSchema, {
   }
 });
 
-export interface IPageTarget {
+export interface IPageLevel {
   type: "page";
   name: string;
 }
 
 
-export interface IVisualTarget {
+export interface IVisualLevel {
   type: "visual";
   id: string;
 }
 
-export declare type ITarget = (IPageTarget | IVisualTarget);
+export declare type ILevel = (IPageLevel | IVisualLevel);
 
-export const validateTarget = validate(targetSchema, {
+export const validateLevel = validate(levelSchema, {
   schemas: {
-    pageTarget: pageTargetSchema,
-    visualTarget: visualTargetSchema
+    pageLevel: pageLevelSchema,
+    visualLevel: visualLevelSchema
   }
 });
 
@@ -109,6 +110,17 @@ export interface IVisual {
 }
 
 export const validatePage = validate(pageSchema);
+
+export const validateFiltersContainer = validate(filtersContainerSchema, {
+  schemas: {
+    level: levelSchema,
+    pageLevel: pageLevelSchema,
+    visualLevel: visualLevelSchema,
+    filter: filterSchema,
+    basicFilter: basicFilterSchema,
+    advancedFilter: advancedFilterSchema
+  }
+})
 
 export const validateFilter = validate(filterSchema, {
   schemas: {
@@ -138,6 +150,11 @@ export interface IFilterMeasureTarget extends IBaseFilterTarget {
 }
 
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget);
+
+export interface IFiltersContainer {
+  level?: ILevel,
+  filters: (IBasicFilter | IAdvancedFilter)[]
+}
 
 export interface IFilter {
   $schema: string;
