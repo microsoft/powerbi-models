@@ -2,8 +2,8 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "target": {
-      "$ref": "#target"
+    "level": {
+      "$ref": "#level"
     },
     "filters": {
       "type": "array",

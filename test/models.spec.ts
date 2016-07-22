@@ -473,56 +473,56 @@ describe("Unit | Filters", function () {
     });
   });
 
-  describe('validateTarget', function () {
-    it("validator should return false if object does not validate against page target schema", function () {
+  describe('validateLevel', function () {
+    it("validator should return false if object does not validate against page level schema", function () {
       // Arrange
-      const malformedPageTarget = {
+      const malformedPageLevel = {
         type: 'page',
       };
 
       // Act
-      const errors = models.validateTarget(malformedPageTarget);
+      const errors = models.validateLevel(malformedPageLevel);
 
       // Assert
       expect(errors).toBeDefined();
     });
 
-    it("validator should return false if object does not validate against visual target schema", function () {
+    it("validator should return false if object does not validate against visual level schema", function () {
       // Arrange
-      const malformedVisualTarget = {
+      const malformedVisualLevel = {
         type: 'visual',
       };
 
       // Act
-      const errors = models.validateTarget(malformedVisualTarget);
+      const errors = models.validateLevel(malformedVisualLevel);
 
       // Assert
       expect(errors).toBeDefined();
     });
 
-    it(`should return no error if visual target is valid`, function () {
+    it(`should return no error if visual level is valid`, function () {
       // Arrange
-      let validVisualTarget: models.IVisualTarget = {
+      let validVisualLevel: models.IVisualLevel = {
         type: 'visual',
         id: 'visualId'
       };
 
       // Act
-      const errors = models.validateTarget(validVisualTarget);
+      const errors = models.validateLevel(validVisualLevel);
 
       // Assert
       expect(errors).toBeUndefined();
     });
 
-    it(`should return no error if page target is valid`, function () {
+    it(`should return no error if page level is valid`, function () {
       // Arrange
-      const validPageTarget: models.IPageTarget = {
+      const validPageLevel: models.IPageLevel = {
         type: 'page',
         name: 'page1'
       };
 
       // Act
-      const errors = models.validateTarget(validPageTarget);
+      const errors = models.validateLevel(validPageLevel);
 
       // Assert
       expect(errors).toBeUndefined();
@@ -578,7 +578,7 @@ describe("Unit | Filters", function () {
       };
 
       const wellformedFiltersContainer: models.IFiltersContainer = {
-        target: {
+        level: {
           type: "page",
           name: ""
         },
@@ -588,7 +588,7 @@ describe("Unit | Filters", function () {
         ]
       };
 
-      const wellformedFiltersContainerWithoutTarget: models.IFiltersContainer = {
+      const wellformedFiltersContainerWithoutLevel: models.IFiltersContainer = {
         filters: [
           basicFilter,
           advancedFilter
@@ -597,11 +597,11 @@ describe("Unit | Filters", function () {
 
       // Act
       const errors = models.validateFiltersContainer(wellformedFiltersContainer);
-      const errorsNoTarget = models.validateFiltersContainer(wellformedFiltersContainerWithoutTarget);
+      const errorsNoLevel = models.validateFiltersContainer(wellformedFiltersContainerWithoutLevel);
 
       // Assert
       expect(errors).toBeUndefined();
-      expect(errorsNoTarget).toBeUndefined();
+      expect(errorsNoLevel).toBeUndefined();
     });
   });
 
