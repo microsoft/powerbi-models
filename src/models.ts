@@ -82,7 +82,7 @@ export interface IPage {
 }
 
 export interface IVisual {
-  id: string;
+  name: string;
 }
 
 export const validatePage = validate(pageSchema);
