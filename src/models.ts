@@ -65,7 +65,7 @@ export interface ILoadConfiguration {
   id: string;
   settings?: ISettings;
   pageName?: string;
-  filter?: any;
+  filters?: (IBasicFilter | IAdvancedFilter)[];
 }
 
 export const validateLoad = validate(loadSchema, {

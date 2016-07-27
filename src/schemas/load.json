@@ -27,8 +27,8 @@
         "type": "pageName must be a string"
       }
     },
-    "filter": {
-      "type": "object",
+    "filters": {
+      "type": "array",
       "oneOf": [
         {
           "$ref": "#basicFilter"
@@ -37,7 +37,7 @@
           "$ref": "#advancedFilter"
         }
       ],
-      "invalidMessage": "filter property is invalid"
+      "invalidMessage": "filters property is invalid"
     }
   },
   "required": [

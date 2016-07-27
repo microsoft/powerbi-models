@@ -16,7 +16,7 @@ describe('Unit | Models', function () {
     const accessTokenInvalidTypeMessage = models.loadSchema.properties.accessToken.messages.type;
     const idRequiredMessage = models.loadSchema.properties.id.messages.required;
     const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
-    const filterInvalidMessage = models.loadSchema.properties.filter.invalidMessage;
+    const filtersInvalidMessage = models.loadSchema.properties.filters.invalidMessage;
     const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
@@ -92,13 +92,13 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
 
-    it(`should return errors with one containing message '${filterInvalidMessage}' if filter is not a valid basicFilter or advancedFilter`, function () {
+    it(`should return errors with one containing message '${filtersInvalidMessage}' if filters is not a valid array of basicFilter or advancedFilter`, function () {
       // Arrange
       const testData = {
         load: {
           id: 'fakeId',
           accessToken: 'fakeAccessToken',
-          filter: { x: 1 }
+          filters: { x: 1 }
         }
       };
 
@@ -106,7 +106,7 @@ describe('Unit | Models', function () {
       const errors = models.validateLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, filterInvalidMessage);
+      testForExpectedMessage(errors, filtersInvalidMessage);
     });
 
     it(`should return errors with one containing message '${pageNameInvalidTypeMessage}' if pageName is not a string`, function () {
@@ -124,6 +124,117 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
+  });
+
+  describe('validateFilter', function () {
+    it("should return errors if object does not validate against schema", function () {
+      // Arrange
+      const malformedFilter: any = {
+        target: {
+          table: "c",
+          column: "d"
+        }
+      };
+      const malformedFilter1: any = {
+        filter: {
+          entity: "c",
+          property: "d"
+        }
+      };
+      const malformedFilter2: any = {
+        target: {
+          table: 'a',
+          column: 'b'
+        },
+        logicalOperator: 'And',
+        conditions: [
+          {
+            value: { x: 1 },
+            operator: 'condition1'
+          }
+        ]
+      };
+
+      // Act
+      const errors = models.validateFilter(malformedFilter);
+      const errors1 = models.validateFilter(malformedFilter1);
+      const errors2 = models.validateFilter(malformedFilter2);
+
+      // Assert
+      expect(errors).toBeDefined();
+      expect(errors1).toBeDefined();
+      expect(errors2).toBeDefined();
+    });
+
+    it("should return undefined if object is valid basic filter schema", function () {
+      // Arrange
+      const expectedFilter: models.IBasicFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: <any>"x",
+        values: [
+          "a",
+          100,
+          false
+        ]
+      };
+
+      // Act
+      const filter = new models.BasicFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.values);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid advanced filter schema", function () {
+      // Arrange
+      const expectedFilter: models.IAdvancedFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        logicalOperator: "And",
+        conditions: [
+          {
+            value: "a",
+            operator: "Is"
+          },
+          {
+            value: true,
+            operator: "Is"
+          },
+          {
+            value: 1,
+            operator: "Is"
+          }
+        ]
+      };
+
+      const filter = new models.AdvancedFilter(
+        expectedFilter.target,
+        expectedFilter.logicalOperator,
+        ...expectedFilter.conditions.slice(0, 2));
+
+      const filter2 = new models.AdvancedFilter(
+        expectedFilter.target,
+        expectedFilter.logicalOperator,
+        ...expectedFilter.conditions.slice(1, 3));
+
+      // Act
+      const errors = models.validateFilter(filter.toJSON());
+      const errors2 = models.validateFilter(filter2.toJSON());
+
+      // Assert
+      expect(errors).toBeUndefined();
+      expect(errors2).toBeUndefined();
     });
   });
 
@@ -161,7 +272,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, navContentPaneEnabledInvalidTypeMessage);
     });
 
-    it(`should return undefined settings is valid`, function () {
+    it(`should return undefined if settings is valid`, function () {
       // Arrange
       const testData = {
         settings: {
@@ -224,48 +335,6 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);
-    });
-
-    it("validator should return false if object does not validate against schema", function () {
-      // Arrange
-      const malformedFilter: any = {
-        target: {
-          table: "c",
-          column: "d"
-        }
-      };
-
-      // Act
-      const errors = models.validateFilter(malformedFilter);
-
-      // Assert
-      expect(errors).toBeDefined();
-    });
-
-    it("should be able to be validated using json schema", function () {
-      // Arrange
-      const expectedFilter: models.IBasicFilter = {
-        $schema: "http://powerbi.com/product/schema#advanced",
-        target: {
-          table: "a",
-          column: "b"
-        },
-        operator: <any>"x",
-        values: [
-          "a",
-          100,
-          false
-        ]
-      };
-
-      // Act
-      const filter = new models.BasicFilter(
-        expectedFilter.target,
-        expectedFilter.operator,
-        expectedFilter.values);
-
-      // Assert
-      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
 
     it("can be constructed using either array form or individual arguments", function () {
@@ -366,81 +435,6 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);
-    });
-
-    it("validator should return false if object does not validate against schema", function () {
-      // Arrange
-      const malformedFilter: any = {
-        filter: {
-          entity: "c",
-          property: "d"
-        }
-      };
-      const malformedFilter2: any = {
-        target: {
-          table: 'a',
-          column: 'b'
-        },
-        logicalOperator: 'And',
-        conditions: [
-          {
-            value: { x: 1 },
-            operator: 'condition1'
-          }
-        ]
-      };
-
-      // Act
-      const errors = models.validateFilter(malformedFilter);
-      const errors2 = models.validateFilter(malformedFilter2);
-
-      // Assert
-      expect(errors).toBeDefined();
-      expect(errors2).toBeDefined();
-    });
-
-    it("should be able to be validated using json schema", function () {
-      // Arrange
-      const expectedFilter: models.IAdvancedFilter = {
-        $schema: "http://powerbi.com/product/schema#advanced",
-        target: {
-          table: "a",
-          column: "b"
-        },
-        logicalOperator: "And",
-        conditions: [
-          {
-            value: "a",
-            operator: "Is"
-          },
-          {
-            value: true,
-            operator: "Is"
-          },
-          {
-            value: 1,
-            operator: "Is"
-          }
-        ]
-      };
-
-      const filter = new models.AdvancedFilter(
-        expectedFilter.target,
-        expectedFilter.logicalOperator,
-        ...expectedFilter.conditions.slice(0, 2));
-
-      const filter2 = new models.AdvancedFilter(
-        expectedFilter.target,
-        expectedFilter.logicalOperator,
-        ...expectedFilter.conditions.slice(1, 3));
-
-      // Act
-      const errors = models.validateFilter(filter.toJSON());
-      const errors2 = models.validateFilter(filter2.toJSON());
-
-      // Assert
-      expect(errors).toBeUndefined();
-      expect(errors2).toBeUndefined();
     });
 
     it("can be constructed using either array form or individual arguments", function () {
