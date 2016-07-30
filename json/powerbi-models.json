@@ -15,6 +15,55 @@
 			"originalName": "C:/Users/mattm/Source/Repos/powerbi-models/src/models.ts",
 			"children": [
 				{
+					"id": 50,
+					"name": "FilterType",
+					"kind": 4,
+					"kindString": "Enumeration",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 51,
+							"name": "Advanced",
+							"kind": 16,
+							"kindString": "Enumeration member",
+							"flags": {
+								"isExported": true
+							}
+						},
+						{
+							"id": 52,
+							"name": "Basic",
+							"kind": 16,
+							"kindString": "Enumeration member",
+							"flags": {
+								"isExported": true
+							}
+						},
+						{
+							"id": 53,
+							"name": "Unknown",
+							"kind": 16,
+							"kindString": "Enumeration member",
+							"flags": {
+								"isExported": true
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Enumeration members",
+							"kind": 16,
+							"children": [
+								51,
+								52,
+								53
+							]
+						}
+					]
+				},
+				{
 					"id": 78,
 					"name": "AdvancedFilter",
 					"kind": 128,
@@ -48,7 +97,7 @@
 											"type": {
 												"type": "reference",
 												"name": "IFilterTarget",
-												"id": 115
+												"id": 110
 											}
 										},
 										{
@@ -60,7 +109,7 @@
 											"type": {
 												"type": "reference",
 												"name": "AdvancedFilterLogicalOperators",
-												"id": 117
+												"id": 112
 											}
 										},
 										{
@@ -72,10 +121,26 @@
 												"isRest": true
 											},
 											"type": {
-												"type": "reference",
+												"type": "union",
 												"isArray": true,
-												"name": "IAdvancedFilterCondition",
-												"id": 46
+												"types": [
+													{
+														"type": "reference",
+														"name": "IAdvancedFilterCondition",
+														"id": 42
+													},
+													{
+														"type": "reference",
+														"name": "Array",
+														"typeArguments": [
+															{
+																"type": "reference",
+																"name": "IAdvancedFilterCondition",
+																"id": 42
+															}
+														]
+													}
+												]
 											}
 										}
 									],
@@ -109,7 +174,7 @@
 								"type": "reference",
 								"isArray": true,
 								"name": "IAdvancedFilterCondition",
-								"id": 46
+								"id": 42
 							}
 						},
 						{
@@ -123,7 +188,7 @@
 							"type": {
 								"type": "reference",
 								"name": "AdvancedFilterLogicalOperators",
-								"id": 117
+								"id": 112
 							}
 						},
 						{
@@ -156,7 +221,7 @@
 							"type": {
 								"type": "reference",
 								"name": "IFilterTarget",
-								"id": 115
+								"id": 110
 							},
 							"inheritedFrom": {
 								"type": "reference",
@@ -221,7 +286,7 @@
 									"type": {
 										"type": "reference",
 										"name": "IAdvancedFilter",
-										"id": 49
+										"id": 45
 									},
 									"overwrites": {
 										"type": "reference",
@@ -307,7 +372,7 @@
 											"type": {
 												"type": "reference",
 												"name": "IFilterTarget",
-												"id": 115
+												"id": 110
 											}
 										},
 										{
@@ -319,7 +384,7 @@
 											"type": {
 												"type": "reference",
 												"name": "BasicFilterOperators",
-												"id": 116
+												"id": 111
 											}
 										},
 										{
@@ -331,9 +396,45 @@
 												"isRest": true
 											},
 											"type": {
-												"type": "instrinct",
+												"type": "union",
 												"isArray": true,
-												"name": "any"
+												"types": [
+													{
+														"type": "instrinct",
+														"name": "string"
+													},
+													{
+														"type": "instrinct",
+														"name": "number"
+													},
+													{
+														"type": "instrinct",
+														"name": "boolean"
+													},
+													{
+														"type": "reference",
+														"name": "Array",
+														"typeArguments": [
+															{
+																"type": "union",
+																"types": [
+																	{
+																		"type": "instrinct",
+																		"name": "string"
+																	},
+																	{
+																		"type": "instrinct",
+																		"name": "number"
+																	},
+																	{
+																		"type": "instrinct",
+																		"name": "boolean"
+																	}
+																]
+															}
+														]
+													}
+												]
 											}
 										}
 									],
@@ -366,7 +467,7 @@
 							"type": {
 								"type": "reference",
 								"name": "BasicFilterOperators",
-								"id": 116
+								"id": 111
 							}
 						},
 						{
@@ -399,7 +500,7 @@
 							"type": {
 								"type": "reference",
 								"name": "IFilterTarget",
-								"id": 115
+								"id": 110
 							},
 							"inheritedFrom": {
 								"type": "reference",
@@ -491,7 +592,7 @@
 									"type": {
 										"type": "reference",
 										"name": "IBasicFilter",
-										"id": 41
+										"id": 37
 									},
 									"overwrites": {
 										"type": "reference",
@@ -577,7 +678,7 @@
 											"type": {
 												"type": "reference",
 												"name": "IFilterTarget",
-												"id": 115
+												"id": 110
 											}
 										}
 									],
@@ -614,7 +715,7 @@
 							"type": {
 								"type": "reference",
 								"name": "IFilterTarget",
-								"id": 115
+								"id": 110
 							}
 						},
 						{
@@ -664,7 +765,7 @@
 									"type": {
 										"type": "reference",
 										"name": "IFilter",
-										"id": 38
+										"id": 34
 									}
 								}
 							]
@@ -710,7 +811,7 @@
 					]
 				},
 				{
-					"id": 49,
+					"id": 45,
 					"name": "IAdvancedFilter",
 					"kind": 256,
 					"kindString": "Interface",
@@ -719,7 +820,7 @@
 					},
 					"children": [
 						{
-							"id": 52,
+							"id": 48,
 							"name": "$schema",
 							"kind": 1024,
 							"kindString": "Property",
@@ -733,11 +834,11 @@
 							"inheritedFrom": {
 								"type": "reference",
 								"name": "IFilter.$schema",
-								"id": 39
+								"id": 35
 							}
 						},
 						{
-							"id": 51,
+							"id": 47,
 							"name": "conditions",
 							"kind": 1024,
 							"kindString": "Property",
@@ -748,11 +849,11 @@
 								"type": "reference",
 								"isArray": true,
 								"name": "IAdvancedFilterCondition",
-								"id": 46
+								"id": 42
 							}
 						},
 						{
-							"id": 50,
+							"id": 46,
 							"name": "logicalOperator",
 							"kind": 1024,
 							"kindString": "Property",
@@ -762,11 +863,11 @@
 							"type": {
 								"type": "reference",
 								"name": "AdvancedFilterLogicalOperators",
-								"id": 117
+								"id": 112
 							}
 						},
 						{
-							"id": 53,
+							"id": 49,
 							"name": "target",
 							"kind": 1024,
 							"kindString": "Property",
@@ -776,69 +877,12 @@
 							"type": {
 								"type": "reference",
 								"name": "IFilterTarget",
-								"id": 115
+								"id": 110
 							},
 							"inheritedFrom": {
 								"type": "reference",
 								"name": "IFilter.target",
-								"id": 40
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								52,
-								51,
-								50,
-								53
-							]
-						}
-					],
-					"extendedTypes": [
-						{
-							"type": "reference",
-							"name": "IFilter",
-							"id": 38
-						}
-					]
-				},
-				{
-					"id": 46,
-					"name": "IAdvancedFilterCondition",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
-					"children": [
-						{
-							"id": 48,
-							"name": "operator",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "reference",
-								"name": "AdvancedFilterConditionOperators",
-								"id": 118
-							}
-						},
-						{
-							"id": 47,
-							"name": "value",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "instrinct",
-								"name": "any"
+								"id": 36
 							}
 						}
 					],
@@ -848,13 +892,83 @@
 							"kind": 1024,
 							"children": [
 								48,
-								47
+								47,
+								46,
+								49
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IFilter",
+							"id": 34
+						}
+					]
+				},
+				{
+					"id": 42,
+					"name": "IAdvancedFilterCondition",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 44,
+							"name": "operator",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "reference",
+								"name": "AdvancedFilterConditionOperators",
+								"id": 113
+							}
+						},
+						{
+							"id": 43,
+							"name": "value",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "instrinct",
+										"name": "string"
+									},
+									{
+										"type": "instrinct",
+										"name": "number"
+									},
+									{
+										"type": "instrinct",
+										"name": "boolean"
+									}
+								]
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								44,
+								43
 							]
 						}
 					]
 				},
 				{
-					"id": 26,
+					"id": 22,
 					"name": "IBaseFilterTarget",
 					"kind": 256,
 					"kindString": "Interface",
@@ -866,7 +980,7 @@
 					},
 					"children": [
 						{
-							"id": 27,
+							"id": 23,
 							"name": "table",
 							"kind": 1024,
 							"kindString": "Property",
@@ -884,7 +998,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								27
+								23
 							]
 						}
 					],
@@ -892,22 +1006,22 @@
 						{
 							"type": "reference",
 							"name": "IFilterColumnTarget",
-							"id": 28
+							"id": 24
 						},
 						{
 							"type": "reference",
 							"name": "IFilterHierarchyTarget",
-							"id": 31
+							"id": 27
 						},
 						{
 							"type": "reference",
 							"name": "IFilterMeasureTarget",
-							"id": 35
+							"id": 31
 						}
 					]
 				},
 				{
-					"id": 41,
+					"id": 37,
 					"name": "IBasicFilter",
 					"kind": 256,
 					"kindString": "Interface",
@@ -916,7 +1030,7 @@
 					},
 					"children": [
 						{
-							"id": 44,
+							"id": 40,
 							"name": "$schema",
 							"kind": 1024,
 							"kindString": "Property",
@@ -930,11 +1044,11 @@
 							"inheritedFrom": {
 								"type": "reference",
 								"name": "IFilter.$schema",
-								"id": 39
+								"id": 35
 							}
 						},
 						{
-							"id": 42,
+							"id": 38,
 							"name": "operator",
 							"kind": 1024,
 							"kindString": "Property",
@@ -944,11 +1058,11 @@
 							"type": {
 								"type": "reference",
 								"name": "BasicFilterOperators",
-								"id": 116
+								"id": 111
 							}
 						},
 						{
-							"id": 45,
+							"id": 41,
 							"name": "target",
 							"kind": 1024,
 							"kindString": "Property",
@@ -958,16 +1072,16 @@
 							"type": {
 								"type": "reference",
 								"name": "IFilterTarget",
-								"id": 115
+								"id": 110
 							},
 							"inheritedFrom": {
 								"type": "reference",
 								"name": "IFilter.target",
-								"id": 40
+								"id": 36
 							}
 						},
 						{
-							"id": 43,
+							"id": 39,
 							"name": "values",
 							"kind": 1024,
 							"kindString": "Property",
@@ -999,10 +1113,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								44,
-								42,
-								45,
-								43
+								40,
+								38,
+								41,
+								39
 							]
 						}
 					],
@@ -1010,7 +1124,7 @@
 						{
 							"type": "reference",
 							"name": "IFilter",
-							"id": 38
+							"id": 34
 						}
 					]
 				},
@@ -1048,7 +1162,7 @@
 					]
 				},
 				{
-					"id": 38,
+					"id": 34,
 					"name": "IFilter",
 					"kind": 256,
 					"kindString": "Interface",
@@ -1057,7 +1171,7 @@
 					},
 					"children": [
 						{
-							"id": 39,
+							"id": 35,
 							"name": "$schema",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1070,7 +1184,7 @@
 							}
 						},
 						{
-							"id": 40,
+							"id": 36,
 							"name": "target",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1080,7 +1194,7 @@
 							"type": {
 								"type": "reference",
 								"name": "IFilterTarget",
-								"id": 115
+								"id": 110
 							}
 						}
 					],
@@ -1089,8 +1203,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								39,
-								40
+								35,
+								36
 							]
 						}
 					],
@@ -1098,17 +1212,17 @@
 						{
 							"type": "reference",
 							"name": "IBasicFilter",
-							"id": 41
+							"id": 37
 						},
 						{
 							"type": "reference",
 							"name": "IAdvancedFilter",
-							"id": 49
+							"id": 45
 						}
 					]
 				},
 				{
-					"id": 28,
+					"id": 24,
 					"name": "IFilterColumnTarget",
 					"kind": 256,
 					"kindString": "Interface",
@@ -1117,8 +1231,80 @@
 					},
 					"children": [
 						{
-							"id": 29,
+							"id": 25,
 							"name": "column",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 26,
+							"name": "table",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "IBaseFilterTarget.table",
+								"id": 23
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								25,
+								26
+							]
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"name": "IBaseFilterTarget",
+							"id": 22
+						}
+					]
+				},
+				{
+					"id": 27,
+					"name": "IFilterHierarchyTarget",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 28,
+							"name": "hierarchy",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isExported": true
+							},
+							"type": {
+								"type": "instrinct",
+								"name": "string"
+							}
+						},
+						{
+							"id": 29,
+							"name": "hierarchyLevel",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
@@ -1144,7 +1330,7 @@
 							"inheritedFrom": {
 								"type": "reference",
 								"name": "IBaseFilterTarget.table",
-								"id": 27
+								"id": 23
 							}
 						}
 					],
@@ -1153,6 +1339,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
+								28,
 								29,
 								30
 							]
@@ -1162,85 +1349,12 @@
 						{
 							"type": "reference",
 							"name": "IBaseFilterTarget",
-							"id": 26
+							"id": 22
 						}
 					]
 				},
 				{
 					"id": 31,
-					"name": "IFilterHierarchyTarget",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
-					"children": [
-						{
-							"id": 32,
-							"name": "hierarchy",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "instrinct",
-								"name": "string"
-							}
-						},
-						{
-							"id": 33,
-							"name": "hierarchyLevel",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "instrinct",
-								"name": "string"
-							}
-						},
-						{
-							"id": 34,
-							"name": "table",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "instrinct",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IBaseFilterTarget.table",
-								"id": 27
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								32,
-								33,
-								34
-							]
-						}
-					],
-					"extendedTypes": [
-						{
-							"type": "reference",
-							"name": "IBaseFilterTarget",
-							"id": 26
-						}
-					]
-				},
-				{
-					"id": 35,
 					"name": "IFilterMeasureTarget",
 					"kind": 256,
 					"kindString": "Interface",
@@ -1249,7 +1363,7 @@
 					},
 					"children": [
 						{
-							"id": 36,
+							"id": 32,
 							"name": "measure",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1262,7 +1376,7 @@
 							}
 						},
 						{
-							"id": 37,
+							"id": 33,
 							"name": "table",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1276,7 +1390,7 @@
 							"inheritedFrom": {
 								"type": "reference",
 								"name": "IBaseFilterTarget.table",
-								"id": 27
+								"id": 23
 							}
 						}
 					],
@@ -1285,8 +1399,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								36,
-								37
+								32,
+								33
 							]
 						}
 					],
@@ -1294,7 +1408,7 @@
 						{
 							"type": "reference",
 							"name": "IBaseFilterTarget",
-							"id": 26
+							"id": 22
 						}
 					]
 				},
@@ -1322,7 +1436,7 @@
 						},
 						{
 							"id": 16,
-							"name": "filter",
+							"name": "filters",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
@@ -1330,8 +1444,20 @@
 								"isOptional": true
 							},
 							"type": {
-								"type": "instrinct",
-								"name": "any"
+								"type": "union",
+								"isArray": true,
+								"types": [
+									{
+										"type": "reference",
+										"name": "IBasicFilter",
+										"id": 37
+									},
+									{
+										"type": "reference",
+										"name": "IAdvancedFilter",
+										"id": 45
+									}
+								]
 							}
 						},
 						{
@@ -1392,7 +1518,7 @@
 					]
 				},
 				{
-					"id": 23,
+					"id": 17,
 					"name": "IPage",
 					"kind": 256,
 					"kindString": "Interface",
@@ -1401,7 +1527,7 @@
 					},
 					"children": [
 						{
-							"id": 25,
+							"id": 19,
 							"name": "displayName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -1414,63 +1540,16 @@
 							}
 						},
 						{
-							"id": 24,
-							"name": "name",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "instrinct",
-								"name": "string"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								25,
-								24
-							]
-						}
-					]
-				},
-				{
-					"id": 17,
-					"name": "IPageTarget",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {
-						"isExported": true
-					},
-					"children": [
-						{
-							"id": 19,
-							"name": "name",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "instrinct",
-								"name": "string"
-							}
-						},
-						{
 							"id": 18,
-							"name": "type",
+							"name": "name",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
 								"isExported": true
 							},
 							"type": {
-								"type": "stringLiteral",
-								"value": "page"
+								"type": "instrinct",
+								"name": "string"
 							}
 						}
 					],
@@ -1589,7 +1668,7 @@
 				},
 				{
 					"id": 20,
-					"name": "IVisualTarget",
+					"name": "IVisual",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {
@@ -1597,8 +1676,8 @@
 					},
 					"children": [
 						{
-							"id": 22,
-							"name": "id",
+							"id": 21,
+							"name": "name",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
@@ -1608,19 +1687,6 @@
 								"type": "instrinct",
 								"name": "string"
 							}
-						},
-						{
-							"id": 21,
-							"name": "type",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isExported": true
-							},
-							"type": {
-								"type": "stringLiteral",
-								"value": "visual"
-							}
 						}
 					],
 					"groups": [
@@ -1628,14 +1694,13 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								22,
 								21
 							]
 						}
 					]
 				},
 				{
-					"id": 118,
+					"id": 113,
 					"name": "AdvancedFilterConditionOperators",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -1701,7 +1766,7 @@
 					}
 				},
 				{
-					"id": 117,
+					"id": 112,
 					"name": "AdvancedFilterLogicalOperators",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -1723,7 +1788,7 @@
 					}
 				},
 				{
-					"id": 116,
+					"id": 111,
 					"name": "BasicFilterOperators",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -1745,7 +1810,7 @@
 					}
 				},
 				{
-					"id": 115,
+					"id": 110,
 					"name": "IFilterTarget",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -1758,41 +1823,17 @@
 							{
 								"type": "reference",
 								"name": "IFilterColumnTarget",
-								"id": 28
+								"id": 24
 							},
 							{
 								"type": "reference",
 								"name": "IFilterHierarchyTarget",
-								"id": 31
+								"id": 27
 							},
 							{
 								"type": "reference",
 								"name": "IFilterMeasureTarget",
-								"id": 35
-							}
-						]
-					}
-				},
-				{
-					"id": 111,
-					"name": "ITarget",
-					"kind": 4194304,
-					"kindString": "Type alias",
-					"flags": {
-						"isExported": true
-					},
-					"type": {
-						"type": "union",
-						"types": [
-							{
-								"type": "reference",
-								"name": "IPageTarget",
-								"id": 17
-							},
-							{
-								"type": "reference",
-								"name": "IVisualTarget",
-								"id": 20
+								"id": 31
 							}
 						]
 					}
@@ -1812,7 +1853,7 @@
 					"defaultValue": " require('./schemas/advancedFilter.json')"
 				},
 				{
-					"id": 100,
+					"id": 98,
 					"name": "basicFilterSchema",
 					"kind": 32,
 					"kindString": "Variable",
@@ -1868,20 +1909,6 @@
 					"defaultValue": " require('./schemas/page.json')"
 				},
 				{
-					"id": 97,
-					"name": "pageTargetSchema",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"type": {
-						"type": "instrinct",
-						"name": "any"
-					},
-					"defaultValue": " require('./schemas/pageTarget.json')"
-				},
-				{
 					"id": 92,
 					"name": "require",
 					"kind": 32,
@@ -1893,7 +1920,7 @@
 					}
 				},
 				{
-					"id": 98,
+					"id": 97,
 					"name": "settingsSchema",
 					"kind": 32,
 					"kindString": "Variable",
@@ -1907,21 +1934,7 @@
 					"defaultValue": " require('./schemas/settings.json')"
 				},
 				{
-					"id": 99,
-					"name": "targetSchema",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"type": {
-						"type": "instrinct",
-						"name": "any"
-					},
-					"defaultValue": " require('./schemas/target.json')"
-				},
-				{
-					"id": 114,
+					"id": 109,
 					"name": "validateFilter",
 					"kind": 32,
 					"kindString": "Variable",
@@ -1935,7 +1948,7 @@
 					"defaultValue": " validate(filterSchema, {\r\n  schemas: {\r\n    basicFilter: basicFilterSchema,\r\n    advancedFilter: advancedFilterSchema\r\n  }\r\n})"
 				},
 				{
-					"id": 110,
+					"id": 107,
 					"name": "validateLoad",
 					"kind": 32,
 					"kindString": "Variable",
@@ -1949,7 +1962,7 @@
 					"defaultValue": " validate(loadSchema, {\r\n  schemas: {\r\n    settings: settingsSchema,\r\n    basicFilter: basicFilterSchema,\r\n    advancedFilter: advancedFilterSchema\r\n  }\r\n})"
 				},
 				{
-					"id": 113,
+					"id": 108,
 					"name": "validatePage",
 					"kind": 32,
 					"kindString": "Variable",
@@ -1963,7 +1976,7 @@
 					"defaultValue": " validate(pageSchema)"
 				},
 				{
-					"id": 109,
+					"id": 106,
 					"name": "validateSettings",
 					"kind": 32,
 					"kindString": "Variable",
@@ -1977,36 +1990,8 @@
 					"defaultValue": " validate(settingsSchema, {\r\n  schemas: {\r\n    basicFilter: basicFilterSchema,\r\n    advancedFilter: advancedFilterSchema\r\n  }\r\n})"
 				},
 				{
-					"id": 112,
-					"name": "validateTarget",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"type": {
-						"type": "reference",
-						"name": "(Anonymous function)"
-					},
-					"defaultValue": " validate(targetSchema, {\r\n  schemas: {\r\n    pageTarget: pageTargetSchema,\r\n    visualTarget: visualTargetSchema\r\n  }\r\n})"
-				},
-				{
-					"id": 101,
-					"name": "visualTargetSchema",
-					"kind": 32,
-					"kindString": "Variable",
-					"flags": {
-						"isExported": true
-					},
-					"type": {
-						"type": "instrinct",
-						"name": "any"
-					},
-					"defaultValue": " require('./schemas/visualTarget.json')"
-				},
-				{
-					"id": 119,
-					"name": "isAdvancedFilter",
+					"id": 114,
+					"name": "getFilterType",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {
@@ -2014,14 +1999,14 @@
 					},
 					"signatures": [
 						{
-							"id": 120,
-							"name": "isAdvancedFilter",
+							"id": 115,
+							"name": "getFilterType",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 121,
+									"id": 116,
 									"name": "filter",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2029,55 +2014,20 @@
 									"type": {
 										"type": "reference",
 										"name": "IFilter",
-										"id": 38
+										"id": 34
 									}
 								}
 							],
 							"type": {
-								"type": "instrinct",
-								"name": "boolean"
+								"type": "reference",
+								"name": "FilterType",
+								"id": 50
 							}
 						}
 					]
 				},
 				{
-					"id": 122,
-					"name": "isBasicFilter",
-					"kind": 64,
-					"kindString": "Function",
-					"flags": {
-						"isExported": true
-					},
-					"signatures": [
-						{
-							"id": 123,
-							"name": "isBasicFilter",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 124,
-									"name": "filter",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "reference",
-										"name": "IFilter",
-										"id": 38
-									}
-								}
-							],
-							"type": {
-								"type": "instrinct",
-								"name": "boolean"
-							}
-						}
-					]
-				},
-				{
-					"id": 128,
+					"id": 120,
 					"name": "isColumn",
 					"kind": 64,
 					"kindString": "Function",
@@ -2086,14 +2036,14 @@
 					},
 					"signatures": [
 						{
-							"id": 129,
+							"id": 121,
 							"name": "isColumn",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 130,
+									"id": 122,
 									"name": "arg",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2112,7 +2062,7 @@
 					]
 				},
 				{
-					"id": 131,
+					"id": 123,
 					"name": "isHierarchy",
 					"kind": 64,
 					"kindString": "Function",
@@ -2121,14 +2071,14 @@
 					},
 					"signatures": [
 						{
-							"id": 132,
+							"id": 124,
 							"name": "isHierarchy",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 133,
+									"id": 125,
 									"name": "arg",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2147,7 +2097,7 @@
 					]
 				},
 				{
-					"id": 125,
+					"id": 117,
 					"name": "isMeasure",
 					"kind": 64,
 					"kindString": "Function",
@@ -2156,14 +2106,14 @@
 					},
 					"signatures": [
 						{
-							"id": 126,
+							"id": 118,
 							"name": "isMeasure",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 127,
+									"id": 119,
 									"name": "arg",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2182,21 +2132,21 @@
 					]
 				},
 				{
-					"id": 102,
+					"id": 99,
 					"name": "normalizeError",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
 					"signatures": [
 						{
-							"id": 103,
+							"id": 100,
 							"name": "normalizeError",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 104,
+									"id": 101,
 									"name": "error",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2217,14 +2167,14 @@
 					]
 				},
 				{
-					"id": 105,
+					"id": 102,
 					"name": "validate",
 					"kind": 64,
 					"kindString": "Function",
 					"flags": {},
 					"signatures": [
 						{
-							"id": 106,
+							"id": 103,
 							"name": "validate",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -2234,7 +2184,7 @@
 							},
 							"parameters": [
 								{
-									"id": 107,
+									"id": 104,
 									"name": "schema",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2245,7 +2195,7 @@
 									}
 								},
 								{
-									"id": 108,
+									"id": 105,
 									"name": "options",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -2268,6 +2218,13 @@
 			],
 			"groups": [
 				{
+					"title": "Enumerations",
+					"kind": 4,
+					"children": [
+						50
+					]
+				},
+				{
 					"title": "Classes",
 					"kind": 128,
 					"children": [
@@ -2280,17 +2237,16 @@
 					"title": "Interfaces",
 					"kind": 256,
 					"children": [
-						49,
-						46,
-						26,
-						41,
+						45,
+						42,
+						22,
+						37,
 						6,
-						38,
-						28,
+						34,
+						24,
+						27,
 						31,
-						35,
 						11,
-						23,
 						17,
 						8,
 						2,
@@ -2301,11 +2257,10 @@
 					"title": "Type aliases",
 					"kind": 4194304,
 					"children": [
-						118,
-						117,
-						116,
-						115,
-						111
+						113,
+						112,
+						111,
+						110
 					]
 				},
 				{
@@ -2313,33 +2268,28 @@
 					"kind": 32,
 					"children": [
 						93,
-						100,
+						98,
 						94,
 						95,
 						96,
-						97,
 						92,
-						98,
-						99,
-						114,
-						110,
-						113,
+						97,
 						109,
-						112,
-						101
+						107,
+						108,
+						106
 					]
 				},
 				{
 					"title": "Functions",
 					"kind": 64,
 					"children": [
-						119,
-						122,
-						128,
-						131,
-						125,
-						102,
-						105
+						114,
+						120,
+						123,
+						117,
+						99,
+						102
 					]
 				}
 			]
