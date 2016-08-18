@@ -3,8 +3,14 @@
   "rules": {
     "max-line-length": false,
     "member-access": false,
-    "one-line": ["check-whitespace", "check-open-brace"],
-    "quotemark": ["single", "avoid-escape"],
+    "one-line": [
+      "check-whitespace",
+      "check-open-brace"
+    ],
+    "quotemark": [
+      "single",
+      "avoid-escape"
+    ],
     "trailing-comma": false,
     "whitespace": [
       "check-branch",
