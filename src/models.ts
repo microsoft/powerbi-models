@@ -260,24 +260,31 @@ export class AdvancedFilter extends Filter {
     
     this.logicalOperator = logicalOperator;
     
-    if(conditions.length === 0) {
-      throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
-    }
-    if(conditions.length > 2) {
-      throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
-    }
     
+    let extractedConditions: IAdvancedFilterCondition[];
     /**
      * Accept conditions as array instead of as individual arguments
      * new AdvancedFilter('a', 'b', "And", { value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" });
      * new AdvancedFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
      */
     if(Array.isArray(conditions[0])) {
-      this.conditions = <IAdvancedFilterCondition[]>conditions[0];
+      extractedConditions = <IAdvancedFilterCondition[]>conditions[0];
     }
     else {
-      this.conditions = <IAdvancedFilterCondition[]>conditions;
+      extractedConditions = <IAdvancedFilterCondition[]>conditions;
     }
+
+    if(extractedConditions.length === 0) {
+      throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
+    }
+    if(extractedConditions.length > 2) {
+      throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
+    }
+    if(extractedConditions.length === 1 && logicalOperator !== "And") {
+      throw new Error(`Logical Operator must be "And" when there is only one condition provided`);
+    }
+
+    this.conditions = extractedConditions;
   }
   
   toJSON(): IAdvancedFilter {

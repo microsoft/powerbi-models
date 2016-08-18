@@ -406,6 +406,18 @@ describe("Unit | Filters", function () {
       expect(attemptToCreateFilter).toThrowError();
     });
 
+    it("should throw an error if logical operator is not And when only 1 condition is provided", function () {
+      // Arrange
+
+      // Act
+      const attemptToCreateFilter = () => {
+        return new models.AdvancedFilter({ table: "Table", column: "c" }, "Or", { value: "a", operator: "Contains" });
+      };
+
+      // Assert
+      expect(attemptToCreateFilter).toThrowError();
+    });
+
     it("should output the correct json when toJSON is called", function () {
       // Arrange
       const expectedFilter: models.IAdvancedFilter = {
@@ -445,7 +457,7 @@ describe("Unit | Filters", function () {
           table: "a",
           column: "b"
         },
-        logicalOperator: <any>"x",
+        logicalOperator: "Or",
         conditions: [
           {
             value: "v1",
