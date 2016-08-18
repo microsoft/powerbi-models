@@ -28,6 +28,8 @@ import * as models from 'powerbi-models';
 
 Usage
 
+Validation:
+
 ```typescript
 let testObject = { x: 1 };
 
@@ -46,4 +48,58 @@ Would output to the console:
     message: 'accessToken is required'
   }
 ]
+```
+
+Creating filters:
+```typescript
+const basicFilter: models.IBasicFilter = {
+  target: {
+    table: "Products",
+    column: "Version"
+  },
+  operator: "In",
+  values: [
+    1,
+    2,
+    3,
+    4
+  ]
+};
+
+const advancedFilter: models.IAdvancedFilter = {
+  target: {
+    table: "Products",
+    column: "Name"
+  },
+  logicalOperator: "Or",
+  conditions: [
+    {
+      operator: "Contains",
+      value: "Power"
+    },
+    {
+      operator: "Contains",
+      value: "Microsoft"
+    }
+  ]
+};
+```
+
+Or use the constructor methods:
+```typescript
+const advancedFilter = new models.AdvancedFilter(
+  {
+    table: "Products",
+    column: "Name"
+  },
+  "Or",
+  {
+    operator: "Contains",
+    value: "Power"
+  },
+  {
+    operator: "Contains",
+    value: "Microsoft"
+  }
+);
 ```
