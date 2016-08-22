@@ -1,11 +1,13 @@
 declare var require: Function;
 
+/* tslint:disable:no-var-requires */
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
 export const loadSchema = require('./schemas/load.json');
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
+/* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
 
@@ -20,7 +22,7 @@ export interface IError {
 }
 
 function normalizeError(error: IValidationError): IError {
-  if(!error.message) {
+  if (!error.message) {
     error.message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
   }
 
@@ -38,14 +40,14 @@ function validate(schema: any, options?: any) {
     const validate = jsen(schema, options);
     const isValid = validate(x);
 
-    if(isValid) {
+    if (isValid) {
       return undefined;
     }
     else {
       return validate.errors
         .map(normalizeError);
     }
-  }
+  };
 }
 
 export interface ISettings {
@@ -178,22 +180,22 @@ export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
 }
 
 export abstract class Filter {
-  protected static schemaUrl: string;
-  protected schemaUrl: string;
   static schema: string;
+  protected static schemaUrl: string;
   target: IFilterTarget;
-  
+  protected schemaUrl: string;
+
   constructor(
     target: IFilterTarget
   ) {
     this.target = target;
   }
-  
+
   toJSON(): IFilter {
     return {
       $schema: this.schemaUrl,
       target: this.target
-    }
+    };
   };
 }
 
@@ -201,7 +203,7 @@ export class BasicFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#basic";
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
-  
+
   constructor(
     target: IFilterTarget,
     operator: BasicFilterOperators,
@@ -210,40 +212,40 @@ export class BasicFilter extends Filter {
     super(target);
     this.operator = operator;
     this.schemaUrl = BasicFilter.schemaUrl;
-    
-    if(values.length === 0) {
+
+    if (values.length === 0) {
       throw new Error(`values must be a non-empty array. You passed: ${values}`);
     }
-    
+
     /**
      * Accept values as array instead of as individual arguments
      * new BasicFilter('a', 'b', 1, 2);
      * new BasicFilter('a', 'b', [1,2]);
      */
-    if(Array.isArray(values[0])) {
+    if (Array.isArray(values[0])) {
       this.values = <(string | number | boolean)[]>values[0];
     }
     else {
       this.values = <(string | number | boolean)[]>values;
     }
   }
-  
+
   toJSON(): IBasicFilter {
     const filter = <IBasicFilter>super.toJSON();
-    
+
     filter.operator = this.operator;
     filter.values = this.values;
-    
+
     return filter;
   }
 }
 
 export class AdvancedFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#advanced";
-  
+
   logicalOperator: AdvancedFilterLogicalOperators;
   conditions: IAdvancedFilterCondition[];
-  
+
   constructor(
     target: IFilterTarget,
     logicalOperator: AdvancedFilterLogicalOperators,
@@ -251,48 +253,47 @@ export class AdvancedFilter extends Filter {
   ) {
     super(target);
     this.schemaUrl = AdvancedFilter.schemaUrl;
-    
+
     // Guard statements
-    if(typeof logicalOperator !== "string" || logicalOperator.length === 0) {
+    if (typeof logicalOperator !== "string" || logicalOperator.length === 0) {
       // TODO: It would be nicer to list out the possible logical operators.
       throw new Error(`logicalOperator must be a valid operator, You passed: ${logicalOperator}`);
     }
-    
+
     this.logicalOperator = logicalOperator;
-    
-    
+
     let extractedConditions: IAdvancedFilterCondition[];
     /**
      * Accept conditions as array instead of as individual arguments
      * new AdvancedFilter('a', 'b', "And", { value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" });
      * new AdvancedFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
      */
-    if(Array.isArray(conditions[0])) {
+    if (Array.isArray(conditions[0])) {
       extractedConditions = <IAdvancedFilterCondition[]>conditions[0];
     }
     else {
       extractedConditions = <IAdvancedFilterCondition[]>conditions;
     }
 
-    if(extractedConditions.length === 0) {
+    if (extractedConditions.length === 0) {
       throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
     }
-    if(extractedConditions.length > 2) {
+    if (extractedConditions.length > 2) {
       throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
     }
-    if(extractedConditions.length === 1 && logicalOperator !== "And") {
+    if (extractedConditions.length === 1 && logicalOperator !== "And") {
       throw new Error(`Logical Operator must be "And" when there is only one condition provided`);
     }
 
     this.conditions = extractedConditions;
   }
-  
+
   toJSON(): IAdvancedFilter {
     const filter = <IAdvancedFilter>super.toJSON();
-    
+
     filter.logicalOperator = this.logicalOperator;
     filter.conditions = this.conditions;
-    
+
     return filter;
   }
 }

@@ -396,7 +396,6 @@ describe("Unit | Filters", function () {
         }
       ];
 
-
       // Act
       const attemptToCreateFilter = () => {
         return new models.AdvancedFilter({ table: "Table", column: "c" }, "And", ...conditions);
