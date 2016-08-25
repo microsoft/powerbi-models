@@ -321,7 +321,7 @@ export interface IValueDataReference extends IDataReference {
   value: string | boolean | number;
 }
 
-export interface IIdentityValue<T> {
+export interface IIdentityValue<T extends IDataReference> {
   identity: T[];
   values: IValueDataReference[];
 }
