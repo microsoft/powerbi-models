@@ -78,6 +78,11 @@ export const validateLoad = validate(loadSchema, {
   }
 });
 
+export interface IReport {
+  id: string;
+  displayName: string;
+}
+
 export interface IPage {
   name: string;
   displayName: string;
@@ -85,6 +90,8 @@ export interface IPage {
 
 export interface IVisual {
   name: string;
+  title: string;
+  type: string;
 }
 
 export const validatePage = validate(pageSchema);
@@ -296,4 +303,34 @@ export class AdvancedFilter extends Filter {
 
     return filter;
   }
+}
+
+export interface IDataReference {
+  target: IFilterTarget;
+}
+
+export interface IEqualsDataReference extends IDataReference {
+  equals: string | boolean | number;
+}
+
+export interface IBetweenDataReference extends IDataReference {
+  between: (string | boolean | number)[];
+}
+
+export interface IValueDataReference extends IDataReference {
+  value: string | boolean | number;
+}
+
+export interface IIdentityValue<T extends IDataReference> {
+  identity: T[];
+  values: IValueDataReference[];
+}
+
+export interface ISelection {
+  visual: IVisual;
+  page: IPage;
+  report: IReport;
+  dataPoints: IIdentityValue<IEqualsDataReference>[];
+  regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
+  filters: (IBasicFilter | IAdvancedFilter)[];
 }
