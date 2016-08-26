@@ -332,5 +332,5 @@ export interface ISelection {
   report: IReport;
   dataPoints: IIdentityValue<IEqualsDataReference>[];
   regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
-  filters: (IBasicFilter | IAdvancedFilter)[]
+  filters: (IBasicFilter | IAdvancedFilter)[];
 }
