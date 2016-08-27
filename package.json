@@ -10,8 +10,7 @@
   "scripts": {
     "build": "gulp build",
     "test": "gulp test",
-    "postinstall": "typings install",
-    "prepublish": "gulp build"
+    "prepublish": "typings install && gulp build"
   },
   "files": [
     "dist"
