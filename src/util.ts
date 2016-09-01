@@ -1,6 +1,6 @@
 import * as jsen from 'jsen';
 
-export interface IValidationError {
+interface IValidationError {
   path: string;
   keyword: string;
   message: string;
@@ -10,7 +10,7 @@ export interface IError {
   message: string;
 }
 
-export function normalizeError(error: IValidationError): IError {
+function normalizeError(error: IValidationError): IError {
   if (!error.message) {
     error.message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
   }
