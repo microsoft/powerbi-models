@@ -24,7 +24,7 @@ var gulpBanner = "/*! " + webpackBanner + " */\n";
 
 gulp.task('build', 'Build for release', function (done) {
   return runSequence(
-    'tslint:build',
+    //'tslint:build',
     'clean:dist',
     'compile:ts',
     'min',

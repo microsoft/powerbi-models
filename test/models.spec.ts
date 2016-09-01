@@ -508,7 +508,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const attemptToCreateFilter = () => {
-        return new models.AdvancedFilter({ table: "Table", column: "c" }, "Or", { value: "a", operator: "Contains" });
+        return new models.report.AdvancedFilter({ table: "Table", column: "c" }, "Or", { value: "a", operator: "Contains" });
       };
 
       // Assert
