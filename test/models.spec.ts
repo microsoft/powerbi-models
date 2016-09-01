@@ -1,9 +1,8 @@
 import * as models from '../src/models';
-import * as util from '../src/util';
 
 describe('Unit | models.dashboard', function () {
 
-    function testForExpectedMessage(errors: models.util.IError[], message: string) {
+    function testForExpectedMessage(errors: models.IError[], message: string) {
       expect(errors).toBeDefined();
       let flag = false;
       errors.forEach(error => {
@@ -100,7 +99,7 @@ describe('Unit | models.dashboard', function () {
 });
 
 describe('Unit | models.report', function () {
-  function testForExpectedMessage(errors: models.util.IError[], message: string) {
+  function testForExpectedMessage(errors: models.IError[], message: string) {
     expect(errors).toBeDefined();
     errors
       .forEach(error => {
