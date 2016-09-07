@@ -127,6 +127,86 @@ describe('Unit | Models', function () {
     });
   });
 
+  describe('validateDashboardLoad', function () {
+    const accessTokenRequiredMessage = models.dashboardLoadSchema.properties.accessToken.messages.required;
+    const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
+    const idRequiredMessage = models.dashboardLoadSchema.properties.id.messages.required;
+    const idInvalidTypeMessage = models.dashboardLoadSchema.properties.id.messages.type;
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${idRequiredMessage}' if id is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if id is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return undefined if id and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken'
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
+
   describe('validateFilter', function () {
     it("should return errors if object does not validate against schema", function () {
       // Arrange

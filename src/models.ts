@@ -3,7 +3,8 @@ declare var require: Function;
 /* tslint:disable:no-var-requires */
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
-export const loadSchema = require('./schemas/load.json');
+export const loadSchema = require('./schemas/reportLoadConfiguration.json');
+export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
@@ -77,6 +78,13 @@ export const validateLoad = validate(loadSchema, {
     advancedFilter: advancedFilterSchema
   }
 });
+
+export interface IDashboardLoadConfiguration {
+    accessToken: string;
+    id: string;
+}
+
+export const validateDashboardLoad = validate(dashboardLoadSchema);
 
 export interface IReport {
   id: string;
