@@ -64,7 +64,7 @@ export const validateSettings = validate(settingsSchema, {
   }
 });
 
-export interface ILoadConfiguration {
+export interface IReportLoadConfiguration {
   accessToken: string;
   id: string;
   settings?: ISettings;
@@ -72,7 +72,7 @@ export interface ILoadConfiguration {
   filters?: (IBasicFilter | IAdvancedFilter)[];
 }
 
-export const validateLoad = validate(loadSchema, {
+export const validateReportLoad = validate(loadSchema, {
   schemas: {
     settings: settingsSchema,
     basicFilter: basicFilterSchema,

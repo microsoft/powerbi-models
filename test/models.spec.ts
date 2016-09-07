@@ -11,7 +11,7 @@ describe('Unit | Models', function () {
       });
   }
 
-  describe('validateLoad', function () {
+  describe('validateReportLoad', function () {
     const accessTokenRequiredMessage = models.loadSchema.properties.accessToken.messages.required;
     const accessTokenInvalidTypeMessage = models.loadSchema.properties.accessToken.messages.type;
     const idRequiredMessage = models.loadSchema.properties.id.messages.required;
@@ -27,7 +27,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, accessTokenRequiredMessage);
@@ -42,7 +42,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
@@ -56,7 +56,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, idRequiredMessage);
@@ -70,7 +70,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, idRequiredMessage);
@@ -86,7 +86,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       expect(errors).toBeUndefined();
@@ -103,7 +103,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, filtersInvalidMessage);
@@ -120,7 +120,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
