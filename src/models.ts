@@ -23,14 +23,15 @@ export interface IError {
 }
 
 function normalizeError(error: IValidationError): IError {
-  if (!error.message) {
-    error.message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
+  let message = error.message;
+
+  if (!message) {
+    message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
   }
 
-  delete error.path;
-  delete error.keyword;
-
-  return error;
+  return {
+    message
+  };
 }
 
 /**
