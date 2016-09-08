@@ -3,12 +3,10 @@ import * as models from '../src/models';
 describe('Unit | Models', function () {
   function testForExpectedMessage(errors: models.IError[], message: string) {
     expect(errors).toBeDefined();
-    errors
-      .forEach(error => {
-        if (error.message === message) {
-          expect(true).toBe(true);
-        }
-      });
+    const atLeastOneMessageMatches = errors
+      .some(error => error.message === message);
+
+    expect(atLeastOneMessageMatches).toBe(true);
   }
 
   describe('validateReportLoad', function () {
@@ -52,6 +50,7 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          accessToken: "fakeToken"
         }
       };
 
@@ -66,6 +65,8 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          accessToken: "fakeToken",
+          id: 1
         }
       };
 
@@ -73,7 +74,7 @@ describe('Unit | Models', function () {
       const errors = models.validateReportLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idRequiredMessage);
+      testForExpectedMessage(errors, idInvalidTypeMessage);
     });
 
     it(`should return undefined if id and accessToken are provided`, function () {
@@ -227,6 +228,7 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          accessToken: "fakeToken"
         }
       };
 
@@ -241,6 +243,7 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          id: 1
         }
       };
 
@@ -248,7 +251,7 @@ describe('Unit | Models', function () {
       const errors = models.validateDashboardLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idRequiredMessage);
+      testForExpectedMessage(errors, idInvalidTypeMessage);
     });
 
     it(`should return undefined if id and accessToken are provided`, function () {
