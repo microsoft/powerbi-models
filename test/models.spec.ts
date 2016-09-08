@@ -109,6 +109,67 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, filtersInvalidMessage);
     });
 
+    it(`should return errors if filters is array, but item is not a valid basicFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filters: [
+            { x: 1 }
+          ]
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      expect(errors.length > 0).toBe(true);
+    });
+
+    // TODO: Need to fix reportLoadConfiguration.json schema so that this fails. 
+    // Currently this validates without errors, but the second object should be rejected since it is not a valid filter.
+    xit(`should return errors if filters is array, but not all items are valid basicFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filters: [
+            new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON(),
+            { x: 1 }
+          ]
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeDefined();
+      expect(errors.length).toBeGreaterThan(0);
+    });
+
+    it(`should return undefined if filters is valid array of basicFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filters: [
+            new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON()
+          ]
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
     it(`should return errors with one containing message '${pageNameInvalidTypeMessage}' if pageName is not a string`, function () {
       // Arrange
       const testData = {

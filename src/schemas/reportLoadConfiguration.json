@@ -29,14 +29,17 @@
     },
     "filters": {
       "type": "array",
-      "oneOf": [
-        {
-          "$ref": "#basicFilter"
-        },
-        {
-          "$ref": "#advancedFilter"
-        }
-      ],
+      "items": {
+        "type": "object",
+        "oneOf": [
+          {
+            "$ref": "#basicFilter"
+          },
+          {
+            "$ref": "#advancedFilter"
+          }
+        ]
+      },
       "invalidMessage": "filters property is invalid"
     }
   },
