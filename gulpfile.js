@@ -155,12 +155,7 @@ gulp.task('tslint:build', 'Run TSLint on src', function () {
 gulp.task('tslint:test', 'Run TSLint on src and tests', function () {
   return gulp.src(["src/**/*.ts", "test/**/*.ts"])
     .pipe(tslint({
-      formatter: "verbose",
-      configuration: {
-        rules: {
-          "no-console": false
-        }
-      }
+      formatter: "verbose"
     }))
     .pipe(tslint.report());
 });

@@ -3,15 +3,13 @@ import * as models from '../src/models';
 describe('Unit | Models', function () {
   function testForExpectedMessage(errors: models.IError[], message: string) {
     expect(errors).toBeDefined();
-    errors
-      .forEach(error => {
-        if (error.message === message) {
-          expect(true).toBe(true);
-        }
-      });
+    const atLeastOneMessageMatches = errors
+      .some(error => error.message === message);
+
+    expect(atLeastOneMessageMatches).toBe(true);
   }
 
-  describe('validateLoad', function () {
+  describe('validateReportLoad', function () {
     const accessTokenRequiredMessage = models.loadSchema.properties.accessToken.messages.required;
     const accessTokenInvalidTypeMessage = models.loadSchema.properties.accessToken.messages.type;
     const idRequiredMessage = models.loadSchema.properties.id.messages.required;
@@ -27,7 +25,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, accessTokenRequiredMessage);
@@ -42,7 +40,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
@@ -52,11 +50,12 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          accessToken: "fakeToken"
         }
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, idRequiredMessage);
@@ -66,14 +65,16 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          accessToken: "fakeToken",
+          id: 1
         }
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idRequiredMessage);
+      testForExpectedMessage(errors, idInvalidTypeMessage);
     });
 
     it(`should return undefined if id and accessToken are provided`, function () {
@@ -86,7 +87,7 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       expect(errors).toBeUndefined();
@@ -103,10 +104,71 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, filtersInvalidMessage);
+    });
+
+    it(`should return errors if filters is array, but item is not a valid basicFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filters: [
+            { x: 1 }
+          ]
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      expect(errors.length > 0).toBe(true);
+    });
+
+    // TODO: Need to fix reportLoadConfiguration.json schema so that this fails. 
+    // Currently this validates without errors, but the second object should be rejected since it is not a valid filter.
+    xit(`should return errors if filters is array, but not all items are valid basicFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filters: [
+            new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON(),
+            { x: 1 }
+          ]
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeDefined();
+      expect(errors.length).toBeGreaterThan(0);
+    });
+
+    it(`should return undefined if filters is valid array of basicFilter or advancedFilter`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          filters: [
+            new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON()
+          ]
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
     });
 
     it(`should return errors with one containing message '${pageNameInvalidTypeMessage}' if pageName is not a string`, function () {
@@ -120,10 +182,92 @@ describe('Unit | Models', function () {
       };
 
       // Act
-      const errors = models.validateLoad(testData.load);
+      const errors = models.validateReportLoad(testData.load);
 
       // Assert
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
+  });
+
+  describe('validateDashboardLoad', function () {
+    const accessTokenRequiredMessage = models.dashboardLoadSchema.properties.accessToken.messages.required;
+    const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
+    const idRequiredMessage = models.dashboardLoadSchema.properties.id.messages.required;
+    const idInvalidTypeMessage = models.dashboardLoadSchema.properties.id.messages.type;
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${idRequiredMessage}' if id is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken"
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if id is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idInvalidTypeMessage);
+    });
+
+    it(`should return undefined if id and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken'
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
     });
   });
 

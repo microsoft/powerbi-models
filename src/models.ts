@@ -3,7 +3,8 @@ declare var require: Function;
 /* tslint:disable:no-var-requires */
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
-export const loadSchema = require('./schemas/load.json');
+export const loadSchema = require('./schemas/reportLoadConfiguration.json');
+export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
@@ -22,14 +23,15 @@ export interface IError {
 }
 
 function normalizeError(error: IValidationError): IError {
-  if (!error.message) {
-    error.message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
+  let message = error.message;
+
+  if (!message) {
+    message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
   }
 
-  delete error.path;
-  delete error.keyword;
-
-  return error;
+  return {
+    message
+  };
 }
 
 /**
@@ -62,7 +64,7 @@ export const validateSettings = validate(settingsSchema, {
   }
 });
 
-export interface ILoadConfiguration {
+export interface IReportLoadConfiguration {
   accessToken: string;
   id: string;
   settings?: ISettings;
@@ -70,13 +72,20 @@ export interface ILoadConfiguration {
   filters?: (IBasicFilter | IAdvancedFilter)[];
 }
 
-export const validateLoad = validate(loadSchema, {
+export const validateReportLoad = validate(loadSchema, {
   schemas: {
     settings: settingsSchema,
     basicFilter: basicFilterSchema,
     advancedFilter: advancedFilterSchema
   }
 });
+
+export interface IDashboardLoadConfiguration {
+    accessToken: string;
+    id: string;
+}
+
+export const validateDashboardLoad = validate(dashboardLoadSchema);
 
 export interface IReport {
   id: string;

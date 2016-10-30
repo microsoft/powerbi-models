@@ -103,3 +103,30 @@ const advancedFilter = new models.AdvancedFilter(
   }
 );
 ```
+
+## Date Formatting
+Dates should be formated using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. Example: `2016-09-08T00:15:46.861Z`
+
+This is how dates are naturally serialized to JSON:
+```
+new Date().toJSON(); //=> 2016-09-08T00:15:46.861Z
+```
+
+An example filter using this Date format would look like the following:
+
+```
+{
+  "$schema": "http://powerbi.com/product/schema#advanced",
+  "target": {
+    "table": "Time",
+    "column": "Date"
+  },
+  "logicalOperator": "And",
+  "conditions": [
+    {
+      "operator": "GreaterThan",
+      "value": "2014-06-01T07:00:00.000Z"
+    }
+  ]
+}
+```
