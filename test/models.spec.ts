@@ -243,6 +243,7 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         load: {
+          accessToken: 'fakeAccessToken',
           id: 1
         }
       };
