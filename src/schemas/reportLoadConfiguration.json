@@ -7,16 +7,14 @@
       "messages": {
         "type": "accessToken must be a string",
         "required": "accessToken is required"
-      },
-      "invalidMessage": "accessToken property is invalid"
+      }
     },
     "id": {
       "type": "string",
       "messages": {
         "type": "id must be a string",
         "required": "id is required"
-      },
-      "invalidMessage": "id property is invalid"
+      }
     },
     "settings": {
       "$ref": "#settings"
@@ -29,14 +27,17 @@
     },
     "filters": {
       "type": "array",
-      "oneOf": [
-        {
-          "$ref": "#basicFilter"
-        },
-        {
-          "$ref": "#advancedFilter"
-        }
-      ],
+      "items": {
+        "type": "object",
+        "oneOf": [
+          {
+            "$ref": "#basicFilter"
+          },
+          {
+            "$ref": "#advancedFilter"
+          }
+        ]
+      },
       "invalidMessage": "filters property is invalid"
     }
   },
