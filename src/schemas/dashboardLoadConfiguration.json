@@ -15,6 +15,12 @@
         "type": "id must be a string",
         "required": "id is required"
       }
+    },
+    "pageView": {
+      "type": "string",
+      "messages": {
+        "type": "pageView must be a string"
+      }
     }
   },
   "required": [

@@ -83,6 +83,7 @@ export const validateReportLoad = validate(loadSchema, {
 export interface IDashboardLoadConfiguration {
     accessToken: string;
     id: string;
+    pageView?: string;
 }
 
 export const validateDashboardLoad = validate(dashboardLoadSchema);
