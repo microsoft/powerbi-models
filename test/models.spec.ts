@@ -194,6 +194,7 @@ describe('Unit | Models', function () {
     const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
     const idRequiredMessage = models.dashboardLoadSchema.properties.id.messages.required;
     const idInvalidTypeMessage = models.dashboardLoadSchema.properties.id.messages.type;
+    const idInvalidPageViewTypeMessage = models.dashboardLoadSchema.properties.pageView.messages.type;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -269,6 +270,40 @@ describe('Unit | Models', function () {
 
       // Assert
       expect(errors).toBeUndefined();
+    });
+
+    it(`should return undefined if id and accessToken and pageView are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          pageView: 'pageView',
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if pageView is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 'id',
+          pageView: 2,
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idInvalidPageViewTypeMessage);
     });
   });
 

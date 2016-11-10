@@ -80,10 +80,12 @@ export const validateReportLoad = validate(loadSchema, {
   }
 });
 
+export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
+
 export interface IDashboardLoadConfiguration {
     accessToken: string;
     id: string;
-    pageView?: string;
+    pageView?: PageView;
 }
 
 export const validateDashboardLoad = validate(dashboardLoadSchema);

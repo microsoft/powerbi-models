@@ -19,7 +19,7 @@
     "pageView": {
       "type": "string",
       "messages": {
-        "type": "pageView must be a string"
+        "type": "pageView must be a string with one of the following values: \"actualSize\", \"fitToWidth\", \"oneColumn\""
       }
     }
   },
