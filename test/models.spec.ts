@@ -194,7 +194,7 @@ describe('Unit | Models', function () {
     const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
     const idRequiredMessage = models.dashboardLoadSchema.properties.id.messages.required;
     const idInvalidTypeMessage = models.dashboardLoadSchema.properties.id.messages.type;
-    const idInvalidPageViewTypeMessage = models.dashboardLoadSchema.properties.pageView.messages.type;
+    const pageViewInvalidTypeMessage = models.dashboardLoadSchema.properties.pageView.messages.type;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -289,7 +289,7 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
 
-    it(`should return errors with one containing message '${idInvalidTypeMessage}' if pageView is not a string`, function () {
+    it(`should return errors with one containing message '${pageViewInvalidTypeMessage}' if pageView is not a string`, function () {
       // Arrange
       const testData = {
         load: {
@@ -303,7 +303,7 @@ describe('Unit | Models', function () {
       const errors = models.validateDashboardLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idInvalidPageViewTypeMessage);
+      testForExpectedMessage(errors, pageViewInvalidTypeMessage);
     });
   });
 
