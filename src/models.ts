@@ -147,7 +147,7 @@ export interface IBasicFilter extends IFilter {
   values: (string | number | boolean)[];
 }
 
-export type BasicFilterOperators = "In" | "NotIn";
+export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
@@ -232,8 +232,8 @@ export class BasicFilter extends Filter {
     this.operator = operator;
     this.schemaUrl = BasicFilter.schemaUrl;
 
-    if (values.length === 0) {
-      throw new Error(`values must be a non-empty array. You passed: ${values}`);
+    if (values.length === 0 && operator !== "All") {
+      throw new Error(`values must be a non-empty array unless your operator is "All". You passed: ${values}`);
     }
 
     /**
