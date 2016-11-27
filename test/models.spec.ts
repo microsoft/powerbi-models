@@ -362,6 +362,27 @@ describe('Unit | Models', function () {
           false
         ]
       };
+      // Act
+      const filter = new models.BasicFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.values);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid basic filter schema with operator All", function () {
+      // Arrange
+      const expectedFilter: models.IBasicFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: <any>"All",
+        values: []
+      };
 
       // Act
       const filter = new models.BasicFilter(
