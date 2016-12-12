@@ -16,6 +16,8 @@ describe('Unit | Models', function () {
     const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
     const filtersInvalidMessage = models.loadSchema.properties.filters.invalidMessage;
     const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
+    const permissionsInvalidMessage = models.loadSchema.properties.permissions.invalidMessage;
+    const viewModeInvalidMessage = models.loadSchema.properties.viewMode.invalidMessage;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -186,6 +188,74 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          permissions: "SomeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, permissionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          permissions: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, permissionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if permissions is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          viewMode: "ViewModeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          viewMode: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
     });
   });
 

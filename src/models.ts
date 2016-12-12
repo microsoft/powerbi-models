@@ -346,3 +346,15 @@ export interface ISelection {
   regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
   filters: (IBasicFilter | IAdvancedFilter)[];
 }
+
+export enum Permissions {
+  Read = 0,
+  ReadWrite = 1,
+  Copy = 2,
+  All = 3
+}
+
+export enum ViewMode {
+  View,
+  Edit
+}
