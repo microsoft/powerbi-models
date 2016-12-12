@@ -523,7 +523,7 @@ describe("Unit | Filters", function () {
       expect(basicFilter.values).toEqual(values);
     });
 
-    it("should throw an exception when values are an array of tupples, but tuples length is different than keys length", function () {
+    it("should throw an exception when values are an array of tuples, but tuples length is different than keys length", function () {
       // Arrange
       const values = [[1, 2], [3,4]];
 
