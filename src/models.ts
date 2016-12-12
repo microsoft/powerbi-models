@@ -124,6 +124,7 @@ export interface IBaseFilterTarget {
 
 export interface IFilterColumnTarget extends IBaseFilterTarget {
   column: string;
+  keys?: string[];
 }
 
 export interface IFilterHierarchyTarget extends IBaseFilterTarget {
@@ -144,7 +145,7 @@ export interface IFilter {
 
 export interface IBasicFilter extends IFilter {
   operator: BasicFilterOperators;
-  values: (string | number | boolean)[];
+  values: (string | number | boolean)[] | (string | number | boolean)[][];
 }
 
 export type BasicFilterOperators = "In" | "NotIn" | "All";
@@ -221,12 +222,12 @@ export abstract class Filter {
 export class BasicFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#basic";
   operator: BasicFilterOperators;
-  values: (string | number | boolean)[];
+  values: (string | number | boolean)[] | (string | number | boolean)[][];
 
   constructor(
     target: IFilterTarget,
     operator: BasicFilterOperators,
-    ...values: ((string | number | boolean) | (string | number | boolean)[])[]
+    ...values: ((string | number | boolean) | (string | number | boolean)[] | (string | number | boolean)[][])[]
   ) {
     super(target);
     this.operator = operator;
@@ -242,10 +243,21 @@ export class BasicFilter extends Filter {
      * new BasicFilter('a', 'b', [1,2]);
      */
     if (Array.isArray(values[0])) {
-      this.values = <(string | number | boolean)[]>values[0];
+      this.values = <(string | number | boolean)[] | (string | number | boolean)[][]>values[0];
     }
     else {
-      this.values = <(string | number | boolean)[]>values;
+      this.values = <(string | number | boolean)[] | (string | number | boolean)[][]>values;
+    }
+    let numberOfKeys = (<IFilterColumnTarget>target).keys ? (<IFilterColumnTarget>target).keys.length : 0;
+
+    for (let i = 0 ; i < this.values.length ; i++) {
+      if (this.values[i] && Array.isArray(this.values[i])) {
+        let lengthOfArray = (<(string | number | boolean)[]>this.values[i]).length;
+        if (lengthOfArray !== numberOfKeys) {
+          throw new Error(`Each tuple of values should contain a value for each of the key columns. You passed: ${lengthOfArray} values and ${numberOfKeys} key columns`);
+        }
+      }
+
     }
   }
 

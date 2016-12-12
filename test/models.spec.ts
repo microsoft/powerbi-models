@@ -512,6 +512,28 @@ describe("Unit | Filters", function () {
       expect(basicFilter.values).toEqual(values);
     });
 
+    it("should accept values as an array of tuples", function () {
+      // Arrange
+      const values = [[1, 2], [3,4]];
+
+      // Act
+      const basicFilter = new models.BasicFilter({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values);
+
+      // Assert
+      expect(basicFilter.values).toEqual(values);
+    });
+
+    it("should throw an exception when values are an array of tupples, but tuples length is different than keys length", function () {
+      // Arrange
+      const values = [[1, 2], [3,4]];
+
+      // Act
+      const attemptToCreateFilter = () => {
+        return new models.BasicFilter({ table: "t", column: "c" , keys: ["1"]}, "In", values);
+      };
+      expect(attemptToCreateFilter).toThrowError();
+    });
+
     it("should return valid json format when toJSON is called", function () {
       // Arrange
       const expectedFilter: models.IBasicFilter = {
@@ -684,6 +706,7 @@ describe("Unit | Filters", function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        basicFilterWithKeys: new models.BasicFilter({ table: "a", column: "b", keys: ["1", "2"] }, "In", [["x1", 1], ["y2",2]]),
         advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
@@ -695,6 +718,7 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(models.getFilterType(testData.basicFilter.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.basicFilterWithKeys.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
     });

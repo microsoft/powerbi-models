@@ -31,7 +31,7 @@
     "values": {
       "type": "array",
       "items": {
-        "type": ["string", "boolean", "number"]
+        "type": ["string", "boolean", "number", "array"]
       }
     }
   },
