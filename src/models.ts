@@ -70,6 +70,8 @@ export interface IReportLoadConfiguration {
   settings?: ISettings;
   pageName?: string;
   filters?: (IBasicFilter | IAdvancedFilter)[];
+  permissions?: Permissions;
+  viewMode?: ViewMode;
 }
 
 export const validateReportLoad = validate(loadSchema, {
