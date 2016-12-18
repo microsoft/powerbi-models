@@ -36,13 +36,17 @@
       "keyValues": {
       "type": "array",
       "items": {
-        "type": ["array"]
+        "type": "array",
+        "items": {
+          "type": ["string", "boolean", "number"]
+        }
       }
     }
   },
   "required": [
     "target",
     "operator",
-    "values"
+    "values",
+    "keyValues"
   ]
 }

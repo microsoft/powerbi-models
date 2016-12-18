@@ -32,15 +32,6 @@
       "type": "array",
       "items": {
         "type": ["string", "boolean", "number"]
-        }
-      },
-      "keyValues": {
-      "type": "array",
-      "items": {
-        "type": "array",
-        "items": {
-          "type": ["string", "boolean", "number"]
-        }
       }
     }
   },
