@@ -514,10 +514,11 @@ describe("Unit | Filters", function () {
 
     it("should accept values as an array of tuples", function () {
       // Arrange
-      const values = [[1, 2], [3,4]];
+      const values = [1, 2];
+      const keyValues = [[1, 2], [3,4]];
 
       // Act
-      const basicFilter = new models.BasicFilter({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values);
+      const basicFilter = new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values, keyValues);
 
       // Assert
       expect(basicFilter.values).toEqual(values);
@@ -525,11 +526,12 @@ describe("Unit | Filters", function () {
 
     it("should throw an exception when values are an array of tuples, but tuples length is different than keys length", function () {
       // Arrange
-      const values = [[1, 2], [3,4]];
+      const values = [1, 2];
+      const keyValues = [[1, 2], [3,4]];
 
       // Act
       const attemptToCreateFilter = () => {
-        return new models.BasicFilter({ table: "t", column: "c" , keys: ["1"]}, "In", values);
+        return new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1"]}, "In", values, keyValues);
       };
       expect(attemptToCreateFilter).toThrowError();
     });
@@ -706,7 +708,7 @@ describe("Unit | Filters", function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
-        basicFilterWithKeys: new models.BasicFilter({ table: "a", column: "b", keys: ["1", "2"] }, "In", [["x1", 1], ["y2",2]]),
+        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
         advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }

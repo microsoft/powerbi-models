@@ -11,18 +11,17 @@
         "column": {
           "type": "string"
         },
-        "hierarchy": {
-          "type": "string"
-        },
-        "hierarchyLevel": {
-          "type": "string"
-        },
-        "measure": {
-          "type": "string"
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": ["string"]
+          }
         }
       },
       "required": [
-        "table"
+        "table",
+        "column",
+        "keys"
       ]
     },
     "operator": {
@@ -37,10 +36,7 @@
       "keyValues": {
       "type": "array",
       "items": {
-        "type": "array",
-        "items": {
-          "type": ["string", "boolean", "number"]
-        }
+        "type": ["array"]
       }
     }
   },
