@@ -176,6 +176,14 @@ export enum FilterType {
   Unknown
 }
 
+export function isFilterKeyColumnsTarget(target: IFilterTarget): boolean {
+    return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
+}
+
+export function isBasicFilterWithKeys(filter: IFilter): boolean {
+    return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
+}
+
 export function getFilterType(filter: IFilter): FilterType {
   const basicFilter = filter as IBasicFilter;
   const advancedFilter = filter as IAdvancedFilter;

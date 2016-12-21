@@ -703,7 +703,7 @@ describe("Unit | Filters", function () {
     });
   });
 
-  describe('determine filter type', function () {
+  describe('determine types', function () {
     it('getFilterType should return type of filter given a filter object', function () {
       // Arrange
       const testData = {
@@ -723,6 +723,28 @@ describe("Unit | Filters", function () {
       expect(models.getFilterType(testData.basicFilterWithKeys.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
+    });
+
+    it('isFilterKeyColumnsTarget should return the correct response', function () {
+      // Arrange
+      let filterKeyColumnsTarget = { table: "a", column: "b", keys: ["key1"] };
+      let filterColumnTarget = { table: "a", column: "b"};
+
+      // Assert
+      expect(models.isFilterKeyColumnsTarget(filterKeyColumnsTarget)).toBeTruthy();
+      expect(models.isFilterKeyColumnsTarget(filterColumnTarget)).toBeFalsy();
+    });
+
+    it('isBasicFilterWithKeys should return the correct response', function () {
+      // Arrange
+      const testData = {
+        basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+      };
+
+      // Assert
+      expect(models.isBasicFilterWithKeys(testData.basicFilter.toJSON())).toBeFalsy();
+      expect(models.isBasicFilterWithKeys(testData.basicFilterWithKeys.toJSON())).toBeTruthy();
     });
   });
 });
