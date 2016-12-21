@@ -292,12 +292,12 @@ export class BasicFilterWithKeys extends BasicFilter {
     this.target = target;
     let numberOfKeys = target.keys ? target.keys.length : 0;
 
-    if (numberOfKeys === 0 && !keyValues) {
+    if (numberOfKeys > 0 && !keyValues) {
       throw new Error(`You shold pass the values to be filtered for each key. You passed: no values and ${numberOfKeys} keys`);
     }
 
-    if (numberOfKeys !== 0 && keyValues && keyValues.length > 0) {
-      throw new Error(`You passed key values but you target object doesn't contain the keys to be filtered`);
+    if (numberOfKeys === 0 && keyValues && keyValues.length > 0) {
+      throw new Error(`You passed key values but your target object doesn't contain the keys to be filtered`);
     }
 
     for (let i = 0 ; i < this.keyValues.length ; i++) {
