@@ -224,7 +224,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, permissionsInvalidMessage);
     });
 
-    it(`should return errors with one containing message '${viewModeInvalidMessage}' if permissions is not a number`, function () {
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is not a number`, function () {
       // Arrange
       const testData = {
         load: {

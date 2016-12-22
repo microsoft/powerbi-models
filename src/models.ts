@@ -353,7 +353,8 @@ export enum Permissions {
   Read = 0,
   ReadWrite = 1,
   Copy = 2,
-  All = 3
+  Create = 4,
+  All = 7
 }
 
 export enum ViewMode {
