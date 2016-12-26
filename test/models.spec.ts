@@ -432,6 +432,27 @@ describe('Unit | Models', function () {
           false
         ]
       };
+      // Act
+      const filter = new models.BasicFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.values);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid basic filter schema with operator All", function () {
+      // Arrange
+      const expectedFilter: models.IBasicFilter = {
+        $schema: "http://powerbi.com/product/schema#advanced",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: <any>"All",
+        values: []
+      };
 
       // Act
       const filter = new models.BasicFilter(
@@ -559,6 +580,30 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(basicFilter.values).toEqual(values);
+    });
+
+    it("should accept values as an array of tuples", function () {
+      // Arrange
+      const values = [1, 2];
+      const keyValues = [[1, 2], [3,4]];
+
+      // Act
+      const basicFilter = new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values, keyValues);
+
+      // Assert
+      expect(basicFilter.values).toEqual(values);
+    });
+
+    it("should throw an exception when values are an array of tuples, but tuples length is different than keys length", function () {
+      // Arrange
+      const values = [1, 2];
+      const keyValues = [[1, 2], [3,4]];
+
+      // Act
+      const attemptToCreateFilter = () => {
+        return new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1"]}, "In", values, keyValues);
+      };
+      expect(attemptToCreateFilter).toThrowError();
     });
 
     it("should return valid json format when toJSON is called", function () {
@@ -728,11 +773,12 @@ describe("Unit | Filters", function () {
     });
   });
 
-  describe('determine filter type', function () {
+  describe('determine types', function () {
     it('getFilterType should return type of filter given a filter object', function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
         advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
@@ -744,8 +790,31 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(models.getFilterType(testData.basicFilter.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.basicFilterWithKeys.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
+    });
+
+    it('isFilterKeyColumnsTarget should return the correct response', function () {
+      // Arrange
+      let filterKeyColumnsTarget = { table: "a", column: "b", keys: ["key1"] };
+      let filterColumnTarget = { table: "a", column: "b"};
+
+      // Assert
+      expect(models.isFilterKeyColumnsTarget(filterKeyColumnsTarget)).toBeTruthy();
+      expect(models.isFilterKeyColumnsTarget(filterColumnTarget)).toBeFalsy();
+    });
+
+    it('isBasicFilterWithKeys should return the correct response', function () {
+      // Arrange
+      const testData = {
+        basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+      };
+
+      // Assert
+      expect(models.isBasicFilterWithKeys(testData.basicFilter.toJSON())).toBeFalsy();
+      expect(models.isBasicFilterWithKeys(testData.basicFilterWithKeys.toJSON())).toBeTruthy();
     });
   });
 });
