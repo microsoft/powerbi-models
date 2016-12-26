@@ -1,8 +1,9 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "jsen": "registry:dt/jsen"
+  },
   "globalDependencies": {
     "jasmine": "registry:dt/jasmine",
-    "jsen": "registry:dt/jsen",
     "karma-jasmine": "registry:dt/karma-jasmine"
   }
 }
