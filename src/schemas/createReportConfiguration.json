@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "accessToken": {
+      "type": "string",
+      "messages": {
+        "type": "accessToken must be a string",
+        "required": "accessToken is required"
+      }
+    },
+    "datasetId": {
+      "type": "string",
+      "messages": {
+        "type": "datasetId must be a string",
+        "required": "datasetId is required"
+      }
+    }
+  },
+  "required": [
+    "accessToken",
+    "datasetId"
+  ]
+}
