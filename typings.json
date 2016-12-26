@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "jsen": "registry:dt/jsen"
+    "jsen": "registry:dt/jsen#0.0.0+20160328204314"
   },
   "globalDependencies": {
     "jasmine": "registry:dt/jasmine",
