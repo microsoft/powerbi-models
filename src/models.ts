@@ -128,6 +128,10 @@ export interface IFilterColumnTarget extends IBaseFilterTarget {
   column: string;
 }
 
+export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
+  keys: string[];
+}
+
 export interface IFilterHierarchyTarget extends IBaseFilterTarget {
   hierarchy: string;
   hierarchyLevel: string;
@@ -149,6 +153,11 @@ export interface IBasicFilter extends IFilter {
   values: (string | number | boolean)[];
 }
 
+export interface IBasicFilterWithKeys extends IBasicFilter {
+  target: IFilterKeyColumnsTarget;
+  keyValues: (string | number | boolean)[][];
+}
+
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
@@ -167,6 +176,14 @@ export enum FilterType {
   Advanced,
   Basic,
   Unknown
+}
+
+export function isFilterKeyColumnsTarget(target: IFilterTarget): boolean {
+    return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
+}
+
+export function isBasicFilterWithKeys(filter: IFilter): boolean {
+    return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
 }
 
 export function getFilterType(filter: IFilter): FilterType {
@@ -224,6 +241,7 @@ export class BasicFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#basic";
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
+  keyValues: (string | number | boolean)[][];
 
   constructor(
     target: IFilterTarget,
@@ -235,7 +253,7 @@ export class BasicFilter extends Filter {
     this.schemaUrl = BasicFilter.schemaUrl;
 
     if (values.length === 0 && operator !== "All") {
-      throw new Error(`values must be a non-empty array unless your operator is "All". You passed: ${values}`);
+      throw new Error(`values must be a non-empty array unless your operator is "All".`);
     }
 
     /**
@@ -257,6 +275,47 @@ export class BasicFilter extends Filter {
     filter.operator = this.operator;
     filter.values = this.values;
 
+    return filter;
+  }
+}
+
+export class BasicFilterWithKeys extends BasicFilter {
+  keyValues: (string | number | boolean)[][];
+  target: IFilterKeyColumnsTarget;
+
+  constructor(
+    target: IFilterKeyColumnsTarget,
+    operator: BasicFilterOperators,
+    values: ((string | number | boolean) | (string | number | boolean)[]),
+    keyValues: (string | number | boolean)[][]
+  ) {
+    super(target, operator, values);
+    this.keyValues = keyValues;
+    this.target = target;
+    let numberOfKeys = target.keys ? target.keys.length : 0;
+
+    if (numberOfKeys > 0 && !keyValues) {
+      throw new Error(`You shold pass the values to be filtered for each key. You passed: no values and ${numberOfKeys} keys`);
+    }
+
+    if (numberOfKeys === 0 && keyValues && keyValues.length > 0) {
+      throw new Error(`You passed key values but your target object doesn't contain the keys to be filtered`);
+    }
+
+    for (let i = 0 ; i < this.keyValues.length ; i++) {
+      if (this.keyValues[i] ) {
+        let lengthOfArray = this.keyValues[i].length;
+        if (lengthOfArray !== numberOfKeys) {
+          throw new Error(`Each tuple of key values should contain a value for each of the keys. You passed: ${lengthOfArray} values and ${numberOfKeys} keys`);
+        }
+      }
+
+    }
+  }
+
+  toJSON(): IBasicFilter {
+    const filter = <IBasicFilterWithKeys>super.toJSON();
+    filter.keyValues = this.keyValues;
     return filter;
   }
 }
