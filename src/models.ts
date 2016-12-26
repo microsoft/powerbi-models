@@ -8,6 +8,7 @@ export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
+export const createReportSchema = require('./schemas/createReportConfiguration.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -79,6 +80,13 @@ export const validateReportLoad = validate(loadSchema, {
     advancedFilter: advancedFilterSchema
   }
 });
+
+export interface ICreateReportConfiguration {
+  accessToken: string;
+  datasetId: string;
+}
+
+export const validateCreateReport = validate(createReportSchema);
 
 export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
 

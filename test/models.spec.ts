@@ -189,6 +189,89 @@ describe('Unit | Models', function () {
     });
   });
 
+  describe('validateCreateReport', function () {
+    const accessTokenRequiredMessage = models.createReportSchema.properties.accessToken.messages.required;
+    const accessTokenInvalidTypeMessage = models.createReportSchema.properties.accessToken.messages.type;
+    const idRequiredMessage = models.createReportSchema.properties.datasetId.messages.required;
+    const idInvalidTypeMessage = models.createReportSchema.properties.datasetId.messages.type;
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${idRequiredMessage}' if datasetId is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken"
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if datasetId is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken",
+          datasetId: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idInvalidTypeMessage);
+    });
+
+    it(`should return undefined if datasetId and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetId: 'fakeId',
+          accessToken: 'fakeAccessToken'
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
+
   describe('validateDashboardLoad', function () {
     const accessTokenRequiredMessage = models.dashboardLoadSchema.properties.accessToken.messages.required;
     const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
