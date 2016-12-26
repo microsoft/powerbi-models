@@ -70,6 +70,8 @@ export interface IReportLoadConfiguration {
   settings?: ISettings;
   pageName?: string;
   filters?: (IBasicFilter | IAdvancedFilter)[];
+  permissions?: Permissions;
+  viewMode?: ViewMode;
 }
 
 export const validateReportLoad = validate(loadSchema, {
@@ -404,4 +406,17 @@ export interface ISelection {
   dataPoints: IIdentityValue<IEqualsDataReference>[];
   regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
   filters: (IBasicFilter | IAdvancedFilter)[];
+}
+
+export enum Permissions {
+  Read = 0,
+  ReadWrite = 1,
+  Copy = 2,
+  Create = 4,
+  All = 7
+}
+
+export enum ViewMode {
+  View,
+  Edit
 }
