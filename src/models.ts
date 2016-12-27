@@ -8,7 +8,7 @@ export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
-export const createReportSchema = require('./schemas/createReportConfiguration.json');
+export const createReportSchema = require('./schemas/reportCreateConfiguration.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
