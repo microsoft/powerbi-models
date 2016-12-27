@@ -81,7 +81,7 @@ export const validateReportLoad = validate(loadSchema, {
   }
 });
 
-export interface ICreateReportConfiguration {
+export interface IReportCreateConfiguration {
   accessToken: string;
   datasetId: string;
 }
