@@ -130,6 +130,10 @@ export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
   keys: string[];
 }
 
+export interface IFilterKeyHierarchyTarget extends IFilterColumnTarget {
+    keys: string[];
+}
+
 export interface IFilterHierarchyTarget extends IBaseFilterTarget {
   hierarchy: string;
   hierarchyLevel: string;
@@ -139,6 +143,7 @@ export interface IFilterMeasureTarget extends IBaseFilterTarget {
   measure: string;
 }
 
+export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget);
 
 export interface IFilter {
@@ -152,7 +157,7 @@ export interface IBasicFilter extends IFilter {
 }
 
 export interface IBasicFilterWithKeys extends IBasicFilter {
-  target: IFilterKeyColumnsTarget;
+  target: IFilterKeyTarget;
   keyValues: (string | number | boolean)[][];
 }
 
@@ -282,7 +287,7 @@ export class BasicFilterWithKeys extends BasicFilter {
   target: IFilterKeyColumnsTarget;
 
   constructor(
-    target: IFilterKeyColumnsTarget,
+    target: IFilterKeyTarget,
     operator: BasicFilterOperators,
     values: ((string | number | boolean) | (string | number | boolean)[]),
     keyValues: (string | number | boolean)[][]
