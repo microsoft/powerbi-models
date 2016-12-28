@@ -671,10 +671,12 @@ describe("Unit | Filters", function () {
       const keyValues = [[1, 2], [3,4]];
 
       // Act
-      const basicFilter = new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values, keyValues);
+      const basicFilterOnColumn = new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values, keyValues);
+      const basicFilterOnHierarchy = new models.BasicFilterWithKeys({ table: "t", hierarchy: "c" , hierarchyLevel: "level", keys: ["1", "2"]}, "In", values, keyValues);
 
       // Assert
-      expect(basicFilter.values).toEqual(values);
+      expect(basicFilterOnColumn.values).toEqual(values);
+      expect(basicFilterOnHierarchy.values).toEqual(values);
     });
 
     it("should throw an exception when values are an array of tuples, but tuples length is different than keys length", function () {
@@ -683,10 +685,15 @@ describe("Unit | Filters", function () {
       const keyValues = [[1, 2], [3,4]];
 
       // Act
-      const attemptToCreateFilter = () => {
+      const attemptToCreateFilterOnColumn = () => {
         return new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1"]}, "In", values, keyValues);
       };
-      expect(attemptToCreateFilter).toThrowError();
+            // Act
+      const attemptToCreateFilterOnHierarchy = () => {
+        return new models.BasicFilterWithKeys({ table: "t", hierarchy: "c" , hierarchyLevel: "level", keys: ["1"]}, "In", values, keyValues);
+      };
+      expect(attemptToCreateFilterOnColumn).toThrowError();
+      expect(attemptToCreateFilterOnHierarchy).toThrowError();
     });
 
     it("should return valid json format when toJSON is called", function () {
@@ -861,7 +868,8 @@ describe("Unit | Filters", function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
-        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+        basicFilterWithKeysOnColumn: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+        basicFilterWithKeysOnHierarchy: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
         advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
@@ -873,7 +881,8 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(models.getFilterType(testData.basicFilter.toJSON())).toBe(models.FilterType.Basic);
-      expect(models.getFilterType(testData.basicFilterWithKeys.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.basicFilterWithKeysOnColumn.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.basicFilterWithKeysOnHierarchy.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
     });

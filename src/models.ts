@@ -140,7 +140,7 @@ export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
   keys: string[];
 }
 
-export interface IFilterKeyHierarchyTarget extends IFilterColumnTarget {
+export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget {
     keys: string[];
 }
 
@@ -294,7 +294,7 @@ export class BasicFilter extends Filter {
 
 export class BasicFilterWithKeys extends BasicFilter {
   keyValues: (string | number | boolean)[][];
-  target: IFilterKeyColumnsTarget;
+  target: IFilterKeyTarget;
 
   constructor(
     target: IFilterKeyTarget,
