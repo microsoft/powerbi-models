@@ -16,6 +16,8 @@ describe('Unit | Models', function () {
     const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
     const filtersInvalidMessage = models.loadSchema.properties.filters.invalidMessage;
     const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
+    const permissionsInvalidMessage = models.loadSchema.properties.permissions.invalidMessage;
+    const viewModeInvalidMessage = models.loadSchema.properties.viewMode.invalidMessage;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -186,6 +188,157 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          permissions: "SomeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, permissionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          permissions: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, permissionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          viewMode: "ViewModeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          viewMode: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
+    });
+  });
+
+  describe('validateCreateReport', function () {
+    const accessTokenRequiredMessage = models.createReportSchema.properties.accessToken.messages.required;
+    const accessTokenInvalidTypeMessage = models.createReportSchema.properties.accessToken.messages.type;
+    const idRequiredMessage = models.createReportSchema.properties.datasetId.messages.required;
+    const idInvalidTypeMessage = models.createReportSchema.properties.datasetId.messages.type;
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${idRequiredMessage}' if datasetId is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken"
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if datasetId is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken",
+          datasetId: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idInvalidTypeMessage);
+    });
+
+    it(`should return undefined if datasetId and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetId: 'fakeId',
+          accessToken: 'fakeAccessToken'
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
     });
   });
 
