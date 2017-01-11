@@ -20,8 +20,15 @@ interface IValidationError {
   message: string;
 }
 
+export interface ITechnicalDetails {
+    requestId?: string;
+}
+
 export interface IError {
-  message: string;
+    message: string;
+    detailedMessage?: string;
+    errorCode?: string;
+    technicalDetails?: ITechnicalDetails;
 }
 
 function normalizeError(error: IValidationError): IError {
