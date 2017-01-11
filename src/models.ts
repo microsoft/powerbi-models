@@ -21,14 +21,14 @@ interface IValidationError {
 }
 
 export interface ITechnicalDetails {
-    requestId?: string;
+  requestId?: string;
 }
 
 export interface IError {
-    message: string;
-    detailedMessage?: string;
-    errorCode?: string;
-    technicalDetails?: ITechnicalDetails;
+  message: string;
+  detailedMessage?: string;
+  errorCode?: string;
+  technicalDetails?: ITechnicalDetails;
 }
 
 function normalizeError(error: IValidationError): IError {
