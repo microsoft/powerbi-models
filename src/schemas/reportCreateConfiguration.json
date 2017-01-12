@@ -9,6 +9,12 @@
          "required": "accessToken is required"
        }
      },
+    "permissions": {
+      "type": "number",
+      "enum": [0, 1, 2, 3],
+      "default": 0,
+      "invalidMessage": "permissions property is invalid"
+    },
      "datasetId": {
        "type": "string",
        "messages": {

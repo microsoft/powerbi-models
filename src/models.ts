@@ -94,6 +94,7 @@ export const validateReportLoad = validate(loadSchema, {
 export interface IReportCreateConfiguration {
    accessToken: string;
    datasetId: string;
+   permissions?: Permissions;
  }
 
 export const validateCreateReport = validate(createReportSchema);
