@@ -39,6 +39,18 @@
         ]
       },
       "invalidMessage": "filters property is invalid"
+    },
+    "permissions": {
+      "type": "number",
+      "enum": [0, 1, 2, 3],
+      "default": 0,
+      "invalidMessage": "permissions property is invalid"
+    },
+    "viewMode": {
+      "type": "number",
+      "enum": [0, 1],
+      "default": 0,
+      "invalidMessage": "viewMode property is invalid"
     }
   },
   "required": [
