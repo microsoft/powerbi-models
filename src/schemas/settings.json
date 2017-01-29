@@ -13,6 +13,12 @@
       "messages": {
         "type": "navContentPaneEnabled must be a boolean"
       }
+    },
+    "useCustomSaveAsDialog": {
+      "type": "boolean",
+      "messages": {
+        "type": "useCustomSaveAsDialog must be a boolean"
+      }
     }
   }
 }
