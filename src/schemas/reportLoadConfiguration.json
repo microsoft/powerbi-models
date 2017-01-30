@@ -42,7 +42,7 @@
     },
     "permissions": {
       "type": "number",
-      "enum": [0, 1, 2, 3],
+      "enum": [0, 1, 2, 4, 7],
       "default": 0,
       "invalidMessage": "permissions property is invalid"
     },
