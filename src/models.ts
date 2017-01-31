@@ -143,6 +143,7 @@ export interface IBaseFilterTarget {
 
 export interface IFilterColumnTarget extends IBaseFilterTarget {
   column: string;
+  aggregationFunction?: string;
 }
 
 export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
@@ -156,6 +157,7 @@ export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget {
 export interface IFilterHierarchyTarget extends IBaseFilterTarget {
   hierarchy: string;
   hierarchyLevel: string;
+  aggregationFunction?: string;
 }
 
 export interface IFilterMeasureTarget extends IBaseFilterTarget {
@@ -405,11 +407,12 @@ export interface IDataReference {
 }
 
 export interface IEqualsDataReference extends IDataReference {
-  equals: string | boolean | number;
+  equals: string | boolean | number | Date;
 }
 
 export interface IBetweenDataReference extends IDataReference {
-  between: (string | boolean | number)[];
+  between: (string | boolean | number | Date)[];
+  formattedValue: string;
 }
 
 export interface IValueDataReference extends IDataReference {
