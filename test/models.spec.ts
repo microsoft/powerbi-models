@@ -16,6 +16,8 @@ describe('Unit | Models', function () {
     const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
     const filtersInvalidMessage = models.loadSchema.properties.filters.invalidMessage;
     const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
+    const permissionsInvalidMessage = models.loadSchema.properties.permissions.invalidMessage;
+    const viewModeInvalidMessage = models.loadSchema.properties.viewMode.invalidMessage;
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -186,6 +188,157 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          permissions: "SomeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, permissionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          permissions: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, permissionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          viewMode: "ViewModeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          viewMode: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
+    });
+  });
+
+  describe('validateCreateReport', function () {
+    const accessTokenRequiredMessage = models.createReportSchema.properties.accessToken.messages.required;
+    const accessTokenInvalidTypeMessage = models.createReportSchema.properties.accessToken.messages.type;
+    const idRequiredMessage = models.createReportSchema.properties.datasetId.messages.required;
+    const idInvalidTypeMessage = models.createReportSchema.properties.datasetId.messages.type;
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${idRequiredMessage}' if datasetId is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken"
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if datasetId is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken",
+          datasetId: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idInvalidTypeMessage);
+    });
+
+    it(`should return undefined if datasetId and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetId: 'fakeId',
+          accessToken: 'fakeAccessToken'
+        }
+      };
+
+      // Act
+      const errors = models.validateCreateReport(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
     });
   });
 
@@ -512,6 +665,37 @@ describe("Unit | Filters", function () {
       expect(basicFilter.values).toEqual(values);
     });
 
+    it("should accept values as an array of tuples", function () {
+      // Arrange
+      const values = [1, 2];
+      const keyValues = [[1, 2], [3,4]];
+
+      // Act
+      const basicFilterOnColumn = new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values, keyValues);
+      const basicFilterOnHierarchy = new models.BasicFilterWithKeys({ table: "t", hierarchy: "c" , hierarchyLevel: "level", keys: ["1", "2"]}, "In", values, keyValues);
+
+      // Assert
+      expect(basicFilterOnColumn.values).toEqual(values);
+      expect(basicFilterOnHierarchy.values).toEqual(values);
+    });
+
+    it("should throw an exception when values are an array of tuples, but tuples length is different than keys length", function () {
+      // Arrange
+      const values = [1, 2];
+      const keyValues = [[1, 2], [3,4]];
+
+      // Act
+      const attemptToCreateFilterOnColumn = () => {
+        return new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1"]}, "In", values, keyValues);
+      };
+            // Act
+      const attemptToCreateFilterOnHierarchy = () => {
+        return new models.BasicFilterWithKeys({ table: "t", hierarchy: "c" , hierarchyLevel: "level", keys: ["1"]}, "In", values, keyValues);
+      };
+      expect(attemptToCreateFilterOnColumn).toThrowError();
+      expect(attemptToCreateFilterOnHierarchy).toThrowError();
+    });
+
     it("should return valid json format when toJSON is called", function () {
       // Arrange
       const expectedFilter: models.IBasicFilter = {
@@ -679,11 +863,13 @@ describe("Unit | Filters", function () {
     });
   });
 
-  describe('determine filter type', function () {
+  describe('determine types', function () {
     it('getFilterType should return type of filter given a filter object', function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        basicFilterWithKeysOnColumn: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+        basicFilterWithKeysOnHierarchy: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
         advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
@@ -695,8 +881,32 @@ describe("Unit | Filters", function () {
 
       // Assert
       expect(models.getFilterType(testData.basicFilter.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.basicFilterWithKeysOnColumn.toJSON())).toBe(models.FilterType.Basic);
+      expect(models.getFilterType(testData.basicFilterWithKeysOnHierarchy.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
+    });
+
+    it('isFilterKeyColumnsTarget should return the correct response', function () {
+      // Arrange
+      let filterKeyColumnsTarget = { table: "a", column: "b", keys: ["key1"] };
+      let filterColumnTarget = { table: "a", column: "b"};
+
+      // Assert
+      expect(models.isFilterKeyColumnsTarget(filterKeyColumnsTarget)).toBeTruthy();
+      expect(models.isFilterKeyColumnsTarget(filterColumnTarget)).toBeFalsy();
+    });
+
+    it('isBasicFilterWithKeys should return the correct response', function () {
+      // Arrange
+      const testData = {
+        basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
+        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+      };
+
+      // Assert
+      expect(models.isBasicFilterWithKeys(testData.basicFilter.toJSON())).toBeFalsy();
+      expect(models.isBasicFilterWithKeys(testData.basicFilterWithKeys.toJSON())).toBeTruthy();
     });
   });
 });

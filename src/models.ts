@@ -8,6 +8,8 @@ export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
+export const createReportSchema = require('./schemas/reportCreateConfiguration.json');
+export const saveAsParametersSchema = require('./schemas/saveAsParameters.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -18,8 +20,15 @@ interface IValidationError {
   message: string;
 }
 
+export interface ITechnicalDetails {
+  requestId?: string;
+}
+
 export interface IError {
   message: string;
+  detailedMessage?: string;
+  errorCode?: string;
+  technicalDetails?: ITechnicalDetails;
 }
 
 function normalizeError(error: IValidationError): IError {
@@ -70,6 +79,8 @@ export interface IReportLoadConfiguration {
   settings?: ISettings;
   pageName?: string;
   filters?: (IBasicFilter | IAdvancedFilter)[];
+  permissions?: Permissions;
+  viewMode?: ViewMode;
 }
 
 export const validateReportLoad = validate(loadSchema, {
@@ -79,6 +90,14 @@ export const validateReportLoad = validate(loadSchema, {
     advancedFilter: advancedFilterSchema
   }
 });
+
+export interface IReportCreateConfiguration {
+   accessToken: string;
+   datasetId: string;
+   settings?: ISettings;
+ }
+
+export const validateCreateReport = validate(createReportSchema);
 
 export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
 
@@ -124,17 +143,28 @@ export interface IBaseFilterTarget {
 
 export interface IFilterColumnTarget extends IBaseFilterTarget {
   column: string;
+  aggregationFunction?: string;
+}
+
+export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
+  keys: string[];
+}
+
+export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget {
+    keys: string[];
 }
 
 export interface IFilterHierarchyTarget extends IBaseFilterTarget {
   hierarchy: string;
   hierarchyLevel: string;
+  aggregationFunction?: string;
 }
 
 export interface IFilterMeasureTarget extends IBaseFilterTarget {
   measure: string;
 }
 
+export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget);
 
 export interface IFilter {
@@ -145,6 +175,11 @@ export interface IFilter {
 export interface IBasicFilter extends IFilter {
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
+}
+
+export interface IBasicFilterWithKeys extends IBasicFilter {
+  target: IFilterKeyTarget;
+  keyValues: (string | number | boolean)[][];
 }
 
 export type BasicFilterOperators = "In" | "NotIn" | "All";
@@ -165,6 +200,14 @@ export enum FilterType {
   Advanced,
   Basic,
   Unknown
+}
+
+export function isFilterKeyColumnsTarget(target: IFilterTarget): boolean {
+    return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
+}
+
+export function isBasicFilterWithKeys(filter: IFilter): boolean {
+    return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
 }
 
 export function getFilterType(filter: IFilter): FilterType {
@@ -222,6 +265,7 @@ export class BasicFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#basic";
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
+  keyValues: (string | number | boolean)[][];
 
   constructor(
     target: IFilterTarget,
@@ -233,7 +277,7 @@ export class BasicFilter extends Filter {
     this.schemaUrl = BasicFilter.schemaUrl;
 
     if (values.length === 0 && operator !== "All") {
-      throw new Error(`values must be a non-empty array unless your operator is "All". You passed: ${values}`);
+      throw new Error(`values must be a non-empty array unless your operator is "All".`);
     }
 
     /**
@@ -255,6 +299,47 @@ export class BasicFilter extends Filter {
     filter.operator = this.operator;
     filter.values = this.values;
 
+    return filter;
+  }
+}
+
+export class BasicFilterWithKeys extends BasicFilter {
+  keyValues: (string | number | boolean)[][];
+  target: IFilterKeyTarget;
+
+  constructor(
+    target: IFilterKeyTarget,
+    operator: BasicFilterOperators,
+    values: ((string | number | boolean) | (string | number | boolean)[]),
+    keyValues: (string | number | boolean)[][]
+  ) {
+    super(target, operator, values);
+    this.keyValues = keyValues;
+    this.target = target;
+    let numberOfKeys = target.keys ? target.keys.length : 0;
+
+    if (numberOfKeys > 0 && !keyValues) {
+      throw new Error(`You shold pass the values to be filtered for each key. You passed: no values and ${numberOfKeys} keys`);
+    }
+
+    if (numberOfKeys === 0 && keyValues && keyValues.length > 0) {
+      throw new Error(`You passed key values but your target object doesn't contain the keys to be filtered`);
+    }
+
+    for (let i = 0 ; i < this.keyValues.length ; i++) {
+      if (this.keyValues[i] ) {
+        let lengthOfArray = this.keyValues[i].length;
+        if (lengthOfArray !== numberOfKeys) {
+          throw new Error(`Each tuple of key values should contain a value for each of the keys. You passed: ${lengthOfArray} values and ${numberOfKeys} keys`);
+        }
+      }
+
+    }
+  }
+
+  toJSON(): IBasicFilter {
+    const filter = <IBasicFilterWithKeys>super.toJSON();
+    filter.keyValues = this.keyValues;
     return filter;
   }
 }
@@ -322,11 +407,12 @@ export interface IDataReference {
 }
 
 export interface IEqualsDataReference extends IDataReference {
-  equals: string | boolean | number;
+  equals: string | boolean | number | Date;
 }
 
 export interface IBetweenDataReference extends IDataReference {
-  between: (string | boolean | number)[];
+  between: (string | boolean | number | Date)[];
+  formattedValue: string;
 }
 
 export interface IValueDataReference extends IDataReference {
@@ -346,3 +432,22 @@ export interface ISelection {
   regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
   filters: (IBasicFilter | IAdvancedFilter)[];
 }
+
+export enum Permissions {
+  Read = 0,
+  ReadWrite = 1,
+  Copy = 2,
+  Create = 4,
+  All = 7
+}
+
+export enum ViewMode {
+  View,
+  Edit
+}
+
+export interface ISaveAsParameters {
+  name: string;
+}
+
+export const validateSaveAsParameters = validate(saveAsParametersSchema);
