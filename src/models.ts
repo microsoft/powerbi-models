@@ -64,6 +64,7 @@ function validate(schema: any, options?: any) {
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
+  useCustomSaveAsDialog?: boolean;
 }
 
 export const validateSettings = validate(settingsSchema, {
@@ -411,12 +412,12 @@ export interface IEqualsDataReference extends IDataReference {
 }
 
 export interface IBetweenDataReference extends IDataReference {
-  between: (string | boolean | number | Date)[];
-  formattedValue: string;
+  between: (string | boolean | number)[];
 }
 
 export interface IValueDataReference extends IDataReference {
-  value: string | boolean | number;
+  value: string | boolean | number | Date;
+  formattedValue: string;
 }
 
 export interface IIdentityValue<T extends IDataReference> {
