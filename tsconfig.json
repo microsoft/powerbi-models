@@ -4,8 +4,7 @@
     "declaration": true,
     "sourceMap": true,
     "noImplicitUseStrict": true,
-    "outDir": "dist",
-    "typeRoots": [ "node_modules/@types" ]
+    "outDir": "dist"
   },
   "exclude": [
     "node_modules",
