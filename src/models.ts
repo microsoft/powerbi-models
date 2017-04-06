@@ -82,6 +82,7 @@ export interface IReportLoadConfiguration {
   filters?: (IBasicFilter | IAdvancedFilter)[];
   permissions?: Permissions;
   viewMode?: ViewMode;
+  tokenType?: TokenType;
 }
 
 export const validateReportLoad = validate(loadSchema, {
@@ -96,6 +97,7 @@ export interface IReportCreateConfiguration {
    accessToken: string;
    datasetId: string;
    settings?: ISettings;
+   tokenType?: TokenType;
  }
 
 export const validateCreateReport = validate(createReportSchema);
@@ -445,6 +447,11 @@ export enum Permissions {
 export enum ViewMode {
   View,
   Edit
+}
+
+export enum TokenType {
+  Aad,
+  Embed
 }
 
 export interface ISaveAsParameters {

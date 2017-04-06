@@ -51,6 +51,12 @@
       "enum": [0, 1],
       "default": 0,
       "invalidMessage": "viewMode property is invalid"
+    },
+    "tokenType": {
+      "type": "number",
+      "enum": [0, 1],
+      "default": 0,
+      "invalidMessage": "tokenType property is invalid"
     }
   },
   "required": [

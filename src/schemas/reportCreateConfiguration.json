@@ -15,6 +15,12 @@
          "type": "datasetId must be a string",
          "required": "datasetId is required"
        }
+     },
+     "tokenType": {
+      "type": "number",
+      "enum": [0, 1],
+      "default": 0,
+      "invalidMessage": "tokenType property is invalid"
      }
    },
    "required": [
