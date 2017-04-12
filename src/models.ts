@@ -108,6 +108,7 @@ export interface IDashboardLoadConfiguration {
     accessToken: string;
     id: string;
     pageView?: PageView;
+    tokenType?: TokenType;
 }
 
 export const validateDashboardLoad = validate(dashboardLoadSchema);
