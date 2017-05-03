@@ -21,7 +21,13 @@
       "messages": {
         "type": "pageView must be a string with one of the following values: \"actualSize\", \"fitToWidth\", \"oneColumn\""
       }
-    }
+    },
+    "tokenType": {
+      "type": "number",
+      "enum": [0, 1],
+      "default": 0,
+      "invalidMessage": "tokenType property is invalid"
+     }
   },
   "required": [
     "accessToken",
