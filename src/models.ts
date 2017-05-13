@@ -170,6 +170,7 @@ export interface IFilterMeasureTarget extends IBaseFilterTarget {
 
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget);
+export declare type IBaseFilter = (IBasicFilter | IAdvancedFilter);
 
 export interface IFilter {
   $schema: string;
