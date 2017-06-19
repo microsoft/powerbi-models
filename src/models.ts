@@ -121,6 +121,7 @@ export interface IReport {
 export interface IPage {
   name: string;
   displayName: string;
+  isActive?: boolean;
 }
 
 export interface IVisual {
