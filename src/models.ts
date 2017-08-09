@@ -5,6 +5,7 @@ export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
 export const loadSchema = require('./schemas/reportLoadConfiguration.json');
 export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
+export const tileLoadSchema = require('./schemas/tileLoadConfiguration.json');
 export const pageSchema = require('./schemas/page.json');
 export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
@@ -112,6 +113,17 @@ export interface IDashboardLoadConfiguration {
 }
 
 export const validateDashboardLoad = validate(dashboardLoadSchema);
+
+export interface ITileLoadConfiguration {
+    accessToken: string;
+    id: string;
+    dashboardId: string;
+    tokenType?: TokenType;
+    width?: number;
+    height?: number;
+}
+
+export const validateTileLoad = validate(tileLoadSchema);
 
 export interface IReport {
   id: string;

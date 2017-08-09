@@ -460,6 +460,183 @@ describe('Unit | Models', function () {
     });
   });
 
+  describe('validateTileLoad', function () {
+    const accessTokenRequiredMessage = models.tileLoadSchema.properties.accessToken.messages.required;
+    const accessTokenInvalidTypeMessage = models.tileLoadSchema.properties.accessToken.messages.type;
+    const idRequiredMessage = models.tileLoadSchema.properties.id.messages.required;
+    const idInvalidTypeMessage = models.tileLoadSchema.properties.id.messages.type;
+    const dashboardIdRequiredMessage = models.tileLoadSchema.properties.dashboardId.messages.required;
+    const dashboardIdInvalidTypeMessage = models.tileLoadSchema.properties.dashboardId.messages.type;
+    const widthITypeMessage = models.tileLoadSchema.properties.width.messages.type;
+    const heightITypeMessage = models.tileLoadSchema.properties.height.messages.type;
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${idRequiredMessage}' if id is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken"
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${idInvalidTypeMessage}' if id is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, idInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${dashboardIdRequiredMessage}' if dashboard id is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken",
+          id: "fakeId"
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, dashboardIdRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${dashboardIdInvalidTypeMessage}' if dashboard id is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 'fakeId',
+          dashboardId: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, dashboardIdInvalidTypeMessage);
+    });
+
+    it(`should return undefined if id, dashboardId and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          dashboardId: 'fakeDashboardId'
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return undefined if id, dashboardId, height, width, tokenType, filter and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          dashboardId: 'fakeDashboardId',
+          height: 1,
+          width: 2,
+          tokenType: 0,
+          accessToken: 'fakeAccessToken',
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${widthITypeMessage}' if width is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 'fakeId',
+          dashboardId: 'fakeDashboardId',
+          width: 'two',
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, widthITypeMessage);
+    });
+
+    it(`should return errors with one containing message '${heightITypeMessage}' if height is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 'fakeId',
+          dashboardId: 'fakeDashboardId',
+          height: '2',
+        }
+      };
+
+      // Act
+      const errors = models.validateTileLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, heightITypeMessage);
+    });
+  });
+
   describe('validateFilter', function () {
     it("should return errors if object does not validate against schema", function () {
       // Arrange
