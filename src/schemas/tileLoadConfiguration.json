@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "accessToken": {
+      "type": "string",
+      "messages": {
+        "type": "accessToken must be a string",
+        "required": "accessToken is required"
+      }
+    },
+    "id": {
+      "type": "string",
+      "messages": {
+        "type": "id must be a string",
+        "required": "id is required"
+      }
+    },
+    "dashboardId": {
+      "type": "string",
+      "messages": {
+        "type": "dashboardId must be a string",
+        "required": "dashboardId is required"
+      }
+    },
+    "tokenType": {
+      "type": "number",
+      "enum": [0, 1],
+      "default": 0,
+      "invalidMessage": "tokenType property is invalid"
+    },
+    "width": {
+      "type": "number",
+      "messages": {
+        "type": "width must be a number"
+      }
+    },
+    "height": {
+      "type": "number",
+      "messages": {
+        "type": "height must be a number"
+      }
+    }
+  },
+  "required": [
+    "accessToken",
+    "id",
+    "dashboardId"
+  ]
+}
