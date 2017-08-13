@@ -3,6 +3,9 @@ declare var require: Function;
 /* tslint:disable:no-var-requires */
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
+export const extensionsSchema = require('./schemas/extensions.json');
+export const menuExtensionsSchema = require('./schemas/menuExtensions.json');
+export const customMenuItemSchema = require('./schemas/customMenuItem.json');
 export const loadSchema = require('./schemas/reportLoadConfiguration.json');
 export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
 export const pageSchema = require('./schemas/page.json');
@@ -61,16 +64,43 @@ function validate(schema: any, options?: any) {
   };
 }
 
+export interface ICustomMenuItem {
+  command: string;
+  title: string;
+  icon?: string;
+  group?: string;
+}
+
+export interface IMenuExtensions {
+  visualContextMenu?: ICustomMenuItem[];
+  visualOptionsMenu?: ICustomMenuItem[];
+}
+
+export interface IExtensions {
+  menus?: IMenuExtensions;
+}
+
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  extensions?: IExtensions;
 }
+
+export const validateExtensions = validate(extensionsSchema, {
+  schemas: {
+    menuExtensions: menuExtensionsSchema,
+    customMenuItem: customMenuItemSchema,
+  }
+});
 
 export const validateSettings = validate(settingsSchema, {
   schemas: {
     basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema
+    advancedFilter: advancedFilterSchema,
+    extensions: extensionsSchema,
+    menuExtensions: menuExtensionsSchema,
+    customMenuItem: customMenuItemSchema,
   }
 });
 
@@ -89,7 +119,10 @@ export const validateReportLoad = validate(loadSchema, {
   schemas: {
     settings: settingsSchema,
     basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema
+    advancedFilter: advancedFilterSchema,
+    extensions: extensionsSchema,
+    menuExtensions: menuExtensionsSchema,
+    customMenuItem: customMenuItemSchema,
   }
 });
 

@@ -19,6 +19,9 @@
       "messages": {
         "type": "useCustomSaveAsDialog must be a boolean"
       }
+    },
+    "extensions": {
+      "$ref": "#extensions"
     }
   }
 }
