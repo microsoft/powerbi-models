@@ -11,6 +11,8 @@ export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
 export const createReportSchema = require('./schemas/reportCreateConfiguration.json');
 export const saveAsParametersSchema = require('./schemas/saveAsParameters.json');
+export const customLayoutSchema = require('./schemas/customLayout.json');
+export const pageSizeSchema = require('./schemas/pageSize.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -62,16 +64,44 @@ function validate(schema: any, options?: any) {
   };
 }
 
+export enum PageSizeType {
+  Widescreen,
+  Standard,
+  Cortana,
+  Letter,
+  Custom
+}
+
+export enum DisplayOption {
+  FitToPage,
+  FitToWidth,
+  ActualSize
+}
+
+export interface IPageSize {
+  type: PageSizeType;
+  width?: number;
+  height?: number;
+}
+
+export interface ICustomLayout {
+  pageSize?: IPageSize;
+  displayOption?: DisplayOption;
+}
+
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  customLayout?: ICustomLayout;
 }
 
 export const validateSettings = validate(settingsSchema, {
   schemas: {
     basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema
+    advancedFilter: advancedFilterSchema,
+    customLayout: customLayoutSchema,
+    pageSize: pageSizeSchema
   }
 });
 
@@ -90,7 +120,9 @@ export const validateReportLoad = validate(loadSchema, {
   schemas: {
     settings: settingsSchema,
     basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema
+    advancedFilter: advancedFilterSchema,
+    customLayout: customLayoutSchema,
+    pageSize: pageSizeSchema
   }
 });
 

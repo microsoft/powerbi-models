@@ -19,6 +19,9 @@
       "messages": {
         "type": "useCustomSaveAsDialog must be a boolean"
       }
+    },
+    "customLayout": {
+      "$ref": "#customLayout"
     }
   }
 }

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "width": {
+      "type": "number",
+      "messages": {
+        "type": "width must be a number"
+      }
+    },
+    "height": {
+      "type": "number",
+      "messages": {
+        "type": "height must be a number"
+      }
+    },
+    "type": {
+      "type": "number",
+      "enum": [0, 1, 2, 3, 4, 5],
+      "default": 0,
+      "invalidMessage": "type property is invalid"
+     }
+  },
+  "required": [
+    "type"
+  ]
+}
