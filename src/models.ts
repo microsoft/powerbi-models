@@ -11,6 +11,9 @@ export const settingsSchema = require('./schemas/settings.json');
 export const basicFilterSchema = require('./schemas/basicFilter.json');
 export const createReportSchema = require('./schemas/reportCreateConfiguration.json');
 export const saveAsParametersSchema = require('./schemas/saveAsParameters.json');
+export const loadQnaConfigurationSchema = require('./schemas/loadQnaConfiguration.json');
+export const qnaSettingsSchema = require('./schemas/qnaSettings.json');
+export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputData.json');
 export const customLayoutSchema = require('./schemas/customLayout.json');
 export const pageSizeSchema = require('./schemas/pageSize.json');
 export const customPageSizeSchema = require('./schemas/customPageSize.json');
@@ -515,3 +518,39 @@ export interface ISaveAsParameters {
 }
 
 export const validateSaveAsParameters = validate(saveAsParametersSchema);
+
+export interface IQnaSettings {
+  filterPaneEnabled?: boolean;
+}
+
+export interface ILoadQnaConfiguration {
+  accessToken: string;
+  datasetIds: string[];
+  utterance?: string;
+  viewMode?: QnAMode;
+  settings?: IQnaSettings;
+  tokenType?: TokenType;
+}
+
+export const validateLoadQnaConfiguration = validate(loadQnaConfigurationSchema, {
+  schemas: {
+    qnaSettings: qnaSettingsSchema,
+  }
+});
+
+export enum QnAMode {
+  Interactive,
+  NonInteractive,
+}
+
+export interface IQnaInterpretInputData {
+  utterance: string;
+  datasetIds?: string[];
+}
+
+export const validateQnaInterpretInputData = validate(qnaInterpretInputDataSchema);
+
+export interface IQnaVisualRenderedEvent {
+  utterance: string;
+  normalizedUtterance?: string;
+}
