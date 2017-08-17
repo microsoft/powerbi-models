@@ -13,6 +13,7 @@ export const createReportSchema = require('./schemas/reportCreateConfiguration.j
 export const saveAsParametersSchema = require('./schemas/saveAsParameters.json');
 export const customLayoutSchema = require('./schemas/customLayout.json');
 export const pageSizeSchema = require('./schemas/pageSize.json');
+export const customPageSizeSchema = require('./schemas/customPageSize.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -80,6 +81,9 @@ export enum DisplayOption {
 
 export interface IPageSize {
   type: PageSizeType;
+}
+
+export interface ICustomPageSize extends IPageSize {
   width?: number;
   height?: number;
 }
@@ -101,7 +105,13 @@ export const validateSettings = validate(settingsSchema, {
     basicFilter: basicFilterSchema,
     advancedFilter: advancedFilterSchema,
     customLayout: customLayoutSchema,
-    pageSize: pageSizeSchema
+    pageSize: pageSizeSchema,
+  }
+});
+
+export const validateCustomPageSize = validate(customPageSizeSchema, {
+  schemas: {
+    pageSize: pageSizeSchema,
   }
 });
 
