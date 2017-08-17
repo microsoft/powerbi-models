@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "number",
+      "enum": [0, 1, 2, 3, 4, 5],
+      "default": 0,
+      "invalidMessage": "type property is invalid"
+     }
+  },
+  "required": [
+    "type"
+  ]
+}

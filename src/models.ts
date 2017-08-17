@@ -14,6 +14,9 @@ export const saveAsParametersSchema = require('./schemas/saveAsParameters.json')
 export const loadQnaConfigurationSchema = require('./schemas/loadQnaConfiguration.json');
 export const qnaSettingsSchema = require('./schemas/qnaSettings.json');
 export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputData.json');
+export const customLayoutSchema = require('./schemas/customLayout.json');
+export const pageSizeSchema = require('./schemas/pageSize.json');
+export const customPageSizeSchema = require('./schemas/customPageSize.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -65,16 +68,53 @@ function validate(schema: any, options?: any) {
   };
 }
 
+export enum PageSizeType {
+  Widescreen,
+  Standard,
+  Cortana,
+  Letter,
+  Custom
+}
+
+export enum DisplayOption {
+  FitToPage,
+  FitToWidth,
+  ActualSize
+}
+
+export interface IPageSize {
+  type: PageSizeType;
+}
+
+export interface ICustomPageSize extends IPageSize {
+  width?: number;
+  height?: number;
+}
+
+export interface ICustomLayout {
+  pageSize?: IPageSize;
+  displayOption?: DisplayOption;
+}
+
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  customLayout?: ICustomLayout;
 }
 
 export const validateSettings = validate(settingsSchema, {
   schemas: {
     basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema
+    advancedFilter: advancedFilterSchema,
+    customLayout: customLayoutSchema,
+    pageSize: pageSizeSchema,
+  }
+});
+
+export const validateCustomPageSize = validate(customPageSizeSchema, {
+  schemas: {
+    pageSize: pageSizeSchema,
   }
 });
 
@@ -93,7 +133,9 @@ export const validateReportLoad = validate(loadSchema, {
   schemas: {
     settings: settingsSchema,
     basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema
+    advancedFilter: advancedFilterSchema,
+    customLayout: customLayoutSchema,
+    pageSize: pageSizeSchema
   }
 });
 

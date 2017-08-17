@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "pageSize": {
+       "$ref": "#pageSize"
+    },
+    "displayOption": {
+      "type": "number",
+      "enum": [0, 1, 2],
+      "default": 0,
+      "invalidMessage": "displayOption property is invalid"
+    }
+  }
+}
