@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "accessToken": {
+      "type": "string",
+      "messages": {
+        "type": "accessToken must be a string",
+        "required": "accessToken is required"
+      }
+    },
+    "datasetIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "messages": {
+        "type": "datasetIds must be an array of strings",
+        "required": "datasetIds is required"
+      }
+    },
+    "utterance": {
+      "type": "string",
+      "messages": {
+        "type": "utterance must be a string"
+      }
+    },
+    "viewMode": {
+      "type": "number",
+      "enum": [ 0, 1 ],
+      "default": 0,
+      "invalidMessage": "viewMode property is invalid"
+    },
+    "settings": {
+      "$ref": "#qnaSettings"
+    },
+    "tokenType": {
+      "type": "number",
+      "enum": [ 0, 1 ],
+      "default": 0,
+      "invalidMessage": "tokenType property is invalid"
+    }
+  },
+  "required": [
+    "accessToken",
+    "datasetIds"
+  ]
+ }

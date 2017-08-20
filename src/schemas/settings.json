@@ -22,6 +22,9 @@
     },
     "extensions": {
       "$ref": "#extensions"
+    },
+    "customLayout": {
+      "$ref": "#customLayout"
     }
   }
 }
