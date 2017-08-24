@@ -114,7 +114,7 @@ export interface IExtensionItem {
 
 export interface ICommandExtension extends IExtensionItem {
     title: string;
-    icon: string;
+    icon?: string;
 }
 
 // TODO: ExtensionPoints should extend _.Dictionary<ExtensionPoint>. This will need to add lodash to the project.
