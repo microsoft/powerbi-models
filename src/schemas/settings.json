@@ -20,6 +20,13 @@
         "type": "useCustomSaveAsDialog must be a boolean"
       }
     },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#extension"
+      },
+      "invalidMessage": "extensions array is invalid"
+    },
     "customLayout": {
       "$ref": "#customLayout"
     }

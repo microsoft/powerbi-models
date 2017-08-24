@@ -3,6 +3,11 @@ declare var require: Function;
 /* tslint:disable:no-var-requires */
 export const advancedFilterSchema = require('./schemas/advancedFilter.json');
 export const filterSchema = require('./schemas/filter.json');
+export const extensionSchema = require('./schemas/extension.json');
+export const extensionItemSchema = require('./schemas/extensionItem.json');
+export const commandExtensionSchema = require('./schemas/commandExtension.json');
+export const extensionPointsSchema = require('./schemas/extensionPoints.json');
+export const menuExtensionSchema = require('./schemas/menuExtension.json');
 export const loadSchema = require('./schemas/reportLoadConfiguration.json');
 export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
 export const tileLoadSchema = require('./schemas/tileLoadConfiguration.json');
@@ -96,10 +101,41 @@ export interface ICustomLayout {
   displayOption?: DisplayOption;
 }
 
+export type Extensions = IExtension[];
+
+export interface IExtension {
+    command?: ICommandExtension;
+}
+
+export interface IExtensionItem {
+    name: string;
+    extend: IExtensionPoints;
+}
+
+export interface ICommandExtension extends IExtensionItem {
+    title: string;
+    icon?: string;
+}
+
+// TODO: ExtensionPoints should extend _.Dictionary<ExtensionPoint>. This will need to add lodash to the project.
+export interface IExtensionPoints {
+  visualContextMenu?: IMenuExtension;
+  visualOptionsMenu?: IMenuExtension;
+}
+
+export interface IExtensionPoint {
+}
+
+export interface IMenuExtension extends IExtensionPoint {
+    title?: string;
+    icon?: string;
+}
+
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  extensions?: Extensions;
   customLayout?: ICustomLayout;
 }
 
@@ -109,12 +145,28 @@ export const validateSettings = validate(settingsSchema, {
     advancedFilter: advancedFilterSchema,
     customLayout: customLayoutSchema,
     pageSize: pageSizeSchema,
+    extension: extensionSchema,
+    extensionItem: extensionItemSchema,
+    commandExtension: commandExtensionSchema,
+    extensionPoints: extensionPointsSchema,
+    menuExtension: menuExtensionSchema,
   }
 });
 
 export const validateCustomPageSize = validate(customPageSizeSchema, {
   schemas: {
     pageSize: pageSizeSchema,
+  }
+});
+
+// TODO : add tests to check validateExtension.
+export const validateExtension = validate(extensionSchema, {
+  schemas: {
+    extension: extensionSchema,
+    extensionItem: extensionItemSchema,
+    commandExtension: commandExtensionSchema,
+    extensionPoints: extensionPointsSchema,
+    menuExtension: menuExtensionSchema,
   }
 });
 
@@ -135,7 +187,12 @@ export const validateReportLoad = validate(loadSchema, {
     basicFilter: basicFilterSchema,
     advancedFilter: advancedFilterSchema,
     customLayout: customLayoutSchema,
-    pageSize: pageSizeSchema
+    pageSize: pageSizeSchema,
+    extension: extensionSchema,
+    extensionItem: extensionItemSchema,
+    commandExtension: commandExtensionSchema,
+    extensionPoints: extensionPointsSchema,
+    menuExtension: menuExtensionSchema,
   }
 });
 
@@ -553,4 +610,9 @@ export const validateQnaInterpretInputData = validate(qnaInterpretInputDataSchem
 export interface IQnaVisualRenderedEvent {
   utterance: string;
   normalizedUtterance?: string;
+}
+
+export interface IVisualCustomCommandEvent {
+  visualName: string;
+  command: string;
 }
