@@ -5,7 +5,8 @@
     "name": {
       "type": "string",
       "messages": {
-        "type": "name must be a string"
+        "type": "name must be a string",
+        "required": "name is required"
       }
     },
     "extend": {

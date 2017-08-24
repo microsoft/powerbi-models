@@ -817,6 +817,48 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
   });
+
+  describe('validate Extensions', function () {
+    const commandNameInvalidTypeMessage = models.extensionItemSchema.properties.name.messages.type;
+    const commandNameRequiredMessage = models.extensionItemSchema.properties.name.messages.required;
+
+    it(`should return errors with one containing message '${commandNameInvalidTypeMessage}' if command name is not a string`, function () {
+      // Arrange
+      const testData = {
+        extensions: {
+          command: {
+            name: true,
+            title: "title",
+            extend: {}
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateExtension(testData.extensions);
+
+      // Assert
+      testForExpectedMessage(errors, commandNameInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${commandNameRequiredMessage}' if command name is not a provided`, function () {
+      // Arrange
+      const testData = {
+        extensions: {
+          command: {
+            title: "title",
+            extend: {}
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateExtension(testData.extensions);
+
+      // Assert
+      testForExpectedMessage(errors, commandNameRequiredMessage);
+    });
+  });
 });
 
 describe("Unit | Filters", function () {
