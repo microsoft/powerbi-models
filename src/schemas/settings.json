@@ -21,7 +21,11 @@
       }
     },
     "extensions": {
-      "$ref": "#extensions"
+      "type": "array",
+      "items": {
+        "$ref": "#extension"
+      },
+      "invalidMessage": "extensions array is invalid"
     },
     "customLayout": {
       "$ref": "#customLayout"

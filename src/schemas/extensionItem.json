@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "messages": {
+        "type": "name must be a string"
+      }
+    },
+    "extend": {
+      "$ref": "#extensionPoints"
+    }
+  },
+  "required": [
+    "name",
+    "extend"
+  ]
+}

@@ -2,11 +2,8 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "menus": {
-      "$ref": "#menuExtensions"
+    "command": {
+      "$ref": "#commandExtension"
     }
-  },
-  "required": [
-    "menus"
-  ]
+  }
 }

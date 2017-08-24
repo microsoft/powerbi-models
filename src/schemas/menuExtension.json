@@ -2,12 +2,6 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "command": {
-      "type": "string",
-      "messages": {
-        "type": "command must be a string"
-      }
-    },
     "title": {
       "type": "string",
       "messages": {
@@ -19,16 +13,6 @@
       "messages": {
         "type": "icon must be a string"
       }
-    },
-    "group": {
-      "type": "string",
-      "messages": {
-        "type": "group must be a string"
-      }
     }
-  },
-  "required": [
-    "command",
-    "title"
-  ]
+  }
 }
