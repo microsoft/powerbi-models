@@ -25,25 +25,21 @@
         "table"
       ]
     },
-    "operator": {
+    "message": {
       "type": "string"
     },
-    "values": {
-      "type": "array",
-      "items": {
-        "type": ["string", "boolean", "number"]
-      }
+    "notSupportedTypeName": {
+      "type": "string"
     },
     "filterType": {
       "type": "number",
-      "enum": [1],
-      "default": 1,
+      "enum": [2],
+      "default": 2,
       "invalidMessage": "filterType property is invalid"
      }   
   },
   "required": [
-    "target",
-    "operator",
-    "values"
+    "message",
+    "notSupportedTypeName"
   ]
 }

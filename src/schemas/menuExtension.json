@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "messages": {
+        "type": "title must be a string"
+      }
+    },
+    "icon": {
+      "type": "string",
+      "messages": {
+        "type": "icon must be a string"
+      }
+    }
+  }
+}
