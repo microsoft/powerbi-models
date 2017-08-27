@@ -35,6 +35,9 @@
           },
           {
             "$ref": "#advancedFilter"
+          },
+          {
+            "$ref": "#relativeDateFilter"
           }
         ]
       },

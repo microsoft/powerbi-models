@@ -95,7 +95,7 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
 
-    it(`should return errors with one containing message '${filtersInvalidMessage}' if filters is not a valid array of basicFilter or advancedFilter`, function () {
+    it(`should return errors with one containing message '${filtersInvalidMessage}' if filters is not a valid array of IFilter`, function () {
       // Arrange
       const testData = {
         load: {
@@ -112,7 +112,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, filtersInvalidMessage);
     });
 
-    it(`should return errors if filters is array, but item is not a valid basicFilter or advancedFilter`, function () {
+    it(`should return errors if filters is array, but item is not a valid IFilter`, function () {
       // Arrange
       const testData = {
         load: {
@@ -133,7 +133,7 @@ describe('Unit | Models', function () {
 
     // TODO: Need to fix reportLoadConfiguration.json schema so that this fails. 
     // Currently this validates without errors, but the second object should be rejected since it is not a valid filter.
-    xit(`should return errors if filters is array, but not all items are valid basicFilter or advancedFilter`, function () {
+    xit(`should return errors if filters is array, but not all items are valid IFIlter`, function () {
       // Arrange
       const testData = {
         load: {
@@ -154,14 +154,16 @@ describe('Unit | Models', function () {
       expect(errors.length).toBeGreaterThan(0);
     });
 
-    it(`should return undefined if filters is valid array of basicFilter or advancedFilter`, function () {
+    it(`should return undefined if filters is valid array of IFIlter`, function () {
       // Arrange
       const testData = {
         load: {
           id: 'fakeId',
           accessToken: 'fakeAccessToken',
           filters: [
-            new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON()
+            new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON(),
+            new models.RelativeDateFilter({ table: "fakeTable", column: "fakeColumn" },
+             models.RelativeDateOperators.InLast, 3, models.RelativeDateFilterTimeUnit.CalendarMonths, true).toJSON()
           ]
         }
       };
@@ -690,7 +692,8 @@ describe('Unit | Models', function () {
           "a",
           100,
           false
-        ]
+        ],
+        filterType: models.FilterType.Basic
       };
       // Act
       const filter = new models.BasicFilter(
@@ -711,13 +714,110 @@ describe('Unit | Models', function () {
           column: "b"
         },
         operator: <any>"All",
-        values: []
+        values: [],
+        filterType: models.FilterType.Basic
       };
 
       // Act
       const filter = new models.BasicFilter(
         expectedFilter.target,
         expectedFilter.operator,
+        expectedFilter.values);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid relativeDate filter schema", function () {
+      // Arrange
+      const expectedFilter: models.IRelativeDateFilter = {
+        $schema: "http://powerbi.com/product/schema#relativeDate",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: models.RelativeDateOperators.InLast,
+        timeUnitsCount: 11,
+        timeUnitType: models.RelativeDateFilterTimeUnit.Years,
+        includeToday: false,
+        filterType: models.FilterType.RelativeDate
+      };
+
+      // Act
+      const filter = new models.RelativeDateFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.timeUnitsCount,
+        expectedFilter.timeUnitType,
+        expectedFilter.includeToday);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid topN filter schema", function () {
+      // Arrange
+      const expectedFilter: models.ITopNFilter = {
+        $schema: "http://powerbi.com/product/schema#topN",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: "Top",
+        itemCount: 2,
+        filterType: models.FilterType.TopN
+      };
+
+      // Act
+      const filter = new models.TopNFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.itemCount);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid notSupported filter schema", function () {
+      // Arrange
+      const expectedFilter: models.INotSupportedFilter = {
+        $schema: "http://powerbi.com/product/schema#notSupported",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        message: "not supported",
+        notSupportedTypeName: "not supported type",
+        filterType: models.FilterType.Unknown
+      };
+
+      // Act
+      const filter = new models.NotSupportedFilter(
+        expectedFilter.target,
+        expectedFilter.message,
+        expectedFilter.notSupportedTypeName);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
+    it("should return undefined if object is valid include/exclude filter schema", function () {
+      // Arrange
+      const expectedFilter: models.IIncludeExcludeFilter = {
+        $schema: "http://powerbi.com/product/schema#includeExclude",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        values: [1,2],
+        isExclude: true,
+        filterType: models.FilterType.IncludeExclude
+      };
+
+      // Act
+      const filter = new models.IncludeExcludeFilter(
+        expectedFilter.target,
+        expectedFilter.isExclude,
         expectedFilter.values);
 
       // Assert
@@ -746,7 +846,8 @@ describe('Unit | Models', function () {
             value: 1,
             operator: "Is"
           }
-        ]
+        ],
+        filterType: models.FilterType.Advanced
       };
 
       const filter = new models.AdvancedFilter(
@@ -928,7 +1029,8 @@ describe("Unit | Filters", function () {
           1,
           2,
           3
-        ]
+        ],
+        filterType: models.FilterType.Basic
       };
 
       // Act
@@ -954,7 +1056,8 @@ describe("Unit | Filters", function () {
           "a",
           100,
           false
-        ]
+        ],
+        filterType: models.FilterType.Basic
       };
 
       // Act
@@ -1039,7 +1142,8 @@ describe("Unit | Filters", function () {
             value: "b",
             operator: "LessThan"
           }
-        ]
+        ],
+        filterType: models.FilterType.Advanced
       };
 
       // Act
@@ -1070,7 +1174,8 @@ describe("Unit | Filters", function () {
             value: "v2",
             operator: "Contains"
           }
-        ]
+        ],
+        filterType: models.FilterType.Advanced
       };
 
       // Act
@@ -1082,8 +1187,109 @@ describe("Unit | Filters", function () {
     });
   });
 
+  describe("RelativeDateFilter", function () {
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.IRelativeDateFilter = {
+        $schema: "http://powerbi.com/product/schema#relativeDate",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        filterType: models.FilterType.RelativeDate,
+        operator: models.RelativeDateOperators.InLast,
+        timeUnitsCount: 11,
+        timeUnitType: models.RelativeDateFilterTimeUnit.Years,
+        includeToday: false,
+      };
+
+      // Act
+      const filter = new models.RelativeDateFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.timeUnitsCount,
+        expectedFilter.timeUnitType,
+        expectedFilter.includeToday);
+
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+  });
+
+  describe("notSupportedFilterFilter", function () {
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.INotSupportedFilter = {
+        $schema: "http://powerbi.com/product/schema#notSupported",
+        target: null,
+        filterType: models.FilterType.Unknown,
+        message: 'filter is not supported',
+        notSupportedTypeName: 'new filter name'
+      };
+
+      // Act
+      const filter = new models.NotSupportedFilter(
+        expectedFilter.target,
+        expectedFilter.message,
+        expectedFilter.notSupportedTypeName);
+
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+  });
+
+  describe("topNFilter", function () {
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.ITopNFilter = {
+        $schema: "http://powerbi.com/product/schema#topN",
+        target: {
+          table: "a",
+          column: "b",
+        },
+        filterType: models.FilterType.TopN,
+        operator: "Top",
+        itemCount: 3,
+      };
+
+      // Act
+      const filter = new models.TopNFilter(
+        expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.itemCount);
+
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+  });
+
+  describe("includeExcludeFilter", function () {
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.IIncludeExcludeFilter = {
+        $schema: "http://powerbi.com/product/schema#includeExclude",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        filterType: models.FilterType.IncludeExclude,
+        isExclude: false,
+        values: [1,2,3],
+      };
+
+      // Act
+      const filter = new models.IncludeExcludeFilter(
+        expectedFilter.target,
+        expectedFilter.isExclude,
+        expectedFilter.values);
+
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+  });
+
   describe('determine types', function () {
-    it('getFilterType should return type of filter given a filter object', function () {
+    it('filter object should be constructed with the correct filterType', function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
@@ -1093,7 +1299,10 @@ describe("Unit | Filters", function () {
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
         ),
-        nonFilter: <models.IFilter>{}
+        relativeDateFilter: new models.RelativeDateFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
+        3, models.RelativeDateFilterTimeUnit.CalendarMonths, true),
+        topNFilter: new models.TopNFilter({ table: "a", column: "b" }, "Top", 4),
+        includeExclude: new models.IncludeExcludeFilter({ table: "a", column: "b" }, true, [1,2])
       };
 
       // Act
@@ -1103,7 +1312,9 @@ describe("Unit | Filters", function () {
       expect(models.getFilterType(testData.basicFilterWithKeysOnColumn.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.basicFilterWithKeysOnHierarchy.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
-      expect(models.getFilterType(testData.nonFilter)).toBe(models.FilterType.Unknown);
+      expect(models.getFilterType(testData.relativeDateFilter.toJSON())).toBe(models.FilterType.RelativeDate);
+      expect(models.getFilterType(testData.topNFilter.toJSON())).toBe(models.FilterType.TopN);
+      expect(models.getFilterType(testData.includeExclude.toJSON())).toBe(models.FilterType.IncludeExclude);
     });
 
     it('isFilterKeyColumnsTarget should return the correct response', function () {

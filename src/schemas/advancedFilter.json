@@ -75,7 +75,13 @@
           "operator"
         ]
       }
-    }
+    },
+    "filterType": {
+      "type": "number",
+      "enum": [0],
+      "default": 0,
+      "invalidMessage": "filterType property is invalid"
+     }  
   },
   "required": [
     "target",

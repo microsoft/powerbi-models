@@ -25,25 +25,25 @@
         "table"
       ]
     },
-    "operator": {
-      "type": "string"
+    "isExclude": {
+      "type": "boolean"
     },
     "values": {
       "type": "array",
       "items": {
         "type": ["string", "boolean", "number"]
-      }
-    },
+      },
     "filterType": {
       "type": "number",
-      "enum": [1],
-      "default": 1,
+      "enum": [3],
+      "default": 3,
       "invalidMessage": "filterType property is invalid"
-     }   
+     } 
+    }
   },
   "required": [
     "target",
-    "operator",
+    "isExclude",
     "values"
   ]
 }

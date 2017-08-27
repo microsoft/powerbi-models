@@ -28,22 +28,19 @@
     "operator": {
       "type": "string"
     },
-    "values": {
-      "type": "array",
-      "items": {
-        "type": ["string", "boolean", "number"]
-      }
+    "itemCount": {
+      "type": "number"
     },
     "filterType": {
       "type": "number",
-      "enum": [1],
-      "default": 1,
+      "enum": [5],
+      "default": 5,
       "invalidMessage": "filterType property is invalid"
-     }   
+     } 
   },
   "required": [
     "target",
     "operator",
-    "values"
+    "itemCount"
   ]
 }
