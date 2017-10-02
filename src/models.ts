@@ -1,127 +1,83 @@
 declare var require: Function;
 
-import { IValidator, Validator, IError, IValidationError } from './validators/core/validator';
-import { StringValidator } from './validators/core/typeValidator';
-import { ReportLoadValidator } from './validators/models/reportLoadValidator';
+import { IError, IValidationError, Validators } from './validators/core/validator';
 
 export * from './validators/core/validator';
 
-/* tslint:disable:no-var-requires */
-export const advancedFilterSchema = require('./schemas/advancedFilter.json');
-export const includeExcludeFilterSchema = require('./schemas/includeExcludeFilter.json');
-export const notSupportedFilterSchema = require('./schemas/notSupportedFilter.json');
-export const relativeDateFilterSchema = require('./schemas/relativeDateFilter.json');
-export const topNFilterSchema = require('./schemas/topNFilter.json');
-export const filterSchema = require('./schemas/filter.json');
-export const extensionSchema = require('./schemas/extension.json');
-export const extensionItemSchema = require('./schemas/extensionItem.json');
-export const commandExtensionSchema = require('./schemas/commandExtension.json');
-export const extensionPointsSchema = require('./schemas/extensionPoints.json');
-export const menuExtensionSchema = require('./schemas/menuExtension.json');
-export const loadSchema = require('./schemas/reportLoadConfiguration.json');
-export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
-export const tileLoadSchema = require('./schemas/tileLoadConfiguration.json');
-export const pageSchema = require('./schemas/page.json');
-export const settingsSchema = require('./schemas/settings.json');
-export const basicFilterSchema = require('./schemas/basicFilter.json');
-export const createReportSchema = require('./schemas/reportCreateConfiguration.json');
-export const saveAsParametersSchema = require('./schemas/saveAsParameters.json');
-export const loadQnaConfigurationSchema = require('./schemas/loadQnaConfiguration.json');
-export const qnaSettingsSchema = require('./schemas/qnaSettings.json');
-export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputData.json');
-export const customLayoutSchema = require('./schemas/customLayout.json');
-export const pageSizeSchema = require('./schemas/pageSize.json');
-export const customPageSizeSchema = require('./schemas/customPageSize.json');
-/* tslint:enable:no-var-requires */
+export * from './models/common';
+export * from './models/customLayout';
+export * from './models/events';
+export * from './models/extensions';
+export * from './models/filters';
+export * from './models/load';
+export * from './models/qna';
 
-export const validateSettings = Validator.validate(settingsSchema, {
-  schemas: {
-    customLayout: customLayoutSchema,
-    pageSize: pageSizeSchema,
-    extension: extensionSchema,
-    extensionItem: extensionItemSchema,
-    commandExtension: commandExtensionSchema,
-    extensionPoints: extensionPointsSchema,
-    menuExtension: menuExtensionSchema,
+function normalizeError(error: IValidationError): IError {
+  let message = error.message;
+  if (!message) {
+    message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
   }
-});
+  return {
+    message
+  };
+}
 
-export const validateCustomPageSize = Validator.validate(customPageSizeSchema, {
-  schemas: {
-    pageSize: pageSizeSchema,
-  }
-});
+export function validateSettings(input: any): IError[] {
+  let errors: IValidationError[] = Validators.settingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
 
-// TODO : add tests to check validateExtension.
-export const validateExtension = Validator.validate(extensionSchema, {
-  schemas: {
-    extension: extensionSchema,
-    extensionItem: extensionItemSchema,
-    commandExtension: commandExtensionSchema,
-    extensionPoints: extensionPointsSchema,
-    menuExtension: menuExtensionSchema,
-  }
-});
+export function validateCustomPageSize(input: any): IError[] {
+  let errors: IValidationError[] = Validators.customPageSizeValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
 
-function runValidators(input: any, path: string, fieldName: string, validators: IValidator[]): IError[] {
-  let errors: IValidationError[];
-  for (let validator of validators) {
-    errors = validator.validate(input, path, fieldName);
-    if (errors) {
-      return errors.map(Validator.normalizeError);
-    }
-  }
-  return null;
+export function validateExtension(input: any): IError[] {
+  let errors: IValidationError[] = Validators.extentionValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
 export function validateReportLoad(input: any): IError[] {
-  const reportLoadValidator = new ReportLoadValidator();
-  return reportLoadValidator.validate(input).map(Validator.normalizeError);
+  let errors: IValidationError[] = Validators.reportLoadValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
-export const validateCreateReport = Validator.validate(createReportSchema);
-
-export const validateDashboardLoad = Validator.validate(dashboardLoadSchema);
-
-export const validateTileLoad = Validator.validate(tileLoadSchema);
-
-export const validatePage = Validator.validate(pageSchema);
-
-export const validateFilter = Validator.validate(filterSchema, {
-  schemas: {
-    basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema,
-    notSupportedFilter: notSupportedFilterSchema,
-    topNFilter: topNFilterSchema,
-    relativeDateFilter: relativeDateFilterSchema,
-    includeExcludeFilter: includeExcludeFilterSchema
-  }
-});
-
-// export function validateReportLevelFilters(filer: IFilter): IError {
-export function validateReportLevelFilters(filer: any): IError {
-  let error: IError;
-  if (Validator.validate(basicFilterSchema)(filer) && Validator.validate(advancedFilterSchema)(filer) && Validator.validate(relativeDateFilterSchema)(filer)) {
-    error = { message: "One of the filters is not a report level filter" };
-  }
-  return error;
+export function validateCreateReport(input: any): IError[] {
+  let errors: IValidationError[] = Validators.reportCreateValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
-// export function validatePageLevelFilters(filer: IFilter): IError {
-export function validatePageLevelFilters(filer: any): IError {
-  let error: IError;
-  if (Validator.validate(basicFilterSchema)(filer) && Validator.validate(advancedFilterSchema)(filer) && Validator.validate(relativeDateFilterSchema)(filer)) {
-    error = { message: "One of the filters is not a page level filter" };
-  }
-  return error;
+export function validateDashboardLoad(input: any): IError[] {
+  let errors: IValidationError[] = Validators.dashboardLoadValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
-export const validateSaveAsParameters = Validator.validate(saveAsParametersSchema);
+export function validateTileLoad(input: any): IError[] {
+  let errors: IValidationError[] = Validators.tileLoadValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
 
-export const validateLoadQnaConfiguration = Validator.validate(loadQnaConfigurationSchema, {
-  schemas: {
-    qnaSettings: qnaSettingsSchema,
-  }
-});
+export function validatePage(input: any): IError[] {
+  let errors: IValidationError[] = Validators.pageValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
 
-export const validateQnaInterpretInputData = Validator.validate(qnaInterpretInputDataSchema);
+export function validateFilter(input: any): IError[] {
+  let errors: IValidationError[] = Validators.filtersValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSaveAsParameters(input: any): IError[] {
+  let errors: IValidationError[] = Validators.saveAsParametersValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateLoadQnaConfiguration(input: any): IError[] {
+  let errors: IValidationError[] = Validators.loadQnaValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateQnaInterpretInputData(input: any): IError[] {
+  let errors: IValidationError[] = Validators.qnaInterpretInputDataValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}

@@ -1,11 +1,12 @@
-import { IValidationError } from '../core/validator';
+import { IValidationError, Validators } from '../core/validator';
 import { MultipleFieldsValidator, IFieldValidatorsPair } from '../core/multipleFieldsValidator';
-import { BooleanValidator, ObjectValidator, ArrayValidator } from '../core/typeValidator';
-import { CustomLayoutValidator } from './customLayoutValidator';
-import { ExtensionValidator } from './extensionsValidator';
+import { ObjectValidator } from '../core/typeValidator';
 
 export class SettingsValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
+    if (input === undefined) {
+      return null;
+    }
     const errors = super.validate(input, path, field);
     if (errors) {
       return errors;
@@ -14,27 +15,27 @@ export class SettingsValidator extends ObjectValidator {
     const fields: IFieldValidatorsPair[] = [
       {
         field: "filterPaneEnabled",
-        validators: [ new BooleanValidator()]
+        validators: [Validators.booleanValidator]
       },
       {
         field: "navContentPaneEnabled",
-        validators: [new BooleanValidator()]
+        validators: [Validators.booleanValidator]
       },
       {
         field: "useCustomSaveAsDialog",
-        validators: [new BooleanValidator()]
+        validators: [Validators.booleanValidator]
       },
       {
         field: "extensions",
-        validators: [new ArrayValidator([new ExtensionValidator()])]
+        validators: [Validators.extentionArrayValidator]
       },
       {
         field: "customLayout",
-        validators: [new CustomLayoutValidator()]
+        validators: [Validators.customLayotValidator]
       }
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-    return multipleFieldsValidator.validate(input);
+    return multipleFieldsValidator.validate(input, path, field);
   }
 }

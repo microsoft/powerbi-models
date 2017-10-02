@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "declaration": true,
     "sourceMap": true,
     "noImplicitUseStrict": true,
     "outDir": "dist"

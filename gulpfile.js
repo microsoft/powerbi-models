@@ -7,6 +7,8 @@ var del = require('del'),
   rename = require('gulp-rename'),
   replace = require('gulp-replace'),
   tslint = require('gulp-tslint'),
+  ts = require('gulp-typescript'),
+  flatten = require('gulp-flatten'),
   typedoc = require("gulp-typedoc"),
   uglify = require('gulp-uglify'),
   karma = require('karma'),
@@ -26,7 +28,7 @@ gulp.task('build', 'Build for release', function (done) {
   return runSequence(
     'tslint:build',
     'clean:dist',
-    'compile:ts',
+    ['compile:ts', 'compile:dts'],
     'min',
     'generatecustomdts',
     'header',
@@ -87,8 +89,28 @@ gulp.task('compile:ts', 'Compile source files', function () {
     new webpack.BannerPlugin(webpackBanner)
   ];
 
-  return gulp.src(['typings/**/*.d.ts', './src/**/*.ts'])
+  return gulp.src(['./src/**/*.ts'])
     .pipe(webpackStream(webpackConfig))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('compile:dts', 'Generate one dts file from modules', function () {
+  var tsProject = ts.createProject('tsconfig.json', {
+    declaration: true,
+    sourceMap: false
+  });
+
+  var settings = {
+    out: "models.js",
+    declaration: true,
+    module: "amd"
+  };
+
+  var tsResult = tsProject.src()
+    .pipe(ts(settings));
+
+  return tsResult.dts
+    .pipe(flatten())
     .pipe(gulp.dest('./dist'));
 });
 

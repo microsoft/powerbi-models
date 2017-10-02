@@ -2,7 +2,7 @@ import { IValidationError, Validators } from '../core/validator';
 import { MultipleFieldsValidator, IFieldValidatorsPair } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
 
-export class CustomLayoutValidator extends ObjectValidator {
+export class SaveAsParametersValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input === undefined) {
       return null;
@@ -14,12 +14,8 @@ export class CustomLayoutValidator extends ObjectValidator {
 
     const fields: IFieldValidatorsPair[] = [
       {
-        field: "pageSize",
-        validators: [Validators.pageSizeValidator]
-      },
-      {
-        field: "displayOption",
-        validators: [Validators.customLayoutDisplayOptionValidator]
+        field: "name",
+        validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       }
     ];
 

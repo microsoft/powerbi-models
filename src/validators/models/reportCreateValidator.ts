@@ -2,7 +2,7 @@ import { IValidationError, Validators } from '../core/validator';
 import { MultipleFieldsValidator, IFieldValidatorsPair } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
 
-export class ReportLoadValidator extends ObjectValidator {
+export class ReportCreateValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input === undefined) {
       return null;
@@ -18,28 +18,8 @@ export class ReportLoadValidator extends ObjectValidator {
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       },
       {
-        field: "id",
+        field: "datasetId",
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
-      },
-      {
-        field: "settings",
-        validators: [Validators.settingsValidator]
-      },
-      {
-        field: "pageName",
-        validators: [Validators.stringValidator]
-      },
-      {
-        field: "filters",
-        validators: [Validators.filtersArrayValidator]
-      },
-      {
-        field: "permissions",
-        validators: [Validators.permissionsValidator]
-      },
-      {
-        field: "viewMode",
-        validators: [Validators.viewModeValidator]
       },
       {
         field: "tokenType",

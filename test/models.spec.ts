@@ -10,14 +10,16 @@ describe('Unit | Models', function () {
   }
 
   describe('validateReportLoad', function () {
-    const accessTokenRequiredMessage = models.loadSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.loadSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.loadSchema.properties.id.messages.required;
-    const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
-    const filtersInvalidMessage = models.loadSchema.properties.filters.invalidMessage;
-    const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
-    const permissionsInvalidMessage = models.loadSchema.properties.permissions.invalidMessage;
-    const viewModeInvalidMessage = models.loadSchema.properties.viewMode.invalidMessage;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const idRequiredMessage = "id is required";
+    const idInvalidTypeMessage = "id must be a string";
+    const filtersInvalidMessage = "filters property is invalid";
+    const pageNameInvalidTypeMessage = "pageName must be a string";
+    const permissionsInvalidMessage = "permissions property is invalid";
+    const permissionsInvalidTypeMessage = "permissions must be a number";
+    const viewModeInvalidMessage = "viewMode property is invalid";
+    const viewModeInvalidTypeMessage = "viewMode must be a number";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -90,7 +92,6 @@ describe('Unit | Models', function () {
 
       // Act
       const errors = models.validateReportLoad(testData.load);
-
       // Assert
       expect(errors).toBeUndefined();
     });
@@ -131,9 +132,7 @@ describe('Unit | Models', function () {
       expect(errors.length > 0).toBe(true);
     });
 
-    // TODO: Need to fix reportLoadConfiguration.json schema so that this fails. 
-    // Currently this validates without errors, but the second object should be rejected since it is not a valid filter.
-    xit(`should return errors if filters is array, but not all items are valid IFIlter`, function () {
+    it(`should return errors if filters is array, but not all items are valid IFIlter`, function () {
       // Arrange
       const testData = {
         load: {
@@ -192,7 +191,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is not a number`, function () {
+    it(`should return errors with one containing message '${permissionsInvalidTypeMessage}' if permissions is not a number`, function () {
       // Arrange
       const testData = {
         load: {
@@ -206,7 +205,7 @@ describe('Unit | Models', function () {
       const errors = models.validateReportLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, permissionsInvalidMessage);
+      testForExpectedMessage(errors, permissionsInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is invalid`, function () {
@@ -226,7 +225,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, permissionsInvalidMessage);
     });
 
-    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is not a number`, function () {
+    it(`should return errors with one containing message '${viewModeInvalidTypeMessage}' if viewMode is not a number`, function () {
       // Arrange
       const testData = {
         load: {
@@ -240,7 +239,7 @@ describe('Unit | Models', function () {
       const errors = models.validateReportLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, viewModeInvalidMessage);
+      testForExpectedMessage(errors, viewModeInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is invalid`, function () {
@@ -262,10 +261,10 @@ describe('Unit | Models', function () {
   });
 
   describe('validateCreateReport', function () {
-    const accessTokenRequiredMessage = models.createReportSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.createReportSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.createReportSchema.properties.datasetId.messages.required;
-    const idInvalidTypeMessage = models.createReportSchema.properties.datasetId.messages.type;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const datasetIdRequiredMessage = "datasetId is required";
+    const datasetIdInvalidTypeMessage = "datasetId must be a string";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -296,7 +295,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${idRequiredMessage}' if datasetId is not defined`, function () {
+    it(`should return errors with one containing message '${datasetIdRequiredMessage}' if datasetId is not defined`, function () {
       // Arrange
       const testData = {
         load: {
@@ -308,10 +307,10 @@ describe('Unit | Models', function () {
       const errors = models.validateCreateReport(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idRequiredMessage);
+      testForExpectedMessage(errors, datasetIdRequiredMessage);
     });
 
-    it(`should return errors with one containing message '${idInvalidTypeMessage}' if datasetId is not a string`, function () {
+    it(`should return errors with one containing message '${datasetIdInvalidTypeMessage}' if datasetId is not a string`, function () {
       // Arrange
       const testData = {
         load: {
@@ -324,7 +323,7 @@ describe('Unit | Models', function () {
       const errors = models.validateCreateReport(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idInvalidTypeMessage);
+      testForExpectedMessage(errors, datasetIdInvalidTypeMessage);
     });
 
     it(`should return undefined if datasetId and accessToken are provided`, function () {
@@ -345,11 +344,12 @@ describe('Unit | Models', function () {
   });
 
   describe('validateDashboardLoad', function () {
-    const accessTokenRequiredMessage = models.dashboardLoadSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.dashboardLoadSchema.properties.id.messages.required;
-    const idInvalidTypeMessage = models.dashboardLoadSchema.properties.id.messages.type;
-    const pageViewInvalidTypeMessage = models.dashboardLoadSchema.properties.pageView.messages.type;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const idRequiredMessage = "id is required";
+    const idInvalidTypeMessage = "id must be a string";
+    const pageViewInvalidMessage = "pageView must be a string with one of the following values: \"actualSize\", \"fitToWidth\", \"oneColumn\"";
+    const pageViewInvalidTypeMessage = "pageView must be a string";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -433,7 +433,7 @@ describe('Unit | Models', function () {
         load: {
           id: 'fakeId',
           accessToken: 'fakeAccessToken',
-          pageView: 'pageView',
+          pageView: 'actualSize',
         }
       };
 
@@ -460,17 +460,34 @@ describe('Unit | Models', function () {
       // Assert
       testForExpectedMessage(errors, pageViewInvalidTypeMessage);
     });
+
+    it(`should return errors with one containing message '${pageViewInvalidMessage}' if pageView is not a valid string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 'id',
+          pageView: 'pageView',
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, pageViewInvalidMessage);
+    });
   });
 
   describe('validateTileLoad', function () {
-    const accessTokenRequiredMessage = models.tileLoadSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.tileLoadSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.tileLoadSchema.properties.id.messages.required;
-    const idInvalidTypeMessage = models.tileLoadSchema.properties.id.messages.type;
-    const dashboardIdRequiredMessage = models.tileLoadSchema.properties.dashboardId.messages.required;
-    const dashboardIdInvalidTypeMessage = models.tileLoadSchema.properties.dashboardId.messages.type;
-    const widthITypeMessage = models.tileLoadSchema.properties.width.messages.type;
-    const heightITypeMessage = models.tileLoadSchema.properties.height.messages.type;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const idRequiredMessage = "id is required";
+    const idInvalidTypeMessage = "id must be a string";
+    const dashboardIdRequiredMessage = "dashboardId is required";
+    const dashboardIdInvalidTypeMessage = "dashboardId must be a string";
+    const widthITypeMessage = "width must be a number";
+    const heightITypeMessage = "height must be a number";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -871,8 +888,8 @@ describe('Unit | Models', function () {
   });
 
   describe('validateSettings', function () {
-    const filterPaneEnabledInvalidTypeMessage = models.settingsSchema.properties.filterPaneEnabled.messages.type;
-    const navContentPaneEnabledInvalidTypeMessage = models.settingsSchema.properties.navContentPaneEnabled.messages.type;
+    const filterPaneEnabledInvalidTypeMessage = "filterPaneEnabled must be a boolean";
+    const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
 
     it(`should return errors with one containing message '${filterPaneEnabledInvalidTypeMessage}' if filterPaneEnabled is not a boolean`, function () {
       // Arrange
@@ -920,8 +937,8 @@ describe('Unit | Models', function () {
   });
 
   describe('validate Extensions', function () {
-    const commandNameInvalidTypeMessage = models.extensionItemSchema.properties.name.messages.type;
-    const commandNameRequiredMessage = models.extensionItemSchema.properties.name.messages.required;
+    const commandNameInvalidTypeMessage = "name must be a string";
+    const commandNameRequiredMessage = "name is required";
 
     it(`should return errors with one containing message '${commandNameInvalidTypeMessage}' if command name is not a string`, function () {
       // Arrange

@@ -1,8 +1,8 @@
 import { IValidationError, Validators } from '../core/validator';
 import { MultipleFieldsValidator, IFieldValidatorsPair } from '../core/multipleFieldsValidator';
-import { ObjectValidator } from '../core/typeValidator';
+import { ObjectValidator, StringValidator } from '../core/typeValidator';
 
-export class MenuExtensionValidator extends ObjectValidator {
+export class PageSizeValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input === undefined) {
       return null;
@@ -14,12 +14,8 @@ export class MenuExtensionValidator extends ObjectValidator {
 
     const fields: IFieldValidatorsPair[] = [
       {
-        field: "title",
-        validators: [Validators.stringValidator]
-      },
-      {
-        field: "icon",
-        validators: [Validators.stringValidator]
+        field: "type",
+        validators: [Validators.fieldRequiredValidator, Validators.pageSizeTypeValidator]
       }
     ];
 
@@ -28,7 +24,7 @@ export class MenuExtensionValidator extends ObjectValidator {
   }
 }
 
-export class ExtensionPointsValidator extends ObjectValidator {
+export class CustomPageSizeValidator extends PageSizeValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input === undefined) {
       return null;
@@ -40,12 +36,12 @@ export class ExtensionPointsValidator extends ObjectValidator {
 
     const fields: IFieldValidatorsPair[] = [
       {
-        field: "visualContextMenu",
-        validators: [Validators.menuExtensionValidator]
+        field: "width",
+        validators: [Validators.numberValidator]
       },
       {
-        field: "visualOptionsMenu",
-        validators: [Validators.menuExtensionValidator]
+        field: "height",
+        validators: [Validators.numberValidator]
       }
     ];
 
@@ -54,7 +50,7 @@ export class ExtensionPointsValidator extends ObjectValidator {
   }
 }
 
-export class ExtensionItemValidator extends ObjectValidator {
+export class PageValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input === undefined) {
       return null;
@@ -68,10 +64,6 @@ export class ExtensionItemValidator extends ObjectValidator {
       {
         field: "name",
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
-      },
-      {
-        field: "extend",
-        validators: [Validators.fieldRequiredValidator, Validators.extensionPointsValidator]
       }
     ];
 
@@ -80,7 +72,7 @@ export class ExtensionItemValidator extends ObjectValidator {
   }
 }
 
-export class CommandExtensionValidator extends ExtensionItemValidator {
+export class PageViewFieldValidator extends StringValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input === undefined) {
       return null;
@@ -89,41 +81,12 @@ export class CommandExtensionValidator extends ExtensionItemValidator {
     if (errors) {
       return errors;
     }
-
-    const fields: IFieldValidatorsPair[] = [
-      {
-        field: "title",
-        validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
-      },
-      {
-        field: "icon",
-        validators: [Validators.stringValidator]
-      }
-    ];
-
-    const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-    return multipleFieldsValidator.validate(input, path, field);
-  }
-}
-
-export class ExtensionValidator extends ObjectValidator {
-  public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
-      return null;
+    const possibleValues = ["actualSize" , "fitToWidth" , "oneColumn"];
+    if (possibleValues.indexOf(input) < 0) {
+      return [{
+        message: "pageView must be a string with one of the following values: \"actualSize\", \"fitToWidth\", \"oneColumn\""
+      }];
     }
-    const errors = super.validate(input, path, field);
-    if (errors) {
-      return errors;
-    }
-
-    const fields: IFieldValidatorsPair[] = [
-      {
-        field: "command",
-        validators: [Validators.commandExtensionValidator]
-      }
-    ];
-
-    const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-    return multipleFieldsValidator.validate(input, path, field);
+    return null;
   }
 }
