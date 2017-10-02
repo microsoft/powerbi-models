@@ -100,9 +100,35 @@ export interface ICustomPageSize extends IPageSize {
   height?: number;
 }
 
+export type PagesLayout = { [key: string]: IPageLayout; };
+export type VisualsLayout = { [key: string]: IVisualLayout; };
+
+export interface IPageLayout {
+  visualsLayout: VisualsLayout;
+}
+
+export enum VisualContainerDisplayMode {
+  Visible,
+  Hidden
+}
+
+export interface IVisualLayout {
+  x: number;
+  y: number;
+  z?: number;
+  width?: number;
+  height?: number;
+  displayState?: IVisualContainerDisplayState;
+}
+
+export interface IVisualContainerDisplayState {
+  mode: VisualContainerDisplayMode;
+}
+
 export interface ICustomLayout {
   pageSize?: IPageSize;
   displayOption?: DisplayOption;
+  pagesLayout?: PagesLayout;
 }
 
 export type Extensions = IExtension[];
