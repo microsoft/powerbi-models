@@ -7,7 +7,6 @@ var del = require('del'),
   rename = require('gulp-rename'),
   replace = require('gulp-replace'),
   tslint = require('gulp-tslint'),
-  ts = require('gulp-typescript'),
   flatten = require('gulp-flatten'),
   typedoc = require("gulp-typedoc"),
   uglify = require('gulp-uglify'),
@@ -28,10 +27,11 @@ gulp.task('build', 'Build for release', function (done) {
   return runSequence(
     'tslint:build',
     'clean:dist',
-    ['compile:ts', 'compile:dts'],
+    'compile:ts',
     'min',
     'generatecustomdts',
     'header',
+    'clean:extradts',
     done
   );
 });
@@ -94,26 +94,6 @@ gulp.task('compile:ts', 'Compile source files', function () {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('compile:dts', 'Generate one dts file from modules', function () {
-  var tsProject = ts.createProject('tsconfig.json', {
-    declaration: true,
-    sourceMap: false
-  });
-
-  var settings = {
-    out: "models.js",
-    declaration: true,
-    module: "amd"
-  };
-
-  var tsResult = tsProject.src()
-    .pipe(ts(settings));
-
-  return tsResult.dts
-    .pipe(flatten())
-    .pipe(gulp.dest('./dist'));
-});
-
 gulp.task('header', 'Add header to distributed files', function () {
   return gulp.src(['./dist/*.d.ts'])
     .pipe(header(gulpBanner))
@@ -140,6 +120,12 @@ gulp.task('clean:dist', 'Clean dist folder', function () {
 gulp.task('clean:tmp', 'Clean tmp folder', function () {
   return del([
     './tmp/**/*'
+  ]);
+}); 
+
+gulp.task('clean:extradts', 'Clean unused dts files', function () {
+  return del([
+    './dist/validators'
   ]);
 });
 

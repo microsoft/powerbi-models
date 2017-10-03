@@ -14,17 +14,6 @@ import { CustomPageSizeValidator, PageSizeValidator, PageValidator, PageViewFiel
 import { QnaSettingsValidator, QnaInterpretInputDataValidator, LoadQnaValidator } from '../models/qnaValidator';
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 
-export interface ITechnicalDetails {
-  requestId?: string;
-}
-
-export interface IError {
-  message: string;
-  detailedMessage?: string;
-  errorCode?: string;
-  technicalDetails?: ITechnicalDetails;
-}
-
 export interface IValidationError {
   path?: string;
   keyword?: string;
