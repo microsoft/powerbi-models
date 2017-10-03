@@ -26,6 +26,8 @@ export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputD
 export const customLayoutSchema = require('./schemas/customLayout.json');
 export const pageSizeSchema = require('./schemas/pageSize.json');
 export const customPageSizeSchema = require('./schemas/customPageSize.json');
+export const pageLayoutSchema = require('./schemas/pageLayoutSchema.json');
+export const visualLayoutSchema = require('./schemas/visualLayoutSchema.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -184,12 +186,16 @@ export const validateSettings = validate(settingsSchema, {
     commandExtension: commandExtensionSchema,
     extensionPoints: extensionPointsSchema,
     menuExtension: menuExtensionSchema,
+    pageLayout: pageLayoutSchema,
+    visualLayout: visualLayoutSchema
   }
 });
 
 export const validateCustomPageSize = validate(customPageSizeSchema, {
   schemas: {
     pageSize: pageSizeSchema,
+    pageLayout: pageLayoutSchema,
+    visualLayout: visualLayoutSchema
   }
 });
 
@@ -223,6 +229,8 @@ export const validateReportLoad = validate(loadSchema, {
     relativeDateFilter: relativeDateFilterSchema,
     customLayout: customLayoutSchema,
     pageSize: pageSizeSchema,
+    pageLayout: pageLayoutSchema,
+    visualLayout: visualLayoutSchema,
     extension: extensionSchema,
     extensionItem: extensionItemSchema,
     commandExtension: commandExtensionSchema,
