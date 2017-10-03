@@ -26,8 +26,8 @@ export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputD
 export const customLayoutSchema = require('./schemas/customLayout.json');
 export const pageSizeSchema = require('./schemas/pageSize.json');
 export const customPageSizeSchema = require('./schemas/customPageSize.json');
-export const pageLayoutSchema = require('./schemas/pageLayoutSchema.json');
-export const visualLayoutSchema = require('./schemas/visualLayoutSchema.json');
+export const pageLayoutSchema = require('./schemas/pageLayout.json');
+export const visualLayoutSchema = require('./schemas/visualLayout.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
