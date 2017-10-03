@@ -120,8 +120,8 @@ export enum LayoutType {
 }
 
 export interface IVisualLayout {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   z?: number;
   width?: number;
   height?: number;
