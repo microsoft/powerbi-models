@@ -27,6 +27,12 @@
       },
       "invalidMessage": "extensions array is invalid"
     },
+    "layoutType": {
+      "type": "number",
+      "enum": [0, 1],
+      "default": 0,
+      "invalidMessage": "layoutType property is invalid"
+    },
     "customLayout": {
       "$ref": "#customLayout"
     }

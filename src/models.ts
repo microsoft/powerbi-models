@@ -26,6 +26,8 @@ export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputD
 export const customLayoutSchema = require('./schemas/customLayout.json');
 export const pageSizeSchema = require('./schemas/pageSize.json');
 export const customPageSizeSchema = require('./schemas/customPageSize.json');
+export const pageLayoutSchema = require('./schemas/pageLayout.json');
+export const visualLayoutSchema = require('./schemas/visualLayout.json');
 /* tslint:enable:no-var-requires */
 
 import * as jsen from 'jsen';
@@ -100,9 +102,40 @@ export interface ICustomPageSize extends IPageSize {
   height?: number;
 }
 
+export type PagesLayout = { [key: string]: IPageLayout; };
+export type VisualsLayout = { [key: string]: IVisualLayout; };
+
+export interface IPageLayout {
+  visualsLayout: VisualsLayout;
+}
+
+export enum VisualContainerDisplayMode {
+  Visible,
+  Hidden
+}
+
+export enum LayoutType {
+  Master,
+  Custom
+}
+
+export interface IVisualLayout {
+  x?: number;
+  y?: number;
+  z?: number;
+  width?: number;
+  height?: number;
+  displayState?: IVisualContainerDisplayState;
+}
+
+export interface IVisualContainerDisplayState {
+  mode: VisualContainerDisplayMode;
+}
+
 export interface ICustomLayout {
   pageSize?: IPageSize;
   displayOption?: DisplayOption;
+  pagesLayout?: PagesLayout;
 }
 
 export type Extensions = IExtension[];
@@ -140,6 +173,7 @@ export interface ISettings {
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   extensions?: Extensions;
+  layoutType?: LayoutType;
   customLayout?: ICustomLayout;
 }
 
@@ -152,12 +186,16 @@ export const validateSettings = validate(settingsSchema, {
     commandExtension: commandExtensionSchema,
     extensionPoints: extensionPointsSchema,
     menuExtension: menuExtensionSchema,
+    pageLayout: pageLayoutSchema,
+    visualLayout: visualLayoutSchema
   }
 });
 
 export const validateCustomPageSize = validate(customPageSizeSchema, {
   schemas: {
     pageSize: pageSizeSchema,
+    pageLayout: pageLayoutSchema,
+    visualLayout: visualLayoutSchema
   }
 });
 
@@ -191,6 +229,8 @@ export const validateReportLoad = validate(loadSchema, {
     relativeDateFilter: relativeDateFilterSchema,
     customLayout: customLayoutSchema,
     pageSize: pageSizeSchema,
+    pageLayout: pageLayoutSchema,
+    visualLayout: visualLayoutSchema,
     extension: extensionSchema,
     extensionItem: extensionItemSchema,
     commandExtension: commandExtensionSchema,

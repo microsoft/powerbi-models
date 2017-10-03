@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "x": {
+      "type": "number"
+    },
+    "y": {
+      "type": "number"
+    },
+    "z": {
+      "type": "number"
+    },
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "displayState": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "number",
+          "enum": [0, 1],
+          "default": 0
+        }
+      }
+    }
+  }
+}
