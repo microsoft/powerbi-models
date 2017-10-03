@@ -112,6 +112,11 @@ export enum VisualContainerDisplayMode {
   Hidden
 }
 
+export enum LayoutType {
+  Master,
+  Custom
+}
+
 export interface IVisualLayout {
   x: number;
   y: number;
@@ -166,6 +171,7 @@ export interface ISettings {
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   extensions?: Extensions;
+  layoutType?: LayoutType;
   customLayout?: ICustomLayout;
 }
 
