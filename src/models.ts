@@ -770,7 +770,7 @@ export interface IQnaSettings {
 export interface ILoadQnaConfiguration {
   accessToken: string;
   datasetIds: string[];
-  utterance?: string;
+  question?: string;
   viewMode?: QnaMode;
   settings?: IQnaSettings;
   tokenType?: TokenType;
