@@ -810,8 +810,8 @@ export interface IQnaSettings {
 export interface ILoadQnaConfiguration {
   accessToken: string;
   datasetIds: string[];
-  utterance?: string;
-  viewMode?: QnAMode;
+  question?: string;
+  viewMode?: QnaMode;
   settings?: IQnaSettings;
   tokenType?: TokenType;
 }
@@ -822,21 +822,21 @@ export const validateLoadQnaConfiguration = validate(loadQnaConfigurationSchema,
   }
 });
 
-export enum QnAMode {
+export enum QnaMode {
   Interactive,
-  NonInteractive,
+  ResultOnly,
 }
 
 export interface IQnaInterpretInputData {
-  utterance: string;
+  question: string;
   datasetIds?: string[];
 }
 
 export const validateQnaInterpretInputData = validate(qnaInterpretInputDataSchema);
 
 export interface IQnaVisualRenderedEvent {
-  utterance: string;
-  normalizedUtterance?: string;
+  question: string;
+  normalizedQuestion?: string;
 }
 
 export interface IVisualCustomCommandEvent {

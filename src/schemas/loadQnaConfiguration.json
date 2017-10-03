@@ -19,10 +19,10 @@
         "required": "datasetIds is required"
       }
     },
-    "utterance": {
+    "question": {
       "type": "string",
       "messages": {
-        "type": "utterance must be a string"
+        "type": "question must be a string"
       }
     },
     "viewMode": {

@@ -11,15 +11,15 @@
         "type": "datasetIds must be an array of strings"
       }
     },
-    "utterance": {
+    "question": {
       "type": "string",
       "messages": {
-        "type": "utterance must be a string",
-        "required": "utterance is required"
+        "type": "question must be a string",
+        "required": "question is required"
       }
     }
   },
   "required": [
-    "utterance"
+    "question"
   ]
 }
