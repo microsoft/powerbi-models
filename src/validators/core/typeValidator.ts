@@ -7,6 +7,7 @@ export class ObjectValidator implements IValidator {
     }
     if (typeof input !== "object" || Array.isArray(input)) {
       return [{
+        message: field !== undefined ? field + " must be an object" : "input must be an object",        
         path: path,
         keyword: "type"
       }];
@@ -36,7 +37,11 @@ export class ArrayValidator implements IValidator {
       for (let validator of this.itemValidators) {
         let errors = validator.validate(input[i], fieldsPath, field);
         if (errors) {
-          return errors;
+          return [{
+            message: field + " property is invalid",
+            path: (path ? path + "." : "") + field,
+            keyword: "type"
+          }];
         }
       }
     }
@@ -123,16 +128,52 @@ export class StringArrayValidator extends ArrayValidator {
   constructor() {
     super([new StringValidator()]);
   }
+
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return [{
+        message: field + " must be an array of strings",
+        path: (path ? path + "." : "") + field,
+        keyword: "type"
+      }];
+    }
+    return null;
+  }
 }
 
 export class BooleanArrayValidator extends ArrayValidator {
   constructor() {
     super([new BooleanValidator()]);
   }
+
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return [{
+        message: field + " must be an array of booleans",
+        path: (path ? path + "." : "") + field,
+        keyword: "type"
+      }];
+    }
+    return null;
+  }
 }
 
 export class NumberArrayValidator extends ArrayValidator {
   constructor() {
     super([new NumberValidator()]);
+  }
+
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return [{
+        message: field + " must be an array of numbers",
+        path: (path ? path + "." : "") + field,
+        keyword: "type"
+      }];
+    }
+    return null;
   }
 }

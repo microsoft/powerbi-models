@@ -79,8 +79,8 @@ export enum TokenType {
 export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
 
 export interface IQnaVisualRenderedEvent {
-  utterance: string;
-  normalizedUtterance?: string;
+  question: string;
+  normalizedQuestion?: string;
 }
 
 export interface IVisualCustomCommandEvent {
@@ -631,19 +631,19 @@ export interface IQnaSettings {
 export interface ILoadQnaConfiguration {
   accessToken: string;
   datasetIds: string[];
-  utterance?: string;
-  viewMode?: QnAMode;
+  question?: string;
+  viewMode?: QnaMode;
   settings?: IQnaSettings;
   tokenType?: TokenType;
 }
 
-export enum QnAMode {
+export enum QnaMode {
   Interactive,
   NonInteractive,
 }
 
 export interface IQnaInterpretInputData {
-  utterance: string;
+  question: string;
   datasetIds?: string[];
 }
 

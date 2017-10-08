@@ -22,7 +22,7 @@ export class LoadQnaValidator extends ObjectValidator {
         validators: [Validators.fieldRequiredValidator, Validators.stringArrayValidator]
       },
       {
-        field: "utterance",
+        field: "question",
         validators: [Validators.stringValidator]
       },
       {
@@ -82,7 +82,7 @@ export class QnaInterpretInputDataValidator extends ObjectValidator {
         validators: [Validators.stringArrayValidator]
       },
       {
-        field: "utterance",
+        field: "question",
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       },
     ];
