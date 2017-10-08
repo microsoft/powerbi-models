@@ -748,8 +748,3 @@ export function validateQnaInterpretInputData(input: any): IError[] {
   let errors: any[] = Validators.qnaInterpretInputDataValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
-
-export function validateCustomLayout(input: any): IError[] {
-  let errors: any[] = Validators.customLayoutValidator.validate(input);
-  return errors ? errors.map(normalizeError) : undefined;
-}
