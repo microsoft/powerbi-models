@@ -1,7 +1,6 @@
 import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, NumberValidator,
   StringArrayValidator, BooleanArrayValidator, NumberArrayValidator } from './typeValidator';
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
-import { CustomLayoutValidator } from '../models/customLayoutValidator';
 import { SettingsValidator } from '../models/settingsValidator';
 import { FilterColumnTargetValidator, FilterHierarchyTargetValidator, FilterMeasureTargetValidator, ConditionItemValidator, RelativeDateFilterValidator, BasicFilterValidator, AdvancedFilterValidator, TopNFilterValidator, NotSupportedFilterValidator, IncludeExcludeFilterValidator, FilterValidator } from '../models/filtersValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
@@ -13,6 +12,8 @@ import { TileLoadValidator } from '../models/tileLoadValidator';
 import { CustomPageSizeValidator, PageSizeValidator, PageValidator, PageViewFieldValidator } from '../models/pageValidator';
 import { QnaSettingsValidator, QnaInterpretInputDataValidator, LoadQnaValidator } from '../models/qnaValidator';
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
+import { MapValidator } from './mapValidator';
+import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
 
 export interface IValidationError {
   path?: string;
@@ -36,10 +37,12 @@ export const Validators = {
   booleanValidator: new BooleanValidator(),
   commandExtensionValidator: new CommandExtensionValidator(),
   conditionItemValidator: new ConditionItemValidator(),
-  customLayotValidator: new CustomLayoutValidator(),
+  customLayoutValidator: new CustomLayoutValidator(),
   customLayoutDisplayOptionValidator: new EnumValidator([0, 1, 2]),
   customPageSizeValidator: new CustomPageSizeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
+  displayStateModeValidator: new EnumValidator([0, 1]),
+  displayStateValidator: new DisplayStateValidator(),
   extensionPointsValidator: new ExtensionPointsValidator(),
   extentionArrayValidator: new ArrayValidator([new ExtensionValidator()]),
   extentionValidator: new ExtensionValidator(),
@@ -53,16 +56,19 @@ export const Validators = {
   filtersValidator: new FilterValidator(),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
   includeExludeFilterTypeValidator: new EnumValidator([3]),
+  layoutTypeValidator: new EnumValidator([0, 1]),
   loadQnaValidator: new LoadQnaValidator(),
   menuExtensionValidator: new MenuExtensionValidator(),
   notSupportedFilterTypeValidator: new EnumValidator([2]),
   notSupportedFilterValidator: new NotSupportedFilterValidator(),
   numberArrayValidator: new NumberArrayValidator(),
   numberValidator: new NumberValidator(),
+  pageLayoutValidator: new MapValidator([new StringValidator()],[new VisualLayoutValidator()]),
   pageSizeTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5]),
   pageSizeValidator: new PageSizeValidator(),
   pageValidator: new PageValidator(),
   pageViewFieldValidator: new PageViewFieldValidator(),
+  pagesLayoutValidator: new MapValidator([new StringValidator()],[new PageLayoutValidator()]),
   permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
   qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
   qnaSettingValidator: new QnaSettingsValidator(),
@@ -81,4 +87,5 @@ export const Validators = {
   topNFilterTypeValidator: new EnumValidator([5]),
   topNFilterValidator: new TopNFilterValidator(),
   viewModeValidator: new EnumValidator([0, 1]),
+  visualLayoutValidator: new VisualLayoutValidator(),
 };

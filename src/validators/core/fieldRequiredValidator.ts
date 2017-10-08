@@ -5,7 +5,7 @@ export class FieldRequiredValidator implements IValidator {
     if (input === undefined) {
       return [{
         message: field + " is required",
-        path: (path ? path + "." : "") + "accessToken",
+        path: (path ? path + "." : "") + field,
         keyword: "required"
       }];
     }

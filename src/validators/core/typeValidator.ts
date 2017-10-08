@@ -7,7 +7,7 @@ export class ObjectValidator implements IValidator {
     }
     if (typeof input !== "object" || Array.isArray(input)) {
       return [{
-        message: field !== undefined ? field + " must be an object" : "input must be an object",        
+        message: field !== undefined ? field + " must be an object" : "input must be an object",
         path: path,
         keyword: "type"
       }];

@@ -890,6 +890,12 @@ describe('Unit | Models', function () {
   describe('validateSettings', function () {
     const filterPaneEnabledInvalidTypeMessage = "filterPaneEnabled must be a boolean";
     const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
+    const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
+    const extensionsInvalidMessage = "extensions property is invalid";
+    const layoutTypeInvalidTypeMessage = "layoutType must be a number";
+    const layoutTypeInvalidMessage = "layoutType property is invalid";
+    const customLayoutInvalidMessage = "customLayout must be an object"
+    const modeInvalidMessage = "mode property is invalid";
 
     it(`should return errors with one containing message '${filterPaneEnabledInvalidTypeMessage}' if filterPaneEnabled is not a boolean`, function () {
       // Arrange
@@ -921,10 +927,142 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, navContentPaneEnabledInvalidTypeMessage);
     });
 
+    it(`should return errors with one containing message '${useCustomSaveAsDialogInvalidTypeMessage}' if useCustomSaveAsDialog is not a boolean`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          useCustomSaveAsDialog: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, useCustomSaveAsDialogInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${extensionsInvalidMessage}' if extentions array is invalid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          extensions: [1]
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, extensionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${layoutTypeInvalidTypeMessage}' if layoutType is not a number`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          layoutType: true
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, layoutTypeInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${layoutTypeInvalidMessage}' if layoutType is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          layoutType: 3
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, layoutTypeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${customLayoutInvalidMessage}' if customLayout type is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          customLayout: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, customLayoutInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${modeInvalidMessage}' if customLayout type is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          navContentPaneEnabled: false,
+          filterPaneEnabled: false,
+          useCustomSaveAsDialog: false,
+          extensions: [{command: {name: "name", extend: {}, title: "title"}}],
+          layoutType: 0,
+          customLayout: {
+            pagesLayout: {
+              "aaaa": {
+                visualsLayout: {
+                  "bbbb": {
+                    x: 10,
+                    y: 10,
+                    z: 10,
+                    width: 300,
+                    height: 300,
+                    displayState: {
+                        mode: 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, modeInvalidMessage);
+    });
+
+    it(`should return undefined if settings is valid (empty)`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
     it(`should return undefined if settings is valid`, function () {
       // Arrange
       const testData = {
         settings: {
+          navContentPaneEnabled: false,
+          filterPaneEnabled: false,
+          useCustomSaveAsDialog: false,
+          extensions: [{command: {name: "name", extend: {}, title: "title"}}],
+          layoutType: 0,
+          customLayout: {}
         }
       };
 

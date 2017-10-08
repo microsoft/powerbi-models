@@ -30,8 +30,12 @@ export class SettingsValidator extends ObjectValidator {
         validators: [Validators.extentionArrayValidator]
       },
       {
+        field: "layoutType",
+        validators: [Validators.layoutTypeValidator]
+      },
+      {
         field: "customLayout",
-        validators: [Validators.customLayotValidator]
+        validators: [Validators.customLayoutValidator]
       }
     ];
 
