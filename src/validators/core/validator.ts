@@ -1,5 +1,4 @@
-import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, NumberValidator,
-  StringArrayValidator, BooleanArrayValidator, NumberArrayValidator } from './typeValidator';
+import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, NumberValidator, StringArrayValidator, BooleanArrayValidator, NumberArrayValidator } from './typeValidator';
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
 import { SettingsValidator } from '../models/settingsValidator';
 import { FilterColumnTargetValidator, FilterHierarchyTargetValidator, FilterMeasureTargetValidator, ConditionItemValidator, RelativeDateFilterValidator, BasicFilterValidator, AdvancedFilterValidator, TopNFilterValidator, NotSupportedFilterValidator, IncludeExcludeFilterValidator, FilterValidator } from '../models/filtersValidator';
