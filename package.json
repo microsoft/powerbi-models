@@ -1,7 +1,7 @@
 {
   "name": "powerbi-models",
-  "version": "0.11.4",
-  "description": "Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK. For each model there is a TypeScript interface, a json schema definitions, and a validation function to ensure and object is valid.",
+  "version": "1.0.0",
+  "description": "Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK. For each model there is a TypeScript interface, and a validation function to ensure and object is valid.",
   "main": "dist/models.js",
   "typings": "dist/models.d.ts",
   "directories": {
@@ -26,14 +26,14 @@
     "PowerBI",
     "message",
     "validation",
-    "json",
-    "schema"
+    "json"
   ],
   "author": "Microsoft PowerBI Team",
   "license": "MIT",
   "devDependencies": {
     "del": "^2.2.1",
     "gulp": "^3.9.1",
+    "gulp-flatten": "^0.2.0",
     "gulp-gh-pages": "^0.5.4",
     "gulp-header": "^1.8.7",
     "gulp-help": "^1.6.1",
@@ -63,9 +63,7 @@
     "yargs": "^4.7.1"
   },
   "publishConfig": {
-    "tag": "beta"
   },
   "dependencies": {
-    "jsen": "^0.6.1"
   }
 }

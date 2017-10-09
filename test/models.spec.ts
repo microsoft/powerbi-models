@@ -10,14 +10,16 @@ describe('Unit | Models', function () {
   }
 
   describe('validateReportLoad', function () {
-    const accessTokenRequiredMessage = models.loadSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.loadSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.loadSchema.properties.id.messages.required;
-    const idInvalidTypeMessage = models.loadSchema.properties.id.messages.type;
-    const filtersInvalidMessage = models.loadSchema.properties.filters.invalidMessage;
-    const pageNameInvalidTypeMessage = models.loadSchema.properties.pageName.messages.type;
-    const permissionsInvalidMessage = models.loadSchema.properties.permissions.invalidMessage;
-    const viewModeInvalidMessage = models.loadSchema.properties.viewMode.invalidMessage;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const idRequiredMessage = "id is required";
+    const idInvalidTypeMessage = "id must be a string";
+    const filtersInvalidMessage = "filters property is invalid";
+    const pageNameInvalidTypeMessage = "pageName must be a string";
+    const permissionsInvalidMessage = "permissions property is invalid";
+    const permissionsInvalidTypeMessage = "permissions must be a number";
+    const viewModeInvalidMessage = "viewMode property is invalid";
+    const viewModeInvalidTypeMessage = "viewMode must be a number";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -90,7 +92,6 @@ describe('Unit | Models', function () {
 
       // Act
       const errors = models.validateReportLoad(testData.load);
-
       // Assert
       expect(errors).toBeUndefined();
     });
@@ -131,9 +132,7 @@ describe('Unit | Models', function () {
       expect(errors.length > 0).toBe(true);
     });
 
-    // TODO: Need to fix reportLoadConfiguration.json schema so that this fails. 
-    // Currently this validates without errors, but the second object should be rejected since it is not a valid filter.
-    xit(`should return errors if filters is array, but not all items are valid IFIlter`, function () {
+    it(`should return errors if filters is array, but not all items are valid IFIlter`, function () {
       // Arrange
       const testData = {
         load: {
@@ -192,7 +191,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, pageNameInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is not a number`, function () {
+    it(`should return errors with one containing message '${permissionsInvalidTypeMessage}' if permissions is not a number`, function () {
       // Arrange
       const testData = {
         load: {
@@ -206,7 +205,7 @@ describe('Unit | Models', function () {
       const errors = models.validateReportLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, permissionsInvalidMessage);
+      testForExpectedMessage(errors, permissionsInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${permissionsInvalidMessage}' if permissions is invalid`, function () {
@@ -226,7 +225,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, permissionsInvalidMessage);
     });
 
-    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is not a number`, function () {
+    it(`should return errors with one containing message '${viewModeInvalidTypeMessage}' if viewMode is not a number`, function () {
       // Arrange
       const testData = {
         load: {
@@ -240,7 +239,7 @@ describe('Unit | Models', function () {
       const errors = models.validateReportLoad(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, viewModeInvalidMessage);
+      testForExpectedMessage(errors, viewModeInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is invalid`, function () {
@@ -262,10 +261,10 @@ describe('Unit | Models', function () {
   });
 
   describe('validateCreateReport', function () {
-    const accessTokenRequiredMessage = models.createReportSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.createReportSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.createReportSchema.properties.datasetId.messages.required;
-    const idInvalidTypeMessage = models.createReportSchema.properties.datasetId.messages.type;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const datasetIdRequiredMessage = "datasetId is required";
+    const datasetIdInvalidTypeMessage = "datasetId must be a string";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -296,7 +295,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${idRequiredMessage}' if datasetId is not defined`, function () {
+    it(`should return errors with one containing message '${datasetIdRequiredMessage}' if datasetId is not defined`, function () {
       // Arrange
       const testData = {
         load: {
@@ -308,10 +307,10 @@ describe('Unit | Models', function () {
       const errors = models.validateCreateReport(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idRequiredMessage);
+      testForExpectedMessage(errors, datasetIdRequiredMessage);
     });
 
-    it(`should return errors with one containing message '${idInvalidTypeMessage}' if datasetId is not a string`, function () {
+    it(`should return errors with one containing message '${datasetIdInvalidTypeMessage}' if datasetId is not a string`, function () {
       // Arrange
       const testData = {
         load: {
@@ -324,7 +323,7 @@ describe('Unit | Models', function () {
       const errors = models.validateCreateReport(testData.load);
 
       // Assert
-      testForExpectedMessage(errors, idInvalidTypeMessage);
+      testForExpectedMessage(errors, datasetIdInvalidTypeMessage);
     });
 
     it(`should return undefined if datasetId and accessToken are provided`, function () {
@@ -345,11 +344,12 @@ describe('Unit | Models', function () {
   });
 
   describe('validateDashboardLoad', function () {
-    const accessTokenRequiredMessage = models.dashboardLoadSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.dashboardLoadSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.dashboardLoadSchema.properties.id.messages.required;
-    const idInvalidTypeMessage = models.dashboardLoadSchema.properties.id.messages.type;
-    const pageViewInvalidTypeMessage = models.dashboardLoadSchema.properties.pageView.messages.type;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const idRequiredMessage = "id is required";
+    const idInvalidTypeMessage = "id must be a string";
+    const pageViewInvalidMessage = "pageView must be a string with one of the following values: \"actualSize\", \"fitToWidth\", \"oneColumn\"";
+    const pageViewInvalidTypeMessage = "pageView must be a string";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -433,7 +433,7 @@ describe('Unit | Models', function () {
         load: {
           id: 'fakeId',
           accessToken: 'fakeAccessToken',
-          pageView: 'pageView',
+          pageView: 'actualSize',
         }
       };
 
@@ -460,17 +460,34 @@ describe('Unit | Models', function () {
       // Assert
       testForExpectedMessage(errors, pageViewInvalidTypeMessage);
     });
+
+    it(`should return errors with one containing message '${pageViewInvalidMessage}' if pageView is not a valid string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          id: 'id',
+          pageView: 'pageView',
+        }
+      };
+
+      // Act
+      const errors = models.validateDashboardLoad(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, pageViewInvalidMessage);
+    });
   });
 
   describe('validateTileLoad', function () {
-    const accessTokenRequiredMessage = models.tileLoadSchema.properties.accessToken.messages.required;
-    const accessTokenInvalidTypeMessage = models.tileLoadSchema.properties.accessToken.messages.type;
-    const idRequiredMessage = models.tileLoadSchema.properties.id.messages.required;
-    const idInvalidTypeMessage = models.tileLoadSchema.properties.id.messages.type;
-    const dashboardIdRequiredMessage = models.tileLoadSchema.properties.dashboardId.messages.required;
-    const dashboardIdInvalidTypeMessage = models.tileLoadSchema.properties.dashboardId.messages.type;
-    const widthITypeMessage = models.tileLoadSchema.properties.width.messages.type;
-    const heightITypeMessage = models.tileLoadSchema.properties.height.messages.type;
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const idRequiredMessage = "id is required";
+    const idInvalidTypeMessage = "id must be a string";
+    const dashboardIdRequiredMessage = "dashboardId is required";
+    const dashboardIdInvalidTypeMessage = "dashboardId must be a string";
+    const widthITypeMessage = "width must be a number";
+    const heightITypeMessage = "height must be a number";
 
     it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
       // Arrange
@@ -871,8 +888,14 @@ describe('Unit | Models', function () {
   });
 
   describe('validateSettings', function () {
-    const filterPaneEnabledInvalidTypeMessage = models.settingsSchema.properties.filterPaneEnabled.messages.type;
-    const navContentPaneEnabledInvalidTypeMessage = models.settingsSchema.properties.navContentPaneEnabled.messages.type;
+    const filterPaneEnabledInvalidTypeMessage = "filterPaneEnabled must be a boolean";
+    const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
+    const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
+    const extensionsInvalidMessage = "extensions property is invalid";
+    const layoutTypeInvalidTypeMessage = "layoutType must be a number";
+    const layoutTypeInvalidMessage = "layoutType property is invalid";
+    const customLayoutInvalidMessage = "customLayout must be an object"
+    const modeInvalidMessage = "mode property is invalid";
 
     it(`should return errors with one containing message '${filterPaneEnabledInvalidTypeMessage}' if filterPaneEnabled is not a boolean`, function () {
       // Arrange
@@ -904,7 +927,119 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, navContentPaneEnabledInvalidTypeMessage);
     });
 
-    it(`should return undefined if settings is valid`, function () {
+    it(`should return errors with one containing message '${useCustomSaveAsDialogInvalidTypeMessage}' if useCustomSaveAsDialog is not a boolean`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          useCustomSaveAsDialog: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, useCustomSaveAsDialogInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${extensionsInvalidMessage}' if extentions array is invalid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          extensions: [1]
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, extensionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${layoutTypeInvalidTypeMessage}' if layoutType is not a number`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          layoutType: true
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, layoutTypeInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${layoutTypeInvalidMessage}' if layoutType is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          layoutType: 3
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, layoutTypeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${customLayoutInvalidMessage}' if customLayout type is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          customLayout: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, customLayoutInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${modeInvalidMessage}' if customLayout type is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          navContentPaneEnabled: false,
+          filterPaneEnabled: false,
+          useCustomSaveAsDialog: false,
+          extensions: [{command: {name: "name", extend: {}, title: "title"}}],
+          layoutType: 0,
+          customLayout: {
+            pagesLayout: {
+              "aaaa": {
+                visualsLayout: {
+                  "bbbb": {
+                    x: 10,
+                    y: 10,
+                    z: 10,
+                    width: 300,
+                    height: 300,
+                    displayState: {
+                        mode: 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, modeInvalidMessage);
+    });
+
+    it(`should return undefined if settings is valid (empty)`, function () {
       // Arrange
       const testData = {
         settings: {
@@ -917,11 +1052,31 @@ describe('Unit | Models', function () {
       // Assert
       expect(errors).toBeUndefined();
     });
+
+    it(`should return undefined if settings is valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          navContentPaneEnabled: false,
+          filterPaneEnabled: false,
+          useCustomSaveAsDialog: false,
+          extensions: [{command: {name: "name", extend: {}, title: "title"}}],
+          layoutType: 0,
+          customLayout: {}
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
   });
 
   describe('validate Extensions', function () {
-    const commandNameInvalidTypeMessage = models.extensionItemSchema.properties.name.messages.type;
-    const commandNameRequiredMessage = models.extensionItemSchema.properties.name.messages.required;
+    const commandNameInvalidTypeMessage = "name must be a string";
+    const commandNameRequiredMessage = "name is required";
 
     it(`should return errors with one containing message '${commandNameInvalidTypeMessage}' if command name is not a string`, function () {
       // Arrange
@@ -942,7 +1097,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, commandNameInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${commandNameRequiredMessage}' if command name is not a provided`, function () {
+    it(`should return errors with one containing message '${commandNameRequiredMessage}' if command name is not provided`, function () {
       // Arrange
       const testData = {
         extensions: {
@@ -958,6 +1113,508 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, commandNameRequiredMessage);
+    });
+  });
+
+  describe('validateCustomPageSize', function () {
+    const typeRequiredMessage = "type is required";    
+    const typeInvalidTypedMessage = "type must be a number";    
+    const typeInvalidMessage = "type property is invalid";
+    const widthInvalidTypeMessage = "width must be a number";
+    const heightInvalidTypeMessage = "height must be a number";
+
+    it(`should return errors with one containing message '${typeRequiredMessage}' if type field is not provided`, function () {
+      // Arrange
+      const testData = {
+        pagesize: {
+          width: 200,
+          height: 100
+        }
+      };
+
+      // Act
+      const errors = models.validateCustomPageSize(testData.pagesize);
+
+      // Assert
+      testForExpectedMessage(errors, typeRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${typeInvalidTypedMessage}' if type is not a number`, function () {
+      // Arrange
+      const testData = {
+        pagesize: {
+          type: "typeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateCustomPageSize(testData.pagesize);
+
+      // Assert
+      testForExpectedMessage(errors, typeInvalidTypedMessage);
+    });
+
+    it(`should return errors with one containing message '${typeInvalidMessage}' if type is invalid value`, function () {
+      // Arrange
+      const testData = {
+        pagesize: {
+          type: 7
+        }
+      };
+
+      // Act
+      const errors = models.validateCustomPageSize(testData.pagesize);
+
+      // Assert
+      testForExpectedMessage(errors, typeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${widthInvalidTypeMessage}' if width field is not a number`, function () {
+      // Arrange
+      const testData = {
+        pagesize: {
+          type: 0,
+          width: "width",
+        }
+      };
+
+      // Act
+      const errors = models.validateCustomPageSize(testData.pagesize);
+
+      // Assert
+      testForExpectedMessage(errors, widthInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${heightInvalidTypeMessage}' if height field is not a number`, function () {
+      // Arrange
+      const testData = {
+        pagesize: {
+          type: 0,
+          width: 100,
+          height: "height"
+        }
+      };
+
+      // Act
+      const errors = models.validateCustomPageSize(testData.pagesize);
+
+      // Assert
+      testForExpectedMessage(errors, heightInvalidTypeMessage);
+    });
+
+    it(`should return undefined if custom page size is valid`, function () {
+      // Arrange
+      const testData = {
+        pagesize: {
+          type: 0,
+          height: 100
+        }
+      };
+
+      // Act
+      const errors = models.validateCustomPageSize(testData.pagesize);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+  });
+
+  describe('validatePage', function () {
+    const pageNameInvalidTypeMessage = "name must be a string";
+    const pageNameRequiredMessage = "name is required";
+
+    it(`should return errors with one containing message '${pageNameInvalidTypeMessage}' if name field is not a string`, function () {
+      // Arrange
+      const testData = {
+        page: {
+          name: true
+        }
+      };
+
+      // Act
+      const errors = models.validatePage(testData.page);
+
+      // Assert
+      testForExpectedMessage(errors, pageNameInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${pageNameRequiredMessage}' if page name is not provided`, function () {
+      // Arrange
+      const testData = {
+        page: {
+        }
+      };
+
+      // Act
+      const errors = models.validatePage(testData.page);
+
+      // Assert
+      testForExpectedMessage(errors, pageNameRequiredMessage);
+    });
+
+    it(`should return undefined if page is valid`, function () {
+      // Arrange
+      const testData = {
+        page: {
+          name: "name"
+        }
+      };
+
+      // Act
+      const errors = models.validatePage(testData.page);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
+
+  describe('validateSaveAsParameters', function () {
+    const saveasNameInvalidTypeMessage = "name must be a string";
+    const saveasNameRequiredMessage = "name is required";
+
+    it(`should return errors with one containing message '${saveasNameInvalidTypeMessage}' if name field is not a string`, function () {
+      // Arrange
+      const testData = {
+        saveas: {
+          name: true
+        }
+      };
+
+      // Act
+      const errors = models.validateSaveAsParameters(testData.saveas);
+
+      // Assert
+      testForExpectedMessage(errors, saveasNameInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${saveasNameRequiredMessage}' if Save As name is not provided`, function () {
+      // Arrange
+      const testData = {
+        saveas: {
+        }
+      };
+
+      // Act
+      const errors = models.validateSaveAsParameters(testData.saveas);
+
+      // Assert
+      testForExpectedMessage(errors, saveasNameRequiredMessage);
+    });
+
+    it(`should return undefined if Save As parameters are valid`, function () {
+      // Arrange
+      const testData = {
+        saveas: {
+          name: "name"
+        }
+      };
+
+      // Act
+      const errors = models.validateSaveAsParameters(testData.saveas);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
+
+  describe('validateLoadQnaConfiguration', function () {
+    const accessTokenRequiredMessage = "accessToken is required";
+    const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const datasetIdsRequiredMessage = "datasetIds is required";
+    const datasetIdsInvalidTypeMessage = "datasetIds must be an array of strings";
+    const questionInvalidTypeMessage = "question must be a string";
+    const viewModeInvalidTypeMessage = "viewMode must be a number";
+    const viewModeInvalidMessage = "viewMode property is invalid";
+    const settingsInvalidTypeMessage = "settings must be an object";
+    const settingsFilterPaneInvalidTypeMessage = "filterPaneEnabled must be a boolean";
+    const tokenTypeInvalidTypeMessage = "tokenType must be a number";
+    const tokenTypeInvalidMessage = "tokenType property is invalid";
+
+    it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"]
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 1,
+          datasetIds: ["1"]
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${datasetIdsRequiredMessage}' if datasetIds is not defined`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken"
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, datasetIdsRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${datasetIdsInvalidTypeMessage}' if datasetIds is not a string array`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: "fakeToken",
+          datasetIds: [1]
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, datasetIdsInvalidTypeMessage);
+    });
+
+    it(`should return undefined if datasetIds and accessToken are provided`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken'
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${questionInvalidTypeMessage}' if question is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          question: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, questionInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidTypeMessage}' if viewMode is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          viewMode: "ViewModeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${viewModeInvalidMessage}' if viewMode is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          viewMode: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, viewModeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${tokenTypeInvalidTypeMessage}' if tokenType is not a number`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          tokenType: "TokenTypeString"
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, tokenTypeInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${tokenTypeInvalidMessage}' if tokenType is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          tokenType: 5
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, tokenTypeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${settingsFilterPaneInvalidTypeMessage}' if settings is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          settings: {
+            filterPaneEnabled: "filterPaneEnabledString"
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, settingsFilterPaneInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${settingsInvalidTypeMessage}' if settings is invalid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          datasetIds: ["1"],
+          accessToken: 'fakeAccessToken',
+          settings: true
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+
+      // Assert
+      testForExpectedMessage(errors, settingsInvalidTypeMessage);
+    });
+
+    it(`should return undefined if load qna configuration is valid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          accessToken: 'fakeAccessToken',
+          datasetIds: ["1","2"],
+          question: "fakeQuestion",
+          viewMode: 1,
+          settings: {
+            filterPaneEnabled: true
+          },
+          tokenType: 0
+        }
+      };
+
+      // Act
+      const errors = models.validateLoadQnaConfiguration(testData.load);
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
+
+  describe('validateQnaInterpretInputData', function () {
+    const datasetIdsInvalidTypeMessage = "datasetIds must be an array of strings";
+    const questionRequiredMessage = "question is required";
+    const questionInvalidTypeMessage = "question must be a string";
+
+    it(`should return errors with one containing message '${datasetIdsInvalidTypeMessage}' if datasetIds field is not an array of strings`, function () {
+      // Arrange
+      const testData = {
+        interpret: {
+          question: "questionString",
+          datasetIds: true
+        }
+      };
+
+      // Act
+      const errors = models.validateQnaInterpretInputData(testData.interpret);
+
+      // Assert
+      testForExpectedMessage(errors, datasetIdsInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${questionRequiredMessage}' if question is not provided`, function () {
+      // Arrange
+      const testData = {
+        interpret: {
+        }
+      };
+
+      // Act
+      const errors = models.validateQnaInterpretInputData(testData.interpret);
+
+      // Assert
+      testForExpectedMessage(errors, questionRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${questionInvalidTypeMessage}' if question is not a string`, function () {
+      // Arrange
+      const testData = {
+        interpret: {
+          question: false
+        }
+      };
+
+      // Act
+      const errors = models.validateQnaInterpretInputData(testData.interpret);
+
+      // Assert
+      testForExpectedMessage(errors, questionInvalidTypeMessage);
+    });
+
+    it(`should return undefined if qna interpret input is valid`, function () {
+      // Arrange
+      const testData = {
+        interpret: {
+          question: "questionString",
+          datasetIds: ["1","2"]
+        }
+      };
+
+      // Act
+      const errors = models.validateQnaInterpretInputData(testData.interpret);
+
+      // Assert
+      expect(errors).toBeUndefined();
     });
   });
 });

@@ -7,6 +7,7 @@ var del = require('del'),
   rename = require('gulp-rename'),
   replace = require('gulp-replace'),
   tslint = require('gulp-tslint'),
+  flatten = require('gulp-flatten'),
   typedoc = require("gulp-typedoc"),
   uglify = require('gulp-uglify'),
   karma = require('karma'),
@@ -30,6 +31,7 @@ gulp.task('build', 'Build for release', function (done) {
     'min',
     'generatecustomdts',
     'header',
+    'clean:extradts',
     done
   );
 });
@@ -87,7 +89,7 @@ gulp.task('compile:ts', 'Compile source files', function () {
     new webpack.BannerPlugin(webpackBanner)
   ];
 
-  return gulp.src(['typings/**/*.d.ts', './src/**/*.ts'])
+  return gulp.src(['./src/**/*.ts'])
     .pipe(webpackStream(webpackConfig))
     .pipe(gulp.dest('./dist'));
 });
@@ -118,6 +120,12 @@ gulp.task('clean:dist', 'Clean dist folder', function () {
 gulp.task('clean:tmp', 'Clean tmp folder', function () {
   return del([
     './tmp/**/*'
+  ]);
+}); 
+
+gulp.task('clean:extradts', 'Clean unused dts files', function () {
+  return del([
+    './dist/validators'
   ]);
 });
 

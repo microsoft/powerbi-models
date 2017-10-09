@@ -1,42 +1,6 @@
 declare var require: Function;
 
-/* tslint:disable:no-var-requires */
-export const advancedFilterSchema = require('./schemas/advancedFilter.json');
-export const includeExcludeFilterSchema = require('./schemas/includeExcludeFilter.json');
-export const notSupportedFilterSchema = require('./schemas/notSupportedFilter.json');
-export const relativeDateFilterSchema = require('./schemas/relativeDateFilter.json');
-export const topNFilterSchema = require('./schemas/topNFilter.json');
-export const filterSchema = require('./schemas/filter.json');
-export const extensionSchema = require('./schemas/extension.json');
-export const extensionItemSchema = require('./schemas/extensionItem.json');
-export const commandExtensionSchema = require('./schemas/commandExtension.json');
-export const extensionPointsSchema = require('./schemas/extensionPoints.json');
-export const menuExtensionSchema = require('./schemas/menuExtension.json');
-export const loadSchema = require('./schemas/reportLoadConfiguration.json');
-export const dashboardLoadSchema = require('./schemas/dashboardLoadConfiguration.json');
-export const tileLoadSchema = require('./schemas/tileLoadConfiguration.json');
-export const pageSchema = require('./schemas/page.json');
-export const settingsSchema = require('./schemas/settings.json');
-export const basicFilterSchema = require('./schemas/basicFilter.json');
-export const createReportSchema = require('./schemas/reportCreateConfiguration.json');
-export const saveAsParametersSchema = require('./schemas/saveAsParameters.json');
-export const loadQnaConfigurationSchema = require('./schemas/loadQnaConfiguration.json');
-export const qnaSettingsSchema = require('./schemas/qnaSettings.json');
-export const qnaInterpretInputDataSchema = require('./schemas/qnaInterpretInputData.json');
-export const customLayoutSchema = require('./schemas/customLayout.json');
-export const pageSizeSchema = require('./schemas/pageSize.json');
-export const customPageSizeSchema = require('./schemas/customPageSize.json');
-export const pageLayoutSchema = require('./schemas/pageLayout.json');
-export const visualLayoutSchema = require('./schemas/visualLayout.json');
-/* tslint:enable:no-var-requires */
-
-import * as jsen from 'jsen';
-
-interface IValidationError {
-  path: string;
-  keyword: string;
-  message: string;
-}
+export const Validators = require('./validators/core/validator').Validators;
 
 export interface ITechnicalDetails {
   requestId?: string;
@@ -47,36 +11,6 @@ export interface IError {
   detailedMessage?: string;
   errorCode?: string;
   technicalDetails?: ITechnicalDetails;
-}
-
-function normalizeError(error: IValidationError): IError {
-  let message = error.message;
-
-  if (!message) {
-    message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
-  }
-
-  return {
-    message
-  };
-}
-
-/**
- * Takes in schema and returns function which can be used to validate the schema with better semantics around exposing errors
- */
-function validate(schema: any, options?: any) {
-  return (x: any): IError[] => {
-    const validate = jsen(schema, options);
-    const isValid = validate(x);
-
-    if (isValid) {
-      return undefined;
-    }
-    else {
-      return validate.errors
-        .map(normalizeError);
-    }
-  };
 }
 
 export enum PageSizeType {
@@ -138,6 +72,62 @@ export interface ICustomLayout {
   pagesLayout?: PagesLayout;
 }
 
+export interface IReport {
+  id: string;
+  displayName: string;
+}
+
+export interface IPage {
+  name: string;
+  displayName: string;
+  isActive?: boolean;
+}
+
+export interface IVisual {
+  name: string;
+  title: string;
+  type: string;
+}
+
+export enum Permissions {
+  Read = 0,
+  ReadWrite = 1,
+  Copy = 2,
+  Create = 4,
+  All = 7
+}
+
+export enum ViewMode {
+  View,
+  Edit
+}
+
+export enum TokenType {
+  Aad,
+  Embed
+}
+
+export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
+
+export interface IQnaVisualRenderedEvent {
+  question: string;
+  normalizedQuestion?: string;
+}
+
+export interface IVisualCustomCommandEvent {
+  visualName: string;
+  command: string;
+}
+
+export interface ISelection {
+  visual: IVisual;
+  page: IPage;
+  report: IReport;
+  dataPoints: IIdentityValue<IEqualsDataReference>[];
+  regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
+  filters: IFilter[];
+}
+
 export type Extensions = IExtension[];
 
 export interface IExtension {
@@ -168,141 +158,6 @@ export interface IMenuExtension extends IExtensionPoint {
     icon?: string;
 }
 
-export interface ISettings {
-  filterPaneEnabled?: boolean;
-  navContentPaneEnabled?: boolean;
-  useCustomSaveAsDialog?: boolean;
-  extensions?: Extensions;
-  layoutType?: LayoutType;
-  customLayout?: ICustomLayout;
-}
-
-export const validateSettings = validate(settingsSchema, {
-  schemas: {
-    customLayout: customLayoutSchema,
-    pageSize: pageSizeSchema,
-    extension: extensionSchema,
-    extensionItem: extensionItemSchema,
-    commandExtension: commandExtensionSchema,
-    extensionPoints: extensionPointsSchema,
-    menuExtension: menuExtensionSchema,
-    pageLayout: pageLayoutSchema,
-    visualLayout: visualLayoutSchema
-  }
-});
-
-export const validateCustomPageSize = validate(customPageSizeSchema, {
-  schemas: {
-    pageSize: pageSizeSchema,
-    pageLayout: pageLayoutSchema,
-    visualLayout: visualLayoutSchema
-  }
-});
-
-// TODO : add tests to check validateExtension.
-export const validateExtension = validate(extensionSchema, {
-  schemas: {
-    extension: extensionSchema,
-    extensionItem: extensionItemSchema,
-    commandExtension: commandExtensionSchema,
-    extensionPoints: extensionPointsSchema,
-    menuExtension: menuExtensionSchema,
-  }
-});
-
-export interface IReportLoadConfiguration {
-  accessToken: string;
-  id: string;
-  settings?: ISettings;
-  pageName?: string;
-  filters?: ReportLevelFilters[];
-  permissions?: Permissions;
-  viewMode?: ViewMode;
-  tokenType?: TokenType;
-}
-
-export const validateReportLoad = validate(loadSchema, {
-  schemas: {
-    settings: settingsSchema,
-    basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema,
-    relativeDateFilter: relativeDateFilterSchema,
-    customLayout: customLayoutSchema,
-    pageSize: pageSizeSchema,
-    pageLayout: pageLayoutSchema,
-    visualLayout: visualLayoutSchema,
-    extension: extensionSchema,
-    extensionItem: extensionItemSchema,
-    commandExtension: commandExtensionSchema,
-    extensionPoints: extensionPointsSchema,
-    menuExtension: menuExtensionSchema,
-  }
-});
-
-export interface IReportCreateConfiguration {
-   accessToken: string;
-   datasetId: string;
-   settings?: ISettings;
-   tokenType?: TokenType;
- }
-
-export const validateCreateReport = validate(createReportSchema);
-
-export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
-
-export interface IDashboardLoadConfiguration {
-    accessToken: string;
-    id: string;
-    pageView?: PageView;
-    tokenType?: TokenType;
-}
-
-export const validateDashboardLoad = validate(dashboardLoadSchema);
-
-export interface ITileLoadConfiguration {
-    accessToken: string;
-    id: string;
-    dashboardId: string;
-    tokenType?: TokenType;
-    width?: number;
-    height?: number;
-}
-
-export const validateTileLoad = validate(tileLoadSchema);
-
-export interface IReport {
-  id: string;
-  displayName: string;
-}
-
-export interface IPage {
-  name: string;
-  displayName: string;
-  isActive?: boolean;
-}
-
-export interface IVisual {
-  name: string;
-  title: string;
-  type: string;
-}
-
-export const validatePage = validate(pageSchema);
-
-export const validateFilter = validate(filterSchema, {
-  schemas: {
-    basicFilter: basicFilterSchema,
-    advancedFilter: advancedFilterSchema,
-    notSupportedFilter: notSupportedFilterSchema,
-    topNFilter: topNFilterSchema,
-    relativeDateFilter: relativeDateFilterSchema,
-    includeExcludeFilter: includeExcludeFilterSchema
-  }
-});
-
-/**
- * Copied powerbi-filters code into this file.
- */
 export interface IBaseFilterTarget {
   table: string;
 }
@@ -381,22 +236,6 @@ export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
-export function validateReportLevelFilters(filer: IFilter): IError {
-  let error: IError;
-  if (validate(basicFilterSchema)(filer) && validate(advancedFilterSchema)(filer) && validate(relativeDateFilterSchema)(filer)) {
-    error = { message: "One of the filters is not a report level filter" };
-  }
-  return error;
-}
-
-export function validatePageLevelFilters(filer: IFilter): IError {
-  let error: IError;
-  if (validate(basicFilterSchema)(filer) && validate(advancedFilterSchema)(filer) && validate(relativeDateFilterSchema)(filer)) {
-    error = { message: "One of the filters is not a page level filter" };
-  }
-  return error;
-}
-
 export interface IAdvancedFilterCondition {
   value: (string | number | boolean);
   operator: AdvancedFilterConditionOperators;
@@ -430,49 +269,6 @@ export enum RelativeDateOperators {
     InLast = 0,
     InThis = 1,
     InNext = 2,
-}
-
-export function isFilterKeyColumnsTarget(target: IFilterTarget): boolean {
-    return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
-}
-
-export function isBasicFilterWithKeys(filter: IFilter): boolean {
-    return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
-}
-
-export function getFilterType(filter: IFilter): FilterType {
-  if(filter.filterType) {
-    return filter.filterType;
-  }
-
-  const basicFilter = filter as IBasicFilter;
-  const advancedFilter = filter as IAdvancedFilter;
-
-  if ((typeof basicFilter.operator === "string")
-    && (Array.isArray(basicFilter.values))
-  ) {
-    return FilterType.Basic;
-  }
-  else if ((typeof advancedFilter.logicalOperator === "string")
-    && (Array.isArray(advancedFilter.conditions))
-  ) {
-    return FilterType.Advanced;
-  }
-  else {
-    return FilterType.Unknown;
-  }
-}
-
-export function isMeasure(arg: any): arg is IFilterMeasureTarget {
-  return arg.table !== undefined && arg.measure !== undefined;
-}
-
-export function isColumn(arg: any): arg is IFilterColumnTarget {
-  return arg.table !== undefined && arg.column !== undefined;
-}
-
-export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
-  return arg.table !== undefined && arg.hierarchy !== undefined && arg.hierarchyLevel !== undefined;
 }
 
 export abstract class Filter {
@@ -770,38 +566,95 @@ export interface IIdentityValue<T extends IDataReference> {
   values: IValueDataReference[];
 }
 
-export interface ISelection {
-  visual: IVisual;
-  page: IPage;
-  report: IReport;
-  dataPoints: IIdentityValue<IEqualsDataReference>[];
-  regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
-  filters: IFilter[];
+export function isFilterKeyColumnsTarget(target: IFilterTarget): boolean {
+    return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
 }
 
-export enum Permissions {
-  Read = 0,
-  ReadWrite = 1,
-  Copy = 2,
-  Create = 4,
-  All = 7
+export function isBasicFilterWithKeys(filter: IFilter): boolean {
+    return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
 }
 
-export enum ViewMode {
-  View,
-  Edit
+export function getFilterType(filter: IFilter): FilterType {
+  if(filter.filterType) {
+    return filter.filterType;
+  }
+
+  const basicFilter = filter as IBasicFilter;
+  const advancedFilter = filter as IAdvancedFilter;
+
+  if ((typeof basicFilter.operator === "string")
+    && (Array.isArray(basicFilter.values))
+  ) {
+    return FilterType.Basic;
+  }
+  else if ((typeof advancedFilter.logicalOperator === "string")
+    && (Array.isArray(advancedFilter.conditions))
+  ) {
+    return FilterType.Advanced;
+  }
+  else {
+    return FilterType.Unknown;
+  }
 }
 
-export enum TokenType {
-  Aad,
-  Embed
+export function isMeasure(arg: any): arg is IFilterMeasureTarget {
+  return arg.table !== undefined && arg.measure !== undefined;
+}
+
+export function isColumn(arg: any): arg is IFilterColumnTarget {
+  return arg.table !== undefined && arg.column !== undefined;
+}
+
+export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
+  return arg.table !== undefined && arg.hierarchy !== undefined && arg.hierarchyLevel !== undefined;
+}
+
+export interface IReportLoadConfiguration {
+  accessToken: string;
+  id: string;
+  settings?: ISettings;
+  pageName?: string;
+  filters?: ReportLevelFilters[];
+  permissions?: Permissions;
+  viewMode?: ViewMode;
+  tokenType?: TokenType;
+}
+
+export interface IReportCreateConfiguration {
+  accessToken: string;
+  datasetId: string;
+  settings?: ISettings;
+  tokenType?: TokenType;
+}
+
+export interface IDashboardLoadConfiguration {
+  accessToken: string;
+  id: string;
+  pageView?: PageView;
+  tokenType?: TokenType;
+}
+
+export interface ITileLoadConfiguration {
+  accessToken: string;
+  id: string;
+  dashboardId: string;
+  tokenType?: TokenType;
+  width?: number;
+  height?: number;
+}
+
+export interface ISettings {
+  filterPaneEnabled?: boolean;
+  navContentPaneEnabled?: boolean;
+  useCustomSaveAsDialog?: boolean;
+  extensions?: Extensions;
+  layoutType?: LayoutType;
+  customLayout?: ICustomLayout;
 }
 
 export interface ISaveAsParameters {
   name: string;
 }
-
-export const validateSaveAsParameters = validate(saveAsParametersSchema);
 
 export interface IQnaSettings {
   filterPaneEnabled?: boolean;
@@ -816,12 +669,6 @@ export interface ILoadQnaConfiguration {
   tokenType?: TokenType;
 }
 
-export const validateLoadQnaConfiguration = validate(loadQnaConfigurationSchema, {
-  schemas: {
-    qnaSettings: qnaSettingsSchema,
-  }
-});
-
 export enum QnaMode {
   Interactive,
   ResultOnly,
@@ -832,14 +679,72 @@ export interface IQnaInterpretInputData {
   datasetIds?: string[];
 }
 
-export const validateQnaInterpretInputData = validate(qnaInterpretInputDataSchema);
-
-export interface IQnaVisualRenderedEvent {
-  question: string;
-  normalizedQuestion?: string;
+function normalizeError(error: any): IError {
+  let message = error.message;
+  if (!message) {
+    message = `${error.path} is invalid. Not meeting ${error.keyword} constraint`;
+  }
+  return {
+    message
+  };
 }
 
-export interface IVisualCustomCommandEvent {
-  visualName: string;
-  command: string;
+export function validateSettings(input: any): IError[] {
+  let errors: any[] = Validators.settingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCustomPageSize(input: any): IError[] {
+  let errors: any[] = Validators.customPageSizeValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateExtension(input: any): IError[] {
+  let errors: any[] = Validators.extentionValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateReportLoad(input: any): IError[] {
+  let errors: any[] = Validators.reportLoadValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCreateReport(input: any): IError[] {
+  let errors: any[] = Validators.reportCreateValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateDashboardLoad(input: any): IError[] {
+  let errors: any[] = Validators.dashboardLoadValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateTileLoad(input: any): IError[] {
+  let errors: any[] = Validators.tileLoadValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePage(input: any): IError[] {
+  let errors: any[] = Validators.pageValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateFilter(input: any): IError[] {
+  let errors: any[] = Validators.filtersValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSaveAsParameters(input: any): IError[] {
+  let errors: any[] = Validators.saveAsParametersValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateLoadQnaConfiguration(input: any): IError[] {
+  let errors: any[] = Validators.loadQnaValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateQnaInterpretInputData(input: any): IError[] {
+  let errors: any[] = Validators.qnaInterpretInputDataValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
