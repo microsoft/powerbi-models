@@ -4,7 +4,7 @@ import { ObjectValidator } from '../core/typeValidator';
 
 export class LoadQnaValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -46,7 +46,7 @@ export class LoadQnaValidator extends ObjectValidator {
 
 export class QnaSettingsValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -68,7 +68,7 @@ export class QnaSettingsValidator extends ObjectValidator {
 
 export class QnaInterpretInputDataValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);

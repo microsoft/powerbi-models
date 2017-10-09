@@ -4,7 +4,7 @@ import { ObjectValidator } from '../core/typeValidator';
 
 export class TileLoadValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);

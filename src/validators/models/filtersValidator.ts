@@ -4,7 +4,7 @@ import { ObjectValidator } from '../core/typeValidator';
 
 export class FilterColumnTargetValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -30,7 +30,7 @@ export class FilterColumnTargetValidator extends ObjectValidator {
 
 export class FilterHierarchyTargetValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -60,7 +60,7 @@ export class FilterHierarchyTargetValidator extends ObjectValidator {
 
 export class FilterMeasureTargetValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -86,7 +86,7 @@ export class FilterMeasureTargetValidator extends ObjectValidator {
 
 export class BasicFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -120,7 +120,7 @@ export class BasicFilterValidator extends ObjectValidator {
 
 export class AdvancedFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -154,7 +154,7 @@ export class AdvancedFilterValidator extends ObjectValidator {
 
 export class RelativeDateFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -196,7 +196,7 @@ export class RelativeDateFilterValidator extends ObjectValidator {
 
 export class TopNFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -230,7 +230,7 @@ export class TopNFilterValidator extends ObjectValidator {
 
 export class NotSupportedFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -264,7 +264,7 @@ export class NotSupportedFilterValidator extends ObjectValidator {
 
 export class IncludeExcludeFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -298,7 +298,7 @@ export class IncludeExcludeFilterValidator extends ObjectValidator {
 
 export class FilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     return Validators.anyFilterValidator.validate(input, path, field);
@@ -307,7 +307,7 @@ export class FilterValidator extends ObjectValidator {
 
 export class ConditionItemValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined) {
+    if (input === undefined || input === null) {
       return null;
     }
     const errors = super.validate(input, path, field);
