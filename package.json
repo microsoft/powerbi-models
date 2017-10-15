@@ -62,8 +62,6 @@
     "webpack-stream": "^3.2.0",
     "yargs": "^4.7.1"
   },
-  "publishConfig": {
-  },
-  "dependencies": {
-  }
+  "publishConfig": {},
+  "dependencies": {}
 }

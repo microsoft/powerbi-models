@@ -894,7 +894,7 @@ describe('Unit | Models', function () {
     const extensionsInvalidMessage = "extensions property is invalid";
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
     const layoutTypeInvalidMessage = "layoutType property is invalid";
-    const customLayoutInvalidMessage = "customLayout must be an object"
+    const customLayoutInvalidMessage = "customLayout must be an object";
     const modeInvalidMessage = "mode property is invalid";
 
     it(`should return errors with one containing message '${filterPaneEnabledInvalidTypeMessage}' if filterPaneEnabled is not a boolean`, function () {
@@ -1117,8 +1117,8 @@ describe('Unit | Models', function () {
   });
 
   describe('validateCustomPageSize', function () {
-    const typeRequiredMessage = "type is required";    
-    const typeInvalidTypedMessage = "type must be a number";    
+    const typeRequiredMessage = "type is required";
+    const typeInvalidTypedMessage = "type must be a number";
     const typeInvalidMessage = "type property is invalid";
     const widthInvalidTypeMessage = "width must be a number";
     const heightInvalidTypeMessage = "height must be a number";
