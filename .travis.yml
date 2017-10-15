@@ -10,3 +10,4 @@ deploy:
     tags: true
     repo: Microsoft/powerbi-models
     branch: dev
+  skip_cleanup: true
