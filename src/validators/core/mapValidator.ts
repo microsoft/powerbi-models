@@ -7,7 +7,7 @@ export class MapValidator extends ObjectValidator {
   }
 
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     let errors = super.validate(input, path, field);

@@ -4,7 +4,7 @@ import { ObjectValidator } from '../core/typeValidator';
 
 export class CustomLayoutValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -34,7 +34,7 @@ export class CustomLayoutValidator extends ObjectValidator {
 
 export class VisualLayoutValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -76,7 +76,7 @@ export class VisualLayoutValidator extends ObjectValidator {
 
 export class DisplayStateValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -98,7 +98,7 @@ export class DisplayStateValidator extends ObjectValidator {
 
 export class PageLayoutValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);

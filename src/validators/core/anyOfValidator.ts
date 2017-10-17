@@ -4,7 +4,7 @@ export class AnyOfValidator implements IValidator {
   public constructor(private validators: IValidator[]) {}
 
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     let valid: boolean = false;

@@ -4,7 +4,7 @@ import { ObjectValidator, StringValidator } from '../core/typeValidator';
 
 export class PageSizeValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -26,7 +26,7 @@ export class PageSizeValidator extends ObjectValidator {
 
 export class CustomPageSizeValidator extends PageSizeValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -52,7 +52,7 @@ export class CustomPageSizeValidator extends PageSizeValidator {
 
 export class PageValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -74,7 +74,7 @@ export class PageValidator extends ObjectValidator {
 
 export class PageViewFieldValidator extends StringValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);

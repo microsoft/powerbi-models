@@ -4,7 +4,7 @@ import { ObjectValidator } from '../core/typeValidator';
 
 export class MenuExtensionValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -30,7 +30,7 @@ export class MenuExtensionValidator extends ObjectValidator {
 
 export class ExtensionPointsValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -56,7 +56,7 @@ export class ExtensionPointsValidator extends ObjectValidator {
 
 export class ExtensionItemValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -82,7 +82,7 @@ export class ExtensionItemValidator extends ObjectValidator {
 
 export class CommandExtensionValidator extends ExtensionItemValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
@@ -108,7 +108,7 @@ export class CommandExtensionValidator extends ExtensionItemValidator {
 
 export class ExtensionValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (input === undefined || input === null) {
+    if (input == null) {
       return null;
     }
     const errors = super.validate(input, path, field);
