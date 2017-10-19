@@ -87,6 +87,7 @@ export interface IVisual {
   name: string;
   title: string;
   type: string;
+  layout?: IVisualLayout;
 }
 
 export enum Permissions {
