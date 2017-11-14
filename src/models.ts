@@ -40,6 +40,7 @@ export type PagesLayout = { [key: string]: IPageLayout; };
 export type VisualsLayout = { [key: string]: IVisualLayout; };
 
 export interface IPageLayout {
+  defaultLayout?: IVisualLayout;
   visualsLayout: VisualsLayout;
 }
 
@@ -81,6 +82,8 @@ export interface IPage {
   name: string;
   displayName: string;
   isActive?: boolean;
+  defaultSize?: ICustomPageSize;
+  defaultDisplayOption?: DisplayOption;
 }
 
 export interface IVisual {

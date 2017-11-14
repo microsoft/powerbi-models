@@ -109,7 +109,11 @@ export class PageLayoutValidator extends ObjectValidator {
     const fields: IFieldValidatorsPair[] = [
       {
         field: "visualsLayout",
-        validators: [Validators.pageLayoutValidator]
+        validators: [Validators.fieldRequiredValidator, Validators.pageLayoutValidator]
+      },
+      {
+        field: "defaultLayout",
+        validators: [Validators.visualLayoutValidator]
       }
     ];
 
