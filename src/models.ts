@@ -51,7 +51,9 @@ export enum VisualContainerDisplayMode {
 
 export enum LayoutType {
   Master,
-  Custom
+  Custom,
+  MobilePortrait,
+  MobileLandscape
 }
 
 export interface IVisualLayout {
