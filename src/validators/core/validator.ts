@@ -55,7 +55,7 @@ export const Validators = {
   filtersValidator: new FilterValidator(),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
   includeExludeFilterTypeValidator: new EnumValidator([3]),
-  layoutTypeValidator: new EnumValidator([0, 1]),
+  layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),
   loadQnaValidator: new LoadQnaValidator(),
   menuExtensionValidator: new MenuExtensionValidator(),
   notSupportedFilterTypeValidator: new EnumValidator([2]),
