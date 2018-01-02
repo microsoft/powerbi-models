@@ -976,7 +976,7 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         settings: {
-          layoutType: 3
+          layoutType: 4
         }
       };
 
