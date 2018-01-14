@@ -236,7 +236,7 @@ export interface IBasicFilterWithKeys extends IBasicFilter {
 
 export type ReportLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
 export type PageLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
-export type VisualFilterTypes = IBasicFilter | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
+export type VisualLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
