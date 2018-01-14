@@ -80,11 +80,28 @@ export interface IReport {
   displayName: string;
 }
 
+export enum SectionVisibility {
+  AlwaysVisible,
+  HiddenInViewMode,
+}
+
 export interface IPage {
+  // unique name of a page.
   name: string;
+
+  // Display name of a page.
   displayName: string;
+
+  // True if the page is active.
   isActive?: boolean;
+
+  // Default is AlwaysVisible.
+  visibility?: SectionVisibility;
+
+  // Page size as saved in the report.
   defaultSize?: ICustomPageSize;
+
+  // Page display options as saved in the report.
   defaultDisplayOption?: DisplayOption;
 }
 
