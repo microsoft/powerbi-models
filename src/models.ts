@@ -151,6 +151,16 @@ export interface ISelection {
   filters: IFilter[];
 }
 
+export interface ISwipeEvent {
+  currentPosition: IPosition;
+  startPosition: IPosition;
+}
+
+export interface IPosition {
+  x: number;
+  y: number;
+}
+
 export type Extensions = IExtension[];
 
 export interface IExtension {
