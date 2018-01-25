@@ -1,6 +1,7 @@
 import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, NumberValidator, StringArrayValidator, BooleanArrayValidator, NumberArrayValidator } from './typeValidator';
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
 import { SettingsValidator } from '../models/settingsValidator';
+import { PlayBookmarkRequestValidator, AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator } from '../models/bookmarkValidator';
 import { FilterColumnTargetValidator, FilterHierarchyTargetValidator, FilterMeasureTargetValidator, ConditionItemValidator, RelativeDateFilterValidator, BasicFilterValidator, AdvancedFilterValidator, TopNFilterValidator, NotSupportedFilterValidator, IncludeExcludeFilterValidator, FilterValidator } from '../models/filtersValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { AnyOfValidator } from './anyOfValidator';
@@ -32,6 +33,10 @@ export const Validators = {
   anyValueValidator: new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()]),
   basicFilterTypeValidator: new EnumValidator([1]),
   basicFilterValidator: new BasicFilterValidator(),
+  playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
+  addBookmarkRequestValidator: new AddBookmarkRequestValidator(),
+  applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
+  applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
   booleanArrayValidator: new BooleanArrayValidator(),
   booleanValidator: new BooleanValidator(),
   commandExtensionValidator: new CommandExtensionValidator(),

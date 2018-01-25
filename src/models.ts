@@ -707,9 +707,38 @@ export enum QnaMode {
   ResultOnly,
 }
 
+export enum BookmarksPlayMode {
+  Off,
+  Presentation,
+}
+
 export interface IQnaInterpretInputData {
   question: string;
   datasetIds?: string[];
+}
+
+export interface IReportBookmark {
+  name: string;
+  displayName: string;
+  state: string;
+}
+
+export interface IPlayBookmarkRequest {
+  playMode: BookmarksPlayMode;
+}
+
+export interface IAddBookmarkRequest {
+  state?: string;
+  displayName?: string;
+  apply?: boolean;
+}
+
+export interface IApplyBookmarkStateRequest {
+  state: string;
+}
+
+export interface IApplyBookmarkByNameRequest {
+  name: string;
 }
 
 function normalizeError(error: any): IError {
@@ -720,6 +749,26 @@ function normalizeError(error: any): IError {
   return {
     message
   };
+}
+
+export function validatePlayBookmarkRequest(input: any): IError[] {
+  let errors: any[] = Validators.playBookmarkRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateAddBookmarkRequest(input: any): IError[] {
+  let errors: any[] = Validators.addBookmarkRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateApplyBookmarkByNameRequest(input: any): IError[] {
+  let errors: any[] = Validators.applyBookmarkByNameRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateApplyBookmarkStateRequest(input: any): IError[] {
+  let errors: any[] = Validators.applyBookmarkStateRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
 export function validateSettings(input: any): IError[] {
