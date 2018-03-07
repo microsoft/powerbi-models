@@ -9,6 +9,11 @@ Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaSc
 
 For each model there is a TypeScript interface, a json schema definitions, and a validation function to ensure a given object is a valid model.
 
+## Issues
+[Power BI Support Page](https://powerbi.microsoft.com/en-us/support/)
+
+[Power BI Ideas](https://ideas.powerbi.com)
+
 ## Documentation
 ### [https://microsoft.github.io/powerbi-models](https://microsoft.github.io/powerbi-models)
 
