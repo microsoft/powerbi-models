@@ -1,6 +1,7 @@
 import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, NumberValidator, StringArrayValidator, BooleanArrayValidator, NumberArrayValidator } from './typeValidator';
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
 import { SettingsValidator } from '../models/settingsValidator';
+import { PlayBookmarkRequestValidator, AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator } from '../models/bookmarkValidator';
 import { FilterColumnTargetValidator, FilterHierarchyTargetValidator, FilterMeasureTargetValidator, ConditionItemValidator, RelativeDateFilterValidator, BasicFilterValidator, AdvancedFilterValidator, TopNFilterValidator, NotSupportedFilterValidator, IncludeExcludeFilterValidator, FilterValidator } from '../models/filtersValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { AnyOfValidator } from './anyOfValidator';
@@ -13,6 +14,7 @@ import { QnaSettingsValidator, QnaInterpretInputDataValidator, LoadQnaValidator 
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
+import { ExportDataRequestValidator } from '../models/exportDataValidator';
 
 export interface IValidationError {
   path?: string;
@@ -32,6 +34,10 @@ export const Validators = {
   anyValueValidator: new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()]),
   basicFilterTypeValidator: new EnumValidator([1]),
   basicFilterValidator: new BasicFilterValidator(),
+  playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
+  addBookmarkRequestValidator: new AddBookmarkRequestValidator(),
+  applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
+  applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
   booleanArrayValidator: new BooleanArrayValidator(),
   booleanValidator: new BooleanValidator(),
   commandExtensionValidator: new CommandExtensionValidator(),
@@ -42,6 +48,7 @@ export const Validators = {
   dashboardLoadValidator: new DashboardLoadValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
+  exportDataRequestValidator: new ExportDataRequestValidator(),
   extensionPointsValidator: new ExtensionPointsValidator(),
   extentionArrayValidator: new ArrayValidator([new ExtensionValidator()]),
   extentionValidator: new ExtensionValidator(),

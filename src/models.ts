@@ -80,11 +80,28 @@ export interface IReport {
   displayName: string;
 }
 
+export enum SectionVisibility {
+  AlwaysVisible,
+  HiddenInViewMode,
+}
+
 export interface IPage {
+  // unique name of a page.
   name: string;
+
+  // Display name of a page.
   displayName: string;
+
+  // True if the page is active.
   isActive?: boolean;
+
+  // Default is AlwaysVisible.
+  visibility?: SectionVisibility;
+
+  // Page size as saved in the report.
   defaultSize?: ICustomPageSize;
+
+  // Page display options as saved in the report.
   defaultDisplayOption?: DisplayOption;
 }
 
@@ -132,6 +149,16 @@ export interface ISelection {
   dataPoints: IIdentityValue<IEqualsDataReference>[];
   regions: IIdentityValue<IEqualsDataReference | IBetweenDataReference>[];
   filters: IFilter[];
+}
+
+export interface ISwipeEvent {
+  currentPosition: IPosition;
+  startPosition: IPosition;
+}
+
+export interface IPosition {
+  x: number;
+  y: number;
 }
 
 export type Extensions = IExtension[];
@@ -236,7 +263,7 @@ export interface IBasicFilterWithKeys extends IBasicFilter {
 
 export type ReportLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
 export type PageLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
-export type VisualFilterTypes = IBasicFilter | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
+export type VisualLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
@@ -652,6 +679,7 @@ export interface ITileLoadConfiguration {
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
+  bookmarksPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   extensions?: Extensions;
   layoutType?: LayoutType;
@@ -680,9 +708,48 @@ export enum QnaMode {
   ResultOnly,
 }
 
+export enum ExportDataType {
+  Summarized,
+  Underlying,
+}
+
+export enum BookmarksPlayMode {
+  Off,
+  Presentation,
+}
+
 export interface IQnaInterpretInputData {
   question: string;
   datasetIds?: string[];
+}
+
+export interface IReportBookmark {
+  name: string;
+  displayName: string;
+  state: string;
+}
+
+export interface IPlayBookmarkRequest {
+  playMode: BookmarksPlayMode;
+}
+
+export interface IAddBookmarkRequest {
+  state?: string;
+  displayName?: string;
+  apply?: boolean;
+}
+
+export interface IApplyBookmarkStateRequest {
+  state: string;
+}
+
+export interface IApplyBookmarkByNameRequest {
+  name: string;
+}
+
+export interface IExportDataRequest {
+  rows?: number;
+  exportDataType?: ExportDataType;
 }
 
 function normalizeError(error: any): IError {
@@ -693,6 +760,26 @@ function normalizeError(error: any): IError {
   return {
     message
   };
+}
+
+export function validatePlayBookmarkRequest(input: any): IError[] {
+  let errors: any[] = Validators.playBookmarkRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateAddBookmarkRequest(input: any): IError[] {
+  let errors: any[] = Validators.addBookmarkRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateApplyBookmarkByNameRequest(input: any): IError[] {
+  let errors: any[] = Validators.applyBookmarkByNameRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateApplyBookmarkStateRequest(input: any): IError[] {
+  let errors: any[] = Validators.applyBookmarkStateRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
 export function validateSettings(input: any): IError[] {
@@ -752,5 +839,10 @@ export function validateLoadQnaConfiguration(input: any): IError[] {
 
 export function validateQnaInterpretInputData(input: any): IError[] {
   let errors: any[] = Validators.qnaInterpretInputDataValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateExportDataRequest(input: any): IError[] {
+  let errors: any[] = Validators.exportDataRequestValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }

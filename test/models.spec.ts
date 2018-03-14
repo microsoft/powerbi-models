@@ -890,6 +890,7 @@ describe('Unit | Models', function () {
   describe('validateSettings', function () {
     const filterPaneEnabledInvalidTypeMessage = "filterPaneEnabled must be a boolean";
     const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
+    const bookmarksPaneEnabledInvalidTypeMessage = "bookmarksPaneEnabled must be a boolean";
     const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
     const extensionsInvalidMessage = "extensions property is invalid";
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
@@ -925,6 +926,21 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, navContentPaneEnabledInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${bookmarksPaneEnabledInvalidTypeMessage}' if bookmarksPaneEnabled is not a boolean`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          bookmarksPaneEnabled: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, bookmarksPaneEnabledInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${useCustomSaveAsDialogInvalidTypeMessage}' if useCustomSaveAsDialog is not a boolean`, function () {
