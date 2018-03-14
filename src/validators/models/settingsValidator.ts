@@ -22,6 +22,10 @@ export class SettingsValidator extends ObjectValidator {
         validators: [Validators.booleanValidator]
       },
       {
+        field: "bookmarksPaneEnabled",
+        validators: [Validators.booleanValidator]
+      },
+      {
         field: "useCustomSaveAsDialog",
         validators: [Validators.booleanValidator]
       },

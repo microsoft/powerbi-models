@@ -679,6 +679,7 @@ export interface ITileLoadConfiguration {
 export interface ISettings {
   filterPaneEnabled?: boolean;
   navContentPaneEnabled?: boolean;
+  bookmarksPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   extensions?: Extensions;
   layoutType?: LayoutType;
@@ -705,6 +706,11 @@ export interface ILoadQnaConfiguration {
 export enum QnaMode {
   Interactive,
   ResultOnly,
+}
+
+export enum ExportDataType {
+  Summarized,
+  Underlying,
 }
 
 export enum BookmarksPlayMode {
@@ -739,6 +745,11 @@ export interface IApplyBookmarkStateRequest {
 
 export interface IApplyBookmarkByNameRequest {
   name: string;
+}
+
+export interface IExportDataRequest {
+  rows?: number;
+  exportDataType?: ExportDataType;
 }
 
 function normalizeError(error: any): IError {
@@ -828,5 +839,10 @@ export function validateLoadQnaConfiguration(input: any): IError[] {
 
 export function validateQnaInterpretInputData(input: any): IError[] {
   let errors: any[] = Validators.qnaInterpretInputDataValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateExportDataRequest(input: any): IError[] {
+  let errors: any[] = Validators.exportDataRequestValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }

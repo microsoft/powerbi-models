@@ -14,6 +14,7 @@ import { QnaSettingsValidator, QnaInterpretInputDataValidator, LoadQnaValidator 
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
+import { ExportDataRequestValidator } from '../models/exportDataValidator';
 
 export interface IValidationError {
   path?: string;
@@ -47,6 +48,7 @@ export const Validators = {
   dashboardLoadValidator: new DashboardLoadValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
+  exportDataRequestValidator: new ExportDataRequestValidator(),
   extensionPointsValidator: new ExtensionPointsValidator(),
   extentionArrayValidator: new ArrayValidator([new ExtensionValidator()]),
   extentionValidator: new ExtensionValidator(),
