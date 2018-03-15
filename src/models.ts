@@ -2,8 +2,14 @@ declare var require: Function;
 
 export const Validators = require('./validators/core/validator').Validators;
 
+export type KeyValuePair = {
+  key: string;
+  value: string;
+}
+
 export interface ITechnicalDetails {
   requestId?: string;
+  errorInfo?: KeyValuePair[];
 }
 
 export interface IError {
