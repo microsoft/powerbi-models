@@ -657,6 +657,7 @@ export interface IReportLoadConfiguration {
   permissions?: Permissions;
   viewMode?: ViewMode;
   tokenType?: TokenType;
+  bookmark?: IApplyBookmarkRequest;
 }
 
 export interface IReportCreateConfiguration {
@@ -744,6 +745,8 @@ export interface IAddBookmarkRequest {
   displayName?: string;
   apply?: boolean;
 }
+
+export type IApplyBookmarkRequest = IApplyBookmarkStateRequest | IApplyBookmarkByNameRequest;
 
 export interface IApplyBookmarkStateRequest {
   state: string;
