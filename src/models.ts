@@ -121,8 +121,8 @@ export enum Permissions {
 }
 
 export enum ViewMode {
-  View,
-  Edit
+  View = "View",
+  Edit = "Edit"
 }
 
 export enum TokenType {
