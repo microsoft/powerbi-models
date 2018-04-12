@@ -33,6 +33,11 @@ export enum DisplayOption {
   ActualSize
 }
 
+export enum BackgroundType {
+  Default,
+  Transparent
+}
+
 export interface IPageSize {
   type: PageSizeType;
 }
@@ -684,13 +689,14 @@ export interface ITileLoadConfiguration {
 }
 
 export interface ISettings {
-  filterPaneEnabled?: boolean;
-  navContentPaneEnabled?: boolean;
+  background?: BackgroundType;
   bookmarksPaneEnabled?: boolean;
-  useCustomSaveAsDialog?: boolean;
-  extensions?: Extensions;
-  layoutType?: LayoutType;
   customLayout?: ICustomLayout;
+  extensions?: Extensions;
+  filterPaneEnabled?: boolean;
+  layoutType?: LayoutType;
+  navContentPaneEnabled?: boolean;
+  useCustomSaveAsDialog?: boolean;
 }
 
 export interface ISaveAsParameters {

@@ -40,7 +40,11 @@ export class SettingsValidator extends ObjectValidator {
       {
         field: "customLayout",
         validators: [Validators.customLayoutValidator]
-      }
+      },
+      {
+        field: "background",
+        validators: [Validators.backgroundValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

@@ -39,6 +39,7 @@ export const Validators = {
   applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
   applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
   applyBookmarkValidator: new AnyOfValidator([new ApplyBookmarkByNameRequestValidator(), new ApplyBookmarkStateRequestValidator()]),
+  backgroundValidator: new EnumValidator([0, 1]),
   booleanArrayValidator: new BooleanArrayValidator(),
   booleanValidator: new BooleanValidator(),
   commandExtensionValidator: new CommandExtensionValidator(),
