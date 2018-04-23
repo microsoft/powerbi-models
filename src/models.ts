@@ -2,8 +2,14 @@ declare var require: Function;
 
 export const Validators = require('./validators/core/validator').Validators;
 
+export type KeyValuePair = {
+  key: string;
+  value: string;
+}
+
 export interface ITechnicalDetails {
   requestId?: string;
+  errorInfo?: KeyValuePair[];
 }
 
 export interface IError {
@@ -25,6 +31,11 @@ export enum DisplayOption {
   FitToPage,
   FitToWidth,
   ActualSize
+}
+
+export enum BackgroundType {
+  Default,
+  Transparent
 }
 
 export interface IPageSize {
@@ -651,6 +662,7 @@ export interface IReportLoadConfiguration {
   permissions?: Permissions;
   viewMode?: ViewMode;
   tokenType?: TokenType;
+  bookmark?: IApplyBookmarkRequest;
 }
 
 export interface IReportCreateConfiguration {
@@ -677,13 +689,14 @@ export interface ITileLoadConfiguration {
 }
 
 export interface ISettings {
-  filterPaneEnabled?: boolean;
-  navContentPaneEnabled?: boolean;
+  background?: BackgroundType;
   bookmarksPaneEnabled?: boolean;
-  useCustomSaveAsDialog?: boolean;
-  extensions?: Extensions;
-  layoutType?: LayoutType;
   customLayout?: ICustomLayout;
+  extensions?: Extensions;
+  filterPaneEnabled?: boolean;
+  layoutType?: LayoutType;
+  navContentPaneEnabled?: boolean;
+  useCustomSaveAsDialog?: boolean;
 }
 
 export interface ISaveAsParameters {
@@ -738,6 +751,8 @@ export interface IAddBookmarkRequest {
   displayName?: string;
   apply?: boolean;
 }
+
+export type IApplyBookmarkRequest = IApplyBookmarkStateRequest | IApplyBookmarkByNameRequest;
 
 export interface IApplyBookmarkStateRequest {
   state: string;

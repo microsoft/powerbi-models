@@ -44,6 +44,10 @@ export class ReportLoadValidator extends ObjectValidator {
       {
         field: "tokenType",
         validators: [Validators.tokenTypeValidator]
+      },
+      {
+        field: "bookmark",
+        validators: [Validators.applyBookmarkValidator]
       }
     ];
 
