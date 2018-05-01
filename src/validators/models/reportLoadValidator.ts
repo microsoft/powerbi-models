@@ -22,6 +22,10 @@ export class ReportLoadValidator extends ObjectValidator {
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       },
       {
+        field: "groupId",
+        validators: [Validators.stringValidator]
+      },
+      {
         field: "settings",
         validators: [Validators.settingsValidator]
       },

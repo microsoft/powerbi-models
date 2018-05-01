@@ -656,6 +656,7 @@ export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
 export interface IReportLoadConfiguration {
   accessToken: string;
   id: string;
+  groupId?: string;
   settings?: ISettings;
   pageName?: string;
   filters?: ReportLevelFilters[];
@@ -668,6 +669,7 @@ export interface IReportLoadConfiguration {
 export interface IReportCreateConfiguration {
   accessToken: string;
   datasetId: string;
+  groupId?: string;
   settings?: ISettings;
   tokenType?: TokenType;
 }
@@ -675,6 +677,7 @@ export interface IReportCreateConfiguration {
 export interface IDashboardLoadConfiguration {
   accessToken: string;
   id: string;
+  groupId?: string;
   pageView?: PageView;
   tokenType?: TokenType;
 }
@@ -683,6 +686,7 @@ export interface ITileLoadConfiguration {
   accessToken: string;
   id: string;
   dashboardId: string;
+  groupId?: string;
   tokenType?: TokenType;
   width?: number;
   height?: number;
@@ -710,6 +714,7 @@ export interface IQnaSettings {
 export interface ILoadQnaConfiguration {
   accessToken: string;
   datasetIds: string[];
+  groupId?: string;
   question?: string;
   viewMode?: QnaMode;
   settings?: IQnaSettings;
