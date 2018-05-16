@@ -272,9 +272,11 @@ export interface IBasicFilterWithKeys extends IBasicFilter {
   keyValues: (string | number | boolean)[][];
 }
 
-export type ReportLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
-export type PageLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
-export type VisualLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
+export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
+export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
@@ -656,6 +658,7 @@ export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
 export interface IReportLoadConfiguration {
   accessToken: string;
   id: string;
+  groupId?: string;
   settings?: ISettings;
   pageName?: string;
   filters?: ReportLevelFilters[];
@@ -668,6 +671,7 @@ export interface IReportLoadConfiguration {
 export interface IReportCreateConfiguration {
   accessToken: string;
   datasetId: string;
+  groupId?: string;
   settings?: ISettings;
   tokenType?: TokenType;
 }
@@ -675,6 +679,7 @@ export interface IReportCreateConfiguration {
 export interface IDashboardLoadConfiguration {
   accessToken: string;
   id: string;
+  groupId?: string;
   pageView?: PageView;
   tokenType?: TokenType;
 }
@@ -683,6 +688,7 @@ export interface ITileLoadConfiguration {
   accessToken: string;
   id: string;
   dashboardId: string;
+  groupId?: string;
   tokenType?: TokenType;
   width?: number;
   height?: number;
@@ -710,6 +716,7 @@ export interface IQnaSettings {
 export interface ILoadQnaConfiguration {
   accessToken: string;
   datasetIds: string[];
+  groupId?: string;
   question?: string;
   viewMode?: QnaMode;
   settings?: IQnaSettings;

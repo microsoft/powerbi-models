@@ -26,6 +26,10 @@ export class TileLoadValidator extends ObjectValidator {
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       },
       {
+        field: "groupId",
+        validators: [Validators.stringValidator]
+      },
+      {
         field: "pageView",
         validators: [Validators.stringValidator]
       },

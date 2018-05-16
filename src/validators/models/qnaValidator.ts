@@ -36,6 +36,10 @@ export class LoadQnaValidator extends ObjectValidator {
       {
         field: "tokenType",
         validators: [Validators.tokenTypeValidator]
+      },
+      {
+        field: "groupId",
+        validators: [Validators.stringValidator]
       }
     ];
 

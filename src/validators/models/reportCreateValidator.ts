@@ -22,6 +22,10 @@ export class ReportCreateValidator extends ObjectValidator {
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       },
       {
+        field: "groupId",
+        validators: [Validators.stringValidator]
+      },
+      {
         field: "tokenType",
         validators: [Validators.tokenTypeValidator]
       }
