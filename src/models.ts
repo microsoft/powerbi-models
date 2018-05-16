@@ -272,9 +272,11 @@ export interface IBasicFilterWithKeys extends IBasicFilter {
   keyValues: (string | number | boolean)[][];
 }
 
-export type ReportLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
-export type PageLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter;
-export type VisualLevelFilters = IBasicFilter | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
+export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
+export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
