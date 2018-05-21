@@ -283,7 +283,7 @@ export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
 export interface IAdvancedFilterCondition {
-  value: (string | number | boolean);
+  value: (string | number | boolean | Date);
   operator: AdvancedFilterConditionOperators;
 }
 
@@ -772,6 +772,10 @@ export interface IApplyBookmarkByNameRequest {
 export interface IExportDataRequest {
   rows?: number;
   exportDataType?: ExportDataType;
+}
+
+export interface IExportDataResult {
+  data: string;
 }
 
 function normalizeError(error: any): IError {
