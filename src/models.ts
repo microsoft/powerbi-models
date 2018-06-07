@@ -282,6 +282,8 @@ export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
+export type SlicerSelector = IVisualSelector;
+
 export interface IAdvancedFilterCondition {
   value: (string | number | boolean | Date);
   operator: AdvancedFilterConditionOperators;
@@ -662,6 +664,7 @@ export interface IReportLoadConfiguration {
   settings?: ISettings;
   pageName?: string;
   filters?: ReportLevelFilters[];
+  slicers?: ISlicer[];
   permissions?: Permissions;
   viewMode?: ViewMode;
   tokenType?: TokenType;
@@ -778,6 +781,60 @@ export interface IExportDataResult {
   data: string;
 }
 
+/*
+ * Selectors
+ */
+export interface ISelector {
+  $schema: string;
+}
+
+export interface IVisualSelector extends ISelector {
+  visualName: string;
+}
+
+export abstract class Selector implements ISelector {
+  public $schema: string;
+
+  constructor(schema: string) {
+    this.$schema = schema;
+  }
+
+  toJSON(): ISelector {
+    return {
+      $schema: this.$schema
+    };
+  };
+}
+
+export class VisualSelector extends Selector implements IVisualSelector {
+  static schemaUrl: string = "http://powerbi.com/product/schema#visualSelector";
+  public visualName: string;
+
+  constructor(visualName: string) {
+    super(VisualSelector.schemaUrl);
+    this.visualName = visualName;
+  }
+
+  toJSON(): IVisualSelector {
+    const selector = <IVisualSelector>super.toJSON();
+
+    selector.visualName = this.visualName;
+    return selector;
+  }
+}
+
+/*
+ * Slicers
+ */
+export interface ISlicer {
+  selector: SlicerSelector;
+  state: ISlicerState;
+}
+
+ export interface ISlicerState {
+  filters: ISlicerFilter[];
+}
+
 function normalizeError(error: any): IError {
   let message = error.message;
   if (!message) {
@@ -786,6 +843,21 @@ function normalizeError(error: any): IError {
   return {
     message
   };
+}
+
+export function validateVisualSelector(input: any): IError[] {
+  let errors: any[] = Validators.visualSelectorValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSlicer(input: any): IError[] {
+  let errors: any[] = Validators.slicerValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSlicerState(input: any): IError[] {
+  let errors: any[] = Validators.slicerStateValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
 }
 
 export function validatePlayBookmarkRequest(input: any): IError[] {

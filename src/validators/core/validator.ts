@@ -15,6 +15,8 @@ import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
 import { ExportDataRequestValidator } from '../models/exportDataValidator';
+import { VisualSelectorValidator } from '../models/selectorsValidator';
+import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
 
 export interface IValidationError {
   path?: string;
@@ -88,6 +90,8 @@ export const Validators = {
   reportLoadValidator: new ReportLoadValidator(),
   saveAsParametersValidator: new SaveAsParametersValidator(),
   settingsValidator: new SettingsValidator(),
+  slicerValidator: new SlicerValidator(),
+  slicerStateValidator: new SlicerStateValidator(),
   stringArrayValidator: new StringArrayValidator(),
   stringValidator: new StringValidator(),
   tileLoadValidator: new TileLoadValidator(),
@@ -96,4 +100,5 @@ export const Validators = {
   topNFilterValidator: new TopNFilterValidator(),
   viewModeValidator: new EnumValidator([0, 1]),
   visualLayoutValidator: new VisualLayoutValidator(),
+  visualSelectorValidator: new VisualSelectorValidator(),
 };
