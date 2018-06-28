@@ -17,6 +17,9 @@ import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, Disp
 import { ExportDataRequestValidator } from '../models/exportDataValidator';
 import { VisualSelectorValidator } from '../models/selectorsValidator';
 import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
+import { VisualHeaderSettingsValidator } from '../models/visualSettingsValidator';
+import { VisualHeaderValidator } from '../models/visualSettingsValidator';
+import { VisualSettingsValidator } from '../models/visualSettingsValidator';
 
 export interface IValidationError {
   path?: string;
@@ -99,6 +102,10 @@ export const Validators = {
   topNFilterTypeValidator: new EnumValidator([5]),
   topNFilterValidator: new TopNFilterValidator(),
   viewModeValidator: new EnumValidator([0, 1]),
+  visualHeaderSettingsValidator: new VisualHeaderSettingsValidator(),
+  visualHeaderValidator: new VisualHeaderValidator(),
   visualLayoutValidator: new VisualLayoutValidator(),
+  visualHeadersValidator: new ArrayValidator([new VisualHeaderValidator()]),
   visualSelectorValidator: new VisualSelectorValidator(),
+  visualSettingsValidator: new VisualSettingsValidator(),
 };

@@ -1722,6 +1722,74 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, stateInvalidTypeMessage);
     });
   });
+
+  describe('validateTheme', function() {
+    const settingsRequiredMessage = "settings is required";
+    const visualNameNotString = "visualName must be a string";
+
+    it(`should return undefined if settings and selector are valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          show: false
+        },
+        selector: {
+          visualName: 'fakeId',
+        }
+      };
+
+      // Act
+      const errors = models.validateVisualHeader(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return undefined if settings is valid and selector is undefined`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          show: false
+        }
+      };
+
+      // Act
+      const errors = models.validateVisualHeader(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return error if settings is undefined`, function () {
+      // Arrange
+      const testData = {
+      };
+
+      // Act
+      const errors = models.validateVisualHeader(testData);
+
+      // Assert
+      testForExpectedMessage(errors, settingsRequiredMessage);
+    });
+
+    it(`should return error if selector is invalid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          show: false
+        },
+        selector: {
+          visualName: 123,
+        }
+      };
+
+      // Act
+      const errors = models.validateVisualHeader(testData);
+
+      // Assert
+      testForExpectedMessage(errors, visualNameNotString);
+    });
+  });
 });
 
 describe("Unit | Filters", function () {

@@ -46,6 +46,10 @@ export class SettingsValidator extends ObjectValidator {
         validators: [Validators.backgroundValidator]
       },
       {
+        field: "visualSettings",
+        validators: [Validators.visualSettingsValidator]
+      },
+      {
         field: "hideErrors",
         validators: [Validators.booleanValidator]
       },

@@ -717,6 +717,7 @@ export interface ISettings {
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  visualSettings?: IVisualSettings;
   hideErrors?: boolean;
 }
 
@@ -848,6 +849,24 @@ export interface ISlicer {
   filters: ISlicerFilter[];
 }
 
+/*
+ * Visual Settings
+ */
+export type VisualsHeaderSelector = IVisualSelector;
+
+export interface IVisualHeaderSettings {
+  visible?: boolean;
+}
+
+export interface IVisualHeader {
+  settings: IVisualHeaderSettings;
+  selector?: VisualsHeaderSelector;
+}
+
+export interface IVisualSettings {
+  visualHeaders?: IVisualHeader[];
+}
+
 function normalizeError(error: any): IError {
   let message = error.message;
   if (!message) {
@@ -955,5 +974,15 @@ export function validateQnaInterpretInputData(input: any): IError[] {
 
 export function validateExportDataRequest(input: any): IError[] {
   let errors: any[] = Validators.exportDataRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateVisualHeader(input: any): IError[] {
+  let errors: any[] = Validators.visualHeaderValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateVisualSettings(input: any): IError[] {
+  let errors: any[] = Validators.visualSettingsValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
