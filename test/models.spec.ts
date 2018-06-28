@@ -1,4 +1,5 @@
 import * as models from '../src/models';
+import { IFilter } from '../src/models';
 
 describe('Unit | Models', function () {
   function testForExpectedMessage(errors: models.IError[], message: string) {
@@ -1631,6 +1632,94 @@ describe('Unit | Models', function () {
 
       // Assert
       expect(errors).toBeUndefined();
+    });
+  });
+
+  describe('validateSlicers', function() {
+    const selectorRequiredMessage = "selector is required";
+    const stateRequiredMessage = "state is required";
+    const selectorInvalidTypeMessage = "selector must be an object";
+    const stateInvalidTypeMessage = "state must be an object";
+    const filters: IFilter[] = [];
+
+    it(`should return undefined if selector and state are valid`, function () {
+      // Arrange
+      const testData = {
+        selector: {
+          visualName: 'fakeId',
+        },
+        state: {
+          filters: filters
+        }
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${selectorRequiredMessage}' if datasetIds field is not an array of strings`, function () {
+      // Arrange
+      const testData = {
+        state: {
+          filters: filters
+        }
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      testForExpectedMessage(errors, selectorRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${stateRequiredMessage}' if datasetIds field is not an array of strings`, function () {
+      // Arrange
+      const testData = {
+        selector: {
+          visualName: 'fakeId',
+        }
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      testForExpectedMessage(errors, stateRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${selectorInvalidTypeMessage}' if datasetIds field is not an array of strings`, function () {
+      // Arrange
+      const testData = {
+        selector: 11,
+        state: {
+          filters: filters
+        }
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      testForExpectedMessage(errors, selectorInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${stateInvalidTypeMessage}' if datasetIds field is not an array of strings`, function () {
+      // Arrange
+      const testData = {
+        selector: {
+          visualName: 'fakeId',
+        },
+        state: 11
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      testForExpectedMessage(errors, stateInvalidTypeMessage);
     });
   });
 });
