@@ -16,7 +16,18 @@ export interface IError {
   message: string;
   detailedMessage?: string;
   errorCode?: string;
+  level?: TraceType;
   technicalDetails?: ITechnicalDetails;
+}
+
+export enum TraceType {
+  Information = 0,
+  Verbose = 1,
+  Warning = 2,
+  Error = 3,
+  ExpectedError = 4,
+  UnexpectedError = 5,
+  Fatal = 6,
 }
 
 export enum PageSizeType {
@@ -706,6 +717,7 @@ export interface ISettings {
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  hideErrors?: boolean;
 }
 
 export interface ISaveAsParameters {
@@ -714,6 +726,7 @@ export interface ISaveAsParameters {
 
 export interface IQnaSettings {
   filterPaneEnabled?: boolean;
+  hideErrors?: boolean;
 }
 
 export interface ILoadQnaConfiguration {
