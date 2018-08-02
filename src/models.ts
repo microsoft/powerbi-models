@@ -806,6 +806,10 @@ export interface IVisualSelector extends ISelector {
   visualName: string;
 }
 
+export interface IVisualTypeSelector extends ISelector {
+    visualType: string;
+}
+
 export abstract class Selector implements ISelector {
   public $schema: string;
 
@@ -837,6 +841,22 @@ export class VisualSelector extends Selector implements IVisualSelector {
   }
 }
 
+export class VisualTypeSelector extends Selector implements IVisualTypeSelector {
+  public static schemaUrl: string = "http://powerbi.com/product/schema#visualTypeSelector";
+  public visualType: string;
+
+  constructor(visualType: string) {
+    super(VisualSelector.schemaUrl);
+    this.visualType = visualType;
+  }
+
+  toJSON(): IVisualTypeSelector {
+    const selector = <IVisualTypeSelector>super.toJSON();
+
+    selector.visualType = this.visualType;
+    return selector;
+  }
+}
 /*
  * Slicers
  */
@@ -852,7 +872,7 @@ export interface ISlicer {
 /*
  * Visual Settings
  */
-export type VisualsHeaderSelector = IVisualSelector;
+export type VisualHeaderSelector = IVisualSelector | IVisualTypeSelector;
 
 export interface IVisualHeaderSettings {
   visible?: boolean;
@@ -860,7 +880,7 @@ export interface IVisualHeaderSettings {
 
 export interface IVisualHeader {
   settings: IVisualHeaderSettings;
-  selector?: VisualsHeaderSelector;
+  selector?: VisualHeaderSelector;
 }
 
 export interface IVisualSettings {

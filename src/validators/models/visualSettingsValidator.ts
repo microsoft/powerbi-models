@@ -66,7 +66,7 @@ export class VisualHeaderValidator extends ObjectValidator {
       },
       {
         field: "selector",
-        validators: [Validators.visualSelectorValidator]
+        validators: [Validators.visualHeaderSelectorValidator]
       },
     ];
 

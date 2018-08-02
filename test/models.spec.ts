@@ -1723,9 +1723,9 @@ describe('Unit | Models', function () {
     });
   });
 
-  describe('validateTheme', function() {
+  describe('validateVisualHeader', function() {
     const settingsRequiredMessage = "settings is required";
-    const visualNameNotString = "visualName must be a string";
+    const invalidSelectorMessage = "selector property is invalid";
 
     it(`should return undefined if settings and selector are valid`, function () {
       // Arrange
@@ -1735,6 +1735,25 @@ describe('Unit | Models', function () {
         },
         selector: {
           visualName: 'fakeId',
+        }
+      };
+
+      // Act
+      const errors = models.validateVisualHeader(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return undefined if settings and visual type selector are valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          show: false
+        },
+        selector: {
+          $schema: 'http://powerbi.com/product/schema#visualTypeSelector',
+          visualType: 'fakeType',
         }
       };
 
@@ -1787,7 +1806,7 @@ describe('Unit | Models', function () {
       const errors = models.validateVisualHeader(testData);
 
       // Assert
-      testForExpectedMessage(errors, visualNameNotString);
+      testForExpectedMessage(errors, invalidSelectorMessage);
     });
   });
 });

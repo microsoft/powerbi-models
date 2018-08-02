@@ -16,6 +16,7 @@ import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
 import { ExportDataRequestValidator } from '../models/exportDataValidator';
 import { VisualSelectorValidator } from '../models/selectorsValidator';
+import { VisualTypeSelectorValidator } from '../models/selectorsValidator';
 import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
 import { VisualHeaderSettingsValidator } from '../models/visualSettingsValidator';
 import { VisualHeaderValidator } from '../models/visualSettingsValidator';
@@ -106,6 +107,8 @@ export const Validators = {
   visualHeaderValidator: new VisualHeaderValidator(),
   visualLayoutValidator: new VisualLayoutValidator(),
   visualHeadersValidator: new ArrayValidator([new VisualHeaderValidator()]),
+  visualHeaderSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
   visualSelectorValidator: new VisualSelectorValidator(),
+  visualTypeSelectorValidator: new VisualTypeSelectorValidator(),
   visualSettingsValidator: new VisualSettingsValidator(),
 };
