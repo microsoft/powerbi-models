@@ -873,6 +873,7 @@ export interface ISlicer {
  * Visual Settings
  */
 export type VisualHeaderSelector = IVisualSelector | IVisualTypeSelector;
+export type VisualsHeaderSelector = VisualHeaderSelector;
 
 export interface IVisualHeaderSettings {
   visible?: boolean;
