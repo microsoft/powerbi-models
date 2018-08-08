@@ -763,7 +763,8 @@ export interface IQnaInterpretInputData {
 export interface IReportBookmark {
   name: string;
   displayName: string;
-  state: string;
+  state?: string;
+  children?: IReportBookmark[];
 }
 
 export interface IPlayBookmarkRequest {
