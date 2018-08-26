@@ -16,7 +16,18 @@ export interface IError {
   message: string;
   detailedMessage?: string;
   errorCode?: string;
+  level?: TraceType;
   technicalDetails?: ITechnicalDetails;
+}
+
+export enum TraceType {
+  Information = 0,
+  Verbose = 1,
+  Warning = 2,
+  Error = 3,
+  ExpectedError = 4,
+  UnexpectedError = 5,
+  Fatal = 6,
 }
 
 export enum PageSizeType {
@@ -706,6 +717,8 @@ export interface ISettings {
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  visualSettings?: IVisualSettings;
+  hideErrors?: boolean;
 }
 
 export interface ISaveAsParameters {
@@ -714,6 +727,7 @@ export interface ISaveAsParameters {
 
 export interface IQnaSettings {
   filterPaneEnabled?: boolean;
+  hideErrors?: boolean;
 }
 
 export interface ILoadQnaConfiguration {
@@ -741,6 +755,15 @@ export enum BookmarksPlayMode {
   Presentation,
 }
 
+export enum CommonErrorCodes {
+  TokenExpired = 'TokenExpired',
+  NotFound = 'PowerBIEntityNotFound',
+  InvalidParameters = 'Invalid parameters',
+  LoadReportFailed = 'LoadReportFailed',
+  NotAuthorized = 'PowerBINotAuthorizedException',
+  FailedToLoadModel = 'ExplorationContainer_FailedToLoadModel_DefaultDetails',
+}
+
 export interface IQnaInterpretInputData {
   question: string;
   datasetIds?: string[];
@@ -749,7 +772,8 @@ export interface IQnaInterpretInputData {
 export interface IReportBookmark {
   name: string;
   displayName: string;
-  state: string;
+  state?: string;
+  children?: IReportBookmark[];
 }
 
 export interface IPlayBookmarkRequest {
@@ -792,6 +816,10 @@ export interface IVisualSelector extends ISelector {
   visualName: string;
 }
 
+export interface IVisualTypeSelector extends ISelector {
+    visualType: string;
+}
+
 export abstract class Selector implements ISelector {
   public $schema: string;
 
@@ -823,6 +851,22 @@ export class VisualSelector extends Selector implements IVisualSelector {
   }
 }
 
+export class VisualTypeSelector extends Selector implements IVisualTypeSelector {
+  public static schemaUrl: string = "http://powerbi.com/product/schema#visualTypeSelector";
+  public visualType: string;
+
+  constructor(visualType: string) {
+    super(VisualSelector.schemaUrl);
+    this.visualType = visualType;
+  }
+
+  toJSON(): IVisualTypeSelector {
+    const selector = <IVisualTypeSelector>super.toJSON();
+
+    selector.visualType = this.visualType;
+    return selector;
+  }
+}
 /*
  * Slicers
  */
@@ -833,6 +877,25 @@ export interface ISlicer {
 
  export interface ISlicerState {
   filters: ISlicerFilter[];
+}
+
+/*
+ * Visual Settings
+ */
+export type VisualHeaderSelector = IVisualSelector | IVisualTypeSelector;
+export type VisualsHeaderSelector = VisualHeaderSelector;
+
+export interface IVisualHeaderSettings {
+  visible?: boolean;
+}
+
+export interface IVisualHeader {
+  settings: IVisualHeaderSettings;
+  selector?: VisualHeaderSelector;
+}
+
+export interface IVisualSettings {
+  visualHeaders?: IVisualHeader[];
 }
 
 function normalizeError(error: any): IError {
@@ -942,5 +1005,15 @@ export function validateQnaInterpretInputData(input: any): IError[] {
 
 export function validateExportDataRequest(input: any): IError[] {
   let errors: any[] = Validators.exportDataRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateVisualHeader(input: any): IError[] {
+  let errors: any[] = Validators.visualHeaderValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateVisualSettings(input: any): IError[] {
+  let errors: any[] = Validators.visualSettingsValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }

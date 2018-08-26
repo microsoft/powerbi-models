@@ -45,6 +45,14 @@ export class SettingsValidator extends ObjectValidator {
         field: "background",
         validators: [Validators.backgroundValidator]
       },
+      {
+        field: "visualSettings",
+        validators: [Validators.visualSettingsValidator]
+      },
+      {
+        field: "hideErrors",
+        validators: [Validators.booleanValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

@@ -16,7 +16,11 @@ import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
 import { ExportDataRequestValidator } from '../models/exportDataValidator';
 import { VisualSelectorValidator } from '../models/selectorsValidator';
+import { VisualTypeSelectorValidator } from '../models/selectorsValidator';
 import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
+import { VisualHeaderSettingsValidator } from '../models/visualSettingsValidator';
+import { VisualHeaderValidator } from '../models/visualSettingsValidator';
+import { VisualSettingsValidator } from '../models/visualSettingsValidator';
 
 export interface IValidationError {
   path?: string;
@@ -99,6 +103,12 @@ export const Validators = {
   topNFilterTypeValidator: new EnumValidator([5]),
   topNFilterValidator: new TopNFilterValidator(),
   viewModeValidator: new EnumValidator([0, 1]),
+  visualHeaderSettingsValidator: new VisualHeaderSettingsValidator(),
+  visualHeaderValidator: new VisualHeaderValidator(),
   visualLayoutValidator: new VisualLayoutValidator(),
+  visualHeadersValidator: new ArrayValidator([new VisualHeaderValidator()]),
+  visualHeaderSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
   visualSelectorValidator: new VisualSelectorValidator(),
+  visualTypeSelectorValidator: new VisualTypeSelectorValidator(),
+  visualSettingsValidator: new VisualSettingsValidator(),
 };

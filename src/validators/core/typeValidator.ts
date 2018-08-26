@@ -88,7 +88,7 @@ export class NumberValidator extends TypeValidator {
 }
 
 export class ValueValidator implements IValidator {
-  public constructor(private possibleValues: number[]) {}
+  public constructor(private possibleValues: (number | string)[]) {}
 
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input == null) {
@@ -102,6 +102,15 @@ export class ValueValidator implements IValidator {
       }];
     }
     return null;
+  }
+}
+
+export class SchemaValidator extends ValueValidator {
+  public constructor(private schemaValue: string) {
+    super([schemaValue]);
+  }
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    return super.validate(input, path, field);
   }
 }
 
