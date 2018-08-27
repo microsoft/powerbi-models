@@ -755,14 +755,16 @@ export enum BookmarksPlayMode {
   Presentation,
 }
 
-export enum CommonErrorCodes {
-  TokenExpired = 'TokenExpired',
-  NotFound = 'PowerBIEntityNotFound',
-  InvalidParameters = 'Invalid parameters',
-  LoadReportFailed = 'LoadReportFailed',
-  NotAuthorized = 'PowerBINotAuthorizedException',
-  FailedToLoadModel = 'ExplorationContainer_FailedToLoadModel_DefaultDetails',
-}
+// This is not an enum because enum strings require 
+// us to upgrade typeScript version and change SDK build definition
+export const CommonErrorCodes = {
+  TokenExpired: 'TokenExpired',
+  NotFound: 'PowerBIEntityNotFound',
+  InvalidParameters: 'Invalid parameters',
+  LoadReportFailed: 'LoadReportFailed',
+  NotAuthorized: 'PowerBINotAuthorizedException',
+  FailedToLoadModel: 'ExplorationContainer_FailedToLoadModel_DefaultDetails',
+};
 
 export interface IQnaInterpretInputData {
   question: string;
