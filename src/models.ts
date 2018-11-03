@@ -186,17 +186,17 @@ export interface IPosition {
 export type Extensions = IExtension[];
 
 export interface IExtension {
-    command?: ICommandExtension;
+  command?: ICommandExtension;
 }
 
 export interface IExtensionItem {
-    name: string;
-    extend: IExtensionPoints;
+  name: string;
+  extend: IExtensionPoints;
 }
 
 export interface ICommandExtension extends IExtensionItem {
-    title: string;
-    icon?: string;
+  title: string;
+  icon?: string;
 }
 
 // TODO: ExtensionPoints should extend _.Dictionary<ExtensionPoint>. This will need to add lodash to the project.
@@ -209,8 +209,8 @@ export interface IExtensionPoint {
 }
 
 export interface IMenuExtension extends IExtensionPoint {
-    title?: string;
-    icon?: string;
+  title?: string;
+  icon?: string;
 }
 
 export interface IBaseFilterTarget {
@@ -227,7 +227,7 @@ export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
 }
 
 export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget {
-    keys: string[];
+  keys: string[];
 }
 
 export interface IFilterHierarchyTarget extends IBaseFilterTarget {
@@ -236,7 +236,7 @@ export interface IFilterHierarchyTarget extends IBaseFilterTarget {
   aggregationFunction?: string;
 }
 
-export interface INotSupportedFilterTarget extends IBaseFilterTarget {}
+export interface INotSupportedFilterTarget extends IBaseFilterTarget { }
 
 export interface IFilterMeasureTarget extends IBaseFilterTarget {
   measure: string;
@@ -244,33 +244,34 @@ export interface IFilterMeasureTarget extends IBaseFilterTarget {
 
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget);
-
+export type ITupleFilterTarget = IFilterTarget[];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget;
 export interface IFilter {
-    $schema: string;
-    target: IFilterTarget;
-    filterType: FilterType;
+  $schema: string;
+  target: IFilterGeneralTarget;
+  filterType: FilterType;
 }
 
 export interface INotSupportedFilter extends IFilter {
-    message: string;
-    notSupportedTypeName: string;
+  message: string;
+  notSupportedTypeName: string;
 }
 
 export interface IIncludeExcludeFilter extends IFilter {
-    values: (string | number | boolean)[];
-    isExclude: boolean;
+  values: (string | number | boolean)[];
+  isExclude: boolean;
 }
 
 export interface ITopNFilter extends IFilter {
-    operator: TopNFilterOperators;
-    itemCount: number;
+  operator: TopNFilterOperators;
+  itemCount: number;
 }
 
 export interface IRelativeDateFilter extends IFilter {
-    operator: RelativeDateOperators;
-    timeUnitsCount: number;
-    timeUnitType: RelativeDateFilterTimeUnit;
-    includeToday: boolean;
+  operator: RelativeDateOperators;
+  timeUnitsCount: number;
+  timeUnitType: RelativeDateFilterTimeUnit;
+  includeToday: boolean;
 }
 
 export interface IBasicFilter extends IFilter {
@@ -283,8 +284,23 @@ export interface IBasicFilterWithKeys extends IBasicFilter {
   keyValues: (string | number | boolean)[][];
 }
 
-export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
-export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+export type PrimitiveValueType = (string | number | boolean);
+export interface ITupleElementValue {
+  value: PrimitiveValueType;
+  keyValues?: PrimitiveValueType[];
+}
+export type TupleValueType = ITupleElementValue[];
+export type TupleFilterOperators = "In";
+export interface ITupleFilter extends IFilter {
+  $schema: string;
+  filterType: FilterType;
+  operator: TupleFilterOperators;
+  target: ITupleFilterTarget;
+  values: TupleValueType[];
+}
+
+export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
+export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
 export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
 export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
 
@@ -306,39 +322,40 @@ export interface IAdvancedFilter extends IFilter {
 }
 
 export enum FilterType {
-    Advanced = 0,
-    Basic = 1,
-    Unknown = 2,
-    IncludeExclude = 3,
-    RelativeDate = 4,
-    TopN = 5,
+  Advanced = 0,
+  Basic = 1,
+  Unknown = 2,
+  IncludeExclude = 3,
+  RelativeDate = 4,
+  TopN = 5,
+  Tuple = 6
 }
 
 export enum RelativeDateFilterTimeUnit {
-    Days = 0,
-    Weeks = 1,
-    CalendarWeeks = 2,
-    Months = 3,
-    CalendarMonths = 4,
-    Years = 5,
-    CalendarYears = 6,
+  Days = 0,
+  Weeks = 1,
+  CalendarWeeks = 2,
+  Months = 3,
+  CalendarMonths = 4,
+  Years = 5,
+  CalendarYears = 6,
 }
 
 export enum RelativeDateOperators {
-    InLast = 0,
-    InThis = 1,
-    InNext = 2,
+  InLast = 0,
+  InThis = 1,
+  InNext = 2,
 }
 
 export abstract class Filter {
   static schema: string;
   protected static schemaUrl: string;
-  target: IFilterTarget;
+  target: IFilterGeneralTarget;
   filterType: FilterType;
   protected schemaUrl: string;
 
   constructor(
-    target: IFilterTarget,
+    target: IFilterGeneralTarget,
     filterType: FilterType
   ) {
     this.target = target;
@@ -520,15 +537,15 @@ export class BasicFilterWithKeys extends BasicFilter {
     let numberOfKeys = target.keys ? target.keys.length : 0;
 
     if (numberOfKeys > 0 && !keyValues) {
-      throw new Error(`You shold pass the values to be filtered for each key. You passed: no values and ${numberOfKeys} keys`);
+      throw new Error(`You should pass the values to be filtered for each key. You passed: no values and ${numberOfKeys} keys`);
     }
 
     if (numberOfKeys === 0 && keyValues && keyValues.length > 0) {
       throw new Error(`You passed key values but your target object doesn't contain the keys to be filtered`);
     }
 
-    for (let i = 0 ; i < this.keyValues.length ; i++) {
-      if (this.keyValues[i] ) {
+    for (let i = 0; i < this.keyValues.length; i++) {
+      if (this.keyValues[i]) {
         let lengthOfArray = this.keyValues[i].length;
         if (lengthOfArray !== numberOfKeys) {
           throw new Error(`Each tuple of key values should contain a value for each of the keys. You passed: ${lengthOfArray} values and ${numberOfKeys} keys`);
@@ -541,6 +558,32 @@ export class BasicFilterWithKeys extends BasicFilter {
   toJSON(): IBasicFilter {
     const filter = <IBasicFilterWithKeys>super.toJSON();
     filter.keyValues = this.keyValues;
+    return filter;
+  }
+}
+
+export class TupleFilter extends Filter {
+  static schemaUrl: string = "http://powerbi.com/product/schema#tuple";
+  operator: TupleFilterOperators;
+  target: ITupleFilterTarget;
+  values: TupleValueType[];
+
+  constructor(
+    target: ITupleFilterTarget,
+    operator: TupleFilterOperators,
+    values: TupleValueType[]
+  ) {
+    super(target, FilterType.Tuple);
+    this.operator = operator;
+    this.schemaUrl = TupleFilter.schemaUrl;
+    this.values = values;
+  }
+
+  toJSON(): ITupleFilter {
+    const filter = <ITupleFilter>super.toJSON();
+    filter.operator = this.operator;
+    filter.values = this.values;
+    filter.target = this.target;
     return filter;
   }
 }
@@ -626,15 +669,15 @@ export interface IIdentityValue<T extends IDataReference> {
 }
 
 export function isFilterKeyColumnsTarget(target: IFilterTarget): boolean {
-    return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
+  return isColumn(target) && !!(<IFilterKeyColumnsTarget>target).keys;
 }
 
 export function isBasicFilterWithKeys(filter: IFilter): boolean {
-    return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
+  return getFilterType(filter) === FilterType.Basic && !!(<IBasicFilterWithKeys>filter).keyValues;
 }
 
 export function getFilterType(filter: IFilter): FilterType {
-  if(filter.filterType) {
+  if (filter.filterType) {
     return filter.filterType;
   }
 
@@ -819,7 +862,7 @@ export interface IVisualSelector extends ISelector {
 }
 
 export interface IVisualTypeSelector extends ISelector {
-    visualType: string;
+  visualType: string;
 }
 
 export abstract class Selector implements ISelector {
@@ -877,7 +920,7 @@ export interface ISlicer {
   state: ISlicerState;
 }
 
- export interface ISlicerState {
+export interface ISlicerState {
   filters: ISlicerFilter[];
 }
 
