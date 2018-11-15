@@ -20,7 +20,7 @@ export interface IError {
   technicalDetails?: ITechnicalDetails;
 }
 
-export const enum TraceType {
+export enum TraceType {
   Information = 0,
   Verbose = 1,
   Warning = 2,
@@ -30,7 +30,7 @@ export const enum TraceType {
   Fatal = 6,
 }
 
-export const enum PageSizeType {
+export enum PageSizeType {
   Widescreen,
   Standard,
   Cortana,
@@ -38,13 +38,13 @@ export const enum PageSizeType {
   Custom
 }
 
-export const enum DisplayOption {
+export enum DisplayOption {
   FitToPage,
   FitToWidth,
   ActualSize
 }
 
-export const enum BackgroundType {
+export enum BackgroundType {
   Default,
   Transparent
 }
@@ -66,12 +66,12 @@ export interface IPageLayout {
   visualsLayout: VisualsLayout;
 }
 
-export const enum VisualContainerDisplayMode {
+export enum VisualContainerDisplayMode {
   Visible,
   Hidden
 }
 
-export const enum LayoutType {
+export enum LayoutType {
   Master,
   Custom,
   MobilePortrait,
@@ -102,7 +102,7 @@ export interface IReport {
   displayName: string;
 }
 
-export const enum SectionVisibility {
+export enum SectionVisibility {
   AlwaysVisible,
   HiddenInViewMode,
 }
@@ -134,7 +134,7 @@ export interface IVisual {
   layout?: IVisualLayout;
 }
 
-export const enum Permissions {
+export enum Permissions {
   Read = 0,
   ReadWrite = 1,
   Copy = 2,
@@ -142,12 +142,12 @@ export const enum Permissions {
   All = 7
 }
 
-export const enum ViewMode {
+export enum ViewMode {
   View,
   Edit
 }
 
-export const enum TokenType {
+export enum TokenType {
   Aad,
   Embed
 }
@@ -321,7 +321,7 @@ export interface IAdvancedFilter extends IFilter {
   conditions: IAdvancedFilterCondition[];
 }
 
-export const enum FilterType {
+export enum FilterType {
   Advanced = 0,
   Basic = 1,
   Unknown = 2,
@@ -331,7 +331,7 @@ export const enum FilterType {
   Tuple = 6
 }
 
-export const enum RelativeDateFilterTimeUnit {
+export enum RelativeDateFilterTimeUnit {
   Days = 0,
   Weeks = 1,
   CalendarWeeks = 2,
@@ -341,7 +341,7 @@ export const enum RelativeDateFilterTimeUnit {
   CalendarYears = 6,
 }
 
-export const enum RelativeDateOperators {
+export enum RelativeDateOperators {
   InLast = 0,
   InThis = 1,
   InNext = 2,
@@ -783,17 +783,17 @@ export interface ILoadQnaConfiguration {
   tokenType?: TokenType;
 }
 
-export const enum QnaMode {
+export enum QnaMode {
   Interactive,
   ResultOnly,
 }
 
-export const enum ExportDataType {
+export enum ExportDataType {
   Summarized,
   Underlying,
 }
 
-export const enum BookmarksPlayMode {
+export enum BookmarksPlayMode {
   Off,
   Presentation,
 }
