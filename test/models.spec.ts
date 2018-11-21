@@ -715,7 +715,7 @@ describe('Unit | Models', function () {
       };
       // Act
       const filter = new models.BasicFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.values);
 
@@ -738,7 +738,7 @@ describe('Unit | Models', function () {
 
       // Act
       const filter = new models.BasicFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.values);
 
@@ -763,7 +763,7 @@ describe('Unit | Models', function () {
 
       // Act
       const filter = new models.RelativeDateFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.timeUnitsCount,
         expectedFilter.timeUnitType,
@@ -788,7 +788,7 @@ describe('Unit | Models', function () {
 
       // Act
       const filter = new models.TopNFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.itemCount);
 
@@ -811,7 +811,7 @@ describe('Unit | Models', function () {
 
       // Act
       const filter = new models.NotSupportedFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.message,
         expectedFilter.notSupportedTypeName);
 
@@ -834,7 +834,7 @@ describe('Unit | Models', function () {
 
       // Act
       const filter = new models.IncludeExcludeFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.isExclude,
         expectedFilter.values);
 
@@ -869,12 +869,12 @@ describe('Unit | Models', function () {
       };
 
       const filter = new models.AdvancedFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.logicalOperator,
         ...expectedFilter.conditions.slice(0, 2));
 
       const filter2 = new models.AdvancedFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.logicalOperator,
         ...expectedFilter.conditions.slice(1, 3));
 
@@ -1884,7 +1884,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const filter = new models.BasicFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.values);
 
@@ -1910,8 +1910,8 @@ describe("Unit | Filters", function () {
       };
 
       // Act
-      const filter1 = new models.BasicFilter(expectedFilter.target, expectedFilter.operator, expectedFilter.values);
-      const filter2 = new models.BasicFilter(expectedFilter.target, expectedFilter.operator, ...expectedFilter.values);
+      const filter1 = new models.BasicFilter(<models.IFilterTarget>expectedFilter.target, expectedFilter.operator, expectedFilter.values);
+      const filter2 = new models.BasicFilter(<models.IFilterTarget>expectedFilter.target, expectedFilter.operator, ...expectedFilter.values);
 
       // Assert
       expect(filter1.toJSON()).toEqual(filter2.toJSON());
@@ -1997,7 +1997,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const filter = new models.AdvancedFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.logicalOperator,
         ...expectedFilter.conditions);
 
@@ -2028,8 +2028,8 @@ describe("Unit | Filters", function () {
       };
 
       // Act
-      const filter1 = new models.AdvancedFilter(expectedFilter.target, expectedFilter.logicalOperator, expectedFilter.conditions);
-      const filter2 = new models.AdvancedFilter(expectedFilter.target, expectedFilter.logicalOperator, ...expectedFilter.conditions);
+      const filter1 = new models.AdvancedFilter(<models.IFilterTarget>expectedFilter.target, expectedFilter.logicalOperator, expectedFilter.conditions);
+      const filter2 = new models.AdvancedFilter(<models.IFilterTarget>expectedFilter.target, expectedFilter.logicalOperator, ...expectedFilter.conditions);
 
       // Assert
       expect(filter1.toJSON()).toEqual(filter2.toJSON());
@@ -2054,7 +2054,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const filter = new models.RelativeDateFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.timeUnitsCount,
         expectedFilter.timeUnitType,
@@ -2078,7 +2078,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const filter = new models.NotSupportedFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.message,
         expectedFilter.notSupportedTypeName);
 
@@ -2103,7 +2103,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const filter = new models.TopNFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.itemCount);
 
@@ -2128,7 +2128,7 @@ describe("Unit | Filters", function () {
 
       // Act
       const filter = new models.IncludeExcludeFilter(
-        expectedFilter.target,
+        <models.IFilterTarget>expectedFilter.target,
         expectedFilter.isExclude,
         expectedFilter.values);
 
