@@ -922,6 +922,7 @@ export interface ISlicer {
 
 export interface ISlicerState {
   filters: ISlicerFilter[];
+  targets?: (IFilterTarget | IFilterKeyTarget)[];
 }
 
 /*
