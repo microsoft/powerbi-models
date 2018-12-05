@@ -318,7 +318,7 @@ export class ConditionItemValidator extends ObjectValidator {
     const fields: IFieldValidatorsPair[] = [
       {
         field: "value",
-        validators: [Validators.fieldRequiredValidator, Validators.anyValueValidator]
+        validators: [Validators.anyValueValidator]
       },
       {
         field: "operator",

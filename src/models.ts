@@ -312,7 +312,7 @@ export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOr
 export type SlicerSelector = IVisualSelector;
 
 export interface IAdvancedFilterCondition {
-  value: (string | number | boolean | Date);
+  value?: (string | number | boolean | Date);
   operator: AdvancedFilterConditionOperators;
 }
 
