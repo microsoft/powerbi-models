@@ -798,7 +798,7 @@ export enum BookmarksPlayMode {
   Presentation,
 }
 
-// This is not an enum because enum strings require 
+// This is not an enum because enum strings require
 // us to upgrade typeScript version and change SDK build definition
 export const CommonErrorCodes = {
   TokenExpired: 'TokenExpired',
@@ -850,11 +850,29 @@ export interface IExportDataResult {
   data: string;
 }
 
+export interface ICloneVisualRequest {
+  // The filters which will be applied to the new visual. Default: source visual filters.
+  filters?: IFilter[];
+
+  // The layout which will be applied to the new visual.
+  // Default: a best effort to put a new visual in an empty space on the canvas.
+  layout?: IVisualLayout;
+}
+
+export interface ICloneVisualResponse {
+  // New visual name
+  visualName: string;
+}
+
 /*
  * Selectors
  */
 export interface ISelector {
   $schema: string;
+}
+
+export interface IPageSelector extends ISelector {
+  pageName: string;
 }
 
 export interface IVisualSelector extends ISelector {
@@ -877,6 +895,23 @@ export abstract class Selector implements ISelector {
       $schema: this.$schema
     };
   };
+}
+
+export class PageSelector extends Selector implements IPageSelector {
+  static schemaUrl: string = "http://powerbi.com/product/schema#pageSelector";
+  public pageName: string;
+
+  constructor(pageName: string) {
+    super(PageSelector.schemaUrl);
+    this.pageName = pageName;
+  }
+
+  toJSON(): IPageSelector {
+    const selector = <IPageSelector>super.toJSON();
+
+    selector.pageName = this.pageName;
+    return selector;
+  }
 }
 
 export class VisualSelector extends Selector implements IVisualSelector {
