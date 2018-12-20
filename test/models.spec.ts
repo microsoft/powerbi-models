@@ -894,6 +894,7 @@ describe('Unit | Models', function () {
     const bookmarksPaneEnabledInvalidTypeMessage = "bookmarksPaneEnabled must be a boolean";
     const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
     const extensionsInvalidMessage = "extensions property is invalid";
+    const commandsInvalidMessage = "commands property is invalid";
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
     const layoutTypeInvalidMessage = "layoutType property is invalid";
     const customLayoutInvalidMessage = "customLayout must be an object";
@@ -959,7 +960,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, useCustomSaveAsDialogInvalidTypeMessage);
     });
 
-    it(`should return errors with one containing message '${extensionsInvalidMessage}' if extentions array is invalid`, function () {
+    it(`should return errors with one containing message '${extensionsInvalidMessage}' if extensions array is invalid`, function () {
       // Arrange
       const testData = {
         settings: {
@@ -972,6 +973,21 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, extensionsInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${commandsInvalidMessage}' if commands array is invalid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          commands: [1]
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, commandsInvalidMessage);
     });
 
     it(`should return errors with one containing message '${layoutTypeInvalidTypeMessage}' if layoutType is not a number`, function () {
@@ -1027,6 +1043,7 @@ describe('Unit | Models', function () {
           filterPaneEnabled: false,
           useCustomSaveAsDialog: false,
           extensions: [{command: {name: "name", extend: {}, title: "title"}}],
+          commands: [{exportData: {displayOption: models.CommandDisplayOption.Enabled}}],
           layoutType: 0,
           customLayout: {
             pagesLayout: {
@@ -1078,6 +1095,7 @@ describe('Unit | Models', function () {
           filterPaneEnabled: false,
           useCustomSaveAsDialog: false,
           extensions: [{command: {name: "name", extend: {}, title: "title"}}],
+          commands: [{exportData: {displayOption: models.CommandDisplayOption.Enabled}}],
           layoutType: 0,
           customLayout: {}
         }
@@ -1854,6 +1872,119 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, invalidSelectorMessage);
+    });
+  });
+
+  describe('validateCommandsSettings', function() {
+    const invalidSelectorMessage = "selector property is invalid";
+    const displayOptionRequiredMessage = "displayOption is required";
+    const invalidDisplayOptionMessage = "displayOption property is invalid";
+
+    it(`should return undefined if displayOption and selector are valid`, function () {
+      // Arrange
+      const testData = {
+          exportData: {
+            displayOption: models.CommandDisplayOption.Enabled,
+            selector: {
+              visualName: 'fakeId',
+            }
+          }
+        };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return undefined if displayOption and visual type selector are valid`, function () {
+      const testData = {
+          exportData: {
+            displayOption: models.CommandDisplayOption.Disabled,
+            selector: {
+              $schema: 'http://powerbi.com/product/schema#visualTypeSelector',
+              visualType: 'fakeType',
+            },
+          },
+          seeData: {
+            displayOption: models.CommandDisplayOption.Disabled,
+            selector: {
+              $schema: "http://powerbi.com/product/schema#visualSelector",
+              visualName: 'fakeName',
+            },
+          }
+        };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return undefined if displayOption is valid and selector is undefined`, function () {
+      // Arrange
+      const testData = {
+          exportData: {
+            displayOption: models.CommandDisplayOption.Hidden,
+          },
+          seeData: {
+            displayOption: models.CommandDisplayOption.Disabled,
+          }
+        };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return error if displayOption is undefined`, function () {
+      // Arrange
+      const testData = {
+        exportData: {}
+      };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      testForExpectedMessage(errors, displayOptionRequiredMessage);
+    });
+
+    it(`should return error if selector is invalid`, function () {
+      // Arrange
+      const testData = {
+          exportData: {
+            displayOption: models.CommandDisplayOption.Disabled,
+            selector: {
+              visualName: 123,
+            }
+          }
+        };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      testForExpectedMessage(errors, invalidSelectorMessage);
+    });
+
+    it(`should return error if displayOption is invalid`, function () {
+      // Arrange
+      const testData = {
+        exportData: {
+          displayOption: 5,
+        }
+      };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      testForExpectedMessage(errors, invalidDisplayOptionMessage);
     });
   });
 });

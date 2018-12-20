@@ -31,7 +31,7 @@ export class SettingsValidator extends ObjectValidator {
       },
       {
         field: "extensions",
-        validators: [Validators.extentionArrayValidator]
+        validators: [Validators.extensionArrayValidator]
       },
       {
         field: "layoutType",
@@ -52,6 +52,10 @@ export class SettingsValidator extends ObjectValidator {
       {
         field: "hideErrors",
         validators: [Validators.booleanValidator]
+      },
+      {
+        field: "commands",
+        validators: [Validators.commandsSettingsArrayValidator]
       },
     ];
 

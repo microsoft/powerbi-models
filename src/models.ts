@@ -760,14 +760,15 @@ export interface ITileLoadConfiguration {
 export interface ISettings {
   background?: BackgroundType;
   bookmarksPaneEnabled?: boolean;
+  commands?: ICommandsSettings[];
   customLayout?: ICustomLayout;
   extensions?: Extensions;
   filterPaneEnabled?: boolean;
+  hideErrors?: boolean;
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   visualSettings?: IVisualSettings;
-  hideErrors?: boolean;
 }
 
 export interface ISaveAsParameters {
@@ -985,6 +986,37 @@ export interface IVisualSettings {
   visualHeaders?: IVisualHeader[];
 }
 
+/*
+ * Built-in Commands Configuration
+ */
+
+export type VisualCommandSelector = IVisualSelector | IVisualTypeSelector;
+
+export enum CommandDisplayOption {
+  Enabled,
+  Disabled,
+  Hidden
+}
+
+export interface ICommandSettings {
+  displayOption: CommandDisplayOption;
+  selector?: VisualCommandSelector;
+}
+
+export interface ICommandsSettings {
+  copy?: ICommandSettings;
+  drill?: ICommandSettings;
+  drillthrough?: ICommandSettings;
+  expandCollapse?: ICommandSettings;
+  exportData?: ICommandSettings;
+  includeExclude?: ICommandSettings;
+  removeVisual?: ICommandSettings;
+  search?: ICommandSettings;
+  seeData?: ICommandSettings;
+  sort?: ICommandSettings;
+  spotlight?: ICommandSettings;
+}
+
 function normalizeError(error: any): IError {
   let message = error.message;
   if (!message) {
@@ -1041,7 +1073,7 @@ export function validateCustomPageSize(input: any): IError[] {
 }
 
 export function validateExtension(input: any): IError[] {
-  let errors: any[] = Validators.extentionValidator.validate(input);
+  let errors: any[] = Validators.extensionValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
 
@@ -1102,5 +1134,10 @@ export function validateVisualHeader(input: any): IError[] {
 
 export function validateVisualSettings(input: any): IError[] {
   let errors: any[] = Validators.visualSettingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCommandsSettings(input: any): IError[] {
+  let errors: any[] = Validators.commandsSettingsValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
