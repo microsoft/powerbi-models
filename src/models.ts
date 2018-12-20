@@ -211,6 +211,12 @@ export interface IExtensionPoint {
 export interface IMenuExtension extends IExtensionPoint {
   title?: string;
   icon?: string;
+  menuLocation?: MenuLocation;
+}
+
+export enum MenuLocation {
+  Bottom,
+  Top
 }
 
 export interface IBaseFilterTarget {

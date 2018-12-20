@@ -55,6 +55,7 @@ export const Validators = {
   customPageSizeValidator: new CustomPageSizeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
+  menuLocationValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
   exportDataRequestValidator: new ExportDataRequestValidator(),
   extensionPointsValidator: new ExtensionPointsValidator(),

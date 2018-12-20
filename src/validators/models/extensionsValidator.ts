@@ -20,6 +20,10 @@ export class MenuExtensionValidator extends ObjectValidator {
       {
         field: "icon",
         validators: [Validators.stringValidator]
+      },
+      {
+        field: "menuLocation",
+        validators: [Validators.menuLocationValidator]
       }
     ];
 
