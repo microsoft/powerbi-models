@@ -308,6 +308,12 @@ export interface ITupleFilter extends IFilter {
   values: TupleValueType[];
 }
 
+export enum FiltersLevel {
+  Report,
+  Page,
+  Visual
+}
+
 export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
 export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
 export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
