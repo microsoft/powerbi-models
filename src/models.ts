@@ -315,8 +315,6 @@ export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
-export type SlicerSelector = IVisualSelector;
-
 export interface IAdvancedFilterCondition {
   value?: (string | number | boolean | Date);
   operator: AdvancedFilterConditionOperators;
@@ -890,6 +888,10 @@ export interface IVisualTypeSelector extends ISelector {
   visualType: string;
 }
 
+export interface ISlicerTargetSelector extends ISelector {
+  target: SlicerTarget;
+}
+
 export abstract class Selector implements ISelector {
   public $schema: string;
 
@@ -954,9 +956,29 @@ export class VisualTypeSelector extends Selector implements IVisualTypeSelector 
     return selector;
   }
 }
+
+export class SlicerTargetSelector extends Selector implements ISlicerTargetSelector {
+  public static schemaUrl: string = "http://powerbi.com/product/schema#slicerTargetSelector";
+  public target: SlicerTarget;
+
+  constructor(target: SlicerTarget) {
+    super(VisualSelector.schemaUrl);
+    this.target = target;
+  }
+
+  toJSON(): ISlicerTargetSelector {
+    const selector = <ISlicerTargetSelector>super.toJSON();
+
+    selector.target = this.target;
+    return selector;
+  }
+}
 /*
  * Slicers
  */
+export type SlicerTarget = IFilterTarget | IFilterKeyTarget;
+export type SlicerSelector = IVisualSelector | ISlicerTargetSelector;
+
 export interface ISlicer {
   selector: SlicerSelector;
   state: ISlicerState;
@@ -964,7 +986,7 @@ export interface ISlicer {
 
 export interface ISlicerState {
   filters: ISlicerFilter[];
-  targets?: (IFilterTarget | IFilterKeyTarget)[];
+  targets?: SlicerTarget[];
 }
 
 /*

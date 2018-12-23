@@ -58,3 +58,31 @@ export class VisualTypeSelectorValidator extends ObjectValidator {
     return multipleFieldsValidator.validate(input, path, field);
   }
 }
+
+export class SlicerTargetSelectorValidator extends ObjectValidator {
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+
+    if (input == null) {
+      return null;
+    }
+
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return errors;
+    }
+
+    const fields: IFieldValidatorsPair[] = [
+      {
+        field: "$schema",
+        validators: [Validators.fieldRequiredValidator, Validators.stringValidator, new SchemaValidator("http://powerbi.com/product/schema#slicerTargetSelector")]
+      },
+      {
+        field: "target",
+        validators: [Validators.fieldRequiredValidator, Validators.slicerTargetValidator]
+      }
+    ];
+
+    const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+    return multipleFieldsValidator.validate(input, path, field);
+  }
+}

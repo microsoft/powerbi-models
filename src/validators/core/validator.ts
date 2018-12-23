@@ -2,7 +2,20 @@ import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, Numbe
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
 import { SettingsValidator } from '../models/settingsValidator';
 import { PlayBookmarkRequestValidator, AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator } from '../models/bookmarkValidator';
-import { FilterColumnTargetValidator, FilterHierarchyTargetValidator, FilterMeasureTargetValidator, ConditionItemValidator, RelativeDateFilterValidator, BasicFilterValidator, AdvancedFilterValidator, TopNFilterValidator, NotSupportedFilterValidator, IncludeExcludeFilterValidator, FilterValidator } from '../models/filtersValidator';
+import {
+  FilterColumnTargetValidator,
+  FilterKeyColumnsTargetValidator,
+  FilterHierarchyTargetValidator,
+  FilterKeyHierarchyTargetValidator,
+  FilterMeasureTargetValidator,
+  ConditionItemValidator,
+  RelativeDateFilterValidator,
+  BasicFilterValidator,
+  AdvancedFilterValidator,
+  TopNFilterValidator,
+  NotSupportedFilterValidator,
+  IncludeExcludeFilterValidator,
+  FilterValidator } from '../models/filtersValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { AnyOfValidator } from './anyOfValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
@@ -15,8 +28,7 @@ import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
 import { ExportDataRequestValidator } from '../models/exportDataValidator';
-import { VisualSelectorValidator } from '../models/selectorsValidator';
-import { VisualTypeSelectorValidator } from '../models/selectorsValidator';
+import { VisualSelectorValidator, VisualTypeSelectorValidator, SlicerTargetSelectorValidator } from '../models/selectorsValidator';
 import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
 import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
 import { SingleCommandSettingsValidator, CommandsSettingsValidator } from '../models/commandsSettingsValidator';
@@ -56,7 +68,6 @@ export const Validators = {
   customPageSizeValidator: new CustomPageSizeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
-  menuLocationValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
   exportDataRequestValidator: new ExportDataRequestValidator(),
   extensionArrayValidator: new ArrayValidator([new ExtensionValidator()]),
@@ -67,7 +78,7 @@ export const Validators = {
   filterConditionsValidator: new ArrayValidator([new ConditionItemValidator()]),
   filterHierarchyTargetValidator: new FilterHierarchyTargetValidator(),
   filterMeasureTargetValidator: new FilterMeasureTargetValidator(),
-  filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(),  new FilterMeasureTargetValidator()]),
+  filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
   filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator()])]),
   filtersValidator: new FilterValidator(),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
@@ -75,6 +86,7 @@ export const Validators = {
   layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),
   loadQnaValidator: new LoadQnaValidator(),
   menuExtensionValidator: new MenuExtensionValidator(),
+  menuLocationValidator: new EnumValidator([0, 1]),
   notSupportedFilterTypeValidator: new EnumValidator([2]),
   notSupportedFilterValidator: new NotSupportedFilterValidator(),
   numberArrayValidator: new NumberArrayValidator(),
@@ -98,7 +110,9 @@ export const Validators = {
   saveAsParametersValidator: new SaveAsParametersValidator(),
   settingsValidator: new SettingsValidator(),
   singleCommandSettingsValidator: new SingleCommandSettingsValidator(),
+  slicerSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new SlicerTargetSelectorValidator()]),
   slicerStateValidator: new SlicerStateValidator(),
+  slicerTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new FilterKeyColumnsTargetValidator(), new FilterKeyHierarchyTargetValidator()]),
   slicerValidator: new SlicerValidator(),
   stringArrayValidator: new StringArrayValidator(),
   stringValidator: new StringValidator(),
@@ -115,4 +129,5 @@ export const Validators = {
   visualLayoutValidator: new VisualLayoutValidator(),
   visualSelectorValidator: new VisualSelectorValidator(),
   visualSettingsValidator: new VisualSettingsValidator(),
+  visualTypeSelectorValidator: new VisualTypeSelectorValidator(),
 };

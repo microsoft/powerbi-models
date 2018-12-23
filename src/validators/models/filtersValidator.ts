@@ -28,6 +28,28 @@ export class FilterColumnTargetValidator extends ObjectValidator {
   }
 }
 
+export class FilterKeyColumnsTargetValidator extends FilterColumnTargetValidator {
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    if (input == null) {
+      return null;
+    }
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return errors;
+    }
+
+    const fields: IFieldValidatorsPair[] = [
+      {
+        field: "keys",
+        validators: [Validators.fieldRequiredValidator, Validators.stringArrayValidator]
+      },
+    ];
+
+    const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+    return multipleFieldsValidator.validate(input, path, field);
+  }
+}
+
 export class FilterHierarchyTargetValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input == null) {
@@ -51,6 +73,28 @@ export class FilterHierarchyTargetValidator extends ObjectValidator {
         field: "hierarchyLevel",
         validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
       }
+    ];
+
+    const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+    return multipleFieldsValidator.validate(input, path, field);
+  }
+}
+
+export class FilterKeyHierarchyTargetValidator extends FilterHierarchyTargetValidator {
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    if (input == null) {
+      return null;
+    }
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return errors;
+    }
+
+    const fields: IFieldValidatorsPair[] = [
+      {
+        field: "keys",
+        validators: [Validators.fieldRequiredValidator, Validators.stringArrayValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

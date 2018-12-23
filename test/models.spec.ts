@@ -1703,14 +1703,16 @@ describe('Unit | Models', function () {
   describe('validateSlicers', function() {
     const selectorRequiredMessage = "selector is required";
     const stateRequiredMessage = "state is required";
-    const selectorInvalidTypeMessage = "selector must be an object";
     const stateInvalidTypeMessage = "state must be an object";
+    const invalidSelectorMessage = "selector property is invalid";
+    const slicerTargetSchema = "http://powerbi.com/product/schema#slicerTargetSelector";
     const filters: IFilter[] = [];
 
     it(`should return undefined if selector and state are valid`, function () {
       // Arrange
       const testData = {
         selector: {
+          $schema: "http://powerbi.com/product/schema#visualSelector",
           visualName: 'fakeId',
         },
         state: {
@@ -1725,7 +1727,29 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
 
-    it(`should return errors with one containing message '${selectorRequiredMessage}' if datasetIds field is not an array of strings`, function () {
+    it(`should return undefined if target selector and state are valid`, function () {
+      // Arrange
+      const testData = {
+        selector: {
+          $schema: slicerTargetSchema,
+          target: {
+            table: "a",
+            column: "b"
+          },
+        },
+        state: {
+          filters: filters
+        }
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${selectorRequiredMessage}' if selector is undefined`, function () {
       // Arrange
       const testData = {
         state: {
@@ -1740,7 +1764,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, selectorRequiredMessage);
     });
 
-    it(`should return errors with one containing message '${stateRequiredMessage}' if datasetIds field is not an array of strings`, function () {
+    it(`should return errors with one containing message '${stateRequiredMessage}' if state is undefined`, function () {
       // Arrange
       const testData = {
         selector: {
@@ -1755,7 +1779,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, stateRequiredMessage);
     });
 
-    it(`should return errors with one containing message '${selectorInvalidTypeMessage}' if datasetIds field is not an array of strings`, function () {
+    it(`should return errors with one containing message '${invalidSelectorMessage}' if selector is of invalid type`, function () {
       // Arrange
       const testData = {
         selector: 11,
@@ -1768,10 +1792,31 @@ describe('Unit | Models', function () {
       const errors = models.validateSlicer(testData);
 
       // Assert
-      testForExpectedMessage(errors, selectorInvalidTypeMessage);
+      testForExpectedMessage(errors, invalidSelectorMessage);
     });
 
-    it(`should return errors with one containing message '${stateInvalidTypeMessage}' if datasetIds field is not an array of strings`, function () {
+    it(`should return errors with one containing message '${invalidSelectorMessage}' if target slicer selector is invalid`, function () {
+      // Arrange
+      const testData = {
+        selector: {
+          $schema: slicerTargetSchema,
+          target: {
+            table: "a"
+          },
+        },
+        state: {
+          filters: filters
+        }
+      };
+
+      // Act
+      const errors = models.validateSlicer(testData);
+
+      // Assert
+      testForExpectedMessage(errors, invalidSelectorMessage);
+    });
+
+    it(`should return errors with one containing message '${stateInvalidTypeMessage}' if state is invalid`, function () {
       // Arrange
       const testData = {
         selector: {
