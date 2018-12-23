@@ -1113,6 +1113,7 @@ describe('Unit | Models', function () {
     const commandNameInvalidTypeMessage = "name must be a string";
     const commandNameRequiredMessage = "name is required";
     const menuLocationInvalidMessage = "menuLocation property is invalid";
+    const selectorInvalidTypeMessage = "selector property is invalid";
 
     it(`should return errors with one containing message '${commandNameInvalidTypeMessage}' if command name is not a string`, function () {
       // Arrange
@@ -1195,6 +1196,52 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, menuLocationInvalidMessage);
+    });
+
+    it(`should return undefined if extensions is valid with selector`, function () {
+      // Arrange
+      const testData = {
+        command: {
+            name: "extension command",
+            title: "Extend commands",
+            icon: "base64Icon",
+            selector: {
+              visualName: 'fakeId',
+            },
+            extend: {
+                visualContextMenu: {
+                    title: "Extend context menu",
+                    menuLocation: models.MenuLocation.Top,
+                }
+            }
+        }
+      };
+
+      // Act
+      const errors = models.validateExtension(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${selectorInvalidTypeMessage}' if selector is invalid`, function () {
+      // Arrange
+      const testData = {
+        command: {
+            name: "extension command",
+            title: "Extend commands",
+            icon: "base64Icon",
+            selector: 11,
+            extend: {
+            }
+        }
+      };
+
+      // Act
+      const errors = models.validateExtension(testData);
+
+      // Assert
+      testForExpectedMessage(errors, selectorInvalidTypeMessage);
     });
   });
 

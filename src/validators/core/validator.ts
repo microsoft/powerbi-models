@@ -59,6 +59,7 @@ export const Validators = {
   booleanArrayValidator: new BooleanArrayValidator(),
   booleanValidator: new BooleanValidator(),
   commandDisplayOptionValidator: new EnumValidator([0, 1, 2]),
+  commandExtensionSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
   commandExtensionValidator: new CommandExtensionValidator(),
   commandsSettingsArrayValidator: new ArrayValidator([new CommandsSettingsValidator()]),
   commandsSettingsValidator: new CommandsSettingsValidator(),
