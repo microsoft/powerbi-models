@@ -15,7 +15,47 @@ export class CommandsSettingsValidator extends ObjectValidator {
 
     const fields: IFieldValidatorsPair[] = [
       {
+        field: "copy",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "drill",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "drillthrough",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "expandCollapse",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
         field: "exportData",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "includeExclude",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "removeVisual",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "search",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "seeData",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "sort",
+        validators: [Validators.singleCommandSettingsValidator]
+      },
+      {
+        field: "spotlight",
         validators: [Validators.singleCommandSettingsValidator]
       },
     ];

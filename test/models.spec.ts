@@ -1898,6 +1898,30 @@ describe('Unit | Models', function () {
       expect(errors).toBeUndefined();
     });
 
+    it(`should return undefined if displayOptions are valid`, function () {
+      // Arrange
+      const singleCommandSettings =  { displayOption: models.CommandDisplayOption.Enabled };
+      const testData = {
+          copy: singleCommandSettings,
+          drill: singleCommandSettings,
+          drillthrough: singleCommandSettings,
+          expandCollapse: singleCommandSettings,
+          exportData: singleCommandSettings,
+          includeExclude: singleCommandSettings,
+          removeVisual: singleCommandSettings,
+          search: singleCommandSettings,
+          seeData: singleCommandSettings,
+          sort: singleCommandSettings,
+          spotlight: singleCommandSettings,
+        };
+
+      // Act
+      const errors = models.validateCommandsSettings(testData);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
     it(`should return undefined if displayOption and visual type selector are valid`, function () {
       const testData = {
           exportData: {
