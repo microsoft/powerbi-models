@@ -32,6 +32,7 @@ import { VisualSelectorValidator, VisualTypeSelectorValidator, SlicerTargetSelec
 import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
 import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
 import { SingleCommandSettingsValidator, CommandsSettingsValidator } from '../models/commandsSettingsValidator';
+import { CustomThemeValidator } from '../models/customThemeValidator';
 
 export interface IValidationError {
   path?: string;
@@ -67,6 +68,7 @@ export const Validators = {
   customLayoutDisplayOptionValidator: new EnumValidator([0, 1, 2]),
   customLayoutValidator: new CustomLayoutValidator(),
   customPageSizeValidator: new CustomPageSizeValidator(),
+  customThemeValidator: new CustomThemeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),

@@ -736,6 +736,7 @@ export interface IReportLoadConfiguration {
   viewMode?: ViewMode;
   tokenType?: TokenType;
   bookmark?: IApplyBookmarkRequest;
+  theme?: IReportTheme;
 }
 
 export interface IReportCreateConfiguration {
@@ -744,6 +745,7 @@ export interface IReportCreateConfiguration {
   groupId?: string;
   settings?: ISettings;
   tokenType?: TokenType;
+  theme?: IReportTheme;
 }
 
 export interface IDashboardLoadConfiguration {
@@ -1018,6 +1020,16 @@ export interface IVisualSettings {
 }
 
 /*
+ * Report Theme
+ */
+
+export interface IReportTheme {}
+
+export interface ICustomTheme extends IReportTheme {
+  themeJson: any;
+}
+
+/*
  * Built-in Commands Configuration
  */
 
@@ -1170,5 +1182,10 @@ export function validateVisualSettings(input: any): IError[] {
 
 export function validateCommandsSettings(input: any): IError[] {
   let errors: any[] = Validators.commandsSettingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCustomTheme(input: any): IError[] {
+  let errors: any[] = Validators.customThemeValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }

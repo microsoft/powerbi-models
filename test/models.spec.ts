@@ -1747,6 +1747,41 @@ describe('Unit | Models', function () {
     });
   });
 
+  describe('validateCustomTheme', function() {
+    const themeInvalidMessage = "themeJson must be an object";
+    const themeName = "Theme 1";
+
+    it(`should return errors with one containing message '${themeInvalidMessage}' if theme type is not valid`, function () {
+      // Arrange
+      const testData = {
+          theme: {
+              themeJson: 1
+          }
+      };
+
+      // Act
+      const errors = models.validateCustomTheme(testData.theme);
+
+      // Assert
+      testForExpectedMessage(errors, themeInvalidMessage);
+    });
+
+    it(`should not return errors if theme type is valid`, function () {
+      // Arrange
+      const testData = {
+          theme: {
+              themeJson: {name: themeName}
+          }
+      };
+
+      // Act
+      const errors = models.validateCustomTheme(testData.theme);
+
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+  });
+
   describe('validateSlicers', function() {
     const selectorRequiredMessage = "selector is required";
     const stateRequiredMessage = "state is required";
