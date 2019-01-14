@@ -20,6 +20,10 @@ export class MenuExtensionValidator extends ObjectValidator {
       {
         field: "icon",
         validators: [Validators.stringValidator]
+      },
+      {
+        field: "menuLocation",
+        validators: [Validators.menuLocationValidator]
       }
     ];
 
@@ -98,7 +102,11 @@ export class CommandExtensionValidator extends ExtensionItemValidator {
       {
         field: "icon",
         validators: [Validators.stringValidator]
-      }
+      },
+      {
+        field: "selector",
+        validators: [Validators.commandExtensionSelectorValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

@@ -2,7 +2,20 @@ import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, Numbe
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
 import { SettingsValidator } from '../models/settingsValidator';
 import { PlayBookmarkRequestValidator, AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator } from '../models/bookmarkValidator';
-import { FilterColumnTargetValidator, FilterHierarchyTargetValidator, FilterMeasureTargetValidator, ConditionItemValidator, RelativeDateFilterValidator, BasicFilterValidator, AdvancedFilterValidator, TopNFilterValidator, NotSupportedFilterValidator, IncludeExcludeFilterValidator, FilterValidator } from '../models/filtersValidator';
+import {
+  FilterColumnTargetValidator,
+  FilterKeyColumnsTargetValidator,
+  FilterHierarchyTargetValidator,
+  FilterKeyHierarchyTargetValidator,
+  FilterMeasureTargetValidator,
+  ConditionItemValidator,
+  RelativeDateFilterValidator,
+  BasicFilterValidator,
+  AdvancedFilterValidator,
+  TopNFilterValidator,
+  NotSupportedFilterValidator,
+  IncludeExcludeFilterValidator,
+  FilterValidator } from '../models/filtersValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { AnyOfValidator } from './anyOfValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
@@ -15,12 +28,11 @@ import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { MapValidator } from './mapValidator';
 import { CustomLayoutValidator, VisualLayoutValidator, PageLayoutValidator, DisplayStateValidator } from '../models/layoutValidator';
 import { ExportDataRequestValidator } from '../models/exportDataValidator';
-import { VisualSelectorValidator } from '../models/selectorsValidator';
-import { VisualTypeSelectorValidator } from '../models/selectorsValidator';
+import { VisualSelectorValidator, VisualTypeSelectorValidator, SlicerTargetSelectorValidator } from '../models/selectorsValidator';
 import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidator';
-import { VisualHeaderSettingsValidator } from '../models/visualSettingsValidator';
-import { VisualHeaderValidator } from '../models/visualSettingsValidator';
-import { VisualSettingsValidator } from '../models/visualSettingsValidator';
+import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
+import { SingleCommandSettingsValidator, CommandsSettingsValidator } from '../models/commandsSettingsValidator';
+import { CustomThemeValidator } from '../models/customThemeValidator';
 
 export interface IValidationError {
   path?: string;
@@ -33,39 +45,43 @@ export interface IValidator {
 }
 
 export const Validators = {
+  addBookmarkRequestValidator: new AddBookmarkRequestValidator(),
   advancedFilterTypeValidator: new EnumValidator([0]),
   advancedFilterValidator: new AdvancedFilterValidator(),
   anyArrayValidator: new ArrayValidator([new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()])]),
   anyFilterValidator: new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new IncludeExcludeFilterValidator(), new NotSupportedFilterValidator(), new RelativeDateFilterValidator(), new TopNFilterValidator()]),
   anyValueValidator: new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()]),
-  basicFilterTypeValidator: new EnumValidator([1]),
-  basicFilterValidator: new BasicFilterValidator(),
-  playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
-  addBookmarkRequestValidator: new AddBookmarkRequestValidator(),
   applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
   applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
   applyBookmarkValidator: new AnyOfValidator([new ApplyBookmarkByNameRequestValidator(), new ApplyBookmarkStateRequestValidator()]),
   backgroundValidator: new EnumValidator([0, 1]),
+  basicFilterTypeValidator: new EnumValidator([1]),
+  basicFilterValidator: new BasicFilterValidator(),
   booleanArrayValidator: new BooleanArrayValidator(),
   booleanValidator: new BooleanValidator(),
+  commandDisplayOptionValidator: new EnumValidator([0, 1, 2]),
+  commandExtensionSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
   commandExtensionValidator: new CommandExtensionValidator(),
+  commandsSettingsArrayValidator: new ArrayValidator([new CommandsSettingsValidator()]),
+  commandsSettingsValidator: new CommandsSettingsValidator(),
   conditionItemValidator: new ConditionItemValidator(),
-  customLayoutValidator: new CustomLayoutValidator(),
   customLayoutDisplayOptionValidator: new EnumValidator([0, 1, 2]),
+  customLayoutValidator: new CustomLayoutValidator(),
   customPageSizeValidator: new CustomPageSizeValidator(),
+  customThemeValidator: new CustomThemeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
   exportDataRequestValidator: new ExportDataRequestValidator(),
+  extensionArrayValidator: new ArrayValidator([new ExtensionValidator()]),
   extensionPointsValidator: new ExtensionPointsValidator(),
-  extentionArrayValidator: new ArrayValidator([new ExtensionValidator()]),
-  extentionValidator: new ExtensionValidator(),
+  extensionValidator: new ExtensionValidator(),
   fieldRequiredValidator: new FieldRequiredValidator(),
   filterColumnTargetValidator: new FilterColumnTargetValidator(),
   filterConditionsValidator: new ArrayValidator([new ConditionItemValidator()]),
   filterHierarchyTargetValidator: new FilterHierarchyTargetValidator(),
   filterMeasureTargetValidator: new FilterMeasureTargetValidator(),
-  filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(),  new FilterMeasureTargetValidator()]),
+  filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
   filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator()])]),
   filtersValidator: new FilterValidator(),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
@@ -73,6 +89,7 @@ export const Validators = {
   layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),
   loadQnaValidator: new LoadQnaValidator(),
   menuExtensionValidator: new MenuExtensionValidator(),
+  menuLocationValidator: new EnumValidator([0, 1]),
   notSupportedFilterTypeValidator: new EnumValidator([2]),
   notSupportedFilterValidator: new NotSupportedFilterValidator(),
   numberArrayValidator: new NumberArrayValidator(),
@@ -84,6 +101,7 @@ export const Validators = {
   pageViewFieldValidator: new PageViewFieldValidator(),
   pagesLayoutValidator: new MapValidator([new StringValidator()],[new PageLayoutValidator()]),
   permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
+  playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
   qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
   qnaSettingValidator: new QnaSettingsValidator(),
   relativeDateFilterOperatorValidator: new EnumValidator([0, 1, 2]),
@@ -94,8 +112,11 @@ export const Validators = {
   reportLoadValidator: new ReportLoadValidator(),
   saveAsParametersValidator: new SaveAsParametersValidator(),
   settingsValidator: new SettingsValidator(),
-  slicerValidator: new SlicerValidator(),
+  singleCommandSettingsValidator: new SingleCommandSettingsValidator(),
+  slicerSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new SlicerTargetSelectorValidator()]),
   slicerStateValidator: new SlicerStateValidator(),
+  slicerTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new FilterKeyColumnsTargetValidator(), new FilterKeyHierarchyTargetValidator()]),
+  slicerValidator: new SlicerValidator(),
   stringArrayValidator: new StringArrayValidator(),
   stringValidator: new StringValidator(),
   tileLoadValidator: new TileLoadValidator(),
@@ -103,12 +124,13 @@ export const Validators = {
   topNFilterTypeValidator: new EnumValidator([5]),
   topNFilterValidator: new TopNFilterValidator(),
   viewModeValidator: new EnumValidator([0, 1]),
+  visualCommandSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
+  visualHeaderSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
   visualHeaderSettingsValidator: new VisualHeaderSettingsValidator(),
   visualHeaderValidator: new VisualHeaderValidator(),
-  visualLayoutValidator: new VisualLayoutValidator(),
   visualHeadersValidator: new ArrayValidator([new VisualHeaderValidator()]),
-  visualHeaderSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
+  visualLayoutValidator: new VisualLayoutValidator(),
   visualSelectorValidator: new VisualSelectorValidator(),
-  visualTypeSelectorValidator: new VisualTypeSelectorValidator(),
   visualSettingsValidator: new VisualSettingsValidator(),
+  visualTypeSelectorValidator: new VisualTypeSelectorValidator(),
 };

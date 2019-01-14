@@ -16,7 +16,7 @@ export class SlicerValidator extends ObjectValidator {
     const fields: IFieldValidatorsPair[] = [
       {
         field: "selector",
-        validators: [Validators.fieldRequiredValidator, Validators.visualSelectorValidator]
+        validators: [Validators.fieldRequiredValidator, Validators.slicerSelectorValidator]
       },
       {
         field: "state",

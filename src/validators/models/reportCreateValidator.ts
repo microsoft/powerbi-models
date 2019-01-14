@@ -28,7 +28,11 @@ export class ReportCreateValidator extends ObjectValidator {
       {
         field: "tokenType",
         validators: [Validators.tokenTypeValidator]
-      }
+      },
+      {
+        field: "theme",
+        validators: [Validators.customThemeValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

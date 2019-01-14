@@ -52,7 +52,11 @@ export class ReportLoadValidator extends ObjectValidator {
       {
         field: "bookmark",
         validators: [Validators.applyBookmarkValidator]
-      }
+      },
+      {
+        field: "theme",
+        validators: [Validators.customThemeValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

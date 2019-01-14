@@ -194,9 +194,12 @@ export interface IExtensionItem {
   extend: IExtensionPoints;
 }
 
+export type CommandExtensionSelector = IVisualSelector | IVisualTypeSelector;
+
 export interface ICommandExtension extends IExtensionItem {
   title: string;
   icon?: string;
+  selector?: CommandExtensionSelector;
 }
 
 // TODO: ExtensionPoints should extend _.Dictionary<ExtensionPoint>. This will need to add lodash to the project.
@@ -211,6 +214,12 @@ export interface IExtensionPoint {
 export interface IMenuExtension extends IExtensionPoint {
   title?: string;
   icon?: string;
+  menuLocation?: MenuLocation;
+}
+
+export enum MenuLocation {
+  Bottom,
+  Top
 }
 
 export interface IBaseFilterTarget {
@@ -299,6 +308,12 @@ export interface ITupleFilter extends IFilter {
   values: TupleValueType[];
 }
 
+export enum FiltersLevel {
+  Report,
+  Page,
+  Visual
+}
+
 export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
 export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
 export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
@@ -309,10 +324,8 @@ export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
-export type SlicerSelector = IVisualSelector;
-
 export interface IAdvancedFilterCondition {
-  value: (string | number | boolean | Date);
+  value?: (string | number | boolean | Date);
   operator: AdvancedFilterConditionOperators;
 }
 
@@ -723,6 +736,7 @@ export interface IReportLoadConfiguration {
   viewMode?: ViewMode;
   tokenType?: TokenType;
   bookmark?: IApplyBookmarkRequest;
+  theme?: IReportTheme;
 }
 
 export interface IReportCreateConfiguration {
@@ -731,6 +745,7 @@ export interface IReportCreateConfiguration {
   groupId?: string;
   settings?: ISettings;
   tokenType?: TokenType;
+  theme?: IReportTheme;
 }
 
 export interface IDashboardLoadConfiguration {
@@ -754,14 +769,15 @@ export interface ITileLoadConfiguration {
 export interface ISettings {
   background?: BackgroundType;
   bookmarksPaneEnabled?: boolean;
+  commands?: ICommandsSettings[];
   customLayout?: ICustomLayout;
   extensions?: Extensions;
   filterPaneEnabled?: boolean;
+  hideErrors?: boolean;
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   visualSettings?: IVisualSettings;
-  hideErrors?: boolean;
 }
 
 export interface ISaveAsParameters {
@@ -798,7 +814,7 @@ export enum BookmarksPlayMode {
   Presentation,
 }
 
-// This is not an enum because enum strings require 
+// This is not an enum because enum strings require
 // us to upgrade typeScript version and change SDK build definition
 export const CommonErrorCodes = {
   TokenExpired: 'TokenExpired',
@@ -850,11 +866,29 @@ export interface IExportDataResult {
   data: string;
 }
 
+export interface ICloneVisualRequest {
+  // The filters which will be applied to the new visual. Default: source visual filters.
+  filters?: IFilter[];
+
+  // The layout which will be applied to the new visual.
+  // Default: a best effort to put a new visual in an empty space on the canvas.
+  layout?: IVisualLayout;
+}
+
+export interface ICloneVisualResponse {
+  // New visual name
+  visualName: string;
+}
+
 /*
  * Selectors
  */
 export interface ISelector {
   $schema: string;
+}
+
+export interface IPageSelector extends ISelector {
+  pageName: string;
 }
 
 export interface IVisualSelector extends ISelector {
@@ -863,6 +897,10 @@ export interface IVisualSelector extends ISelector {
 
 export interface IVisualTypeSelector extends ISelector {
   visualType: string;
+}
+
+export interface ISlicerTargetSelector extends ISelector {
+  target: SlicerTarget;
 }
 
 export abstract class Selector implements ISelector {
@@ -877,6 +915,23 @@ export abstract class Selector implements ISelector {
       $schema: this.$schema
     };
   };
+}
+
+export class PageSelector extends Selector implements IPageSelector {
+  static schemaUrl: string = "http://powerbi.com/product/schema#pageSelector";
+  public pageName: string;
+
+  constructor(pageName: string) {
+    super(PageSelector.schemaUrl);
+    this.pageName = pageName;
+  }
+
+  toJSON(): IPageSelector {
+    const selector = <IPageSelector>super.toJSON();
+
+    selector.pageName = this.pageName;
+    return selector;
+  }
 }
 
 export class VisualSelector extends Selector implements IVisualSelector {
@@ -912,9 +967,29 @@ export class VisualTypeSelector extends Selector implements IVisualTypeSelector 
     return selector;
   }
 }
+
+export class SlicerTargetSelector extends Selector implements ISlicerTargetSelector {
+  public static schemaUrl: string = "http://powerbi.com/product/schema#slicerTargetSelector";
+  public target: SlicerTarget;
+
+  constructor(target: SlicerTarget) {
+    super(VisualSelector.schemaUrl);
+    this.target = target;
+  }
+
+  toJSON(): ISlicerTargetSelector {
+    const selector = <ISlicerTargetSelector>super.toJSON();
+
+    selector.target = this.target;
+    return selector;
+  }
+}
 /*
  * Slicers
  */
+export type SlicerTarget = IFilterTarget | IFilterKeyTarget;
+export type SlicerSelector = IVisualSelector | ISlicerTargetSelector;
+
 export interface ISlicer {
   selector: SlicerSelector;
   state: ISlicerState;
@@ -922,7 +997,7 @@ export interface ISlicer {
 
 export interface ISlicerState {
   filters: ISlicerFilter[];
-  targets?: (IFilterTarget | IFilterKeyTarget)[];
+  targets?: SlicerTarget[];
 }
 
 /*
@@ -942,6 +1017,47 @@ export interface IVisualHeader {
 
 export interface IVisualSettings {
   visualHeaders?: IVisualHeader[];
+}
+
+/*
+ * Report Theme
+ */
+
+export interface IReportTheme {}
+
+export interface ICustomTheme extends IReportTheme {
+  themeJson: any;
+}
+
+/*
+ * Built-in Commands Configuration
+ */
+
+export type VisualCommandSelector = IVisualSelector | IVisualTypeSelector;
+
+export enum CommandDisplayOption {
+  Enabled,
+  Disabled,
+  Hidden
+}
+
+export interface ICommandSettings {
+  displayOption: CommandDisplayOption;
+  selector?: VisualCommandSelector;
+}
+
+export interface ICommandsSettings {
+  copy?: ICommandSettings;
+  drill?: ICommandSettings;
+  drillthrough?: ICommandSettings;
+  expandCollapse?: ICommandSettings;
+  exportData?: ICommandSettings;
+  includeExclude?: ICommandSettings;
+  removeVisual?: ICommandSettings;
+  search?: ICommandSettings;
+  seeData?: ICommandSettings;
+  sort?: ICommandSettings;
+  spotlight?: ICommandSettings;
 }
 
 function normalizeError(error: any): IError {
@@ -1000,7 +1116,7 @@ export function validateCustomPageSize(input: any): IError[] {
 }
 
 export function validateExtension(input: any): IError[] {
-  let errors: any[] = Validators.extentionValidator.validate(input);
+  let errors: any[] = Validators.extensionValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
 
@@ -1061,5 +1177,15 @@ export function validateVisualHeader(input: any): IError[] {
 
 export function validateVisualSettings(input: any): IError[] {
   let errors: any[] = Validators.visualSettingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCommandsSettings(input: any): IError[] {
+  let errors: any[] = Validators.commandsSettingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCustomTheme(input: any): IError[] {
+  let errors: any[] = Validators.customThemeValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
