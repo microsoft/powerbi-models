@@ -1060,6 +1060,48 @@ export interface ICommandsSettings {
   spotlight?: ICommandSettings;
 }
 
+// Visual Capabilities
+
+enum VisualDataRoleKind {
+  // Indicates that the role should be bound to something that evaluates to a grouping of values.
+  Grouping = 0,
+
+  // Indicates that the role should be bound to something that evaluates to a single value in a scope.
+  Measure = 1,
+
+  // Indicates that the role can be bound to either Grouping or Measure.
+  GroupingOrMeasure = 2
+}
+
+// Indicates the visual preference on Grouping or Measure. Only applicable if kind is GroupingOrMeasure.
+const enum VisualDataRoleKindPreference {
+  Measure = 0,
+  Grouping = 1
+}
+
+export interface IVisualDataRole {
+  // Unique name for the VisualDataRole
+  readonly name: string;
+
+  // Indicates the kind of role.
+  kind: VisualDataRoleKind;
+
+  // Indicates the visual preference on what role kind to use
+  readonly kindPreference?: VisualDataRoleKindPreference;
+
+  // The display name of the role. 
+  readonly displayName?: string;
+
+  // The tooltip text 
+  readonly description?: string;
+}
+
+export interface IVisualCapabilities {
+
+  // Defines what roles the visual expects, and how those roles should be populated. This is useful for visual generation/editing.
+  dataRoles?: IVisualDataRole[];
+}
+
 function normalizeError(error: any): IError {
   let message = error.message;
   if (!message) {
