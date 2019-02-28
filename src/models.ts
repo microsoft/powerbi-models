@@ -1081,19 +1081,19 @@ const enum VisualDataRoleKindPreference {
 
 export interface IVisualDataRole {
   // Unique name for the VisualDataRole
-  readonly name: string;
+  name: string;
 
   // Indicates the kind of role.
   kind: VisualDataRoleKind;
 
   // Indicates the visual preference on what role kind to use
-  readonly kindPreference?: VisualDataRoleKindPreference;
+  kindPreference?: VisualDataRoleKindPreference;
 
   // The display name of the role. 
-  readonly displayName?: string;
+  displayName?: string;
 
   // The tooltip text 
-  readonly description?: string;
+  description?: string;
 }
 
 export interface IVisualCapabilities {
