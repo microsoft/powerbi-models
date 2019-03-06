@@ -1062,7 +1062,7 @@ export interface ICommandsSettings {
 
 // Visual Capabilities
 
-enum VisualDataRoleKind {
+export enum VisualDataRoleKind {
   // Indicates that the role should be bound to something that evaluates to a grouping of values.
   Grouping = 0,
 
@@ -1074,7 +1074,7 @@ enum VisualDataRoleKind {
 }
 
 // Indicates the visual preference on Grouping or Measure. Only applicable if kind is GroupingOrMeasure.
-const enum VisualDataRoleKindPreference {
+export enum VisualDataRoleKindPreference {
   Measure = 0,
   Grouping = 1
 }
