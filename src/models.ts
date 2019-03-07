@@ -222,34 +222,48 @@ export enum MenuLocation {
   Top
 }
 
-export interface IBaseFilterTarget {
+export interface IBaseTarget {
   table: string;
 }
 
-export interface IFilterColumnTarget extends IBaseFilterTarget {
+export interface IColumnTarget extends IBaseTarget {
   column: string;
   aggregationFunction?: string;
 }
 
-export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
+export interface IKeyColumnsTarget extends IColumnTarget {
   keys: string[];
 }
 
-export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget {
+export interface IKeyHierarchyTarget extends IHierarchyTarget {
   keys: string[];
 }
 
-export interface IFilterHierarchyTarget extends IBaseFilterTarget {
+export interface IHierarchyTarget extends IBaseTarget {
   hierarchy: string;
   hierarchyLevel: string;
   aggregationFunction?: string;
 }
 
-export interface INotSupportedFilterTarget extends IBaseFilterTarget { }
+export interface INotSupportedTarget extends IBaseTarget { }
 
-export interface IFilterMeasureTarget extends IBaseFilterTarget {
+export interface IMeasureTarget extends IBaseTarget {
   measure: string;
 }
+
+export interface IBaseFilterTarget extends IBaseTarget { }
+
+export interface IFilterColumnTarget extends IBaseFilterTarget, IColumnTarget { }
+
+export interface IFilterKeyColumnsTarget extends IFilterColumnTarget, IKeyColumnsTarget { }
+
+export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget, IKeyHierarchyTarget { }
+
+export interface IFilterHierarchyTarget extends IBaseFilterTarget, IHierarchyTarget { }
+
+export interface INotSupportedFilterTarget extends IBaseFilterTarget, INotSupportedTarget { }
+
+export interface IFilterMeasureTarget extends IBaseFilterTarget, IMeasureTarget { }
 
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget);
