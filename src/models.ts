@@ -229,7 +229,6 @@ export interface IBaseTarget {
 export interface IColumnTarget extends IBaseTarget {
   column: string;
   aggregationFunction?: string;
-  percentOfGrandTotal?: boolean;
 }
 
 export interface IKeyColumnsTarget extends IColumnTarget {
@@ -244,7 +243,6 @@ export interface IHierarchyTarget extends IBaseTarget {
   hierarchy: string;
   hierarchyLevel: string;
   aggregationFunction?: string;
-  percentOfGrandTotal?: boolean;
 }
 
 export interface INotSupportedTarget extends IBaseTarget { }
