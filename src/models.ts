@@ -224,6 +224,7 @@ export enum MenuLocation {
 
 export interface IBaseTarget {
   table: string;
+  $schema?: string;
 }
 
 export interface IColumnTarget extends IBaseTarget {
