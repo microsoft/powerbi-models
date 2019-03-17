@@ -880,7 +880,15 @@ export interface IExportDataRequest {
 export interface IExportDataResult {
   data: string;
 }
-
+export interface ICreateVisualRequest {
+  visualType: string;
+  layout?: IVisualLayout;
+}
+export interface IVisualResponse {
+  visual: IVisual;
+}
+export interface ICreateVisualResponse extends IVisualResponse {
+}
 export interface ICloneVisualRequest {
   // The filters which will be applied to the new visual. Default: source visual filters.
   filters?: IFilter[];
@@ -890,7 +898,7 @@ export interface ICloneVisualRequest {
   layout?: IVisualLayout;
 }
 
-export interface ICloneVisualResponse {
+export interface ICloneVisualResponse extends IVisualResponse {
   // New visual name
   visualName: string;
 }
