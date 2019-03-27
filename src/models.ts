@@ -222,34 +222,49 @@ export enum MenuLocation {
   Top
 }
 
-export interface IBaseFilterTarget {
+export interface IBaseTarget {
   table: string;
+  $schema?: string;
 }
 
-export interface IFilterColumnTarget extends IBaseFilterTarget {
+export interface IColumnTarget extends IBaseTarget {
   column: string;
   aggregationFunction?: string;
 }
 
-export interface IFilterKeyColumnsTarget extends IFilterColumnTarget {
+export interface IKeyColumnsTarget extends IColumnTarget {
   keys: string[];
 }
 
-export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget {
+export interface IKeyHierarchyTarget extends IHierarchyTarget {
   keys: string[];
 }
 
-export interface IFilterHierarchyTarget extends IBaseFilterTarget {
+export interface IHierarchyTarget extends IBaseTarget {
   hierarchy: string;
   hierarchyLevel: string;
   aggregationFunction?: string;
 }
 
-export interface INotSupportedFilterTarget extends IBaseFilterTarget { }
+export interface INotSupportedTarget extends IBaseTarget { }
 
-export interface IFilterMeasureTarget extends IBaseFilterTarget {
+export interface IMeasureTarget extends IBaseTarget {
   measure: string;
 }
+
+export interface IBaseFilterTarget extends IBaseTarget { }
+
+export interface IFilterColumnTarget extends IBaseFilterTarget, IColumnTarget { }
+
+export interface IFilterKeyColumnsTarget extends IFilterColumnTarget, IKeyColumnsTarget { }
+
+export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget, IKeyHierarchyTarget { }
+
+export interface IFilterHierarchyTarget extends IBaseFilterTarget, IHierarchyTarget { }
+
+export interface INotSupportedFilterTarget extends IBaseFilterTarget, INotSupportedTarget { }
+
+export interface IFilterMeasureTarget extends IBaseFilterTarget, IMeasureTarget { }
 
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget);
@@ -865,7 +880,15 @@ export interface IExportDataRequest {
 export interface IExportDataResult {
   data: string;
 }
-
+export interface ICreateVisualRequest {
+  visualType: string;
+  layout?: IVisualLayout;
+}
+export interface IVisualResponse {
+  visual: IVisual;
+}
+export interface ICreateVisualResponse extends IVisualResponse {
+}
 export interface ICloneVisualRequest {
   // The filters which will be applied to the new visual. Default: source visual filters.
   filters?: IFilter[];
@@ -875,7 +898,7 @@ export interface ICloneVisualRequest {
   layout?: IVisualLayout;
 }
 
-export interface ICloneVisualResponse {
+export interface ICloneVisualResponse extends IVisualResponse {
   // New visual name
   visualName: string;
 }
@@ -1058,6 +1081,48 @@ export interface ICommandsSettings {
   seeData?: ICommandSettings;
   sort?: ICommandSettings;
   spotlight?: ICommandSettings;
+}
+
+// Visual Capabilities
+
+export enum VisualDataRoleKind {
+  // Indicates that the role should be bound to something that evaluates to a grouping of values.
+  Grouping = 0,
+
+  // Indicates that the role should be bound to something that evaluates to a single value in a scope.
+  Measure = 1,
+
+  // Indicates that the role can be bound to either Grouping or Measure.
+  GroupingOrMeasure = 2
+}
+
+// Indicates the visual preference on Grouping or Measure. Only applicable if kind is GroupingOrMeasure.
+export enum VisualDataRoleKindPreference {
+  Measure = 0,
+  Grouping = 1
+}
+
+export interface IVisualDataRole {
+  // Unique name for the VisualDataRole
+  name: string;
+
+  // Indicates the kind of role.
+  kind: VisualDataRoleKind;
+
+  // Indicates the visual preference on what role kind to use
+  kindPreference?: VisualDataRoleKindPreference;
+
+  // The display name of the role. 
+  displayName?: string;
+
+  // The tooltip text 
+  description?: string;
+}
+
+export interface IVisualCapabilities {
+
+  // Defines what roles the visual expects, and how those roles should be populated. This is useful for visual generation/editing.
+  dataRoles?: IVisualDataRole[];
 }
 
 function normalizeError(error: any): IError {
