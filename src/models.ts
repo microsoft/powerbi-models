@@ -229,19 +229,21 @@ export interface IBaseTarget {
 
 export interface IColumnTarget extends IBaseTarget {
   column: string;
+  aggregationFunction?: string;
 }
 
 export interface IKeyColumnsTarget extends IColumnTarget {
   keys: string[];
 }
 
-export interface IKeyHierarchyTarget extends IHierarchyLevelTarget {
+export interface IKeyHierarchyTarget extends IHierarchyTarget {
   keys: string[];
 }
 
-export interface IHierarchyLevelTarget extends IBaseTarget {
+export interface IHierarchyTarget extends IBaseTarget {
   hierarchy: string;
   hierarchyLevel: string;
+  aggregationFunction?: string;
 }
 
 export interface INotSupportedTarget extends IBaseTarget { }
@@ -250,39 +252,22 @@ export interface IMeasureTarget extends IBaseTarget {
   measure: string;
 }
 
-export interface IAggregationTarget {
-  aggregationFunction: string;
-}
-
-export interface IColumnAggrTarget extends IColumnTarget, IAggregationTarget { }
-
-export interface IHierarchyLevelAggrTarget extends IHierarchyLevelTarget, IAggregationTarget { }
-
-export declare type IKeyTarget = (IKeyColumnsTarget | IKeyHierarchyTarget);
-export declare type ITarget = (IColumnTarget | IHierarchyLevelTarget | IMeasureTarget | INotSupportedTarget | IColumnAggrTarget | IHierarchyLevelAggrTarget);
-
 export interface IBaseFilterTarget extends IBaseTarget { }
 
 export interface IFilterColumnTarget extends IBaseFilterTarget, IColumnTarget { }
 
 export interface IFilterKeyColumnsTarget extends IFilterColumnTarget, IKeyColumnsTarget { }
 
-export interface IFilterHierarchyLevelTarget extends IBaseFilterTarget, IHierarchyLevelTarget { }
+export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget, IKeyHierarchyTarget { }
 
-export interface IFilterKeyHierarchyTarget extends IFilterHierarchyLevelTarget, IKeyHierarchyTarget { }
+export interface IFilterHierarchyTarget extends IBaseFilterTarget, IHierarchyTarget { }
 
 export interface INotSupportedFilterTarget extends IBaseFilterTarget, INotSupportedTarget { }
 
-export interface IFilterAggregationTarget extends IBaseFilterTarget, IAggregationTarget { }
-
 export interface IFilterMeasureTarget extends IBaseFilterTarget, IMeasureTarget { }
 
-export interface IFilterColumnAggrTarget extends IFilterColumnTarget, IFilterAggregationTarget { }
-
-export interface IFilterHierarchyAggrTarget extends IFilterHierarchyLevelTarget, IFilterAggregationTarget { }
-
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
-export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyLevelTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
+export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget;
 export interface IFilter {
@@ -742,24 +727,16 @@ export function getFilterType(filter: IFilter): FilterType {
   }
 }
 
-export function isMeasure(arg: any): arg is IMeasureTarget {
+export function isMeasure(arg: any): arg is IFilterMeasureTarget {
   return arg.table !== undefined && arg.measure !== undefined;
 }
 
-export function isColumn(arg: any): arg is IColumnTarget {
-  return !!(arg.table && arg.column && !arg.aggregationFunction);
+export function isColumn(arg: any): arg is IFilterColumnTarget {
+  return arg.table !== undefined && arg.column !== undefined;
 }
 
-export function isHierarchyLevel(arg: any): arg is IHierarchyLevelTarget {
-  return !!(arg.table && arg.hierarchy && arg.hierarchyLevel && !arg.aggregationFunction);
-}
-
-export function isHierarchyLevelAggr(arg: any): arg is IHierarchyLevelAggrTarget {
-  return !!(arg.table && arg.hierarchy && arg.hierarchyLevel && arg.aggregationFunction);
-}
-
-export function isColumnAggr(arg: any): arg is IColumnAggrTarget {
-  return !!(arg.table && arg.column && arg.aggregationFunction);
+export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
+  return arg.table !== undefined && arg.hierarchy !== undefined && arg.hierarchyLevel !== undefined;
 }
 
 export interface IReportLoadConfiguration {
