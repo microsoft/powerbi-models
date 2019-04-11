@@ -840,6 +840,23 @@ export const CommonErrorCodes = {
   FailedToLoadModel: 'ExplorationContainer_FailedToLoadModel_DefaultDetails',
 };
 
+export const TextAlignment = {
+  Left: 'left',
+  Center: 'center',
+  Right: 'right',
+};
+
+export const LegendPosition = {
+  Top: 'Top',
+  Bottom: 'Bottom',
+  Right: 'Right',
+  Left: 'Left',
+  TopCenter: 'TopCenter',
+  BottomCenter: 'BottomCenter',
+  RightCenter: 'RightCenter',
+  LeftCenter: 'LeftCenter',
+};
+
 export interface IQnaInterpretInputData {
   question: string;
   datasetIds?: string[];
@@ -1083,7 +1100,9 @@ export interface ICommandsSettings {
   spotlight?: ICommandSettings;
 }
 
-// Visual Capabilities
+/*
+ * Visual CRUD
+ */
 
 export enum VisualDataRoleKind {
   // Indicates that the role should be bound to something that evaluates to a grouping of values.
@@ -1120,9 +1139,26 @@ export interface IVisualDataRole {
 }
 
 export interface IVisualCapabilities {
-
   // Defines what roles the visual expects, and how those roles should be populated. This is useful for visual generation/editing.
   dataRoles?: IVisualDataRole[];
+}
+
+export interface IVisualPropertySelector {
+  objectName: string;
+  propertyName: string;
+}
+
+export interface IVisualPropertyValue {
+  schema?: string;
+  value: any;
+}
+
+export interface IDefaultProperty {
+}
+
+export interface IThemeColorProperty {
+  id: number;
+  percent: number;
 }
 
 function normalizeError(error: any): IError {
