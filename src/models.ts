@@ -1181,7 +1181,7 @@ export interface IDefaultProperty {
 
 export interface IThemeColorProperty {
   id: number;
-  percent: number;
+  shade: number;
 }
 
 function normalizeError(error: any): IError {
