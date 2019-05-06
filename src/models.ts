@@ -289,6 +289,13 @@ export interface IFilter {
   $schema: string;
   target: IFilterGeneralTarget;
   filterType: FilterType;
+  displaySettings?: IFilterDisplaySettings;
+}
+
+export interface IFilterDisplaySettings {
+  isLockedInViewMode?: boolean;
+  isHiddenInViewMode?: boolean;
+  displayName?: string;
 }
 
 export interface INotSupportedFilter extends IFilter {
@@ -395,22 +402,29 @@ export abstract class Filter {
   protected static schemaUrl: string;
   target: IFilterGeneralTarget;
   filterType: FilterType;
+  displaySettings?: IFilterDisplaySettings;
   protected schemaUrl: string;
 
   constructor(
     target: IFilterGeneralTarget,
-    filterType: FilterType
-  ) {
+    filterType: FilterType) {
     this.target = target;
     this.filterType = filterType;
   }
 
   toJSON(): IFilter {
-    return {
+    let filter: IFilter = {
       $schema: this.schemaUrl,
       target: this.target,
       filterType: this.filterType
     };
+
+    // Add displaySettings only when defined
+    if (this.displaySettings !== undefined) {
+      filter.displaySettings = this.displaySettings;
+    }
+
+    return filter;
   };
 }
 
