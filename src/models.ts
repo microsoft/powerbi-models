@@ -402,7 +402,7 @@ export abstract class Filter {
   protected static schemaUrl: string;
   target: IFilterGeneralTarget;
   filterType: FilterType;
-  displaySettings?: IFilterDisplaySettings;
+  displaySettings: IFilterDisplaySettings;
   protected schemaUrl: string;
 
   constructor(
