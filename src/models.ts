@@ -229,21 +229,19 @@ export interface IBaseTarget {
 
 export interface IColumnTarget extends IBaseTarget {
   column: string;
-  aggregationFunction?: string;
 }
 
 export interface IKeyColumnsTarget extends IColumnTarget {
   keys: string[];
 }
 
-export interface IKeyHierarchyTarget extends IHierarchyTarget {
+export interface IKeyHierarchyTarget extends IHierarchyLevelTarget {
   keys: string[];
 }
 
-export interface IHierarchyTarget extends IBaseTarget {
+export interface IHierarchyLevelTarget extends IBaseTarget {
   hierarchy: string;
   hierarchyLevel: string;
-  aggregationFunction?: string;
 }
 
 export interface INotSupportedTarget extends IBaseTarget { }
@@ -252,28 +250,52 @@ export interface IMeasureTarget extends IBaseTarget {
   measure: string;
 }
 
+export interface IAggregationTarget {
+  aggregationFunction: string;
+}
+
+export interface IColumnAggrTarget extends IColumnTarget, IAggregationTarget { }
+
+export interface IHierarchyLevelAggrTarget extends IHierarchyLevelTarget, IAggregationTarget { }
+
+export declare type IKeyTarget = (IKeyColumnsTarget | IKeyHierarchyTarget);
+export declare type ITarget = (IColumnTarget | IHierarchyLevelTarget | IMeasureTarget | INotSupportedTarget | IColumnAggrTarget | IHierarchyLevelAggrTarget);
+
 export interface IBaseFilterTarget extends IBaseTarget { }
 
 export interface IFilterColumnTarget extends IBaseFilterTarget, IColumnTarget { }
 
 export interface IFilterKeyColumnsTarget extends IFilterColumnTarget, IKeyColumnsTarget { }
 
-export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget, IKeyHierarchyTarget { }
+export interface IFilterHierarchyTarget extends IBaseFilterTarget, IHierarchyLevelTarget { }
 
-export interface IFilterHierarchyTarget extends IBaseFilterTarget, IHierarchyTarget { }
+export interface IFilterKeyHierarchyTarget extends IFilterHierarchyTarget, IKeyHierarchyTarget { }
 
 export interface INotSupportedFilterTarget extends IBaseFilterTarget, INotSupportedTarget { }
 
+export interface IFilterAggregationTarget extends IBaseFilterTarget, IAggregationTarget { }
+
 export interface IFilterMeasureTarget extends IBaseFilterTarget, IMeasureTarget { }
 
+export interface IFilterColumnAggrTarget extends IFilterColumnTarget, IFilterAggregationTarget { }
+
+export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFilterAggregationTarget { }
+
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
-export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget);
+export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget;
 export interface IFilter {
   $schema: string;
   target: IFilterGeneralTarget;
   filterType: FilterType;
+  displaySettings?: IFilterDisplaySettings;
+}
+
+export interface IFilterDisplaySettings {
+  isLockedInViewMode?: boolean;
+  isHiddenInViewMode?: boolean;
+  displayName?: string;
 }
 
 export interface INotSupportedFilter extends IFilter {
@@ -380,22 +402,29 @@ export abstract class Filter {
   protected static schemaUrl: string;
   target: IFilterGeneralTarget;
   filterType: FilterType;
+  displaySettings: IFilterDisplaySettings;
   protected schemaUrl: string;
 
   constructor(
     target: IFilterGeneralTarget,
-    filterType: FilterType
-  ) {
+    filterType: FilterType) {
     this.target = target;
     this.filterType = filterType;
   }
 
   toJSON(): IFilter {
-    return {
+    let filter: IFilter = {
       $schema: this.schemaUrl,
       target: this.target,
       filterType: this.filterType
     };
+
+    // Add displaySettings only when defined
+    if (this.displaySettings !== undefined) {
+      filter.displaySettings = this.displaySettings;
+    }
+
+    return filter;
   };
 }
 
@@ -727,16 +756,24 @@ export function getFilterType(filter: IFilter): FilterType {
   }
 }
 
-export function isMeasure(arg: any): arg is IFilterMeasureTarget {
+export function isMeasure(arg: any): arg is IMeasureTarget {
   return arg.table !== undefined && arg.measure !== undefined;
 }
 
-export function isColumn(arg: any): arg is IFilterColumnTarget {
-  return arg.table !== undefined && arg.column !== undefined;
+export function isColumn(arg: any): arg is IColumnTarget {
+  return !!(arg.table && arg.column && !arg.aggregationFunction);
 }
 
-export function isHierarchy(arg: any): arg is IFilterHierarchyTarget {
-  return arg.table !== undefined && arg.hierarchy !== undefined && arg.hierarchyLevel !== undefined;
+export function isHierarchyLevel(arg: any): arg is IHierarchyLevelTarget {
+  return !!(arg.table && arg.hierarchy && arg.hierarchyLevel && !arg.aggregationFunction);
+}
+
+export function isHierarchyLevelAggr(arg: any): arg is IHierarchyLevelAggrTarget {
+  return !!(arg.table && arg.hierarchy && arg.hierarchyLevel && arg.aggregationFunction);
+}
+
+export function isColumnAggr(arg: any): arg is IColumnAggrTarget {
+  return !!(arg.table && arg.column && arg.aggregationFunction);
 }
 
 export interface IReportLoadConfiguration {
@@ -838,6 +875,23 @@ export const CommonErrorCodes = {
   LoadReportFailed: 'LoadReportFailed',
   NotAuthorized: 'PowerBINotAuthorizedException',
   FailedToLoadModel: 'ExplorationContainer_FailedToLoadModel_DefaultDetails',
+};
+
+export const TextAlignment = {
+  Left: 'left',
+  Center: 'center',
+  Right: 'right',
+};
+
+export const LegendPosition = {
+  Top: 'Top',
+  Bottom: 'Bottom',
+  Right: 'Right',
+  Left: 'Left',
+  TopCenter: 'TopCenter',
+  BottomCenter: 'BottomCenter',
+  RightCenter: 'RightCenter',
+  LeftCenter: 'LeftCenter',
 };
 
 export interface IQnaInterpretInputData {
@@ -1083,7 +1137,9 @@ export interface ICommandsSettings {
   spotlight?: ICommandSettings;
 }
 
-// Visual Capabilities
+/*
+ * Visual CRUD
+ */
 
 export enum VisualDataRoleKind {
   // Indicates that the role should be bound to something that evaluates to a grouping of values.
@@ -1120,9 +1176,26 @@ export interface IVisualDataRole {
 }
 
 export interface IVisualCapabilities {
-
   // Defines what roles the visual expects, and how those roles should be populated. This is useful for visual generation/editing.
   dataRoles?: IVisualDataRole[];
+}
+
+export interface IVisualPropertySelector {
+  objectName: string;
+  propertyName: string;
+}
+
+export interface IVisualPropertyValue {
+  schema?: string;
+  value: any;
+}
+
+export interface IDefaultProperty {
+}
+
+export interface IThemeColorProperty {
+  id: number;
+  shade: number;
 }
 
 function normalizeError(error: any): IError {
