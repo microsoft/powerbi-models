@@ -1,5 +1,5 @@
 import * as models from '../src/models';
-import { IFilter } from '../src/models';
+import { IFilter, ITarget } from '../src/models';
 
 describe('Unit | Models', function () {
   function testForExpectedMessage(errors: models.IError[], message: string) {
@@ -783,14 +783,19 @@ describe('Unit | Models', function () {
         },
         operator: "Top",
         itemCount: 2,
-        filterType: models.FilterType.TopN
+        filterType: models.FilterType.TopN,
+        orderByField: {
+          table: "a",
+          column: "b"
+        }
       };
 
       // Act
       const filter = new models.TopNFilter(
         <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
-        expectedFilter.itemCount);
+        expectedFilter.itemCount,
+        <ITarget>expectedFilter.orderByField);
 
       // Assert
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
@@ -2428,13 +2433,18 @@ describe("Unit | Filters", function () {
         filterType: models.FilterType.TopN,
         operator: "Top",
         itemCount: 3,
+        orderByField: {
+          table: "a",
+          column: "b"
+        }
       };
 
       // Act
       const filter = new models.TopNFilter(
         <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
-        expectedFilter.itemCount);
+        expectedFilter.itemCount,
+        <ITarget>expectedFilter.orderByField);
 
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);
@@ -2479,7 +2489,7 @@ describe("Unit | Filters", function () {
         ),
         relativeDateFilter: new models.RelativeDateFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
         3, models.RelativeDateFilterTimeUnit.CalendarMonths, true),
-        topNFilter: new models.TopNFilter({ table: "a", column: "b" }, "Top", 4),
+        topNFilter: new models.TopNFilter({ table: "a", column: "b" }, "Top", 4, { table: "a", column: "b" }),
         includeExclude: new models.IncludeExcludeFilter({ table: "a", column: "b" }, true, [1,2])
       };
 
