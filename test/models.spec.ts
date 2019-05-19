@@ -784,7 +784,7 @@ describe('Unit | Models', function () {
         operator: "Top",
         itemCount: 2,
         filterType: models.FilterType.TopN,
-        orderByField: {
+        orderBy: {
           table: "a",
           column: "b"
         }
@@ -795,7 +795,7 @@ describe('Unit | Models', function () {
         <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.itemCount,
-        <ITarget>expectedFilter.orderByField);
+        <ITarget>expectedFilter.orderBy);
 
       // Assert
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
@@ -2433,7 +2433,7 @@ describe("Unit | Filters", function () {
         filterType: models.FilterType.TopN,
         operator: "Top",
         itemCount: 3,
-        orderByField: {
+        orderBy: {
           table: "a",
           column: "b"
         }
@@ -2444,7 +2444,7 @@ describe("Unit | Filters", function () {
         <models.IFilterTarget>expectedFilter.target,
         expectedFilter.operator,
         expectedFilter.itemCount,
-        <ITarget>expectedFilter.orderByField);
+        <ITarget>expectedFilter.orderBy);
 
       // Assert
       expect(filter.toJSON()).toEqual(expectedFilter);

@@ -266,7 +266,7 @@ export class TopNFilterValidator extends ObjectValidator {
         validators: [Validators.topNFilterTypeValidator]
       },
       {
-        field: "orderByField",
+        field: "orderBy",
         validators: [Validators.fieldRequiredValidator, Validators.filterTargetValidator]
       }
     ];
