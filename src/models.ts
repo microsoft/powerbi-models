@@ -962,6 +962,16 @@ export interface ICloneVisualResponse extends IVisualResponse {
   visualName: string;
 }
 
+export interface ISortByVisualRequest {
+  orderBy: ITarget;
+  direction: SortDirection;
+}
+
+export enum SortDirection {
+  Ascending = 1,
+  Descending = 2,
+}
+
 /*
  * Selectors
  */
