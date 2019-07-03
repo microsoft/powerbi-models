@@ -794,6 +794,7 @@ export interface IReportLoadConfiguration {
   tokenType?: TokenType;
   bookmark?: IApplyBookmarkRequest;
   theme?: IReportTheme;
+  datasetId?: string;
 }
 
 export interface IReportCreateConfiguration {
