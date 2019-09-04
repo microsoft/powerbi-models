@@ -265,6 +265,10 @@ export class TopNFilterValidator extends ObjectValidator {
         field: "filterType",
         validators: [Validators.topNFilterTypeValidator]
       },
+      {
+        field: "orderBy",
+        validators: [Validators.fieldRequiredValidator, Validators.filterTargetValidator]
+      }
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

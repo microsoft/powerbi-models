@@ -311,6 +311,7 @@ export interface IIncludeExcludeFilter extends IFilter {
 export interface ITopNFilter extends IFilter {
   operator: TopNFilterOperators;
   itemCount: number;
+  orderBy: ITarget;
 }
 
 export interface IRelativeDateFilter extends IFilter {
@@ -481,16 +482,19 @@ export class IncludeExcludeFilter extends Filter {
 export class TopNFilter extends Filter {
   static schemaUrl: string = "http://powerbi.com/product/schema#topN";
   operator: TopNFilterOperators;
+  orderBy: ITarget;
   itemCount: number;
 
   constructor(
     target: IFilterTarget,
     operator: TopNFilterOperators,
-    itemCount: number) {
+    itemCount: number,
+    orderBy: ITarget) {
     super(target, FilterType.TopN);
     this.operator = operator;
     this.itemCount = itemCount;
     this.schemaUrl = TopNFilter.schemaUrl;
+    this.orderBy = orderBy;
   }
 
   toJSON(): ITopNFilter {
@@ -498,6 +502,7 @@ export class TopNFilter extends Filter {
 
     filter.operator = this.operator;
     filter.itemCount = this.itemCount;
+    filter.orderBy = this.orderBy;
 
     return filter;
   }
@@ -955,6 +960,16 @@ export interface ICloneVisualRequest {
 export interface ICloneVisualResponse extends IVisualResponse {
   // New visual name
   visualName: string;
+}
+
+export interface ISortByVisualRequest {
+  orderBy: ITarget;
+  direction: SortDirection;
+}
+
+export enum SortDirection {
+  Ascending = 1,
+  Descending = 2,
 }
 
 /*
