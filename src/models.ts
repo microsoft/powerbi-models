@@ -78,6 +78,12 @@ export enum LayoutType {
   MobileLandscape
 }
 
+export enum HyperlinkClickBehavior {
+  Navigate,
+  NavigateAndRaiseEvent,
+  RaiseEvent
+}
+
 export interface IVisualLayout {
   x?: number;
   y?: number;
@@ -794,6 +800,7 @@ export interface IReportLoadConfiguration {
   tokenType?: TokenType;
   bookmark?: IApplyBookmarkRequest;
   theme?: IReportTheme;
+  embedUrl?: string;
 }
 
 export interface IReportCreateConfiguration {
@@ -811,6 +818,7 @@ export interface IDashboardLoadConfiguration {
   groupId?: string;
   pageView?: PageView;
   tokenType?: TokenType;
+  embedUrl?: string;
 }
 
 export interface ITileLoadConfiguration {
@@ -831,6 +839,7 @@ export interface ISettings {
   extensions?: Extensions;
   filterPaneEnabled?: boolean;
   hideErrors?: boolean;
+  hyperlinkClickBehavior?: HyperlinkClickBehavior;
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;

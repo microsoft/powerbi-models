@@ -84,6 +84,7 @@ export const Validators = {
   filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
   filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator()])]),
   filtersValidator: new FilterValidator(),
+  hyperlinkClickBehaviorValidator: new EnumValidator([0, 1, 2]),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
   includeExludeFilterTypeValidator: new EnumValidator([3]),
   layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),

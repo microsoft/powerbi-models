@@ -57,6 +57,10 @@ export class ReportLoadValidator extends ObjectValidator {
         field: "theme",
         validators: [Validators.customThemeValidator]
       },
+      {
+        field: "embedUrl",
+        validators: [Validators.stringValidator]
+      }
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

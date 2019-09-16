@@ -32,6 +32,10 @@ export class DashboardLoadValidator extends ObjectValidator {
       {
         field: "tokenType",
         validators: [Validators.tokenTypeValidator]
+      },
+      {
+        field: "embedUrl",
+        validators: [Validators.stringValidator]
       }
     ];
 
