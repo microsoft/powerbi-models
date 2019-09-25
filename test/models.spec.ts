@@ -13,6 +13,8 @@ describe('Unit | Models', function () {
   describe('validateReportLoad', function () {
     const accessTokenRequiredMessage = "accessToken is required";
     const accessTokenInvalidTypeMessage = "accessToken must be a string";
+    const datasetIdInvalidTypeMessage = "datasetId must be a string";
+    const datasetIdRequiredMessage = "datasetId is required";
     const idRequiredMessage = "id is required";
     const idInvalidTypeMessage = "id must be a string";
     const filtersInvalidMessage = "filters property is invalid";
@@ -259,6 +261,59 @@ describe('Unit | Models', function () {
       // Assert
       testForExpectedMessage(errors, viewModeInvalidMessage);
     });
+
+    it(`should return undefined if id, accessToken and datasetBinding are valid`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          datasetBinding: {
+            datasetId: "fakeDatasetId"
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+      // Assert
+      expect(errors).toBeUndefined();
+    });
+
+    it(`should return errors with one containing message '${datasetIdRequiredMessage}' if datasetId doesn't exists`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          datasetBinding: {
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+      // Assert
+      testForExpectedMessage(errors, datasetIdRequiredMessage);
+    });
+
+    it(`should return errors with one containing message '${datasetIdInvalidTypeMessage}' if datasetId is not a string`, function () {
+      // Arrange
+      const testData = {
+        load: {
+          id: 'fakeId',
+          accessToken: 'fakeAccessToken',
+          datasetBinding: {
+            datasetId: 1
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateReportLoad(testData.load);
+      // Assert
+      testForExpectedMessage(errors, datasetIdInvalidTypeMessage);
+    });
   });
 
   describe('validateCreateReport', function () {
@@ -489,8 +544,10 @@ describe('Unit | Models', function () {
           embedUrl: 1,
         }
       };
+
       // Act
       const errors = models.validateDashboardLoad(testData.load);
+
       // Assert
       testForExpectedMessage(errors, embedUrlInvalidTypeMessage);
     });
@@ -1041,6 +1098,36 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, layoutTypeInvalidMessage);
+    });
+
+    it(`should return errors with one containing message '${hyperlinkClickBehaviorInvalidTypeMessage}' if hyperlinkClickBehavior is not a number`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          hyperlinkClickBehavior: true
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, hyperlinkClickBehaviorInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${hyperlinkClickBehaviorInvalidMessage}' if hyperlinkClickBehavior is not valid`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          hyperlinkClickBehavior: 3
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, hyperlinkClickBehaviorInvalidMessage);
     });
 
     it(`should return errors with one containing message '${customLayoutInvalidMessage}' if customLayout type is not valid`, function () {

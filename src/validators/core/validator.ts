@@ -33,6 +33,7 @@ import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidato
 import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
 import { SingleCommandSettingsValidator, CommandsSettingsValidator } from '../models/commandsSettingsValidator';
 import { CustomThemeValidator } from '../models/customThemeValidator';
+import { DatasetBindingValidator } from '../models/datasetBindingValidator';
 
 export interface IValidationError {
   path?: string;
@@ -70,6 +71,7 @@ export const Validators = {
   customPageSizeValidator: new CustomPageSizeValidator(),
   customThemeValidator: new CustomThemeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
+  datasetBindingValidator: new DatasetBindingValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
   exportDataRequestValidator: new ExportDataRequestValidator(),

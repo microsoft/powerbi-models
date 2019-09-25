@@ -60,7 +60,11 @@ export class ReportLoadValidator extends ObjectValidator {
       {
         field: "embedUrl",
         validators: [Validators.stringValidator]
-      }
+      },
+      {
+        field: "datasetBinding",
+        validators: [Validators.datasetBindingValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

@@ -140,6 +140,10 @@ export interface IVisual {
   layout?: IVisualLayout;
 }
 
+export interface IDatasetBinding {
+  datasetId: string;
+}
+
 export enum Permissions {
   Read = 0,
   ReadWrite = 1,
@@ -801,6 +805,7 @@ export interface IReportLoadConfiguration {
   bookmark?: IApplyBookmarkRequest;
   theme?: IReportTheme;
   embedUrl?: string;
+  datasetBinding?: IDatasetBinding;
 }
 
 export interface IReportCreateConfiguration {
