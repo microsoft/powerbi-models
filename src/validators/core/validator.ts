@@ -33,6 +33,7 @@ import { SlicerValidator, SlicerStateValidator } from '../models/slicersValidato
 import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
 import { SingleCommandSettingsValidator, CommandsSettingsValidator } from '../models/commandsSettingsValidator';
 import { CustomThemeValidator } from '../models/customThemeValidator';
+import { DatasetBindingValidator } from '../models/datasetBindingValidator';
 
 export interface IValidationError {
   path?: string;
@@ -70,6 +71,7 @@ export const Validators = {
   customPageSizeValidator: new CustomPageSizeValidator(),
   customThemeValidator: new CustomThemeValidator(),
   dashboardLoadValidator: new DashboardLoadValidator(),
+  datasetBindingValidator: new DatasetBindingValidator(),
   displayStateModeValidator: new EnumValidator([0, 1]),
   displayStateValidator: new DisplayStateValidator(),
   exportDataRequestValidator: new ExportDataRequestValidator(),
@@ -84,6 +86,7 @@ export const Validators = {
   filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
   filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator()])]),
   filtersValidator: new FilterValidator(),
+  hyperlinkClickBehaviorValidator: new EnumValidator([0, 1, 2]),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
   includeExludeFilterTypeValidator: new EnumValidator([3]),
   layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),

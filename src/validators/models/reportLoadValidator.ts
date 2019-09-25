@@ -57,6 +57,14 @@ export class ReportLoadValidator extends ObjectValidator {
         field: "theme",
         validators: [Validators.customThemeValidator]
       },
+      {
+        field: "embedUrl",
+        validators: [Validators.stringValidator]
+      },
+      {
+        field: "datasetBinding",
+        validators: [Validators.datasetBindingValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

@@ -57,6 +57,10 @@ export class SettingsValidator extends ObjectValidator {
         field: "commands",
         validators: [Validators.commandsSettingsArrayValidator]
       },
+      {
+        field: "hyperlinkClickBehavior",
+        validators: [Validators.hyperlinkClickBehaviorValidator]
+      }
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);
