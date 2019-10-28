@@ -148,11 +148,11 @@ gulp.task('generatecustomdts', 'Generate dts with no exports', function (done) {
 });
 
 gulp.task('test:js', 'Run spec tests', function (done) {
-  new karma.Server.start({
+  new karma.Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: argv.debug ? false : true,
     captureTimeout: argv.timeout || 60000
-  }, done);
+  }, done).start();
 });
 
 gulp.task('tslint:build', 'Run TSLint on src', function () {
