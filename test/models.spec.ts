@@ -976,6 +976,8 @@ describe('Unit | Models', function () {
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
     const layoutTypeInvalidMessage = "layoutType property is invalid";
     const customLayoutInvalidMessage = "customLayout must be an object";
+    const hyperlinkClickBehaviorInvalidTypeMessage = "hyperlinkClickBehavior must be a number";
+    const hyperlinkClickBehaviorInvalidMessage = "hyperlinkClickBehavior property is invalid";
     const modeInvalidMessage = "mode property is invalid";
     const hyperlinkClickBehaviorInvalidTypeMessage = "hyperlinkClickBehavior must be a number";
     const hyperlinkClickBehaviorInvalidMessage = "hyperlinkClickBehavior property is invalid";

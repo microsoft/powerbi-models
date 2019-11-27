@@ -162,6 +162,14 @@ export enum TokenType {
   Embed
 }
 
+export enum ContrastMode {
+  None,
+  HighContrast1,
+  HighContrast2,
+  HighContrastBlack,
+  HighContrastWhite
+}
+
 export type PageView = "fitToWidth" | "oneColumn" | "actualSize";
 
 export interface IQnaVisualRenderedEvent {
@@ -334,6 +342,7 @@ export interface IRelativeDateFilter extends IFilter {
 export interface IBasicFilter extends IFilter {
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
+  requiresSingleSelect?: boolean;
 }
 
 export interface IBasicFilterWithKeys extends IBasicFilter {
@@ -556,6 +565,7 @@ export class BasicFilter extends Filter {
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
   keyValues: (string | number | boolean)[][];
+  requiresSingleSelect: boolean;
 
   constructor(
     target: IFilterTarget,
@@ -588,7 +598,7 @@ export class BasicFilter extends Filter {
 
     filter.operator = this.operator;
     filter.values = this.values;
-
+    filter.requiresSingleSelect = this.requiresSingleSelect;
     return filter;
   }
 }
@@ -806,6 +816,7 @@ export interface IReportLoadConfiguration {
   theme?: IReportTheme;
   embedUrl?: string;
   datasetBinding?: IDatasetBinding;
+  contrastMode?: ContrastMode;
 }
 
 export interface IReportCreateConfiguration {
@@ -853,6 +864,18 @@ export interface ISettings {
 
 export interface ISaveAsParameters {
   name: string;
+}
+
+export interface IPaginatedReportLoadConfiguration {
+  accessToken: string;
+  id: string;
+  groupId?: string;
+  settings?: IPaginatedReportSettings;
+  tokenType?: TokenType;
+}
+
+export interface IPaginatedReportSettings {
+  commands?: IPaginatedReportsCommandsSettings;
 }
 
 export interface IQnaSettings {
@@ -1164,6 +1187,18 @@ export interface ICommandsSettings {
   seeData?: ICommandSettings;
   sort?: ICommandSettings;
   spotlight?: ICommandSettings;
+}
+
+export interface IPaginatedReportsCommandSettings {
+  enabled: boolean;
+}
+
+export interface IParametersPanelCommandSettings extends IPaginatedReportsCommandSettings {
+  expanded: boolean;
+}
+
+export interface IPaginatedReportsCommandsSettings {
+  parameterPanel?: IParametersPanelCommandSettings;
 }
 
 /*

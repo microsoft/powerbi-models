@@ -66,6 +66,7 @@ export const Validators = {
   commandsSettingsArrayValidator: new ArrayValidator([new CommandsSettingsValidator()]),
   commandsSettingsValidator: new CommandsSettingsValidator(),
   conditionItemValidator: new ConditionItemValidator(),
+  contrastModeValidator: new EnumValidator([0, 1, 2, 3, 4]),
   customLayoutDisplayOptionValidator: new EnumValidator([0, 1, 2]),
   customLayoutValidator: new CustomLayoutValidator(),
   customPageSizeValidator: new CustomPageSizeValidator(),
