@@ -262,7 +262,7 @@ describe('Unit | Models', function () {
       testForExpectedMessage(errors, viewModeInvalidMessage);
     });
 
-    it(`should return undefined if id, accessToken and datasetBinding are valid`, function () {
+    it(`should return undefined if id, accessToken are provided and datasetBinding is valid`, function () {
       // Arrange
       const testData = {
         load: {
