@@ -979,8 +979,6 @@ describe('Unit | Models', function () {
     const hyperlinkClickBehaviorInvalidTypeMessage = "hyperlinkClickBehavior must be a number";
     const hyperlinkClickBehaviorInvalidMessage = "hyperlinkClickBehavior property is invalid";
     const modeInvalidMessage = "mode property is invalid";
-    const hyperlinkClickBehaviorInvalidTypeMessage = "hyperlinkClickBehavior must be a number";
-    const hyperlinkClickBehaviorInvalidMessage = "hyperlinkClickBehavior property is invalid";
 
     it(`should return errors with one containing message '${filterPaneEnabledInvalidTypeMessage}' if filterPaneEnabled is not a boolean`, function () {
       // Arrange
@@ -1145,32 +1143,6 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, customLayoutInvalidMessage);
-    });
-
-    it(`should return errors with one containing message '${hyperlinkClickBehaviorInvalidTypeMessage}' if hyperlinkClickBehavior is not a number`, function () {
-      // Arrange
-      const testData = {
-        settings: {
-          hyperlinkClickBehavior: true
-        }
-      };
-      // Act
-      const errors = models.validateSettings(testData.settings);
-      // Assert
-      testForExpectedMessage(errors, hyperlinkClickBehaviorInvalidTypeMessage);
-    });
-
-    it(`should return errors with one containing message '${hyperlinkClickBehaviorInvalidMessage}' if hyperlinkClickBehavior is not valid`, function () {
-      // Arrange
-      const testData = {
-        settings: {
-          hyperlinkClickBehavior: 3
-        }
-      };
-      // Act
-      const errors = models.validateSettings(testData.settings);
-      // Assert
-      testForExpectedMessage(errors, hyperlinkClickBehaviorInvalidMessage);
     });
 
     it(`should return errors with one containing message '${modeInvalidMessage}' if customLayout type is not valid`, function () {
@@ -2346,7 +2318,8 @@ describe("Unit | Filters", function () {
           2,
           3
         ],
-        filterType: models.FilterType.Basic
+        filterType: models.FilterType.Basic,
+        requiresSingleSelect: false
       };
 
       // Act

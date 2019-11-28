@@ -598,7 +598,7 @@ export class BasicFilter extends Filter {
 
     filter.operator = this.operator;
     filter.values = this.values;
-    filter.requiresSingleSelect = this.requiresSingleSelect;
+    filter.requiresSingleSelect = !!this.requiresSingleSelect;
     return filter;
   }
 }
