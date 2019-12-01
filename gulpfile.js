@@ -1,7 +1,8 @@
-var gulp = require('gulp-help')(require('gulp'));
+var gulp = require('gulp');
 var del = require('del'),
   ghPages = require('gulp-gh-pages'),
   header = require('gulp-header'),
+  help = require('gulp-help-four'),
   fs = require('fs'),
   moment = require('moment'),
   rename = require('gulp-rename'),
@@ -15,9 +16,11 @@ var del = require('del'),
   webpackStream = require('webpack-stream'),
   webpackConfig = require('./webpack.config'),
   webpackTestConfig = require('./webpack.test.config'),
-  runSequence = require('run-sequence'),
+  runSequence = require('gulp4-run-sequence'),
   argv = require('yargs').argv;
 ;
+
+help(gulp, undefined);
 
 var package = require('./package.json');
 var webpackBanner = package.name + " v" + package.version + " | (c) 2016 Microsoft Corporation " + package.license;
@@ -121,7 +124,7 @@ gulp.task('clean:tmp', 'Clean tmp folder', function () {
   return del([
     './tmp/**/*'
   ]);
-}); 
+});
 
 gulp.task('clean:extradts', 'Clean unused dts files', function () {
   return del([
@@ -130,7 +133,7 @@ gulp.task('clean:extradts', 'Clean unused dts files', function () {
 });
 
 gulp.task('compile:spec', 'Compile spec tests', function () {
-  return gulp.src(['./test/test.spec.ts'])
+  return gulp.src(['./test/test.spec.ts'], { allowEmpty: true })
     .pipe(webpackStream(webpackTestConfig))
     .pipe(gulp.dest('./tmp'));
 });
@@ -145,11 +148,11 @@ gulp.task('generatecustomdts', 'Generate dts with no exports', function (done) {
 });
 
 gulp.task('test:js', 'Run spec tests', function (done) {
-  new karma.Server.start({
+  new karma.Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: argv.debug ? false : true,
     captureTimeout: argv.timeout || 60000
-  }, done);
+  }, done).start();
 });
 
 gulp.task('tslint:build', 'Run TSLint on src', function () {

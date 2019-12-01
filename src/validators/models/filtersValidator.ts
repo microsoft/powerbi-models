@@ -155,6 +155,10 @@ export class BasicFilterValidator extends ObjectValidator {
         field: "filterType",
         validators: [Validators.basicFilterTypeValidator]
       },
+      {
+        field: "requiresSingleSelect",
+        validators: [Validators.fieldRequiredValidator, Validators.booleanValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);

@@ -65,6 +65,10 @@ export class ReportLoadValidator extends ObjectValidator {
         field: "datasetBinding",
         validators: [Validators.datasetBindingValidator]
       },
+      {
+        field: "contrastMode",
+        validators: [Validators.contrastModeValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);
