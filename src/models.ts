@@ -342,7 +342,7 @@ export interface IRelativeDateFilter extends IFilter {
 export interface IBasicFilter extends IFilter {
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
-  requiresSingleSelect?: boolean;
+  requireSingleSelection?: boolean;
 }
 
 export interface IBasicFilterWithKeys extends IBasicFilter {
@@ -565,7 +565,7 @@ export class BasicFilter extends Filter {
   operator: BasicFilterOperators;
   values: (string | number | boolean)[];
   keyValues: (string | number | boolean)[][];
-  requiresSingleSelect: boolean;
+  requireSingleSelection: boolean;
 
   constructor(
     target: IFilterTarget,
@@ -598,7 +598,7 @@ export class BasicFilter extends Filter {
 
     filter.operator = this.operator;
     filter.values = this.values;
-    filter.requiresSingleSelect = !!this.requiresSingleSelect;
+    filter.requireSingleSelection = !!this.requireSingleSelection;
     return filter;
   }
 }

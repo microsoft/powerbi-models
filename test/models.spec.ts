@@ -2319,7 +2319,7 @@ describe("Unit | Filters", function () {
           3
         ],
         filterType: models.FilterType.Basic,
-        requiresSingleSelect: false
+        requireSingleSelection: false
       };
 
       // Act
