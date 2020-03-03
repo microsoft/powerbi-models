@@ -1,3 +1,5 @@
+const webpack = require('webpack'); //to access built-in plugins
+
 module.exports = {
   entry: './test/models.spec.ts',
   output: {
@@ -6,7 +8,7 @@ module.exports = {
   },
   devtool: 'source-map',
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+    extensions: ['.webpack.js', '.web.js', '.ts', '.js']
   },
   module: {
     loaders: [
@@ -16,7 +18,11 @@ module.exports = {
       { test: /\.json$/, loader: 'json-loader' }
     ]
   },
-  ts: {
-    configFileName: "webpack.test.tsconfig.json"
-  }
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      ts: {
+        configFileName: "webpack.test.tsconfig.json"
+      }
+    })
+  ],
 }
