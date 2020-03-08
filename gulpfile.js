@@ -66,16 +66,6 @@ gulp.task("docs", 'Compile documentation from src code', function () {
     ;
 });
 
-gulp.task('nojekyll', 'Add .nojekyll file to docs directory', function (done) {
-  fs.writeFile('./docs/.nojekyll', '', function (error) {
-    if (error) {
-      throw error;
-    }
-
-    done();
-  });
-});
-
 gulp.task('compile:ts', 'Compile source files', function () {
   webpackConfig.plugins = [
     new webpack.BannerPlugin(webpackBanner)
