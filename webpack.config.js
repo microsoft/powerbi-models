@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'none',
   entry: {
     'models': './src/models.ts',
   },
@@ -13,7 +14,7 @@ module.exports = {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js']
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.map$/, loader: 'ignore-loader' },
       { test: /\.d.ts$/, loader: 'ignore-loader' },
       { test: /\.ts$/, exclude: /\.d.ts$/, loader: 'ts-loader' },

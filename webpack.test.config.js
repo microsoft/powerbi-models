@@ -1,6 +1,7 @@
 const webpack = require('webpack'); //to access built-in plugins
 
 module.exports = {
+  mode: 'none',
   entry: './test/models.spec.ts',
   output: {
     path: __dirname + "/tmp",
@@ -11,7 +12,7 @@ module.exports = {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js']
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.map$/, loader: 'ignore-loader' },
       { test: /\.d.ts$/, loader: 'ignore-loader' },
       { test: /\.ts$/, exclude: /\.d.ts$/, loader: 'ts-loader' },
