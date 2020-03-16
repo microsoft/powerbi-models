@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var del = require('del'),
-  ghPages = require('gulp-gh-pages'),
   header = require('gulp-header'),
   help = require('gulp-help-four'),
   fs = require('fs'),
@@ -49,16 +48,6 @@ gulp.task('test', 'Runs all tests', function (done) {
   );
 });
 
-gulp.task('ghpages', 'Deploy documentation to gh-pages', ['nojekyll'], function () {
-  return gulp.src(['./docs/**/*'], {
-    dot: true
-  })
-    .pipe(ghPages({
-      force: true,
-      message: 'Update ' + moment().format('LLL')
-    }));
-});
-
 gulp.task("docs", 'Compile documentation from src code', function () {
   return gulp
     .src(["src/**/*.ts"])
@@ -75,16 +64,6 @@ gulp.task("docs", 'Compile documentation from src code', function () {
       version: true
     }))
     ;
-});
-
-gulp.task('nojekyll', 'Add .nojekyll file to docs directory', function (done) {
-  fs.writeFile('./docs/.nojekyll', '', function (error) {
-    if (error) {
-      throw error;
-    }
-
-    done();
-  });
 });
 
 gulp.task('compile:ts', 'Compile source files', function () {

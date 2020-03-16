@@ -979,6 +979,7 @@ export interface IExportDataResult {
 export interface ICreateVisualRequest {
   visualType: string;
   layout?: IVisualLayout;
+  autoFocus?: boolean;
 }
 export interface IVisualResponse {
   visual: IVisual;
@@ -992,6 +993,8 @@ export interface ICloneVisualRequest {
   // The layout which will be applied to the new visual.
   // Default: a best effort to put a new visual in an empty space on the canvas.
   layout?: IVisualLayout;
+
+  autoFocus?: boolean;
 }
 
 export interface ICloneVisualResponse extends IVisualResponse {
