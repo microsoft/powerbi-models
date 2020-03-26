@@ -858,9 +858,42 @@ export interface ISettings {
   hyperlinkClickBehavior?: HyperlinkClickBehavior;
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
+  panes?: IReportPanes;
   useCustomSaveAsDialog?: boolean;
   visualSettings?: IVisualSettings;
 }
+
+export interface IReportPanes {
+  bookmarks?: IBookmarksPane;
+  fields?: IFieldsPane;
+  filters?: IFiltersPane;
+  pageNavigation?: IPageNavigationPane;
+  selection?: ISelectionPane;
+  syncSlicers?: ISyncSlicersPane;
+  visualizations?: IVisualizationsPane;
+}
+
+export interface IHideablePane {
+  visible?: boolean;
+}
+
+export interface ICollapsiblePane {
+  expanded?: boolean;
+}
+
+export interface IBookmarksPane extends IHideablePane { }
+
+export interface IFieldsPane extends ICollapsiblePane { }
+
+export interface IFiltersPane extends ICollapsiblePane, IHideablePane { }
+
+export interface IPageNavigationPane extends IHideablePane { }
+
+export interface ISelectionPane extends IHideablePane { }
+
+export interface ISyncSlicersPane extends IHideablePane { }
+
+export interface IVisualizationsPane extends ICollapsiblePane { }
 
 export interface ISaveAsParameters {
   name: string;
@@ -1155,7 +1188,7 @@ export interface IVisualSettings {
  * Report Theme
  */
 
-export interface IReportTheme {}
+export interface IReportTheme { }
 
 export interface ICustomTheme extends IReportTheme {
   themeJson: any;
@@ -1312,6 +1345,46 @@ export function validateApplyBookmarkStateRequest(input: any): IError[] {
 
 export function validateSettings(input: any): IError[] {
   let errors: any[] = Validators.settingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePanes(input: any): IError[] {
+  let errors: any[] = Validators.reportPanesValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateBookmarksPane(input: any): IError[] {
+  let errors: any[] = Validators.bookmarksPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateFiltersPane(input: any): IError[] {
+  let errors: any[] = Validators.filtersPanesValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateFieldsPane(input: any): IError[] {
+  let errors: any[] = Validators.fieldsPanesValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePageNavigationPane(input: any): IError[] {
+  let errors: any[] = Validators.pageNavigationPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSelectionPane(input: any): IError[] {
+  let errors: any[] = Validators.selectionPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSyncSlicersPane(input: any): IError[] {
+  let errors: any[] = Validators.syncSlicersPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateVisualizationsPane(input: any): IError[] {
+  let errors: any[] = Validators.visualizationsPanesValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
 
