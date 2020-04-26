@@ -873,27 +873,27 @@ export interface IReportPanes {
   visualizations?: IVisualizationsPane;
 }
 
-export interface IHideablePane {
+export interface IHideable {
   visible?: boolean;
 }
 
-export interface ICollapsiblePane {
+export interface ICollapsible {
   expanded?: boolean;
 }
 
-export interface IBookmarksPane extends IHideablePane { }
+export interface IBookmarksPane extends IHideable { }
 
-export interface IFieldsPane extends ICollapsiblePane { }
+export interface IFieldsPane extends ICollapsible { }
 
-export interface IFiltersPane extends ICollapsiblePane, IHideablePane { }
+export interface IFiltersPane extends ICollapsible, IHideable { }
 
-export interface IPageNavigationPane extends IHideablePane { }
+export interface IPageNavigationPane extends IHideable { }
 
-export interface ISelectionPane extends IHideablePane { }
+export interface ISelectionPane extends IHideable { }
 
-export interface ISyncSlicersPane extends IHideablePane { }
+export interface ISyncSlicersPane extends IHideable { }
 
-export interface IVisualizationsPane extends ICollapsiblePane { }
+export interface IVisualizationsPane extends ICollapsible { }
 
 export interface ISaveAsParameters {
   name: string;
