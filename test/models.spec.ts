@@ -847,6 +847,31 @@ describe('Unit | Models', function () {
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
 
+    it("should return undefined if object is valid relativeTime filter schema", function () {
+      // Arrange
+      const expectedFilter: models.IRelativeTimeFilter = {
+        $schema: "http://powerbi.com/product/schema#relativeTime",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: models.RelativeDateOperators.InLast,
+        timeUnitsCount: 11,
+        timeUnitType: models.RelativeDateFilterTimeUnit.Hours,
+        filterType: models.FilterType.RelativeTime
+      };
+
+      // Act
+      const filter = new models.RelativeTimeFilter(
+        <models.IFilterTarget>expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.timeUnitsCount,
+        expectedFilter.timeUnitType);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
     it("should return undefined if object is valid topN filter schema", function () {
       // Arrange
       const expectedFilter: models.ITopNFilter = {
@@ -2791,6 +2816,34 @@ describe("Unit | Filters", function () {
     });
   });
 
+  describe("RelativeTimeFilter", function () {
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.IRelativeTimeFilter = {
+        $schema: "http://powerbi.com/product/schema#relativeTime",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        filterType: models.FilterType.RelativeTime,
+        operator: models.RelativeDateOperators.InLast,
+        timeUnitsCount: 11,
+        timeUnitType: models.RelativeDateFilterTimeUnit.Minutes,
+      };
+
+      // Act
+      const filter = new models.RelativeTimeFilter(
+        <models.IFilterTarget>expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.timeUnitsCount,
+        expectedFilter.timeUnitType);
+
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+  });
+
+
   describe("notSupportedFilterFilter", function () {
     it("should output the correct json when toJSON is called", function () {
       // Arrange
@@ -2881,6 +2934,8 @@ describe("Unit | Filters", function () {
         ),
         relativeDateFilter: new models.RelativeDateFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
           3, models.RelativeDateFilterTimeUnit.CalendarMonths, true),
+        relativeTimeFilter: new models.RelativeTimeFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
+        3, models.RelativeDateFilterTimeUnit.Hours),
         topNFilter: new models.TopNFilter({ table: "a", column: "b" }, "Top", 4, { table: "a", column: "b" }),
         includeExclude: new models.IncludeExcludeFilter({ table: "a", column: "b" }, true, [1, 2])
       };
@@ -2893,6 +2948,7 @@ describe("Unit | Filters", function () {
       expect(models.getFilterType(testData.basicFilterWithKeysOnHierarchy.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.relativeDateFilter.toJSON())).toBe(models.FilterType.RelativeDate);
+      expect(models.getFilterType(testData.relativeTimeFilter.toJSON())).toBe(models.FilterType.RelativeTime);
       expect(models.getFilterType(testData.topNFilter.toJSON())).toBe(models.FilterType.TopN);
       expect(models.getFilterType(testData.includeExclude.toJSON())).toBe(models.FilterType.IncludeExclude);
     });
