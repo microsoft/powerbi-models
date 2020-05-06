@@ -10,7 +10,6 @@
   "scripts": {
     "build": "gulp build",
     "test": "gulp test",
-    "prepublish": "gulp build",
     "gulp": "gulp"
   },
   "files": [
