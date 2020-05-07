@@ -332,12 +332,17 @@ export interface ITopNFilter extends IFilter {
   orderBy: ITarget;
 }
 
-export interface IRelativeDateFilter extends IFilter {
+export interface IRelativeDateTimeFilter extends IFilter {
   operator: RelativeDateOperators;
   timeUnitsCount: number;
   timeUnitType: RelativeDateFilterTimeUnit;
+}
+
+export interface IRelativeDateFilter extends IRelativeDateTimeFilter {
   includeToday: boolean;
 }
+
+export interface IRelativeTimeFilter extends IRelativeDateTimeFilter { }
 
 export interface IBasicFilter extends IFilter {
   operator: BasicFilterOperators;
@@ -371,10 +376,10 @@ export enum FiltersLevel {
   Visual
 }
 
-export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
-export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter;
-export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter;
-export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter;
+export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter ;
+export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
+export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter | IRelativeTimeFilter;
+export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | IRelativeTimeFilter;
 
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
@@ -398,7 +403,8 @@ export enum FilterType {
   IncludeExclude = 3,
   RelativeDate = 4,
   TopN = 5,
-  Tuple = 6
+  Tuple = 6,
+  RelativeTime = 7,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -409,6 +415,8 @@ export enum RelativeDateFilterTimeUnit {
   CalendarMonths = 4,
   Years = 5,
   CalendarYears = 6,
+  Minutes = 7,
+  Hours = 8
 }
 
 export enum RelativeDateOperators {
@@ -555,6 +563,35 @@ export class RelativeDateFilter extends Filter {
     filter.timeUnitsCount = this.timeUnitsCount;
     filter.timeUnitType = this.timeUnitType;
     filter.includeToday = this.includeToday;
+
+    return filter;
+  }
+}
+
+export class RelativeTimeFilter extends Filter {
+  static schemaUrl: string = "http://powerbi.com/product/schema#relativeTime";
+  operator: RelativeDateOperators;
+  timeUnitsCount: number;
+  timeUnitType: RelativeDateFilterTimeUnit;
+
+  constructor(
+    target: IFilterTarget,
+    operator: RelativeDateOperators,
+    timeUnitsCount: number,
+    timeUnitType: RelativeDateFilterTimeUnit) {
+    super(target, FilterType.RelativeTime);
+    this.operator = operator;
+    this.timeUnitsCount = timeUnitsCount;
+    this.timeUnitType = timeUnitType;
+    this.schemaUrl = RelativeTimeFilter.schemaUrl;
+  }
+
+  toJSON(): IRelativeTimeFilter {
+    const filter = <IRelativeTimeFilter>super.toJSON();
+
+    filter.operator = this.operator;
+    filter.timeUnitsCount = this.timeUnitsCount;
+    filter.timeUnitType = this.timeUnitType;
 
     return filter;
   }
@@ -858,9 +895,42 @@ export interface ISettings {
   hyperlinkClickBehavior?: HyperlinkClickBehavior;
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
+  panes?: IReportPanes;
   useCustomSaveAsDialog?: boolean;
   visualSettings?: IVisualSettings;
 }
+
+export interface IReportPanes {
+  bookmarks?: IBookmarksPane;
+  fields?: IFieldsPane;
+  filters?: IFiltersPane;
+  pageNavigation?: IPageNavigationPane;
+  selection?: ISelectionPane;
+  syncSlicers?: ISyncSlicersPane;
+  visualizations?: IVisualizationsPane;
+}
+
+export interface IHideable {
+  visible?: boolean;
+}
+
+export interface ICollapsible {
+  expanded?: boolean;
+}
+
+export interface IBookmarksPane extends IHideable { }
+
+export interface IFieldsPane extends ICollapsible { }
+
+export interface IFiltersPane extends ICollapsible, IHideable { }
+
+export interface IPageNavigationPane extends IHideable { }
+
+export interface ISelectionPane extends IHideable { }
+
+export interface ISyncSlicersPane extends IHideable { }
+
+export interface IVisualizationsPane extends ICollapsible { }
 
 export interface ISaveAsParameters {
   name: string;
@@ -993,7 +1063,6 @@ export interface ICloneVisualRequest {
   // The layout which will be applied to the new visual.
   // Default: a best effort to put a new visual in an empty space on the canvas.
   layout?: IVisualLayout;
-
   autoFocus?: boolean;
 }
 
@@ -1155,7 +1224,7 @@ export interface IVisualSettings {
  * Report Theme
  */
 
-export interface IReportTheme {}
+export interface IReportTheme { }
 
 export interface ICustomTheme extends IReportTheme {
   themeJson: any;
@@ -1312,6 +1381,46 @@ export function validateApplyBookmarkStateRequest(input: any): IError[] {
 
 export function validateSettings(input: any): IError[] {
   let errors: any[] = Validators.settingsValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePanes(input: any): IError[] {
+  let errors: any[] = Validators.reportPanesValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateBookmarksPane(input: any): IError[] {
+  let errors: any[] = Validators.bookmarksPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateFiltersPane(input: any): IError[] {
+  let errors: any[] = Validators.filtersPanesValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateFieldsPane(input: any): IError[] {
+  let errors: any[] = Validators.fieldsPanesValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePageNavigationPane(input: any): IError[] {
+  let errors: any[] = Validators.pageNavigationPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSelectionPane(input: any): IError[] {
+  let errors: any[] = Validators.selectionPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateSyncSlicersPane(input: any): IError[] {
+  let errors: any[] = Validators.syncSlicersPaneValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateVisualizationsPane(input: any): IError[] {
+  let errors: any[] = Validators.visualizationsPanesValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
 

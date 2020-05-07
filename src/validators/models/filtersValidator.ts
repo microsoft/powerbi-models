@@ -242,6 +242,44 @@ export class RelativeDateFilterValidator extends ObjectValidator {
   }
 }
 
+export class RelativeTimeFilterValidator extends ObjectValidator {
+  public validate(input: any, path?: string, field?: string): IValidationError[] {
+    if (input == null) {
+      return null;
+    }
+    const errors = super.validate(input, path, field);
+    if (errors) {
+      return errors;
+    }
+
+    const fields: IFieldValidatorsPair[] = [
+      {
+        field: "target",
+        validators: [Validators.fieldRequiredValidator, Validators.filterTargetValidator]
+      },
+      {
+        field: "operator",
+        validators: [Validators.fieldRequiredValidator, Validators.relativeDateFilterOperatorValidator]
+      },
+      {
+        field: "timeUnitsCount",
+        validators: [Validators.fieldRequiredValidator, Validators.numberValidator]
+      },
+      {
+        field: "timeUnitType",
+        validators: [Validators.fieldRequiredValidator, Validators.relativeTimeFilterTimeUnitTypeValidator]
+      },
+      {
+        field: "filterType",
+        validators: [Validators.relativeTimeFilterTypeValidator]
+      },
+    ];
+
+    const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+    return multipleFieldsValidator.validate(input, path, field);
+  }
+}
+
 export class TopNFilterValidator extends ObjectValidator {
   public validate(input: any, path?: string, field?: string): IValidationError[] {
     if (input == null) {

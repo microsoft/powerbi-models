@@ -60,6 +60,10 @@ export class SettingsValidator extends ObjectValidator {
       {
         field: "hyperlinkClickBehavior",
         validators: [Validators.hyperlinkClickBehaviorValidator]
+      },
+      {
+      field: "panes",
+      validators: [Validators.reportPanesValidator]
       }
     ];
 
