@@ -15,6 +15,8 @@ artifact_publish_options:
 
 signing_options:
   profile: 'external_distribution'
+  codesign_validation_glob_pattern: 'regex|.+(?:exe|dll)$;-|*.nd.dll;-|.gdn\\**'
+
 
 static_analysis_options:
   moderncop_options:
@@ -73,6 +75,11 @@ build:
           exclude:
             - '**/node_modules/**/*.*'
 
+# All build stage artifacts get signed right after the build stage
+# because the global signing profile is defined.
+
+package:
+  commands:
     - !!buildcommand
       name: 'Package'
       arguments: 'package.ps1'
