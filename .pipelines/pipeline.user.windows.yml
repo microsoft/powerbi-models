@@ -17,7 +17,6 @@ signing_options:
   profile: 'external_distribution'
   codesign_validation_glob_pattern: 'regex|.+(?:exe|dll)$;-|*.nd.dll;-|.gdn\\**'
 
-
 static_analysis_options:
   moderncop_options:
     files_to_scan:
@@ -68,12 +67,12 @@ build:
       arguments: 'build.ps1'
       command: '.pipelines\cdpx_run_ps.cmd'
       artifacts:
-        - from: 'dist'
-          to: 'build_artifacts'
+        - to: 'build_artifacts'
           include:
-            - '**/*'
-          exclude:
-            - '**/node_modules/**/*.*'
+            - 'dist/**/*'
+            - 'LICENSE.txt'
+            - 'package.json'
+            - 'README.md'
 
 # All build stage artifacts get signed right after the build stage
 # because the global signing profile is defined.
@@ -85,7 +84,8 @@ package:
       arguments: 'package.ps1'
       command: '.pipelines\cdpx_run_ps.cmd'
       artifacts:
-        - include:
+        - to: 'tgz-package'
+          include:
             - "**/*.tgz"
 
 test:
