@@ -886,6 +886,7 @@ export interface ITileLoadConfiguration {
 
 export interface ISettings {
   background?: BackgroundType;
+  bars?: IReportBars;
   bookmarksPaneEnabled?: boolean;
   commands?: ICommandsSettings[];
   customLayout?: ICustomLayout;
@@ -896,9 +897,17 @@ export interface ISettings {
   layoutType?: LayoutType;
   navContentPaneEnabled?: boolean;
   panes?: IReportPanes;
+  persistentFiltersEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
+  visualRenderedEvents?: boolean;
   visualSettings?: IVisualSettings;
 }
+
+export interface IReportBars {
+  actionBar?: IActionBar;
+}
+
+export interface IActionBar extends IHideable { }
 
 export interface IReportPanes {
   bookmarks?: IBookmarksPane;
@@ -920,7 +929,7 @@ export interface ICollapsible {
 
 export interface IBookmarksPane extends IHideable { }
 
-export interface IFieldsPane extends ICollapsible { }
+export interface IFieldsPane extends ICollapsible, IHideable { }
 
 export interface IFiltersPane extends ICollapsible, IHideable { }
 
@@ -930,7 +939,7 @@ export interface ISelectionPane extends IHideable { }
 
 export interface ISyncSlicersPane extends IHideable { }
 
-export interface IVisualizationsPane extends ICollapsible { }
+export interface IVisualizationsPane extends ICollapsible, IHideable { }
 
 export interface ISaveAsParameters {
   name: string;

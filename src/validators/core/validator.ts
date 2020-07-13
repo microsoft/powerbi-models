@@ -46,6 +46,7 @@ import {
   SyncSlicersPaneValidator,
   VisualizationsPaneValidator
 } from '../models/panesValidator';
+import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
 
 export interface IValidationError {
   path?: string;
@@ -64,6 +65,7 @@ export const Validators = {
   anyArrayValidator: new ArrayValidator([new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()])]),
   anyFilterValidator: new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new IncludeExcludeFilterValidator(), new NotSupportedFilterValidator(), new RelativeDateFilterValidator(), new TopNFilterValidator(), new RelativeTimeFilterValidator()]),
   anyValueValidator: new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()]),
+  actionBarValidator: new ActionBarValidator(),
   applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
   applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
   applyBookmarkValidator: new AnyOfValidator([new ApplyBookmarkByNameRequestValidator(), new ApplyBookmarkStateRequestValidator()]),
@@ -99,9 +101,9 @@ export const Validators = {
   filterHierarchyTargetValidator: new FilterHierarchyTargetValidator(),
   filterMeasureTargetValidator: new FilterMeasureTargetValidator(),
   filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
-  filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator()])]),
+  filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator(), new RelativeTimeFilterValidator()])]),
   filtersValidator: new FilterValidator(),
-  filtersPaneValidator: new  FiltersPaneValidator(),
+  filtersPaneValidator: new FiltersPaneValidator(),
   hyperlinkClickBehaviorValidator: new EnumValidator([0, 1, 2]),
   includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
   includeExludeFilterTypeValidator: new EnumValidator([3]),
@@ -120,6 +122,7 @@ export const Validators = {
   pageValidator: new PageValidator(),
   pageViewFieldValidator: new PageViewFieldValidator(),
   pagesLayoutValidator: new MapValidator([new StringValidator()], [new PageLayoutValidator()]),
+  reportBarsValidator: new ReportBarsValidator(),
   reportPanesValidator: new ReportPanesValidator(),
   permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
   playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),

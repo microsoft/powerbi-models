@@ -997,6 +997,7 @@ describe('Unit | Models', function () {
     const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
     const bookmarksPaneEnabledInvalidTypeMessage = "bookmarksPaneEnabled must be a boolean";
     const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
+    const persistentFiltersEnabledInvalidTypeMessage = "persistentFiltersEnabled must be a boolean";
     const extensionsInvalidMessage = "extensions property is invalid";
     const commandsInvalidMessage = "commands property is invalid";
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
@@ -1064,6 +1065,21 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, useCustomSaveAsDialogInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${persistentFiltersEnabledInvalidTypeMessage}' if persistentFiltersEnabled is not a boolean`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          persistentFiltersEnabled: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, persistentFiltersEnabledInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${extensionsInvalidMessage}' if extensions array is invalid`, function () {
@@ -1178,6 +1194,7 @@ describe('Unit | Models', function () {
           navContentPaneEnabled: false,
           filterPaneEnabled: false,
           useCustomSaveAsDialog: false,
+          persistentFiltersEnabled: false,
           extensions: [{ command: { name: "name", extend: {}, title: "title" } }],
           commands: [{ exportData: { displayOption: models.CommandDisplayOption.Enabled } }],
           layoutType: 0,
@@ -1230,6 +1247,7 @@ describe('Unit | Models', function () {
           navContentPaneEnabled: false,
           filterPaneEnabled: false,
           useCustomSaveAsDialog: false,
+          persistentFiltersEnabled: false,
           extensions: [{ command: { name: "name", extend: {}, title: "title" } }],
           commands: [{ exportData: { displayOption: models.CommandDisplayOption.Enabled } }],
           layoutType: 0,
