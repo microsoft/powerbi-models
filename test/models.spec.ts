@@ -166,7 +166,7 @@ describe('Unit | Models', function () {
           filters: [
             new models.BasicFilter({ table: "fakeTable", column: "fakeColumn" }, "In", ["A"]).toJSON(),
             new models.RelativeDateFilter({ table: "fakeTable", column: "fakeColumn" },
-             models.RelativeDateOperators.InLast, 3, models.RelativeDateFilterTimeUnit.CalendarMonths, true).toJSON()
+              models.RelativeDateOperators.InLast, 3, models.RelativeDateFilterTimeUnit.CalendarMonths, true).toJSON()
           ]
         }
       };
@@ -847,6 +847,31 @@ describe('Unit | Models', function () {
       expect(models.validateFilter(filter.toJSON())).toBeUndefined();
     });
 
+    it("should return undefined if object is valid relativeTime filter schema", function () {
+      // Arrange
+      const expectedFilter: models.IRelativeTimeFilter = {
+        $schema: "http://powerbi.com/product/schema#relativeTime",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        operator: models.RelativeDateOperators.InLast,
+        timeUnitsCount: 11,
+        timeUnitType: models.RelativeDateFilterTimeUnit.Hours,
+        filterType: models.FilterType.RelativeTime
+      };
+
+      // Act
+      const filter = new models.RelativeTimeFilter(
+        <models.IFilterTarget>expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.timeUnitsCount,
+        expectedFilter.timeUnitType);
+
+      // Assert
+      expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+    });
+
     it("should return undefined if object is valid topN filter schema", function () {
       // Arrange
       const expectedFilter: models.ITopNFilter = {
@@ -906,7 +931,7 @@ describe('Unit | Models', function () {
           table: "a",
           column: "b"
         },
-        values: [1,2],
+        values: [1, 2],
         isExclude: true,
         filterType: models.FilterType.IncludeExclude
       };
@@ -972,6 +997,7 @@ describe('Unit | Models', function () {
     const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
     const bookmarksPaneEnabledInvalidTypeMessage = "bookmarksPaneEnabled must be a boolean";
     const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
+    const persistentFiltersEnabledInvalidTypeMessage = "persistentFiltersEnabled must be a boolean";
     const extensionsInvalidMessage = "extensions property is invalid";
     const commandsInvalidMessage = "commands property is invalid";
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
@@ -1039,6 +1065,21 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, useCustomSaveAsDialogInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${persistentFiltersEnabledInvalidTypeMessage}' if persistentFiltersEnabled is not a boolean`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          persistentFiltersEnabled: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, persistentFiltersEnabledInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${extensionsInvalidMessage}' if extensions array is invalid`, function () {
@@ -1153,8 +1194,9 @@ describe('Unit | Models', function () {
           navContentPaneEnabled: false,
           filterPaneEnabled: false,
           useCustomSaveAsDialog: false,
-          extensions: [{command: {name: "name", extend: {}, title: "title"}}],
-          commands: [{exportData: {displayOption: models.CommandDisplayOption.Enabled}}],
+          persistentFiltersEnabled: false,
+          extensions: [{ command: { name: "name", extend: {}, title: "title" } }],
+          commands: [{ exportData: { displayOption: models.CommandDisplayOption.Enabled } }],
           layoutType: 0,
           customLayout: {
             pagesLayout: {
@@ -1167,7 +1209,7 @@ describe('Unit | Models', function () {
                     width: 300,
                     height: 300,
                     displayState: {
-                        mode: 3
+                      mode: 3
                     }
                   }
                 }
@@ -1205,8 +1247,9 @@ describe('Unit | Models', function () {
           navContentPaneEnabled: false,
           filterPaneEnabled: false,
           useCustomSaveAsDialog: false,
-          extensions: [{command: {name: "name", extend: {}, title: "title"}}],
-          commands: [{exportData: {displayOption: models.CommandDisplayOption.Enabled}}],
+          persistentFiltersEnabled: false,
+          extensions: [{ command: { name: "name", extend: {}, title: "title" } }],
+          commands: [{ exportData: { displayOption: models.CommandDisplayOption.Enabled } }],
           layoutType: 0,
           customLayout: {}
         }
@@ -1217,6 +1260,291 @@ describe('Unit | Models', function () {
 
       // Assert
       expect(errors).toBeUndefined();
+    });
+  });
+
+  describe('validatePanes', function () {
+    const paneInvalidTypeMessage = "panes must be an object";
+    const fieldsPaneInvalidTypeMessage = "fields must be an object";
+    const filtersPaneInvalidTypeMessage = "filters must be an object";
+    const bookmarksPaneInvalidTypeMessage = "bookmarks must be an object";
+    const selectionPaneInvalidTypeMessage = "selection must be an object";
+    const syncSlicersPaneInvalidTypeMessage = "syncSlicers must be an object";
+    const pageNavigationPaneInvalidTypeMessage = "pageNavigation must be an object";
+    const visualizationsPaneInvalidTypeMessage = "visualizations must be an object";
+
+    const visibleInvalidTypeMessage = "visible must be a boolean";
+    const expandedInvalidTypeMessage = "expanded must be a boolean";
+
+    it(`should return errors with one containing message '${paneInvalidTypeMessage}' if pane is not a pane object`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          panes: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, paneInvalidTypeMessage);
+    });
+
+    describe('validateBookmarksPane', function () {
+      it(`should return errors with one containing message '${bookmarksPaneInvalidTypeMessage}' if bookmarks pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            bookmarks: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, bookmarksPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${visibleInvalidTypeMessage}' if visible is not a boolean in bookmarks`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            bookmarks: {
+              visible: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, visibleInvalidTypeMessage);
+      });
+    });
+
+    describe('validateFieldsPane', function () {
+      it(`should return errors with one containing message '${fieldsPaneInvalidTypeMessage}' if fields pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            fields: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, fieldsPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${expandedInvalidTypeMessage}' if expanded is not a boolean in fields`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            fields: {
+              expanded: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, expandedInvalidTypeMessage);
+      });
+    });
+
+    describe('validateFiltersPane', function () {
+      it(`should return errors with one containing message '${filtersPaneInvalidTypeMessage}' if filters pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            filters: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, filtersPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing '${visibleInvalidTypeMessage}' if visible is not a boolean in filters`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            filters: {
+              visible: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, visibleInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${expandedInvalidTypeMessage}' if expanded is not a boolean in filters`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            filters: {
+              visible: true,
+              expanded: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, expandedInvalidTypeMessage);
+      });
+    });
+
+    describe('validatePageNavigationPane', function () {
+      it(`should return errors with one containing message '${pageNavigationPaneInvalidTypeMessage}' if pageNavigation pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            pageNavigation: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, pageNavigationPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${visibleInvalidTypeMessage}' if visible is not a boolean in pageNavigation`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            pageNavigation: {
+              visible: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, visibleInvalidTypeMessage);
+      });
+    });
+
+    describe('validateSelectionPane', function () {
+      it(`should return errors with one containing message '${selectionPaneInvalidTypeMessage}' if selection pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            selection: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, selectionPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${visibleInvalidTypeMessage}' if visible is not a boolean in selection`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            selection: {
+              visible: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, visibleInvalidTypeMessage);
+      });
+    });
+
+    describe('validateSyncSlicersPane', function () {
+      it(`should return errors with one containing message '${syncSlicersPaneInvalidTypeMessage}' if sync slicers pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            syncSlicers: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, syncSlicersPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${visibleInvalidTypeMessage}' if visible is not a boolean in sync slicers`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            syncSlicers: {
+              visible: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, visibleInvalidTypeMessage);
+      });
+    });
+
+    describe('validateVisualizationsPane', function () {
+      it(`should return errors with one containing message '${visualizationsPaneInvalidTypeMessage}' if visualizations pane is not an object`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            visualizations: 5
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, visualizationsPaneInvalidTypeMessage);
+      });
+
+      it(`should return errors with one containing message '${expandedInvalidTypeMessage}' if expanded is not a boolean in visualizations`, function () {
+        // Arrange
+        const testData = {
+          panes: {
+            visualizations: {
+              expanded: 1
+            }
+          }
+        };
+
+        // Act
+        const errors = models.validatePanes(testData.panes);
+
+        // Assert
+        testForExpectedMessage(errors, expandedInvalidTypeMessage);
+      });
     });
   });
 
@@ -1267,15 +1595,15 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         command: {
-            name: "extension command",
-            title: "Extend commands",
-            icon: "base64Icon",
-            extend: {
-                visualContextMenu: {
-                    title: "Extend context menu",
-                    menuLocation: models.MenuLocation.Top,
-                }
+          name: "extension command",
+          title: "Extend commands",
+          icon: "base64Icon",
+          extend: {
+            visualContextMenu: {
+              title: "Extend context menu",
+              menuLocation: models.MenuLocation.Top,
             }
+          }
         }
       };
 
@@ -1294,10 +1622,10 @@ describe('Unit | Models', function () {
           title: "Extend commands",
           icon: "base64Icon",
           extend: {
-              visualContextMenu: {
-                  title: "Extend context menu",
-                  menuLocation: 3,
-              }
+            visualContextMenu: {
+              title: "Extend context menu",
+              menuLocation: 3,
+            }
           }
         }
       };
@@ -1313,18 +1641,18 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         command: {
-            name: "extension command",
-            title: "Extend commands",
-            icon: "base64Icon",
-            selector: {
-              visualName: 'fakeId',
-            },
-            extend: {
-                visualContextMenu: {
-                    title: "Extend context menu",
-                    menuLocation: models.MenuLocation.Top,
-                }
+          name: "extension command",
+          title: "Extend commands",
+          icon: "base64Icon",
+          selector: {
+            visualName: 'fakeId',
+          },
+          extend: {
+            visualContextMenu: {
+              title: "Extend context menu",
+              menuLocation: models.MenuLocation.Top,
             }
+          }
         }
       };
 
@@ -1339,12 +1667,12 @@ describe('Unit | Models', function () {
       // Arrange
       const testData = {
         command: {
-            name: "extension command",
-            title: "Extend commands",
-            icon: "base64Icon",
-            selector: 11,
-            extend: {
-            }
+          name: "extension command",
+          title: "Extend commands",
+          icon: "base64Icon",
+          selector: 11,
+          extend: {
+          }
         }
       };
 
@@ -1774,7 +2102,7 @@ describe('Unit | Models', function () {
       const testData = {
         load: {
           accessToken: 'fakeAccessToken',
-          datasetIds: ["1","2"],
+          datasetIds: ["1", "2"],
           question: "fakeQuestion",
           viewMode: 1,
           settings: {
@@ -1846,7 +2174,7 @@ describe('Unit | Models', function () {
       const testData = {
         interpret: {
           question: "questionString",
-          datasetIds: ["1","2"]
+          datasetIds: ["1", "2"]
         }
       };
 
@@ -1858,16 +2186,16 @@ describe('Unit | Models', function () {
     });
   });
 
-  describe('validateCustomTheme', function() {
+  describe('validateCustomTheme', function () {
     const themeInvalidMessage = "themeJson must be an object";
     const themeName = "Theme 1";
 
     it(`should return errors with one containing message '${themeInvalidMessage}' if theme type is not valid`, function () {
       // Arrange
       const testData = {
-          theme: {
-              themeJson: 1
-          }
+        theme: {
+          themeJson: 1
+        }
       };
 
       // Act
@@ -1880,9 +2208,9 @@ describe('Unit | Models', function () {
     it(`should not return errors if theme type is valid`, function () {
       // Arrange
       const testData = {
-          theme: {
-              themeJson: {name: themeName}
-          }
+        theme: {
+          themeJson: { name: themeName }
+        }
       };
 
       // Act
@@ -1893,7 +2221,7 @@ describe('Unit | Models', function () {
     });
   });
 
-  describe('validateSlicers', function() {
+  describe('validateSlicers', function () {
     const selectorRequiredMessage = "selector is required";
     const stateRequiredMessage = "state is required";
     const stateInvalidTypeMessage = "state must be an object";
@@ -2026,7 +2354,7 @@ describe('Unit | Models', function () {
     });
   });
 
-  describe('validateVisualHeader', function() {
+  describe('validateVisualHeader', function () {
     const settingsRequiredMessage = "settings is required";
     const invalidSelectorMessage = "selector property is invalid";
 
@@ -2113,7 +2441,7 @@ describe('Unit | Models', function () {
     });
   });
 
-  describe('validateCommandsSettings', function() {
+  describe('validateCommandsSettings', function () {
     const invalidSelectorMessage = "selector property is invalid";
     const displayOptionRequiredMessage = "displayOption is required";
     const invalidDisplayOptionMessage = "displayOption property is invalid";
@@ -2121,13 +2449,13 @@ describe('Unit | Models', function () {
     it(`should return undefined if displayOption and selector are valid`, function () {
       // Arrange
       const testData = {
-          exportData: {
-            displayOption: models.CommandDisplayOption.Enabled,
-            selector: {
-              visualName: 'fakeId',
-            }
+        exportData: {
+          displayOption: models.CommandDisplayOption.Enabled,
+          selector: {
+            visualName: 'fakeId',
           }
-        };
+        }
+      };
 
       // Act
       const errors = models.validateCommandsSettings(testData);
@@ -2138,20 +2466,20 @@ describe('Unit | Models', function () {
 
     it(`should return undefined if displayOptions are valid`, function () {
       // Arrange
-      const singleCommandSettings =  { displayOption: models.CommandDisplayOption.Enabled };
+      const singleCommandSettings = { displayOption: models.CommandDisplayOption.Enabled };
       const testData = {
-          copy: singleCommandSettings,
-          drill: singleCommandSettings,
-          drillthrough: singleCommandSettings,
-          expandCollapse: singleCommandSettings,
-          exportData: singleCommandSettings,
-          includeExclude: singleCommandSettings,
-          removeVisual: singleCommandSettings,
-          search: singleCommandSettings,
-          seeData: singleCommandSettings,
-          sort: singleCommandSettings,
-          spotlight: singleCommandSettings,
-        };
+        copy: singleCommandSettings,
+        drill: singleCommandSettings,
+        drillthrough: singleCommandSettings,
+        expandCollapse: singleCommandSettings,
+        exportData: singleCommandSettings,
+        includeExclude: singleCommandSettings,
+        removeVisual: singleCommandSettings,
+        search: singleCommandSettings,
+        seeData: singleCommandSettings,
+        sort: singleCommandSettings,
+        spotlight: singleCommandSettings,
+      };
 
       // Act
       const errors = models.validateCommandsSettings(testData);
@@ -2162,21 +2490,21 @@ describe('Unit | Models', function () {
 
     it(`should return undefined if displayOption and visual type selector are valid`, function () {
       const testData = {
-          exportData: {
-            displayOption: models.CommandDisplayOption.Disabled,
-            selector: {
-              $schema: 'http://powerbi.com/product/schema#visualTypeSelector',
-              visualType: 'fakeType',
-            },
+        exportData: {
+          displayOption: models.CommandDisplayOption.Disabled,
+          selector: {
+            $schema: 'http://powerbi.com/product/schema#visualTypeSelector',
+            visualType: 'fakeType',
           },
-          seeData: {
-            displayOption: models.CommandDisplayOption.Disabled,
-            selector: {
-              $schema: "http://powerbi.com/product/schema#visualSelector",
-              visualName: 'fakeName',
-            },
-          }
-        };
+        },
+        seeData: {
+          displayOption: models.CommandDisplayOption.Disabled,
+          selector: {
+            $schema: "http://powerbi.com/product/schema#visualSelector",
+            visualName: 'fakeName',
+          },
+        }
+      };
 
       // Act
       const errors = models.validateCommandsSettings(testData);
@@ -2188,13 +2516,13 @@ describe('Unit | Models', function () {
     it(`should return undefined if displayOption is valid and selector is undefined`, function () {
       // Arrange
       const testData = {
-          exportData: {
-            displayOption: models.CommandDisplayOption.Hidden,
-          },
-          seeData: {
-            displayOption: models.CommandDisplayOption.Disabled,
-          }
-        };
+        exportData: {
+          displayOption: models.CommandDisplayOption.Hidden,
+        },
+        seeData: {
+          displayOption: models.CommandDisplayOption.Disabled,
+        }
+      };
 
       // Act
       const errors = models.validateCommandsSettings(testData);
@@ -2219,13 +2547,13 @@ describe('Unit | Models', function () {
     it(`should return error if selector is invalid`, function () {
       // Arrange
       const testData = {
-          exportData: {
-            displayOption: models.CommandDisplayOption.Disabled,
-            selector: {
-              visualName: 123,
-            }
+        exportData: {
+          displayOption: models.CommandDisplayOption.Disabled,
+          selector: {
+            visualName: 123,
           }
-        };
+        }
+      };
 
       // Act
       const errors = models.validateCommandsSettings(testData);
@@ -2277,11 +2605,11 @@ describe("Unit | Filters", function () {
     it("should accept values as an array of tuples", function () {
       // Arrange
       const values = [1, 2];
-      const keyValues = [[1, 2], [3,4]];
+      const keyValues = [[1, 2], [3, 4]];
 
       // Act
-      const basicFilterOnColumn = new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1", "2"]}, "In", values, keyValues);
-      const basicFilterOnHierarchy = new models.BasicFilterWithKeys({ table: "t", hierarchy: "c" , hierarchyLevel: "level", keys: ["1", "2"]}, "In", values, keyValues);
+      const basicFilterOnColumn = new models.BasicFilterWithKeys({ table: "t", column: "c", keys: ["1", "2"] }, "In", values, keyValues);
+      const basicFilterOnHierarchy = new models.BasicFilterWithKeys({ table: "t", hierarchy: "c", hierarchyLevel: "level", keys: ["1", "2"] }, "In", values, keyValues);
 
       // Assert
       expect(basicFilterOnColumn.values).toEqual(values);
@@ -2291,15 +2619,15 @@ describe("Unit | Filters", function () {
     it("should throw an exception when values are an array of tuples, but tuples length is different than keys length", function () {
       // Arrange
       const values = [1, 2];
-      const keyValues = [[1, 2], [3,4]];
+      const keyValues = [[1, 2], [3, 4]];
 
       // Act
       const attemptToCreateFilterOnColumn = () => {
-        return new models.BasicFilterWithKeys({ table: "t", column: "c" , keys: ["1"]}, "In", values, keyValues);
+        return new models.BasicFilterWithKeys({ table: "t", column: "c", keys: ["1"] }, "In", values, keyValues);
       };
-            // Act
+      // Act
       const attemptToCreateFilterOnHierarchy = () => {
-        return new models.BasicFilterWithKeys({ table: "t", hierarchy: "c" , hierarchyLevel: "level", keys: ["1"]}, "In", values, keyValues);
+        return new models.BasicFilterWithKeys({ table: "t", hierarchy: "c", hierarchyLevel: "level", keys: ["1"] }, "In", values, keyValues);
       };
       expect(attemptToCreateFilterOnColumn).toThrowError();
       expect(attemptToCreateFilterOnHierarchy).toThrowError();
@@ -2506,6 +2834,34 @@ describe("Unit | Filters", function () {
     });
   });
 
+  describe("RelativeTimeFilter", function () {
+    it("should output the correct json when toJSON is called", function () {
+      // Arrange
+      const expectedFilter: models.IRelativeTimeFilter = {
+        $schema: "http://powerbi.com/product/schema#relativeTime",
+        target: {
+          table: "a",
+          column: "b"
+        },
+        filterType: models.FilterType.RelativeTime,
+        operator: models.RelativeDateOperators.InLast,
+        timeUnitsCount: 11,
+        timeUnitType: models.RelativeDateFilterTimeUnit.Minutes,
+      };
+
+      // Act
+      const filter = new models.RelativeTimeFilter(
+        <models.IFilterTarget>expectedFilter.target,
+        expectedFilter.operator,
+        expectedFilter.timeUnitsCount,
+        expectedFilter.timeUnitType);
+
+      // Assert
+      expect(filter.toJSON()).toEqual(expectedFilter);
+    });
+  });
+
+
   describe("notSupportedFilterFilter", function () {
     it("should output the correct json when toJSON is called", function () {
       // Arrange
@@ -2569,7 +2925,7 @@ describe("Unit | Filters", function () {
         },
         filterType: models.FilterType.IncludeExclude,
         isExclude: false,
-        values: [1,2,3],
+        values: [1, 2, 3],
       };
 
       // Act
@@ -2588,16 +2944,18 @@ describe("Unit | Filters", function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
-        basicFilterWithKeysOnColumn: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
-        basicFilterWithKeysOnHierarchy: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+        basicFilterWithKeysOnColumn: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2", 2]]),
+        basicFilterWithKeysOnHierarchy: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2", 2]]),
         advancedFilter: new models.AdvancedFilter({ table: "a", column: "b" }, "And",
           { operator: "Contains", value: "x" },
           { operator: "Contains", value: "x" }
         ),
         relativeDateFilter: new models.RelativeDateFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
-        3, models.RelativeDateFilterTimeUnit.CalendarMonths, true),
+          3, models.RelativeDateFilterTimeUnit.CalendarMonths, true),
+        relativeTimeFilter: new models.RelativeTimeFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
+        3, models.RelativeDateFilterTimeUnit.Hours),
         topNFilter: new models.TopNFilter({ table: "a", column: "b" }, "Top", 4, { table: "a", column: "b" }),
-        includeExclude: new models.IncludeExcludeFilter({ table: "a", column: "b" }, true, [1,2])
+        includeExclude: new models.IncludeExcludeFilter({ table: "a", column: "b" }, true, [1, 2])
       };
 
       // Act
@@ -2608,6 +2966,7 @@ describe("Unit | Filters", function () {
       expect(models.getFilterType(testData.basicFilterWithKeysOnHierarchy.toJSON())).toBe(models.FilterType.Basic);
       expect(models.getFilterType(testData.advancedFilter.toJSON())).toBe(models.FilterType.Advanced);
       expect(models.getFilterType(testData.relativeDateFilter.toJSON())).toBe(models.FilterType.RelativeDate);
+      expect(models.getFilterType(testData.relativeTimeFilter.toJSON())).toBe(models.FilterType.RelativeTime);
       expect(models.getFilterType(testData.topNFilter.toJSON())).toBe(models.FilterType.TopN);
       expect(models.getFilterType(testData.includeExclude.toJSON())).toBe(models.FilterType.IncludeExclude);
     });
@@ -2615,7 +2974,7 @@ describe("Unit | Filters", function () {
     it('isFilterKeyColumnsTarget should return the correct response', function () {
       // Arrange
       let filterKeyColumnsTarget = { table: "a", column: "b", keys: ["key1"] };
-      let filterColumnTarget = { table: "a", column: "b"};
+      let filterColumnTarget = { table: "a", column: "b" };
 
       // Assert
       expect(models.isFilterKeyColumnsTarget(filterKeyColumnsTarget)).toBeTruthy();
@@ -2626,7 +2985,7 @@ describe("Unit | Filters", function () {
       // Arrange
       const testData = {
         basicFilter: new models.BasicFilter({ table: "a", column: "b" }, "In", ["x", "y"]),
-        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2",2]]),
+        basicFilterWithKeys: new models.BasicFilterWithKeys({ table: "a", column: "b", keys: ["1", "2"] }, "In", ["x1", 1], [["x1", 1], ["y2", 2]]),
       };
 
       // Assert
