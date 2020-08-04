@@ -898,6 +898,7 @@ export interface ISettings {
   navContentPaneEnabled?: boolean;
   panes?: IReportPanes;
   persistentFiltersEnabled?: boolean;
+  personalBookmarksEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   visualRenderedEvents?: boolean;
   visualSettings?: IVisualSettings;

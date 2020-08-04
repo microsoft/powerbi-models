@@ -998,6 +998,7 @@ describe('Unit | Models', function () {
     const bookmarksPaneEnabledInvalidTypeMessage = "bookmarksPaneEnabled must be a boolean";
     const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
     const persistentFiltersEnabledInvalidTypeMessage = "persistentFiltersEnabled must be a boolean";
+    const personalBookmarksEnabledInvalidTypeMessage = "personalBookmarksEnabled must be a boolean";
     const extensionsInvalidMessage = "extensions property is invalid";
     const commandsInvalidMessage = "commands property is invalid";
     const layoutTypeInvalidTypeMessage = "layoutType must be a number";
@@ -1080,6 +1081,21 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, persistentFiltersEnabledInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${personalBookmarksEnabledInvalidTypeMessage}' if personalBookmarksEnabled is not a boolean`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          personalBookmarksEnabled: 1
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, personalBookmarksEnabledInvalidTypeMessage);
     });
 
     it(`should return errors with one containing message '${extensionsInvalidMessage}' if extensions array is invalid`, function () {
