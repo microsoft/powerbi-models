@@ -376,7 +376,7 @@ export enum FiltersLevel {
   Visual
 }
 
-export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter ;
+export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
 export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
 export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter | IRelativeTimeFilter;
 export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | IRelativeTimeFilter;
@@ -898,6 +898,7 @@ export interface ISettings {
   navContentPaneEnabled?: boolean;
   panes?: IReportPanes;
   persistentFiltersEnabled?: boolean;
+  personalBookmarksEnabled?: boolean;
   useCustomSaveAsDialog?: boolean;
   visualRenderedEvents?: boolean;
   visualSettings?: IVisualSettings;
@@ -933,7 +934,14 @@ export interface IFieldsPane extends ICollapsible, IHideable { }
 
 export interface IFiltersPane extends ICollapsible, IHideable { }
 
-export interface IPageNavigationPane extends IHideable { }
+export enum PageNavigationPosition {
+  Bottom,
+  Left
+}
+
+export interface IPageNavigationPane extends IHideable {
+  position?: PageNavigationPosition;
+}
 
 export interface ISelectionPane extends IHideable { }
 
