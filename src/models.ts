@@ -942,6 +942,7 @@ export enum PageNavigationPosition {
 export interface IPageNavigationPane extends IHideable {
   position?: PageNavigationPosition;
 }
+
 export interface ISelectionPane extends IHideable { }
 
 export interface ISyncSlicersPane extends IHideable { }
