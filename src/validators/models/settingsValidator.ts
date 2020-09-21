@@ -70,6 +70,10 @@ export class SettingsValidator extends ObjectValidator {
         validators: [Validators.reportPanesValidator]
       },
       {
+        field: "personalBookmarksEnabled",
+        validators: [Validators.booleanValidator]
+      },
+      {
         field: "persistentFiltersEnabled",
         validators: [Validators.booleanValidator]
       },

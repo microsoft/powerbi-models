@@ -133,6 +133,10 @@ export class PageNavigationPaneValidator extends ObjectValidator {
         field: "visible",
         validators: [Validators.booleanValidator]
       },
+      {
+        field: "position",
+        validators: [Validators.pageNavigationPositionValidator]
+      },
     ];
 
     const multipleFieldsValidator = new MultipleFieldsValidator(fields);
