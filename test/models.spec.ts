@@ -1,6 +1,6 @@
 import * as models from '../src/models';
 import { IFilter, ITarget } from '../src/models';
-import {} from 'jasmine';
+import { } from 'jasmine';
 
 describe('Unit | Models', function () {
   function testForExpectedMessage(errors: models.IError[], message: string) {
@@ -995,6 +995,8 @@ describe('Unit | Models', function () {
   describe('validateSettings', function () {
     const filterPaneEnabledInvalidTypeMessage = "filterPaneEnabled must be a boolean";
     const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";
+    const positionInvalidTypeMessage = "position must be a number";
+    const positionInvalidValueMessage = "position property is invalid";
     const bookmarksPaneEnabledInvalidTypeMessage = "bookmarksPaneEnabled must be a boolean";
     const useCustomSaveAsDialogInvalidTypeMessage = "useCustomSaveAsDialog must be a boolean";
     const persistentFiltersEnabledInvalidTypeMessage = "persistentFiltersEnabled must be a boolean";
@@ -1021,6 +1023,44 @@ describe('Unit | Models', function () {
 
       // Assert
       testForExpectedMessage(errors, filterPaneEnabledInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${positionInvalidTypeMessage}' if position is not a number`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          panes: {
+            pageNavigation: {
+              position: "bottom"
+            }
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, positionInvalidTypeMessage);
+    });
+
+    it(`should return errors with one containing message '${positionInvalidValueMessage}' if position is not a valid value`, function () {
+      // Arrange
+      const testData = {
+        settings: {
+          panes: {
+            pageNavigation: {
+              position: 15
+            }
+          }
+        }
+      };
+
+      // Act
+      const errors = models.validateSettings(testData.settings);
+
+      // Assert
+      testForExpectedMessage(errors, positionInvalidValueMessage);
     });
 
     it(`should return errors with one containing message '${navContentPaneEnabledInvalidTypeMessage}' if navContentPaneEnabled is not a boolean`, function () {
@@ -2969,7 +3009,7 @@ describe("Unit | Filters", function () {
         relativeDateFilter: new models.RelativeDateFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
           3, models.RelativeDateFilterTimeUnit.CalendarMonths, true),
         relativeTimeFilter: new models.RelativeTimeFilter({ table: "a", column: "b" }, models.RelativeDateOperators.InLast,
-        3, models.RelativeDateFilterTimeUnit.Hours),
+          3, models.RelativeDateFilterTimeUnit.Hours),
         topNFilter: new models.TopNFilter({ table: "a", column: "b" }, "Top", 4, { table: "a", column: "b" }),
         includeExclude: new models.IncludeExcludeFilter({ table: "a", column: "b" }, true, [1, 2])
       };
