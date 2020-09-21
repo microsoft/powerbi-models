@@ -117,6 +117,7 @@ export const Validators = {
   numberValidator: new NumberValidator(),
   pageLayoutValidator: new MapValidator([new StringValidator()], [new VisualLayoutValidator()]),
   pageNavigationPaneValidator: new PageNavigationPaneValidator(),
+  pageNavigationPositionValidator: new EnumValidator([0, 1]),
   pageSizeTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5]),
   pageSizeValidator: new PageSizeValidator(),
   pageValidator: new PageValidator(),
