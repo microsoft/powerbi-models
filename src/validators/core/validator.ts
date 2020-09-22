@@ -1,7 +1,7 @@
 import { BooleanValidator, ArrayValidator, StringValidator, EnumValidator, NumberValidator, StringArrayValidator, BooleanArrayValidator, NumberArrayValidator } from './typeValidator';
 import { ExtensionValidator, CommandExtensionValidator, ExtensionPointsValidator, MenuExtensionValidator } from '../models/extensionsValidator';
 import { SettingsValidator } from '../models/settingsValidator';
-import { PlayBookmarkRequestValidator, AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator } from '../models/bookmarkValidator';
+import { PlayBookmarkRequestValidator, AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator } from '../models/bookmarkValidator';
 import {
   FilterColumnTargetValidator,
   FilterKeyColumnsTargetValidator,
@@ -75,6 +75,8 @@ export const Validators = {
   booleanArrayValidator: new BooleanArrayValidator(),
   booleanValidator: new BooleanValidator(),
   bookmarksPaneValidator: new BookmarksPaneValidator(),
+  captureBookmarkOptionsValidator: new CaptureBookmarkOptionsValidator(),
+  captureBookmarkRequestValidator: new CaptureBookmarkRequestValidator(),
   commandDisplayOptionValidator: new EnumValidator([0, 1, 2]),
   commandExtensionSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
   commandExtensionValidator: new CommandExtensionValidator(),
