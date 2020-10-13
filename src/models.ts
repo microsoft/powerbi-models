@@ -1035,6 +1035,10 @@ export interface IReportBookmark {
   children?: IReportBookmark[];
 }
 
+export interface ICaptureBookmarkOptions {
+  personalizeVisuals?: boolean;
+}
+
 export interface IPlayBookmarkRequest {
   playMode: BookmarksPlayMode;
 }
@@ -1053,6 +1057,10 @@ export interface IApplyBookmarkStateRequest {
 
 export interface IApplyBookmarkByNameRequest {
   name: string;
+}
+
+export interface ICaptureBookmarkRequest {
+  options: ICaptureBookmarkOptions;
 }
 
 export interface IExportDataRequest {
@@ -1393,6 +1401,11 @@ export function validateApplyBookmarkByNameRequest(input: any): IError[] {
 
 export function validateApplyBookmarkStateRequest(input: any): IError[] {
   let errors: any[] = Validators.applyBookmarkStateRequestValidator.validate(input);
+  return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCaptureBookmarkRequest(input: any): IError[] {
+  let errors: any[] = Validators.captureBookmarkRequestValidator.validate(input);
   return errors ? errors.map(normalizeError) : undefined;
 }
 
