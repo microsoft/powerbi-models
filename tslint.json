@@ -1,26 +1,41 @@
 {
-  "extends": "tslint:recommended",
-  "rules": {
-    "max-line-length": false,
-    "member-access": false,
-    "one-line": [
-      "check-whitespace",
-      "check-open-brace"
-    ],
-    "quotemark": [
-      "single",
-      "avoid-escape"
-    ],
-    "trailing-comma": false,
-    "whitespace": [
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-module",
-      "check-seperator",
-      "check-type"
-    ],
-    "object-literal-sort-keys": false,
-    "no-var-requires": false
-  }
+    "extends": "tslint:recommended",
+    "rules": {
+        "max-line-length": false,
+        "max-classes-per-file": false,
+        "array-type": false,
+        "member-access": false,
+        "no-empty-interface": false,
+        "indent": [
+            true,
+            "spaces",
+            4
+        ],
+        "object-literal-shorthand": [
+            true,
+            {
+                "property": "never"
+            }
+        ],
+        "one-line": [
+            "check-whitespace",
+            "check-open-brace"
+        ],
+        "interface-over-type-literal": false,
+        "quotemark": [
+            "single",
+            "avoid-escape"
+        ],
+        "trailing-comma": false,
+        "whitespace": [
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-module",
+            "check-seperator",
+            "check-type"
+        ],
+        "object-literal-sort-keys": false,
+        "no-var-requires": false
+    }
 }

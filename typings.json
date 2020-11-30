@@ -1,8 +1,7 @@
 {
-  "dependencies": {
-  },
-  "globalDependencies": {
-    "jasmine": "registry:dt/jasmine",
-    "karma-jasmine": "registry:dt/karma-jasmine"
-  }
+    "dependencies": {},
+    "globalDependencies": {
+        "jasmine": "registry:dt/jasmine",
+        "karma-jasmine": "registry:dt/karma-jasmine"
+    }
 }
