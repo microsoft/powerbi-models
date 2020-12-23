@@ -1,12 +1,12 @@
 import { IValidationError, IValidator } from './validator';
 
-export class FieldRequiredValidator implements IValidator {
+export class FieldForbiddenValidator implements IValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
+        if (input !== undefined) {
             return [{
-                message: field + " is required",
+                message: field + " is forbidden",
                 path: (path ? path + "." : "") + field,
-                keyword: "required"
+                keyword: "forbidden"
             }];
         }
         return null;
