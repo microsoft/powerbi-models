@@ -4,6 +4,7 @@ module.exports = {
         'models': './src/models.ts',
     },
     output: {
+        globalObject: "this",
         path: __dirname + "/dist",
         filename: '[name].js',
         library: 'powerbi-models',
