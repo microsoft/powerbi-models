@@ -3,7 +3,6 @@ var del = require('del'),
     header = require('gulp-header'),
     help = require('gulp-help-four'),
     rename = require('gulp-rename'),
-    replace = require('gulp-replace'),
     tslint = require('gulp-tslint'),
     typedoc = require("gulp-typedoc"),
     uglify = require('gulp-uglify'),
@@ -28,7 +27,6 @@ gulp.task('build', 'Build for release', function (done) {
         'clean:dist',
         'compile:ts',
         'min',
-        'generatecustomdts',
         'header',
         'clean:extradts',
         done
@@ -112,15 +110,6 @@ gulp.task('compile:spec', 'Compile spec tests', function () {
     return gulp.src(['./test/test.spec.ts'], { allowEmpty: true })
         .pipe(webpackStream(webpackTestConfig))
         .pipe(gulp.dest('./tmp'));
-});
-
-gulp.task('generatecustomdts', 'Generate dts with no exports', function (done) {
-    return gulp.src(['./dist/*.d.ts'])
-        .pipe(replace(/export\s/g, ''))
-        .pipe(rename(function (path) {
-            path.basename = "models-noexports.d";
-        }))
-        .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('test:js', 'Run spec tests', function (done) {
