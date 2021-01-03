@@ -50,11 +50,11 @@ gulp.task("docs", 'Compile documentation from src code', function () {
             mode: 'modules',
             includeDeclarations: true,
 
-            // Output options (see typedoc docs) 
+            // Output options (see typedoc docs)
             out: "./docs",
             json: "./docs/json/" + package.name + ".json",
 
-            // TypeDoc options (see typedoc docs) 
+            // TypeDoc options (see typedoc docs)
             ignoreCompilerErrors: true,
             version: true
         }))

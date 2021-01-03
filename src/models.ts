@@ -398,6 +398,18 @@ export interface ITupleFilter extends IFilter {
     values: TupleValueType[];
 }
 
+export enum FiltersOperations {
+    RemoveAll,
+    ReplaceAll,
+    Add,
+    Replace
+}
+
+export interface IUpdateFiltersRequest {
+    filtersOperation: FiltersOperations;
+    filters?: ReportLevelFilters[] | PageLevelFilters[] | VisualLevelFilters[];
+}
+
 export enum FiltersLevel {
     Report,
     Page,
@@ -1640,7 +1652,12 @@ export function validatePage(input: any): IError[] {
 }
 
 export function validateFilter(input: any): IError[] {
-    const errors: any[] = Validators.filtersValidator.validate(input);
+    const errors: any[] = Validators.filterValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateUpdateFiltersRequest(input: any): IError[] {
+    const errors: any[] = Validators.updateFiltersRequestValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 

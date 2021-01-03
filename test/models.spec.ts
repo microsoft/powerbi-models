@@ -992,6 +992,189 @@ describe('Unit | Models', () => {
         });
     });
 
+    describe('validateUpdateFiltersRequest', () => {
+        const operations = [
+            models.FiltersOperations.Add,
+            models.FiltersOperations.Replace,
+            models.FiltersOperations.ReplaceAll,
+        ];
+
+        for (const operation of operations) {
+            it(`should return undefined for request with ${models.FiltersOperations[operation]} operation and empty filters array`, () => {
+                const request: models.IUpdateFiltersRequest = {
+                    filtersOperation: operation,
+                    filters: []
+                };
+                expect(models.validateUpdateFiltersRequest(request)).toBeUndefined();
+            });
+
+            it(`should return errors for request with ${models.FiltersOperations[operation]} operation and without filters`, () => {
+                const request: models.IUpdateFiltersRequest = {
+                    filtersOperation: operation,
+                };
+                expect(models.validateUpdateFiltersRequest(request)).toBeDefined();
+            });
+
+            it(`should return errors for request with ${models.FiltersOperations[operation]} operation and filter that does not validate against schema`, () => {
+                const malformedFilters: any[] = [
+                    {
+                        target: {
+                            table: "c",
+                            column: "d"
+                        }
+                    },
+                    {
+                        filter: {
+                            entity: "c",
+                            property: "d"
+                        }
+                    },
+                    {
+                        target: {
+                            table: 'a',
+                            column: 'b'
+                        },
+                        logicalOperator: 'And',
+                        conditions: [
+                            {
+                                value: { x: 1 },
+                                operator: 'condition1'
+                            }
+                        ]
+                    }
+                ];
+
+                for (const malformedFilter of malformedFilters) {
+                    const request: models.IUpdateFiltersRequest = {
+                        filtersOperation: operation,
+                        filters: [malformedFilter]
+                    };
+                    expect(models.validateUpdateFiltersRequest(request)).toBeDefined();
+                }
+            });
+
+            it(`should return undefined for request with ${models.FiltersOperations[operation]} operation and valid filters`, () => {
+                const filters: IFilter[] = [
+                    {
+                        $schema: "http://powerbi.com/product/schema#advanced",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        operator: "x" as any,
+                        values: [
+                            "a",
+                            100,
+                            false
+                        ],
+                        filterType: models.FilterType.Basic
+                    } as IFilter,
+                    {
+                        $schema: "http://powerbi.com/product/schema#relativeDate",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        operator: models.RelativeDateOperators.InLast,
+                        timeUnitsCount: 11,
+                        timeUnitType: models.RelativeDateFilterTimeUnit.Years,
+                        includeToday: false,
+                        filterType: models.FilterType.RelativeDate
+                    } as IFilter,
+                    {
+                        $schema: "http://powerbi.com/product/schema#relativeTime",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        operator: models.RelativeDateOperators.InLast,
+                        timeUnitsCount: 11,
+                        timeUnitType: models.RelativeDateFilterTimeUnit.Hours,
+                        filterType: models.FilterType.RelativeTime
+                    } as IFilter,
+                    {
+                        $schema: "http://powerbi.com/product/schema#topN",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        operator: "Top",
+                        itemCount: 2,
+                        filterType: models.FilterType.TopN,
+                        orderBy: {
+                            table: "a",
+                            column: "b"
+                        }
+                    } as IFilter,
+                    {
+                        $schema: "http://powerbi.com/product/schema#notSupported",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        message: "not supported",
+                        notSupportedTypeName: "not supported type",
+                        filterType: models.FilterType.Unknown
+                    } as IFilter,
+                    {
+                        $schema: "http://powerbi.com/product/schema#includeExclude",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        values: [1, 2],
+                        isExclude: true,
+                        filterType: models.FilterType.IncludeExclude
+                    } as IFilter,
+                    {
+                        $schema: "http://powerbi.com/product/schema#advanced",
+                        target: {
+                            table: "a",
+                            column: "b"
+                        },
+                        logicalOperator: "And",
+                        conditions: [
+                            {
+                                value: "a",
+                                operator: "Is"
+                            },
+                            {
+                                value: true,
+                                operator: "Is"
+                            },
+                            {
+                                value: 1,
+                                operator: "Is"
+                            }
+                        ],
+                        filterType: models.FilterType.Advanced
+                    } as IFilter,
+                ];
+
+                const request: models.IUpdateFiltersRequest = {
+                    filtersOperation: operation,
+                    filters: filters as any
+                };
+                expect(models.validateUpdateFiltersRequest(request)).toBeUndefined();
+            });
+        }
+
+        it(`should return errors for request with RemoveAll operation and filters array`, () => {
+            const request: models.IUpdateFiltersRequest = {
+                filtersOperation: models.FiltersOperations.RemoveAll,
+                filters: []
+            };
+            expect(models.validateUpdateFiltersRequest(request)).toBeDefined();
+        });
+
+        it(`should return undefined for request with RemoveAll operation and without filters`, () => {
+            const request: models.IUpdateFiltersRequest = {
+                filtersOperation: models.FiltersOperations.RemoveAll,
+            };
+            expect(models.validateUpdateFiltersRequest(request)).toBeUndefined();
+        });
+    });
+
     describe('validateSettings', () => {
         const filterPaneEnabledInvalidTypeMessage = "filterPaneEnabled must be a boolean";
         const navContentPaneEnabledInvalidTypeMessage = "navContentPaneEnabled must be a boolean";

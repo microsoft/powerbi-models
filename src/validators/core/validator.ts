@@ -11,6 +11,7 @@ import {
     BasicFilterValidator,
     ConditionItemValidator,
     FilterColumnTargetValidator,
+    FilterDisplaySettingsValidator,
     FilterHierarchyTargetValidator,
     FilterKeyColumnsTargetValidator,
     FilterKeyHierarchyTargetValidator,
@@ -20,7 +21,9 @@ import {
     NotSupportedFilterValidator,
     RelativeDateFilterValidator,
     RelativeTimeFilterValidator,
-    TopNFilterValidator
+    RemoveFiltersRequestValidator,
+    TopNFilterValidator,
+    UpdateFiltersRequestValidator
 } from '../models/filtersValidator';
 import { CustomLayoutValidator, DisplayStateValidator, PageLayoutValidator, VisualLayoutValidator } from '../models/layoutValidator';
 import { CustomPageSizeValidator, PageSizeValidator, PageValidator, PageViewFieldValidator } from '../models/pageValidator';
@@ -103,12 +106,16 @@ export const Validators = {
     fieldRequiredValidator: new FieldRequiredValidator(),
     fieldsPaneValidator: new FieldsPaneValidator(),
     filterColumnTargetValidator: new FilterColumnTargetValidator(),
+    filterDisplaySettingsValidator: new FilterDisplaySettingsValidator(),
     filterConditionsValidator: new ArrayValidator([new ConditionItemValidator()]),
     filterHierarchyTargetValidator: new FilterHierarchyTargetValidator(),
     filterMeasureTargetValidator: new FilterMeasureTargetValidator(),
     filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
-    filtersArrayValidator: new ArrayValidator([new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new RelativeDateFilterValidator(), new RelativeTimeFilterValidator()])]),
-    filtersValidator: new FilterValidator(),
+    filterValidator: new FilterValidator(),
+    filterTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6, 7]),
+    filtersArrayValidator: new ArrayValidator([new FilterValidator()]),
+    filtersOperationsUpdateValidator: new EnumValidator([1, 2, 3]),
+    filtersOperationsRemoveAllValidator: new EnumValidator([0]),
     filtersPaneValidator: new FiltersPaneValidator(),
     hyperlinkClickBehaviorValidator: new EnumValidator([0, 1, 2]),
     includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
@@ -161,6 +168,7 @@ export const Validators = {
     tokenTypeValidator: new EnumValidator([0, 1]),
     topNFilterTypeValidator: new EnumValidator([5]),
     topNFilterValidator: new TopNFilterValidator(),
+    updateFiltersRequestValidator: new AnyOfValidator([new UpdateFiltersRequestValidator(), new RemoveFiltersRequestValidator()]),
     viewModeValidator: new EnumValidator([0, 1]),
     visualCommandSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
     visualHeaderSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
