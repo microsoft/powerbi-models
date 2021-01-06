@@ -1,4 +1,5 @@
 # powerbi-models
+
 [![Build Status](https://img.shields.io/travis/Microsoft/powerbi-models.svg)](https://travis-ci.org/Microsoft/powerbi-models)
 [![NPM Version](https://img.shields.io/npm/v/powerbi-models.svg)](https://www.npmjs.com/package/powerbi-models)
 [![NPM Total Downloads](https://img.shields.io/npm/dt/powerbi-models.svg)](https://www.npmjs.com/package/powerbi-models)
@@ -15,6 +16,7 @@ For each model there is a TypeScript interface, a json schema definitions, and a
 [Power BI Ideas](https://ideas.powerbi.com)
 
 ## Documentation
+
 ### [https://microsoft.github.io/powerbi-models](https://microsoft.github.io/powerbi-models)
 
 ## Getting Started
@@ -45,6 +47,7 @@ if(errors) {
 }
 
 ```
+
 Would output to the console:
 
 ```typescript
@@ -56,6 +59,7 @@ Would output to the console:
 ```
 
 Creating filters:
+
 ```typescript
 const basicFilter: models.IBasicFilter = {
   target: {
@@ -91,6 +95,7 @@ const advancedFilter: models.IAdvancedFilter = {
 ```
 
 Or use the constructor methods:
+
 ```typescript
 const advancedFilter = new models.AdvancedFilter(
   {
@@ -110,16 +115,18 @@ const advancedFilter = new models.AdvancedFilter(
 ```
 
 ## Date Formatting
+
 Dates should be formated using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. Example: `2016-09-08T00:15:46.861Z`
 
 This is how dates are naturally serialized to JSON:
-```
+
+```typescript
 new Date().toJSON(); //=> 2016-09-08T00:15:46.861Z
 ```
 
 An example filter using this Date format would look like the following:
 
-```
+```JSON
 {
   "$schema": "http://powerbi.com/product/schema#advanced",
   "target": {

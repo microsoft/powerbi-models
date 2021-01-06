@@ -1,29 +1,29 @@
-import { IValidator, IValidationError } from './validator';
+import { IValidationError, IValidator } from './validator';
 
 export interface IFieldValidatorsPair {
-  field: string;
-  validators: IValidator[];
+    field: string;
+    validators: IValidator[];
 }
 
 export class MultipleFieldsValidator implements IValidator {
-  public constructor(private fieldValidatorsPairs: IFieldValidatorsPair[]) {}
+    public constructor(private fieldValidatorsPairs: IFieldValidatorsPair[]) { }
 
-  public validate(input: any, path?: string, field?: string): IValidationError[] {
-    if (!this.fieldValidatorsPairs) {
-      return null;
-    }
-
-    const fieldsPath = path ? path + "." + field : field;
-
-    for (let fieldValidators of this.fieldValidatorsPairs) {
-      for (let validator of fieldValidators.validators) {
-        const errors = validator.validate(input[fieldValidators.field], fieldsPath, fieldValidators.field);
-        if (errors) {
-          return errors;
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (!this.fieldValidatorsPairs) {
+            return null;
         }
-      }
-    }
 
-    return null;
-  }
+        const fieldsPath = path ? path + "." + field : field;
+
+        for (const fieldValidators of this.fieldValidatorsPairs) {
+            for (const validator of fieldValidators.validators) {
+                const errors = validator.validate(input[fieldValidators.field], fieldsPath, fieldValidators.field);
+                if (errors) {
+                    return errors;
+                }
+            }
+        }
+
+        return null;
+    }
 }
