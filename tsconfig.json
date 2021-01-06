@@ -1,19 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "declaration": true,
-    "sourceMap": true,
-    "noImplicitUseStrict": true,
-    "outDir": "dist",
-    "typeRoots": [
-      "node_modules/@types"
+    "compilerOptions": {
+        "target": "es5",
+        "declaration": true,
+        "sourceMap": true,
+        "noImplicitUseStrict": true,
+        "outDir": "dist",
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "typings/index.d.ts",
+        "dist",
+        "test",
+        "tmp"
     ]
-  },
-  "exclude": [
-    "node_modules",
-    "typings/index.d.ts",
-    "dist",
-    "test",
-    "tmp"
-  ]
 }

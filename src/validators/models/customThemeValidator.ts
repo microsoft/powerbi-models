@@ -1,6 +1,6 @@
-import { IValidationError } from '../core/validator';
-import { MultipleFieldsValidator, IFieldValidatorsPair } from '../core/multipleFieldsValidator';
+import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
+import { IValidationError } from '../core/validator';
 
 export class CustomThemeValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
