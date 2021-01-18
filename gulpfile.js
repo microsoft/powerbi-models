@@ -117,7 +117,9 @@ gulp.task('test:js', 'Run spec tests', function (done) {
         configFile: __dirname + '/karma.conf.js',
         singleRun: argv.debug ? false : true,
         captureTimeout: argv.timeout || 60000
-    }, done).start();
+    },  function() {
+        done();
+    }).start();
 });
 
 gulp.task('tslint:build', 'Run TSLint on src', function () {
