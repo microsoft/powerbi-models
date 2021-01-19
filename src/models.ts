@@ -362,7 +362,7 @@ export interface ITopNFilter extends IFilter {
 
 export interface IRelativeDateTimeFilter extends IFilter {
     operator: RelativeDateOperators;
-    timeUnitsCount: number;
+    timeUnitsCount?: number;
     timeUnitType: RelativeDateFilterTimeUnit;
 }
 
