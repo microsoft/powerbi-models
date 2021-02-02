@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// <copyright company="Microsoft Corporation">
+//        Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
 import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
 import { AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator, PlayBookmarkRequestValidator } from '../models/bookmarkValidator';
 import { CommandsSettingsValidator, SingleCommandSettingsValidator } from '../models/commandsSettingsValidator';

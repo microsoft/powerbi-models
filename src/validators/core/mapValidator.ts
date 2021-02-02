@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// <copyright company="Microsoft Corporation">
+//        Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
 import { ObjectValidator } from './typeValidator';
 import { IValidationError, IValidator } from './validator';
 

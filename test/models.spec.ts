@@ -1,4 +1,10 @@
-import { } from 'jasmine';
+// -----------------------------------------------------------------------
+// <copyright company="Microsoft Corporation">
+//        Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+import { Validators } from '../src/validators/core/validator';
 import * as models from '../src/models';
 import { IFilter, ITarget } from '../src/models';
 
@@ -2935,6 +2941,30 @@ describe('Unit | Models', () => {
 
             // Assert
             testForExpectedMessage(errors, invalidDisplayOptionMessage);
+        });
+    });
+
+    describe('validateCaptureBookmarkRequest', () => {
+        it('should call Validators.captureBookmarkRequestValidator.validate', () => {
+            const request: models.ICaptureBookmarkRequest = {
+                options: {}
+            };
+
+            const validateSpy = spyOn(Validators.captureBookmarkRequestValidator, "validate");
+
+            models.validateCaptureBookmarkRequest(request);
+
+            expect(validateSpy).toHaveBeenCalledOnceWith(request);
+        });
+
+        it(`happy path`, () => {
+            const request: models.ICaptureBookmarkRequest = {
+                options: {
+                    personalizeVisuals: false,
+                    allPages: true
+                }
+            };
+            expect(models.validateCaptureBookmarkRequest(request)).toBeUndefined();
         });
     });
 });

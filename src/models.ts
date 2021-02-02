@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// <copyright company="Microsoft Corporation">
+//        Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
 import { Validators } from './validators/core/validator';
 
 export type KeyValuePair = {
@@ -1178,6 +1184,7 @@ export interface IReportBookmark {
 
 export interface ICaptureBookmarkOptions {
     personalizeVisuals?: boolean;
+    allPages?: boolean;
 }
 
 export interface IPlayBookmarkRequest {

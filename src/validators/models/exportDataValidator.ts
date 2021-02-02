@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// <copyright company="Microsoft Corporation">
+//        Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { EnumValidator, NumberValidator, ObjectValidator } from '../core/typeValidator';
 import { IValidationError } from '../core/validator';
