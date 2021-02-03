@@ -18,8 +18,10 @@ var del = require('del'),
 help(gulp, undefined);
 
 var package = require('./package.json');
-var webpackBanner = package.name + " v" + package.version + " | (c) 2016 Microsoft Corporation " + package.license;
-var gulpBanner = "/*! " + webpackBanner + " */\n";
+var webpackBanner = "// " + package.name + " v" + package.version + "\n"
+    + "// Copyright (c) Microsoft Corporation.\n"
+    + "// Licensed under the MIT License.";
+var banner = webpackBanner + "\n";
 
 gulp.task('build', 'Build for release', function (done) {
     return runSequence(
@@ -63,7 +65,10 @@ gulp.task("docs", 'Compile documentation from src code', function () {
 
 gulp.task('compile:ts', 'Compile source files', function () {
     webpackConfig.plugins = [
-        new webpack.BannerPlugin(webpackBanner)
+        new webpack.BannerPlugin({
+            banner: webpackBanner,
+            raw: true
+        })
     ];
 
     return gulp.src(['./src/**/*.ts'])
@@ -73,15 +78,14 @@ gulp.task('compile:ts', 'Compile source files', function () {
 
 gulp.task('header', 'Add header to distributed files', function () {
     return gulp.src(['./dist/*.d.ts'])
-        .pipe(header(gulpBanner))
+        .pipe(header(banner))
         .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('min', 'Minify build files', function () {
     return gulp.src(['!./dist/*.min.js', './dist/models.js'])
-        .pipe(uglify({
-            preserveComments: 'license'
-        }))
+        .pipe(uglify())
+        .pipe(header(banner))
         .pipe(rename({
             suffix: '.min'
         }))
@@ -117,7 +121,7 @@ gulp.task('test:js', 'Run spec tests', function (done) {
         configFile: __dirname + '/karma.conf.js',
         singleRun: argv.debug ? false : true,
         captureTimeout: argv.timeout || 60000
-    },  function() {
+    }, function () {
         done();
     }).start();
 });
