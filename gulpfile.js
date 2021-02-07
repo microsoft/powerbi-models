@@ -7,6 +7,7 @@ var del = require('del'),
     typedoc = require("gulp-typedoc"),
     uglify = require('gulp-uglify'),
     karma = require('karma'),
+    watch = require('gulp-watch'),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
     webpackConfig = require('./webpack.config'),
@@ -123,7 +124,24 @@ gulp.task('test:js', 'Run spec tests', function (done) {
         captureTimeout: argv.timeout || 60000
     }, function () {
         done();
-    }).start();
+    })
+    .on('browser_register', (browser) => {
+        if (argv.chrome) {
+            browser.socket.on('disconnect', function (reason) {
+                if (reason === "transport close" || reason === "transport error") {
+                    done(0);
+                    process.exit(0);
+                }
+            });
+       }
+    })
+    .start();
+
+    if (argv.chrome) {
+        return watch(["src/**/*.ts", "test/**/*.ts"], function () {
+            runSequence( 'tslint:test', 'clean:tmp', 'compile:spec');
+        });
+    }
 });
 
 gulp.task('tslint:build', 'Run TSLint on src', function () {
