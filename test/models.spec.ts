@@ -103,23 +103,6 @@ describe('Unit | Models', () => {
             expect(errors).toBeUndefined();
         });
 
-        it(`should return errors with one containing message '${filtersInvalidMessage}' if filters is not a valid array of IFilter`, () => {
-            // Arrange
-            const testData = {
-                load: {
-                    id: 'fakeId',
-                    accessToken: 'fakeAccessToken',
-                    filters: { x: 1 }
-                }
-            };
-
-            // Act
-            const errors = models.validateReportLoad(testData.load);
-
-            // Assert
-            testForExpectedMessage(errors, filtersInvalidMessage);
-        });
-
         it(`should return errors if filters is array, but item is not a valid IFilter`, () => {
             // Arrange
             const testData = {

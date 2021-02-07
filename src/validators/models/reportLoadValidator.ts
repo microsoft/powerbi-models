@@ -38,7 +38,7 @@ export class ReportLoadValidator extends ObjectValidator {
             },
             {
                 field: "filters",
-                validators: [Validators.filtersArrayValidator]
+                validators: [Validators.reportLoadFiltersValidator]
             },
             {
                 field: "permissions",

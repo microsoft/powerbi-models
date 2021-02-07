@@ -448,6 +448,11 @@ export class FilterValidator extends ObjectValidator {
         if (input == null) {
             return null;
         }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
         return Validators.anyFilterValidator.validate(input, path, field);
     }
 }
@@ -457,6 +462,11 @@ export class UpdateFiltersRequestValidator extends ObjectValidator {
         if (input == null) {
             return null;
         }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
         const fields: IFieldValidatorsPair[] = [
             {
                 field: "filtersOperation",
@@ -478,6 +488,11 @@ export class RemoveFiltersRequestValidator extends ObjectValidator {
         if (input == null) {
             return null;
         }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
         const fields: IFieldValidatorsPair[] = [
             {
                 field: "filtersOperation",
@@ -512,6 +527,84 @@ export class ConditionItemValidator extends ObjectValidator {
             {
                 field: "operator",
                 validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class OnLoadFiltersBaseValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "operation",
+                validators: [Validators.fieldRequiredValidator, Validators.filtersOperationsUpdateValidator]
+            },
+            {
+                field: "filters",
+                validators: [Validators.fieldRequiredValidator, Validators.filtersArrayValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class OnLoadFiltersBaseRemoveOperationValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "operation",
+                validators: [Validators.fieldRequiredValidator, Validators.filtersOperationsRemoveAllValidator]
+            },
+            {
+                field: "filters",
+                validators: [Validators.fieldForbiddenValidator, Validators.filtersArrayValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class OnLoadFiltersValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "allPages",
+                validators: [Validators.onLoadFiltersBaseValidator]
+            },
+            {
+                field: "currentPage",
+                validators: [Validators.onLoadFiltersBaseValidator]
             }
         ];
 
