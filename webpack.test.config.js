@@ -1,11 +1,12 @@
-const webpack = require('webpack'); //to access built-in plugins
+const webpack = require('webpack'); // to access built-in plugins
+const glob = require("glob");
 
 module.exports = {
     mode: 'none',
-    entry: './test/models.spec.ts',
+    entry: glob.sync('./test/**/*.spec.ts'),
     output: {
         path: __dirname + "/tmp",
-        filename: 'models.spec.js'
+        filename: 'modelsTests.js'
     },
     devtool: 'source-map',
     resolve: {
