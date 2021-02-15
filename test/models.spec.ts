@@ -1,7 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { Validators } from '../src/validators/core/validator';
+import { } from 'jasmine';
 import * as models from '../src/models';
 import { IFilter, ITarget } from '../src/models';
 
@@ -101,6 +98,23 @@ describe('Unit | Models', () => {
             const errors = models.validateReportLoad(testData.load);
             // Assert
             expect(errors).toBeUndefined();
+        });
+
+        it(`should return errors with one containing message '${filtersInvalidMessage}' if filters is not a valid array of IFilter`, () => {
+            // Arrange
+            const testData = {
+                load: {
+                    id: 'fakeId',
+                    accessToken: 'fakeAccessToken',
+                    filters: { x: 1 }
+                }
+            };
+
+            // Act
+            const errors = models.validateReportLoad(testData.load);
+
+            // Assert
+            testForExpectedMessage(errors, filtersInvalidMessage);
         });
 
         it(`should return errors if filters is array, but item is not a valid IFilter`, () => {
@@ -2921,30 +2935,6 @@ describe('Unit | Models', () => {
 
             // Assert
             testForExpectedMessage(errors, invalidDisplayOptionMessage);
-        });
-    });
-
-    describe('validateCaptureBookmarkRequest', () => {
-        it('should call Validators.captureBookmarkRequestValidator.validate', () => {
-            const request: models.ICaptureBookmarkRequest = {
-                options: {}
-            };
-
-            const validateSpy = spyOn(Validators.captureBookmarkRequestValidator, "validate");
-
-            models.validateCaptureBookmarkRequest(request);
-
-            expect(validateSpy).toHaveBeenCalledOnceWith(request);
-        });
-
-        it(`happy path`, () => {
-            const request: models.ICaptureBookmarkRequest = {
-                options: {
-                    personalizeVisuals: false,
-                    allPages: true
-                }
-            };
-            expect(models.validateCaptureBookmarkRequest(request)).toBeUndefined();
         });
     });
 });

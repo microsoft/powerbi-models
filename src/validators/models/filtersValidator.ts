@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
@@ -259,7 +256,7 @@ export class AdvancedFilterValidator extends FilterValidatorBase {
     }
 }
 
-export class RelativeDateTimeFilterValidator extends FilterValidatorBase {
+export class RelativeDateFilterValidator extends FilterValidatorBase {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
             return null;
@@ -276,41 +273,15 @@ export class RelativeDateTimeFilterValidator extends FilterValidatorBase {
             },
             {
                 field: "timeUnitsCount",
-                validators: [Validators.numberValidator]
-            },
-            {
-                field: "timeUnitType",
-                validators: [Validators.fieldRequiredValidator, Validators.relativeDateTimeFilterUnitTypeValidator]
-            },
-            {
-                field: "filterType",
-                validators: [Validators.relativeDateTimeFilterTypeValidator]
-            },
-        ];
-
-        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-        return multipleFieldsValidator.validate(input, path, field);
-    }
-}
-
-export class RelativeDateFilterValidator extends RelativeDateTimeFilterValidator {
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
-        const fields: IFieldValidatorsPair[] = [
-            {
-                field: "includeToday",
-                validators: [Validators.fieldRequiredValidator, Validators.booleanValidator]
+                validators: [Validators.fieldRequiredValidator, Validators.numberValidator]
             },
             {
                 field: "timeUnitType",
                 validators: [Validators.fieldRequiredValidator, Validators.relativeDateFilterTimeUnitTypeValidator]
+            },
+            {
+                field: "includeToday",
+                validators: [Validators.fieldRequiredValidator, Validators.booleanValidator]
             },
             {
                 field: "filterType",
@@ -323,7 +294,7 @@ export class RelativeDateFilterValidator extends RelativeDateTimeFilterValidator
     }
 }
 
-export class RelativeTimeFilterValidator extends RelativeDateTimeFilterValidator {
+export class RelativeTimeFilterValidator extends FilterValidatorBase {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
             return null;
@@ -334,6 +305,14 @@ export class RelativeTimeFilterValidator extends RelativeDateTimeFilterValidator
         }
 
         const fields: IFieldValidatorsPair[] = [
+            {
+                field: "operator",
+                validators: [Validators.fieldRequiredValidator, Validators.relativeDateFilterOperatorValidator]
+            },
+            {
+                field: "timeUnitsCount",
+                validators: [Validators.fieldRequiredValidator, Validators.numberValidator]
+            },
             {
                 field: "timeUnitType",
                 validators: [Validators.fieldRequiredValidator, Validators.relativeTimeFilterTimeUnitTypeValidator]
@@ -448,11 +427,6 @@ export class FilterValidator extends ObjectValidator {
         if (input == null) {
             return null;
         }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
         return Validators.anyFilterValidator.validate(input, path, field);
     }
 }
@@ -462,11 +436,6 @@ export class UpdateFiltersRequestValidator extends ObjectValidator {
         if (input == null) {
             return null;
         }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
         const fields: IFieldValidatorsPair[] = [
             {
                 field: "filtersOperation",
@@ -488,11 +457,6 @@ export class RemoveFiltersRequestValidator extends ObjectValidator {
         if (input == null) {
             return null;
         }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
         const fields: IFieldValidatorsPair[] = [
             {
                 field: "filtersOperation",
@@ -527,84 +491,6 @@ export class ConditionItemValidator extends ObjectValidator {
             {
                 field: "operator",
                 validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
-            }
-        ];
-
-        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-        return multipleFieldsValidator.validate(input, path, field);
-    }
-}
-
-export class OnLoadFiltersBaseValidator extends ObjectValidator {
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
-        const fields: IFieldValidatorsPair[] = [
-            {
-                field: "operation",
-                validators: [Validators.fieldRequiredValidator, Validators.filtersOperationsUpdateValidator]
-            },
-            {
-                field: "filters",
-                validators: [Validators.fieldRequiredValidator, Validators.filtersArrayValidator]
-            }
-        ];
-
-        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-        return multipleFieldsValidator.validate(input, path, field);
-    }
-}
-
-export class OnLoadFiltersBaseRemoveOperationValidator extends ObjectValidator {
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
-        const fields: IFieldValidatorsPair[] = [
-            {
-                field: "operation",
-                validators: [Validators.fieldRequiredValidator, Validators.filtersOperationsRemoveAllValidator]
-            },
-            {
-                field: "filters",
-                validators: [Validators.fieldForbiddenValidator, Validators.filtersArrayValidator]
-            }
-        ];
-
-        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-        return multipleFieldsValidator.validate(input, path, field);
-    }
-}
-
-export class OnLoadFiltersValidator extends ObjectValidator {
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
-        const fields: IFieldValidatorsPair[] = [
-            {
-                field: "allPages",
-                validators: [Validators.onLoadFiltersBaseValidator]
-            },
-            {
-                field: "currentPage",
-                validators: [Validators.onLoadFiltersBaseValidator]
             }
         ];
 

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { Validators } from './validators/core/validator';
 
 export type KeyValuePair = {
@@ -365,7 +362,7 @@ export interface ITopNFilter extends IFilter {
 
 export interface IRelativeDateTimeFilter extends IFilter {
     operator: RelativeDateOperators;
-    timeUnitsCount?: number;
+    timeUnitsCount: number;
     timeUnitType: RelativeDateFilterTimeUnit;
 }
 
@@ -428,21 +425,6 @@ export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
-
-export interface OnLoadFiltersBase {
-    operation: FiltersOperations;
-    filters?: IFilter[];
-}
-export interface PageOnLoadFilters extends OnLoadFiltersBase {
-    filters?: PageLevelFilters[];
-}
-export interface ReportOnLoadFilters extends OnLoadFiltersBase {
-    filters?: ReportLevelFilters[];
-}
-export interface OnLoadFilters {
-    allPages?: ReportOnLoadFilters;
-    currentPage?: PageOnLoadFilters;
-}
 
 export interface IAdvancedFilterCondition {
     value?: (string | number | boolean | Date);
@@ -936,13 +918,14 @@ export interface IEmbedConfiguration extends IEmbedConfigurationBase {
 export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     id?: string;
     settings?: ISettings;
+    filters?: IFilter[];
     action?: string;
     contrastMode?: ContrastMode;
     permissions?: Permissions;
 }
 
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
-    filters?: ReportLevelFilters[] | OnLoadFilters;
+    filters?: ReportLevelFilters[];
     datasetBinding?: IDatasetBinding;
     bookmark?: IApplyBookmarkRequest;
     pageName?: string;
@@ -958,7 +941,6 @@ export interface IVisualEmbedConfiguration extends IReportEmbedConfiguration {
 }
 
 export interface IDashboardEmbedConfiguration extends ICommonEmbedConfiguration {
-    filters?: IFilter[];
     pageView?: PageView;
 }
 
@@ -1196,7 +1178,6 @@ export interface IReportBookmark {
 
 export interface ICaptureBookmarkOptions {
     personalizeVisuals?: boolean;
-    allPages?: boolean;
 }
 
 export interface IPlayBookmarkRequest {
@@ -1517,14 +1498,6 @@ export interface IDefaultProperty {
 export interface IThemeColorProperty {
     id: number;
     shade: number;
-}
-
-export function isOnLoadFilters(filters: ReportLevelFilters[] | OnLoadFilters): filters is OnLoadFilters {
-    return filters && !isReportFiltersArray(filters);
-}
-
-export function isReportFiltersArray(filters: ReportLevelFilters[] | OnLoadFilters): filters is ReportLevelFilters[] {
-    return Array.isArray(filters);
 }
 
 export function isFlatMenuExtension(menuExtension: IMenuExtension): menuExtension is IFlatMenuExtension {

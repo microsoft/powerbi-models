@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
 import { AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator, PlayBookmarkRequestValidator } from '../models/bookmarkValidator';
 import { CommandsSettingsValidator, SingleCommandSettingsValidator } from '../models/commandsSettingsValidator';
@@ -22,9 +19,6 @@ import {
     FilterValidator,
     IncludeExcludeFilterValidator,
     NotSupportedFilterValidator,
-    OnLoadFiltersBaseRemoveOperationValidator,
-    OnLoadFiltersBaseValidator,
-    OnLoadFiltersValidator,
     RelativeDateFilterValidator,
     RelativeTimeFilterValidator,
     RemoveFiltersRequestValidator,
@@ -136,7 +130,6 @@ export const Validators = {
     notSupportedFilterValidator: new NotSupportedFilterValidator(),
     numberArrayValidator: new NumberArrayValidator(),
     numberValidator: new NumberValidator(),
-    onLoadFiltersBaseValidator: new AnyOfValidator([new OnLoadFiltersBaseValidator(), new OnLoadFiltersBaseRemoveOperationValidator()]),
     pageLayoutValidator: new MapValidator([new StringValidator()], [new VisualLayoutValidator()]),
     pageNavigationPaneValidator: new PageNavigationPaneValidator(),
     pageNavigationPositionValidator: new EnumValidator([0, 1]),
@@ -145,6 +138,8 @@ export const Validators = {
     pageValidator: new PageValidator(),
     pageViewFieldValidator: new PageViewFieldValidator(),
     pagesLayoutValidator: new MapValidator([new StringValidator()], [new PageLayoutValidator()]),
+    reportBarsValidator: new ReportBarsValidator(),
+    reportPanesValidator: new ReportPanesValidator(),
     permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
     playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
     qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
@@ -153,16 +148,11 @@ export const Validators = {
     relativeDateFilterTimeUnitTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6]),
     relativeDateFilterTypeValidator: new EnumValidator([4]),
     relativeDateFilterValidator: new RelativeDateFilterValidator(),
-    relativeDateTimeFilterTypeValidator: new EnumValidator([4, 7]),
-    relativeDateTimeFilterUnitTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6, 7, 8]),
     relativeTimeFilterTimeUnitTypeValidator: new EnumValidator([7, 8]),
     relativeTimeFilterTypeValidator: new EnumValidator([7]),
     relativeTimeFilterValidator: new RelativeTimeFilterValidator(),
-    reportBarsValidator: new ReportBarsValidator(),
     reportCreateValidator: new ReportCreateValidator(),
-    reportLoadFiltersValidator: new AnyOfValidator([new ArrayValidator([new FilterValidator()]), new OnLoadFiltersValidator()]),
     reportLoadValidator: new ReportLoadValidator(),
-    reportPanesValidator: new ReportPanesValidator(),
     saveAsParametersValidator: new SaveAsParametersValidator(),
     selectionPaneValidator: new SelectionPaneValidator(),
     settingsValidator: new SettingsValidator(),

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { EnumValidator, ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
@@ -114,10 +111,6 @@ export class CaptureBookmarkOptionsValidator extends ObjectValidator {
         const fields: IFieldValidatorsPair[] = [
             {
                 field: "personalizeVisuals",
-                validators: [Validators.booleanValidator]
-            },
-            {
-                field: "allPages",
                 validators: [Validators.booleanValidator]
             }
         ];
