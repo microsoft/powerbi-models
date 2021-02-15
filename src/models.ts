@@ -1064,15 +1064,20 @@ export interface IReportBars {
 
 export interface IActionBar extends IHideable { }
 
-export interface IReportPanes {
+export interface IReportPanes extends IPanes{
     bookmarks?: IBookmarksPane;
     fields?: IFieldsPane;
-    filters?: IFiltersPane;
     pageNavigation?: IPageNavigationPane;
     selection?: ISelectionPane;
     syncSlicers?: ISyncSlicersPane;
     visualizations?: IVisualizationsPane;
 }
+
+export interface IPanes {
+    filters?: IFiltersPane;
+}
+
+export interface IQnaPanes extends IPanes {}
 
 export interface IHideable {
     visible?: boolean;
@@ -1124,6 +1129,7 @@ export interface IQnaSettings {
     filterPaneEnabled?: boolean;
     hideErrors?: boolean;
     localeSettings?: ILocaleSettings;
+    panes?: IQnaPanes;
 }
 
 /**

@@ -70,6 +70,10 @@ export class QnaSettingsValidator extends ObjectValidator {
                 field: "hideErrors",
                 validators: [Validators.booleanValidator]
             },
+            {
+                field: "panes",
+                validators: [Validators.qnaPanesValidator]
+            }
         ];
 
         const multipleFieldsValidator = new MultipleFieldsValidator(fields);
