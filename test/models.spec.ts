@@ -386,6 +386,20 @@ describe('Unit | Models', () => {
         });
     });
 
+    describe('validatePaginatedReportLoad', () => {
+        it(`happy path`, () => {
+            const testData = {
+                load: {
+                    accessToken: "token",
+                    id: "reportid",
+                    settings: { commands: { parameterPanel: { enabled:true, expanded: true } } }
+                }
+            };
+            const errors = models.validatePaginatedReportLoad(testData.load);
+            expect(errors).toBeUndefined();
+        });
+    });
+
     describe('validateDashboardLoad', () => {
         const accessTokenRequiredMessage = "accessToken is required";
         const accessTokenInvalidTypeMessage = "accessToken must be a string";

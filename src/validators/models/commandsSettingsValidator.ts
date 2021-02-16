@@ -94,3 +94,26 @@ export class SingleCommandSettingsValidator extends ObjectValidator {
         return multipleFieldsValidator.validate(input, path, field);
     }
 }
+
+export class PaginatedReportCommandsValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "parameterPanel",
+                validators: [Validators.parametersPanelValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}

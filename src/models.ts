@@ -1453,11 +1453,11 @@ export interface ICommandsSettings {
 }
 
 export interface IPaginatedReportsCommandSettings {
-    enabled: boolean;
+    enabled?: boolean;
 }
 
 export interface IParametersPanelCommandSettings extends IPaginatedReportsCommandSettings {
-    expanded: boolean;
+    expanded?: boolean;
 }
 
 export interface IPaginatedReportsCommandsSettings {
@@ -1661,6 +1661,11 @@ export function validateMenuGroupExtension(input: any): IError[] {
 
 export function validateReportLoad(input: any): IError[] {
     const errors: any[] = Validators.reportLoadValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePaginatedReportLoad(input: any): IError[] {
+    const errors: any[] = Validators.paginatedReportLoadValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 

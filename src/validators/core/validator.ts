@@ -3,7 +3,7 @@
 
 import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
 import { AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator, PlayBookmarkRequestValidator } from '../models/bookmarkValidator';
-import { CommandsSettingsValidator, SingleCommandSettingsValidator } from '../models/commandsSettingsValidator';
+import { CommandsSettingsValidator, SingleCommandSettingsValidator, PaginatedReportCommandsValidator } from '../models/commandsSettingsValidator';
 import { CustomThemeValidator } from '../models/customThemeValidator';
 import { DashboardLoadValidator } from '../models/dashboardLoadValidator';
 import { DatasetBindingValidator } from '../models/datasetBindingValidator';
@@ -47,9 +47,10 @@ import {
 import { LoadQnaValidator, QnaInterpretInputDataValidator, QnaSettingsValidator } from '../models/qnaValidator';
 import { ReportCreateValidator } from '../models/reportCreateValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
+import { PaginatedReportLoadValidator } from '../models/paginatedReportLoadValidator';
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { SlicerTargetSelectorValidator, VisualSelectorValidator, VisualTypeSelectorValidator } from '../models/selectorsValidator';
-import { SettingsValidator } from '../models/settingsValidator';
+import { SettingsValidator, PaginatedReportSettingsValidator } from '../models/settingsValidator';
 import { SlicerStateValidator, SlicerValidator } from '../models/slicersValidator';
 import { TileLoadValidator } from '../models/tileLoadValidator';
 import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
@@ -58,6 +59,7 @@ import { FieldForbiddenValidator } from './fieldForbiddenValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { MapValidator } from './mapValidator';
 import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator, NumberArrayValidator, NumberValidator, StringArrayValidator, StringValidator } from './typeValidator';
+import { ParametersPanelValidator } from '../models/parameterPanelValidator';
 
 export interface IValidationError {
     path?: string;
@@ -146,6 +148,10 @@ export const Validators = {
     pageValidator: new PageValidator(),
     pageViewFieldValidator: new PageViewFieldValidator(),
     pagesLayoutValidator: new MapValidator([new StringValidator()], [new PageLayoutValidator()]),
+    paginatedReportCommandsValidator: new PaginatedReportCommandsValidator(),
+    paginatedReportLoadValidator: new PaginatedReportLoadValidator(),
+    paginatedReportsettingsValidator: new PaginatedReportSettingsValidator(),
+    parametersPanelValidator: new ParametersPanelValidator(),
     permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
     playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
     qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
