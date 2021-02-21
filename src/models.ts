@@ -949,6 +949,7 @@ export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     slicers?: ISlicer[];
     viewMode?: ViewMode;
     theme?: IReportTheme;
+    openLinksInNewWindow?: boolean;
 }
 
 export interface IVisualEmbedConfiguration extends IReportEmbedConfiguration {
