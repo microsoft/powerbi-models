@@ -939,6 +939,7 @@ export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     action?: string;
     contrastMode?: ContrastMode;
     permissions?: Permissions;
+    openLinksInNewWindow?: boolean;
 }
 
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
@@ -949,7 +950,6 @@ export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     slicers?: ISlicer[];
     viewMode?: ViewMode;
     theme?: IReportTheme;
-    openLinksInNewWindow?: boolean;
 }
 
 export interface IVisualEmbedConfiguration extends IReportEmbedConfiguration {
