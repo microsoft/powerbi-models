@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { ObjectValidator } from './typeValidator';
 import { IValidationError, IValidator } from './validator';
 

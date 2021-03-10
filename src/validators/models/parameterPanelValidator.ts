@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
-import { EnumValidator, NumberValidator, ObjectValidator } from '../core/typeValidator';
-import { IValidationError } from '../core/validator';
+import { ObjectValidator } from '../core/typeValidator';
+import { IValidationError, Validators } from '../core/validator';
 
-export class ExportDataRequestValidator extends ObjectValidator {
+export class ParametersPanelValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
             return null;
         }
+
         const errors = super.validate(input, path, field);
         if (errors) {
             return errors;
@@ -17,12 +18,12 @@ export class ExportDataRequestValidator extends ObjectValidator {
 
         const fields: IFieldValidatorsPair[] = [
             {
-                field: "rows",
-                validators: [new NumberValidator()]
+                field: "expanded",
+                validators: [Validators.booleanValidator]
             },
             {
-                field: "exportDataType",
-                validators: [new EnumValidator([0, 1])]
+                field: "enabled",
+                validators: [Validators.booleanValidator]
             }
         ];
 
