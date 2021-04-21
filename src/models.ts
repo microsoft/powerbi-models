@@ -330,7 +330,8 @@ export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFil
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget;
+export type ISelectionilterTarget = number[];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | ISelectionilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
@@ -398,6 +399,14 @@ export interface ITupleFilter extends IFilter {
     values: TupleValueType[];
 }
 
+export type SelectionFilterOperators = "In";
+export interface ISelectionFilter extends IFilter {
+    $schema: string;
+    filterType: FilterType;
+    operator: SelectionFilterOperators;
+    target: ISelectionilterTarget;
+}
+
 export enum FiltersOperations {
     RemoveAll,
     ReplaceAll,
@@ -445,6 +454,7 @@ export enum FilterType {
     TopN = 5,
     Tuple = 6,
     RelativeTime = 7,
+    Selection = 8,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -741,6 +751,28 @@ export class TupleFilter extends Filter {
         const filter = super.toJSON() as ITupleFilter;
         filter.operator = this.operator;
         filter.values = this.values;
+        filter.target = this.target;
+        return filter;
+    }
+}
+
+export class SelectionFilter extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#tuple";
+    operator: SelectionFilterOperators;
+    target: ISelectionilterTarget;
+
+    constructor(
+        target: ISelectionilterTarget,
+        operator: SelectionFilterOperators
+    ) {
+        super(target, FilterType.Selection);
+        this.operator = operator;
+        this.schemaUrl = TupleFilter.schemaUrl;
+    }
+
+    toJSON(): ISelectionFilter {
+        const filter = super.toJSON() as ISelectionFilter;
+        filter.operator = this.operator;
         filter.target = this.target;
         return filter;
     }
