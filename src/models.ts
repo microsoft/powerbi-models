@@ -330,8 +330,8 @@ export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFil
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
-export type ISelectionilterTarget = number[];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | ISelectionilterTarget;
+export type IIdentityFilterTarget = number[];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
@@ -399,12 +399,12 @@ export interface ITupleFilter extends IFilter {
     values: TupleValueType[];
 }
 
-export type SelectionFilterOperators = "In";
-export interface ISelectionFilter extends IFilter {
+export type IdentityFilterOperators = "In";
+export interface IIdentityFilter extends IFilter {
     $schema: string;
     filterType: FilterType;
-    operator: SelectionFilterOperators;
-    target: ISelectionilterTarget;
+    operator: IdentityFilterOperators;
+    target: IIdentityFilterTarget;
 }
 
 export enum FiltersOperations {
@@ -756,22 +756,22 @@ export class TupleFilter extends Filter {
     }
 }
 
-export class SelectionFilter extends Filter {
+export class IdentityFilter extends Filter {
     static schemaUrl: string = "http://powerbi.com/product/schema#tuple";
-    operator: SelectionFilterOperators;
-    target: ISelectionilterTarget;
+    operator: IdentityFilterOperators;
+    target: IIdentityFilterTarget;
 
     constructor(
-        target: ISelectionilterTarget,
-        operator: SelectionFilterOperators
+        target: IIdentityFilterTarget,
+        operator: IdentityFilterOperators
     ) {
         super(target, FilterType.Selection);
         this.operator = operator;
         this.schemaUrl = TupleFilter.schemaUrl;
     }
 
-    toJSON(): ISelectionFilter {
-        const filter = super.toJSON() as ISelectionFilter;
+    toJSON(): IIdentityFilter {
+        const filter = super.toJSON() as IIdentityFilter;
         filter.operator = this.operator;
         filter.target = this.target;
         return filter;
