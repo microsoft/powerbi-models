@@ -454,7 +454,7 @@ export enum FilterType {
     TopN = 5,
     Tuple = 6,
     RelativeTime = 7,
-    Selection = 8,
+    Identity = 8,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -765,7 +765,7 @@ export class IdentityFilter extends Filter {
         target: IIdentityFilterTarget,
         operator: IdentityFilterOperators
     ) {
-        super(target, FilterType.Selection);
+        super(target, FilterType.Identity);
         this.operator = operator;
         this.schemaUrl = TupleFilter.schemaUrl;
     }
