@@ -333,12 +333,19 @@ export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFil
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget;
+export type IIdentityFilterTarget = number[];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
     filterType: FilterType;
     displaySettings?: IFilterDisplaySettings;
+}
+
+export type IdentityFilterOperators = "In";
+export interface IIdentityFilter extends IFilter {
+    operator: IdentityFilterOperators;
+    target: IIdentityFilterTarget;
 }
 
 export interface IFilterDisplaySettings {
@@ -463,6 +470,7 @@ export enum FilterType {
     TopN = 5,
     Tuple = 6,
     RelativeTime = 7,
+    Identity = 8,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -734,6 +742,28 @@ export class BasicFilterWithKeys extends BasicFilter {
     toJSON(): IBasicFilter {
         const filter = super.toJSON() as IBasicFilterWithKeys;
         filter.keyValues = this.keyValues;
+        return filter;
+    }
+}
+
+export class IdentityFilter extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#identity";
+    operator: IdentityFilterOperators;
+    target: IIdentityFilterTarget;
+
+    constructor(
+        target: IIdentityFilterTarget,
+        operator: IdentityFilterOperators
+    ) {
+        super(target, FilterType.Identity);
+        this.operator = operator;
+        this.schemaUrl = IdentityFilter.schemaUrl;
+    }
+
+    toJSON(): IIdentityFilter {
+        const filter = super.toJSON() as IIdentityFilter;
+        filter.operator = this.operator;
+        filter.target = this.target;
         return filter;
     }
 }
