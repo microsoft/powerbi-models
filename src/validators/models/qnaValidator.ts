@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
@@ -67,6 +70,10 @@ export class QnaSettingsValidator extends ObjectValidator {
                 field: "hideErrors",
                 validators: [Validators.booleanValidator]
             },
+            {
+                field: "panes",
+                validators: [Validators.qnaPanesValidator]
+            }
         ];
 
         const multipleFieldsValidator = new MultipleFieldsValidator(fields);

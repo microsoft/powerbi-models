@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { IValidationError, IValidator } from './validator';
 
 export class ObjectValidator implements IValidator {

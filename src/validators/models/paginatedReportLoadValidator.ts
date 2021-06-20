@@ -5,7 +5,7 @@ import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleF
 import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
 
-export class ReportBarsValidator extends ObjectValidator {
+export class PaginatedReportLoadValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
             return null;
@@ -17,31 +17,25 @@ export class ReportBarsValidator extends ObjectValidator {
 
         const fields: IFieldValidatorsPair[] = [
             {
-                field: "actionBar",
-                validators: [Validators.actionBarValidator]
-            }
-        ];
-
-        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
-        return multipleFieldsValidator.validate(input, path, field);
-    }
-}
-
-export class ActionBarValidator extends ObjectValidator {
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
-        const fields: IFieldValidatorsPair[] = [
-            {
-                field: "visible",
-                validators: [Validators.booleanValidator]
+                field: "accessToken",
+                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
             },
+            {
+                field: "id",
+                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
+            },
+            {
+                field: "groupId",
+                validators: [Validators.stringValidator]
+            },
+            {
+                field: "settings",
+                validators: [Validators.paginatedReportsettingsValidator]
+            },
+            {
+                field: "tokenType",
+                validators: [Validators.tokenTypeValidator]
+            }
         ];
 
         const multipleFieldsValidator = new MultipleFieldsValidator(fields);
