@@ -392,7 +392,7 @@ describe('Unit | Models', () => {
                 load: {
                     accessToken: "token",
                     id: "reportid",
-                    settings: { commands: { parameterPanel: { enabled:true, expanded: true } } }
+                    settings: { commands: { parameterPanel: { enabled: true, expanded: true } } }
                 }
             };
             const errors = models.validatePaginatedReportLoad(testData.load);
@@ -2948,7 +2948,8 @@ describe('Unit | Models', () => {
 
             models.validateCaptureBookmarkRequest(request);
 
-            expect(validateSpy).toHaveBeenCalledOnceWith(request);
+            expect(validateSpy).toHaveBeenCalledTimes(1);
+            expect(validateSpy).toHaveBeenCalledWith(request);
         });
 
         it(`happy path`, () => {
