@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
 import { AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator, PlayBookmarkRequestValidator } from '../models/bookmarkValidator';
-import { CommandsSettingsValidator, SingleCommandSettingsValidator } from '../models/commandsSettingsValidator';
+import { CommandsSettingsValidator, SingleCommandSettingsValidator, PaginatedReportCommandsValidator } from '../models/commandsSettingsValidator';
 import { CustomThemeValidator } from '../models/customThemeValidator';
 import { DashboardLoadValidator } from '../models/dashboardLoadValidator';
 import { DatasetBindingValidator } from '../models/datasetBindingValidator';
@@ -19,6 +22,9 @@ import {
     FilterValidator,
     IncludeExcludeFilterValidator,
     NotSupportedFilterValidator,
+    OnLoadFiltersBaseRemoveOperationValidator,
+    OnLoadFiltersBaseValidator,
+    OnLoadFiltersValidator,
     RelativeDateFilterValidator,
     RelativeTimeFilterValidator,
     RemoveFiltersRequestValidator,
@@ -32,6 +38,7 @@ import {
     FieldsPaneValidator,
     FiltersPaneValidator,
     PageNavigationPaneValidator,
+    QnaPanesValidator,
     ReportPanesValidator,
     SelectionPaneValidator,
     SyncSlicersPaneValidator,
@@ -40,9 +47,10 @@ import {
 import { LoadQnaValidator, QnaInterpretInputDataValidator, QnaSettingsValidator } from '../models/qnaValidator';
 import { ReportCreateValidator } from '../models/reportCreateValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
+import { PaginatedReportLoadValidator } from '../models/paginatedReportLoadValidator';
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { SlicerTargetSelectorValidator, VisualSelectorValidator, VisualTypeSelectorValidator } from '../models/selectorsValidator';
-import { SettingsValidator } from '../models/settingsValidator';
+import { SettingsValidator, PaginatedReportSettingsValidator } from '../models/settingsValidator';
 import { SlicerStateValidator, SlicerValidator } from '../models/slicersValidator';
 import { TileLoadValidator } from '../models/tileLoadValidator';
 import { VisualHeaderSettingsValidator, VisualHeaderValidator, VisualSettingsValidator } from '../models/visualSettingsValidator';
@@ -51,6 +59,7 @@ import { FieldForbiddenValidator } from './fieldForbiddenValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { MapValidator } from './mapValidator';
 import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator, NumberArrayValidator, NumberValidator, StringArrayValidator, StringValidator } from './typeValidator';
+import { ParametersPanelValidator } from '../models/parameterPanelValidator';
 
 export interface IValidationError {
     path?: string;
@@ -130,6 +139,7 @@ export const Validators = {
     notSupportedFilterValidator: new NotSupportedFilterValidator(),
     numberArrayValidator: new NumberArrayValidator(),
     numberValidator: new NumberValidator(),
+    onLoadFiltersBaseValidator: new AnyOfValidator([new OnLoadFiltersBaseValidator(), new OnLoadFiltersBaseRemoveOperationValidator()]),
     pageLayoutValidator: new MapValidator([new StringValidator()], [new VisualLayoutValidator()]),
     pageNavigationPaneValidator: new PageNavigationPaneValidator(),
     pageNavigationPositionValidator: new EnumValidator([0, 1]),
@@ -138,21 +148,29 @@ export const Validators = {
     pageValidator: new PageValidator(),
     pageViewFieldValidator: new PageViewFieldValidator(),
     pagesLayoutValidator: new MapValidator([new StringValidator()], [new PageLayoutValidator()]),
-    reportBarsValidator: new ReportBarsValidator(),
-    reportPanesValidator: new ReportPanesValidator(),
+    paginatedReportCommandsValidator: new PaginatedReportCommandsValidator(),
+    paginatedReportLoadValidator: new PaginatedReportLoadValidator(),
+    paginatedReportsettingsValidator: new PaginatedReportSettingsValidator(),
+    parametersPanelValidator: new ParametersPanelValidator(),
     permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
     playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
     qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
+    qnaPanesValidator: new QnaPanesValidator(),
     qnaSettingValidator: new QnaSettingsValidator(),
     relativeDateFilterOperatorValidator: new EnumValidator([0, 1, 2]),
     relativeDateFilterTimeUnitTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6]),
     relativeDateFilterTypeValidator: new EnumValidator([4]),
     relativeDateFilterValidator: new RelativeDateFilterValidator(),
+    relativeDateTimeFilterTypeValidator: new EnumValidator([4, 7]),
+    relativeDateTimeFilterUnitTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6, 7, 8]),
     relativeTimeFilterTimeUnitTypeValidator: new EnumValidator([7, 8]),
     relativeTimeFilterTypeValidator: new EnumValidator([7]),
     relativeTimeFilterValidator: new RelativeTimeFilterValidator(),
+    reportBarsValidator: new ReportBarsValidator(),
     reportCreateValidator: new ReportCreateValidator(),
+    reportLoadFiltersValidator: new AnyOfValidator([new ArrayValidator([new FilterValidator()]), new OnLoadFiltersValidator()]),
     reportLoadValidator: new ReportLoadValidator(),
+    reportPanesValidator: new ReportPanesValidator(),
     saveAsParametersValidator: new SaveAsParametersValidator(),
     selectionPaneValidator: new SelectionPaneValidator(),
     settingsValidator: new SettingsValidator(),

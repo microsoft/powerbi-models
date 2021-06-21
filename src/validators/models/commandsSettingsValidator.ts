@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
@@ -85,6 +88,29 @@ export class SingleCommandSettingsValidator extends ObjectValidator {
                 field: "selector",
                 validators: [Validators.visualCommandSelectorValidator]
             },
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class PaginatedReportCommandsValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "parameterPanel",
+                validators: [Validators.parametersPanelValidator]
+            }
         ];
 
         const multipleFieldsValidator = new MultipleFieldsValidator(fields);

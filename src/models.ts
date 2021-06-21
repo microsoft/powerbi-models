@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Validators } from './validators/core/validator';
 
 export type KeyValuePair = {
@@ -330,12 +333,19 @@ export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFil
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget;
+export type IIdentityFilterTarget = number[];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
     filterType: FilterType;
     displaySettings?: IFilterDisplaySettings;
+}
+
+export type IdentityFilterOperators = "In";
+export interface IIdentityFilter extends IFilter {
+    operator: IdentityFilterOperators;
+    target: IIdentityFilterTarget;
 }
 
 export interface IFilterDisplaySettings {
@@ -362,7 +372,7 @@ export interface ITopNFilter extends IFilter {
 
 export interface IRelativeDateTimeFilter extends IFilter {
     operator: RelativeDateOperators;
-    timeUnitsCount: number;
+    timeUnitsCount?: number;
     timeUnitType: RelativeDateFilterTimeUnit;
 }
 
@@ -426,6 +436,21 @@ export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
 
+export interface OnLoadFiltersBase {
+    operation: FiltersOperations;
+    filters?: IFilter[];
+}
+export interface PageOnLoadFilters extends OnLoadFiltersBase {
+    filters?: PageLevelFilters[];
+}
+export interface ReportOnLoadFilters extends OnLoadFiltersBase {
+    filters?: ReportLevelFilters[];
+}
+export interface OnLoadFilters {
+    allPages?: ReportOnLoadFilters;
+    currentPage?: PageOnLoadFilters;
+}
+
 export interface IAdvancedFilterCondition {
     value?: (string | number | boolean | Date);
     operator: AdvancedFilterConditionOperators;
@@ -445,6 +470,7 @@ export enum FilterType {
     TopN = 5,
     Tuple = 6,
     RelativeTime = 7,
+    Identity = 8,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -720,6 +746,28 @@ export class BasicFilterWithKeys extends BasicFilter {
     }
 }
 
+export class IdentityFilter extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#identity";
+    operator: IdentityFilterOperators;
+    target: IIdentityFilterTarget;
+
+    constructor(
+        target: IIdentityFilterTarget,
+        operator: IdentityFilterOperators
+    ) {
+        super(target, FilterType.Identity);
+        this.operator = operator;
+        this.schemaUrl = IdentityFilter.schemaUrl;
+    }
+
+    toJSON(): IIdentityFilter {
+        const filter = super.toJSON() as IIdentityFilter;
+        filter.operator = this.operator;
+        filter.target = this.target;
+        return filter;
+    }
+}
+
 export class TupleFilter extends Filter {
     static schemaUrl: string = "http://powerbi.com/product/schema#tuple";
     operator: TupleFilterOperators;
@@ -918,14 +966,14 @@ export interface IEmbedConfiguration extends IEmbedConfigurationBase {
 export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     id?: string;
     settings?: ISettings;
-    filters?: IFilter[];
     action?: string;
     contrastMode?: ContrastMode;
     permissions?: Permissions;
+    openLinksInNewWindow?: boolean;
 }
 
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
-    filters?: ReportLevelFilters[];
+    filters?: ReportLevelFilters[] | OnLoadFilters;
     datasetBinding?: IDatasetBinding;
     bookmark?: IApplyBookmarkRequest;
     pageName?: string;
@@ -941,6 +989,7 @@ export interface IVisualEmbedConfiguration extends IReportEmbedConfiguration {
 }
 
 export interface IDashboardEmbedConfiguration extends ICommonEmbedConfiguration {
+    filters?: IFilter[];
     pageView?: PageView;
 }
 
@@ -1046,15 +1095,20 @@ export interface IReportBars {
 
 export interface IActionBar extends IHideable { }
 
-export interface IReportPanes {
+export interface IReportPanes extends IPanes{
     bookmarks?: IBookmarksPane;
     fields?: IFieldsPane;
-    filters?: IFiltersPane;
     pageNavigation?: IPageNavigationPane;
     selection?: ISelectionPane;
     syncSlicers?: ISyncSlicersPane;
     visualizations?: IVisualizationsPane;
 }
+
+export interface IPanes {
+    filters?: IFiltersPane;
+}
+
+export interface IQnaPanes extends IPanes {}
 
 export interface IHideable {
     visible?: boolean;
@@ -1106,6 +1160,7 @@ export interface IQnaSettings {
     filterPaneEnabled?: boolean;
     hideErrors?: boolean;
     localeSettings?: ILocaleSettings;
+    panes?: IQnaPanes;
 }
 
 /**
@@ -1178,6 +1233,7 @@ export interface IReportBookmark {
 
 export interface ICaptureBookmarkOptions {
     personalizeVisuals?: boolean;
+    allPages?: boolean;
 }
 
 export interface IPlayBookmarkRequest {
@@ -1428,11 +1484,11 @@ export interface ICommandsSettings {
 }
 
 export interface IPaginatedReportsCommandSettings {
-    enabled: boolean;
+    enabled?: boolean;
 }
 
 export interface IParametersPanelCommandSettings extends IPaginatedReportsCommandSettings {
-    expanded: boolean;
+    expanded?: boolean;
 }
 
 export interface IPaginatedReportsCommandsSettings {
@@ -1498,6 +1554,14 @@ export interface IDefaultProperty {
 export interface IThemeColorProperty {
     id: number;
     shade: number;
+}
+
+export function isOnLoadFilters(filters: ReportLevelFilters[] | OnLoadFilters): filters is OnLoadFilters {
+    return filters && !isReportFiltersArray(filters);
+}
+
+export function isReportFiltersArray(filters: ReportLevelFilters[] | OnLoadFilters): filters is ReportLevelFilters[] {
+    return Array.isArray(filters);
 }
 
 export function isFlatMenuExtension(menuExtension: IMenuExtension): menuExtension is IFlatMenuExtension {
@@ -1628,6 +1692,11 @@ export function validateMenuGroupExtension(input: any): IError[] {
 
 export function validateReportLoad(input: any): IError[] {
     const errors: any[] = Validators.reportLoadValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePaginatedReportLoad(input: any): IError[] {
+    const errors: any[] = Validators.paginatedReportLoadValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 

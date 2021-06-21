@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleFieldsValidator';
 import { ObjectValidator } from '../core/typeValidator';
 import { SchemaValidator } from '../core/typeValidator';

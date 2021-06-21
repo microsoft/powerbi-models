@@ -1,6 +1,6 @@
 {
     "name": "powerbi-models",
-    "version": "1.8.0",
+    "version": "1.9.1",
     "description": "Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK. For each model there is a TypeScript interface, and a validation function to ensure and object is valid.",
     "main": "dist/models.js",
     "typings": "dist/models.d.ts",
@@ -10,7 +10,8 @@
     "scripts": {
         "build": "gulp build",
         "test": "gulp test",
-        "gulp": "gulp"
+        "gulp": "gulp",
+        "tests": "npm test -- --chrome --watch --debug"
     },
     "files": [
         "dist"
@@ -39,13 +40,15 @@
         "gulp-tslint": "^7.1.0",
         "gulp-typedoc": "^2.0.0",
         "gulp-uglify": "^1.5.4",
+        "gulp-watch": "^5.0.1",
         "gulp4-run-sequence": "^1.0.0",
         "jasmine-core": "^2.4.1",
         "json-loader": "^0.5.4",
         "karma": "^4.4.1",
         "karma-chrome-launcher": "^3.1.0",
         "karma-coverage": "^2.0.1",
-        "karma-jasmine": "^2.0.1",
+        "karma-jasmine": "^0.3.8",
+        "karma-jasmine-html-reporter": "^0.2.2",
         "karma-phantomjs-launcher": "^1.0.4",
         "karma-spec-reporter": "0.0.32",
         "phantomjs-prebuilt": "^2.1.7",
