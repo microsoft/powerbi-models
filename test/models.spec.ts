@@ -2948,7 +2948,8 @@ describe('Unit | Models', () => {
 
             models.validateCaptureBookmarkRequest(request);
 
-            expect(validateSpy).toHaveBeenCalledOnceWith(request);
+            expect(validateSpy).toHaveBeenCalledTimes(1);
+            expect(validateSpy).toHaveBeenCalledWith(request);
         });
 
         it(`happy path`, () => {
