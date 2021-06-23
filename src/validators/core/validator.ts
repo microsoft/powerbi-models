@@ -58,7 +58,7 @@ import { AnyOfValidator } from './anyOfValidator';
 import { FieldForbiddenValidator } from './fieldForbiddenValidator';
 import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { MapValidator } from './mapValidator';
-import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator, NumberArrayValidator, NumberValidator, StringArrayValidator, StringValidator } from './typeValidator';
+import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator, NumberArrayValidator, NumberValidator, RangeValidator, StringArrayValidator, StringValidator } from './typeValidator';
 import { ParametersPanelValidator } from '../models/parameterPanelValidator';
 
 export interface IValidationError {
@@ -198,4 +198,5 @@ export const Validators = {
     visualSelectorValidator: new VisualSelectorValidator(),
     visualSettingsValidator: new VisualSettingsValidator(),
     visualTypeSelectorValidator: new VisualTypeSelectorValidator(),
+    zoomLevelValidator: new RangeValidator(0.25, 4),
 };
