@@ -1092,7 +1092,6 @@ export interface ISettings {
     visualRenderedEvents?: boolean;
     visualSettings?: IVisualSettings;
     localeSettings?: ILocaleSettings;
-    zoomLevel?: number;
 }
 
 export interface IReportBars {
@@ -1773,10 +1772,5 @@ export function validateCommandsSettings(input: any): IError[] {
 
 export function validateCustomTheme(input: any): IError[] {
     const errors: any[] = Validators.customThemeValidator.validate(input);
-    return errors ? errors.map(normalizeError) : undefined;
-}
-
-export function validateZoomLevel(input: any): IError[] {
-    const errors: any[] = Validators.zoomLevelValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }

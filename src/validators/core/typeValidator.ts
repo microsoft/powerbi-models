@@ -189,29 +189,3 @@ export class NumberArrayValidator extends ArrayValidator {
         return null;
     }
 }
-
-export class RangeValidator extends NumberValidator {
-
-    constructor(private minValue: number, private maxValue: number) {
-        super();
-    }
-
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-        // input is a number, now check if it's in the given range
-        if(input > this.maxValue || input < this.minValue) {
-            return [{
-                message: field + " must be a number between " + this.minValue + " and " + this.maxValue,
-                path: (path ? path + "." : "") + field,
-                keyword: "range"
-            }];
-        }
-        return null;
-    }
-}
