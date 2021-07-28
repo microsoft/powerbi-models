@@ -208,6 +208,10 @@ export interface ISwipeEvent {
     startPosition: IPosition;
 }
 
+export interface EventHooks {
+    applicationContextProvider: Function;
+}
+
 export interface IPosition {
     x: number;
     y: number;
@@ -966,6 +970,7 @@ export interface IEmbedConfiguration extends IEmbedConfigurationBase {
     bookmark?: IApplyBookmarkRequest;
     datasetBinding?: IDatasetBinding;
     contrastMode?: ContrastMode;
+    eventHooks?: EventHooks;
 }
 
 export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
