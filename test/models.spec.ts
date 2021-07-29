@@ -392,7 +392,7 @@ describe('Unit | Models', () => {
                 load: {
                     accessToken: "token",
                     id: "reportid",
-                    settings: { commands: { parameterPanel: { enabled:true, expanded: true } } }
+                    settings: { commands: { parameterPanel: { enabled: true, expanded: true } } }
                 }
             };
             const errors = models.validatePaginatedReportLoad(testData.load);

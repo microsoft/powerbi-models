@@ -36,7 +36,8 @@ export enum PageSizeType {
     Standard,
     Cortana,
     Letter,
-    Custom
+    Custom,
+    Mobile
 }
 
 export enum DisplayOption {
@@ -130,6 +131,9 @@ export interface IPage {
     // Page size as saved in the report.
     defaultSize?: ICustomPageSize;
 
+    // Page size of the mobile layout if exists.
+    mobileSize?: ICustomPageSize;
+
     // Page display options as saved in the report.
     defaultDisplayOption?: DisplayOption;
 }
@@ -139,6 +143,7 @@ export interface IVisual {
     title: string;
     type: string;
     layout?: IVisualLayout;
+    mobilePortraitLayout?: IVisualLayout;
 }
 
 export interface IDatasetBinding {
@@ -201,6 +206,10 @@ export interface ICavasItemsSelection extends ISelection {
 export interface ISwipeEvent {
     currentPosition: IPosition;
     startPosition: IPosition;
+}
+
+export interface EventHooks {
+    applicationContextProvider: Function;
 }
 
 export interface IPosition {
@@ -961,6 +970,7 @@ export interface IEmbedConfiguration extends IEmbedConfigurationBase {
     bookmark?: IApplyBookmarkRequest;
     datasetBinding?: IDatasetBinding;
     contrastMode?: ContrastMode;
+    eventHooks?: EventHooks;
 }
 
 export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
@@ -1095,7 +1105,7 @@ export interface IReportBars {
 
 export interface IActionBar extends IHideable { }
 
-export interface IReportPanes extends IPanes{
+export interface IReportPanes extends IPanes {
     bookmarks?: IBookmarksPane;
     fields?: IFieldsPane;
     pageNavigation?: IPageNavigationPane;
@@ -1108,7 +1118,7 @@ export interface IPanes {
     filters?: IFiltersPane;
 }
 
-export interface IQnaPanes extends IPanes {}
+export interface IQnaPanes extends IPanes { }
 
 export interface IHideable {
     visible?: boolean;
