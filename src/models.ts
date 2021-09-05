@@ -99,10 +99,18 @@ export interface IVisualContainerDisplayState {
     mode: VisualContainerDisplayMode;
 }
 
+export enum ReportAlignment {
+    Left,
+    Center,
+    Right,
+    None
+}
+
 export interface ICustomLayout {
     pageSize?: IPageSize;
     displayOption?: DisplayOption;
     pagesLayout?: PagesLayout;
+    reportAlignment?: ReportAlignment;
 }
 
 export interface IReport {
