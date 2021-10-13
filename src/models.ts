@@ -475,7 +475,7 @@ export interface IAdvancedFilterCondition {
 
 export interface IAdvancedFilter extends IFilter {
     logicalOperator: AdvancedFilterLogicalOperators;
-    conditions: IAdvancedFilterCondition[];
+    conditions?: IAdvancedFilterCondition[];
 }
 
 export enum FilterType {
@@ -846,9 +846,6 @@ export class AdvancedFilter extends Filter {
             extractedConditions = (conditions as IAdvancedFilterCondition[]);
         }
 
-        if (extractedConditions.length === 0) {
-            throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
-        }
         if (extractedConditions.length > 2) {
             throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
         }
