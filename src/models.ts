@@ -123,6 +123,18 @@ export enum SectionVisibility {
     HiddenInViewMode,
 }
 
+export interface ICanvasStyle {
+    color?: string;
+    transparency?: number;
+    hasImage?: boolean;
+}
+
+export interface IPageBackground extends ICanvasStyle {
+}
+
+export interface IPageWallpaper extends ICanvasStyle {
+}
+
 export interface IPage {
     // unique name of a page.
     name: string;
@@ -144,6 +156,12 @@ export interface IPage {
 
     // Page display options as saved in the report.
     defaultDisplayOption?: DisplayOption;
+
+    // Page background color.
+    background?: IPageBackground;
+
+    // Page wallpaper color.
+    wallpaper?: IPageWallpaper;
 }
 
 export interface IVisual {
