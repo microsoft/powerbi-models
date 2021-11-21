@@ -123,6 +123,18 @@ export enum SectionVisibility {
     HiddenInViewMode,
 }
 
+export interface ICanvasStyle {
+    color?: string;
+    transparency?: number;
+    hasImage?: boolean;
+}
+
+export interface IPageBackground extends ICanvasStyle {
+}
+
+export interface IPageWallpaper extends ICanvasStyle {
+}
+
 export interface IPage {
     // unique name of a page.
     name: string;
@@ -144,6 +156,12 @@ export interface IPage {
 
     // Page display options as saved in the report.
     defaultDisplayOption?: DisplayOption;
+
+    // Page background color.
+    background?: IPageBackground;
+
+    // Page wallpaper color.
+    wallpaper?: IPageWallpaper;
 }
 
 export interface IVisual {
@@ -475,7 +493,7 @@ export interface IAdvancedFilterCondition {
 
 export interface IAdvancedFilter extends IFilter {
     logicalOperator: AdvancedFilterLogicalOperators;
-    conditions: IAdvancedFilterCondition[];
+    conditions?: IAdvancedFilterCondition[];
 }
 
 export enum FilterType {
@@ -846,9 +864,6 @@ export class AdvancedFilter extends Filter {
             extractedConditions = (conditions as IAdvancedFilterCondition[]);
         }
 
-        if (extractedConditions.length === 0) {
-            throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
-        }
         if (extractedConditions.length > 2) {
             throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
         }
