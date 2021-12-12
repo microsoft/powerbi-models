@@ -246,7 +246,7 @@ export class AdvancedFilterValidator extends FilterValidatorBase {
             },
             {
                 field: "conditions",
-                validators: [Validators.fieldRequiredValidator, Validators.filterConditionsValidator]
+                validators: [Validators.filterConditionsValidator]
             },
             {
                 field: "filterType",

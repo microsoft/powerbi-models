@@ -3159,6 +3159,28 @@ describe("Unit | Filters", () => {
             expect(filter.toJSON()).toEqual(expectedFilter);
         });
 
+        it("should output the correct json when toJSON is called for empty advanced filter", () => {
+            // Arrange
+            const expectedFilter: models.IAdvancedFilter = {
+                $schema: "http://powerbi.com/product/schema#advanced",
+                target: {
+                    table: "a",
+                    column: "b"
+                },
+                conditions: [],
+                logicalOperator: "And",
+                filterType: models.FilterType.Advanced
+            };
+
+            // Act
+            const filter = new models.AdvancedFilter(
+                expectedFilter.target as models.IFilterTarget,
+                expectedFilter.logicalOperator);
+
+            // Assert
+            expect(filter.toJSON()).toEqual(expectedFilter);
+        });
+
         it("can be constructed using either array form or individual arguments", () => {
             // Arrange
             const expectedFilter: models.IAdvancedFilter = {

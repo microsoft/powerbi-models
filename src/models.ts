@@ -99,10 +99,18 @@ export interface IVisualContainerDisplayState {
     mode: VisualContainerDisplayMode;
 }
 
+export enum ReportAlignment {
+    Left,
+    Center,
+    Right,
+    None
+}
+
 export interface ICustomLayout {
     pageSize?: IPageSize;
     displayOption?: DisplayOption;
     pagesLayout?: PagesLayout;
+    reportAlignment?: ReportAlignment;
 }
 
 export interface IReport {
@@ -113,6 +121,18 @@ export interface IReport {
 export enum SectionVisibility {
     AlwaysVisible,
     HiddenInViewMode,
+}
+
+export interface ICanvasStyle {
+    color?: string;
+    transparency?: number;
+    hasImage?: boolean;
+}
+
+export interface IPageBackground extends ICanvasStyle {
+}
+
+export interface IPageWallpaper extends ICanvasStyle {
 }
 
 export interface IPage {
@@ -136,6 +156,12 @@ export interface IPage {
 
     // Page display options as saved in the report.
     defaultDisplayOption?: DisplayOption;
+
+    // Page background color.
+    background?: IPageBackground;
+
+    // Page wallpaper color.
+    wallpaper?: IPageWallpaper;
 }
 
 export interface IVisual {
@@ -467,7 +493,7 @@ export interface IAdvancedFilterCondition {
 
 export interface IAdvancedFilter extends IFilter {
     logicalOperator: AdvancedFilterLogicalOperators;
-    conditions: IAdvancedFilterCondition[];
+    conditions?: IAdvancedFilterCondition[];
 }
 
 export enum FilterType {
@@ -838,9 +864,6 @@ export class AdvancedFilter extends Filter {
             extractedConditions = (conditions as IAdvancedFilterCondition[]);
         }
 
-        if (extractedConditions.length === 0) {
-            throw new Error(`conditions must be a non-empty array. You passed: ${conditions}`);
-        }
         if (extractedConditions.length > 2) {
             throw new Error(`AdvancedFilters may not have more than two conditions. You passed: ${conditions.length}`);
         }
@@ -1097,6 +1120,7 @@ export interface ISettings {
     visualRenderedEvents?: boolean;
     visualSettings?: IVisualSettings;
     localeSettings?: ILocaleSettings;
+    zoomLevel?: number;
 }
 
 export interface IReportBars {
@@ -1777,5 +1801,10 @@ export function validateCommandsSettings(input: any): IError[] {
 
 export function validateCustomTheme(input: any): IError[] {
     const errors: any[] = Validators.customThemeValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateZoomLevel(input: any): IError[] {
+    const errors: any[] = Validators.zoomLevelValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
