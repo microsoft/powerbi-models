@@ -235,7 +235,8 @@ export interface ISwipeEvent {
 }
 
 export interface EventHooks {
-    applicationContextProvider: Function;
+    applicationContextProvider?: Function;
+    accessTokenProvider?: Function;
 }
 
 export interface IPosition {
