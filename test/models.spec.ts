@@ -387,17 +387,53 @@ describe('Unit | Models', () => {
     });
 
     describe('validatePaginatedReportLoad', () => {
+        const testData: any = {
+            accessToken: "token",
+            id: "reportid",
+        }
         it(`happy path`, () => {
-            const testData = {
-                load: {
-                    accessToken: "token",
-                    id: "reportid",
-                    settings: { commands: { parameterPanel: { enabled: true, expanded: true } } }
-                }
-            };
-            const errors = models.validatePaginatedReportLoad(testData.load);
+            testData.settings = { commands: { parameterPanel: { enabled: true, expanded: true } } };
+            const errors = models.validatePaginatedReportLoad(testData);
             expect(errors).toBeUndefined();
         });
+        it(`happy path with parameterValues`, () => {
+            testData.parameterValues =  [{ name: 'dummy name', value: 'dummy value' }]
+            const errors = models.validatePaginatedReportLoad(testData);
+            expect(errors).toBeUndefined();
+        });
+        it('should fail if "parameterValues" is not an array', () => {
+            testData.parameterValues = 'object';
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'parameterValues property is invalid');
+        })
+        it('should fail if name field is not a string', () => {
+            testData.parameterValues = [
+                {
+                    name: {},
+                    value: 'dummy value'
+                }
+            ]
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'parameterValues property is invalid');
+        })
+        it('should fail if value field is not a string or null', () => {
+            testData.parameterValues = [
+                {
+                    name: 'dummy name',
+                    value: 'dummy value'
+                },
+                {
+                    name: 'dummy name 2',
+                    value: null
+                },
+                {
+                    name: 'dummy name 3',
+                    value: 3
+                }
+            ]
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'parameterValues property is invalid');
+        })
     });
 
     describe('validateDashboardLoad', () => {

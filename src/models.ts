@@ -1179,12 +1179,18 @@ export interface ISaveAsParameters {
     targetWorkspaceId?: string;
 }
 
+export interface IPaginatedReportParameter {
+    name: string;
+    value: string | null;
+}
+
 export interface IPaginatedReportLoadConfiguration {
     accessToken: string;
     id: string;
     groupId?: string;
     settings?: IPaginatedReportSettings;
     tokenType?: TokenType;
+    parameterValues?: IPaginatedReportParameter[];
 }
 
 export interface IPaginatedReportSettings {
