@@ -465,12 +465,13 @@ export enum FiltersLevel {
 export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
 export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
 export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter | IRelativeTimeFilter;
-export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | IRelativeTimeFilter;
+export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | IRelativeTimeFilter | IHierarchyFilter;
 
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
+export type HierarchyFilterNodeOperators = "Selected" | "NotSelected" | "Inherited";
 
 export interface OnLoadFiltersBase {
     operation: FiltersOperations;
@@ -497,6 +498,18 @@ export interface IAdvancedFilter extends IFilter {
     conditions?: IAdvancedFilterCondition[];
 }
 
+export interface IHierarchyFilterNode {
+    value?: PrimitiveValueType;
+    keyValues?: PrimitiveValueType[];
+    children?: IHierarchyFilterNode[];
+    operator?: HierarchyFilterNodeOperators;
+}
+
+export interface IHierarchyFilter extends IFilter {
+    target: (IFilterTarget | IFilterKeyTarget)[];
+    hierarchyData: IHierarchyFilterNode[];
+}
+
 export enum FilterType {
     Advanced = 0,
     Basic = 1,
@@ -507,6 +520,7 @@ export enum FilterType {
     Tuple = 6,
     RelativeTime = 7,
     Identity = 8,
+    Hierarchy = 9,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -881,6 +895,29 @@ export class AdvancedFilter extends Filter {
         filter.logicalOperator = this.logicalOperator;
         filter.conditions = this.conditions;
 
+        return filter;
+    }
+}
+
+export class HierarchyFilter extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#hierarchy";
+
+    target: (IFilterTarget | IFilterKeyTarget)[];
+    hierarchyData: IHierarchyFilterNode[];
+
+    constructor(
+        target: (IFilterTarget | IFilterKeyTarget)[],
+        hierarchyData: IHierarchyFilterNode[]
+    ) {
+        super(target, FilterType.Hierarchy);
+        this.schemaUrl = HierarchyFilter.schemaUrl;
+        this.hierarchyData = hierarchyData;
+    }
+
+    toJSON(): IHierarchyFilter {
+        const filter = super.toJSON() as IHierarchyFilter;
+        filter.hierarchyData = this.hierarchyData;
+        filter.target = this.target;
         return filter;
     }
 }
