@@ -443,6 +443,68 @@ export class IncludeExcludeFilterValidator extends FilterValidatorBase {
     }
 }
 
+export class HierarchyFilterValidator extends FilterValidatorBase {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "hierarchyData",
+                validators: [Validators.fieldRequiredValidator, Validators.hierarchyFilterValuesValidator]
+            },
+            {
+                field: "filterType",
+                validators: [Validators.hierarchyFilterTypeValidator]
+            },
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class HierarchyFilterNodeValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "value",
+                validators: [Validators.anyValueValidator]
+            },
+            {
+                field: "keyValues",
+                validators: [Validators.anyArrayValidator]
+            },
+            {
+                field: "children",
+                validators: [Validators.hierarchyFilterValuesValidator]
+            },
+            {
+                field: "operator",
+                validators: [Validators.stringValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
 export class FilterValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
