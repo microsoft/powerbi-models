@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
+import { ActionBarValidator, StatusBarValidator, ReportBarsValidator } from '../models/barsValidator';
 import { AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator, PlayBookmarkRequestValidator } from '../models/bookmarkValidator';
 import { CommandsSettingsValidator, SingleCommandSettingsValidator, PaginatedReportCommandsValidator } from '../models/commandsSettingsValidator';
 import { CustomThemeValidator } from '../models/customThemeValidator';
@@ -81,6 +81,7 @@ export const Validators = {
     anyFilterValidator: new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new IncludeExcludeFilterValidator(), new NotSupportedFilterValidator(), new RelativeDateFilterValidator(), new TopNFilterValidator(), new RelativeTimeFilterValidator(), new HierarchyFilterValidator()]),
     anyValueValidator: new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()]),
     actionBarValidator: new ActionBarValidator(),
+    statusBarValidator: new StatusBarValidator(),
     applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
     applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
     applyBookmarkValidator: new AnyOfValidator([new ApplyBookmarkByNameRequestValidator(), new ApplyBookmarkStateRequestValidator()]),

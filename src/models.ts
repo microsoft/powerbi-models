@@ -1162,9 +1162,12 @@ export interface ISettings {
 
 export interface IReportBars {
     actionBar?: IActionBar;
+    statusBar?: IStatusBar;
 }
 
 export interface IActionBar extends IHideable { }
+
+export interface IStatusBar extends IHideable { }
 
 export interface IReportPanes extends IPanes {
     bookmarks?: IBookmarksPane;
