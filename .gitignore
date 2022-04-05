@@ -8,3 +8,4 @@ tmp
 npm-debug.log*
 package-lock.json
 .vscode
+owners.txt
