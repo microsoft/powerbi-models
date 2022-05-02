@@ -1569,6 +1569,11 @@ export interface ICommandsSettings {
     seeData?: ICommandSettings;
     sort?: ICommandSettings;
     spotlight?: ICommandSettings;
+    insightsAnalysis?: ICommandSettings;
+    addComment?: ICommandSettings;
+    groupVisualContainers?: ICommandSettings;
+    summarize?: ICommandSettings;
+    clearSelection?: ICommandSettings;
 }
 
 export interface IPaginatedReportsCommandSettings {
