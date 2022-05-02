@@ -1003,7 +1003,6 @@ export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     action?: string;
     contrastMode?: ContrastMode;
     permissions?: Permissions;
-    openLinksInNewWindow?: boolean;
 }
 
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
