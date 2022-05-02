@@ -312,6 +312,10 @@ export interface IBaseTarget {
     $schema?: string;
 }
 
+export interface IPercentOfGrandTotalTarget {
+    percentOfGrandTotal?: boolean;
+}
+
 export interface IColumnTarget extends IBaseTarget {
     column: string;
 }
@@ -331,11 +335,11 @@ export interface IHierarchyLevelTarget extends IBaseTarget {
 
 export interface INotSupportedTarget extends IBaseTarget { }
 
-export interface IMeasureTarget extends IBaseTarget {
+export interface IMeasureTarget extends IBaseTarget, IPercentOfGrandTotalTarget {
     measure: string;
 }
 
-export interface IAggregationTarget {
+export interface IAggregationTarget extends IPercentOfGrandTotalTarget {
     aggregationFunction: string;
 }
 
@@ -956,6 +960,10 @@ export function isHierarchyLevelAggr(arg: any): arg is IHierarchyLevelAggrTarget
 
 export function isColumnAggr(arg: any): arg is IColumnAggrTarget {
     return !!(arg.table && arg.column && arg.aggregationFunction);
+}
+
+export function isPercentOfGrandTotal(arg: any): arg is IPercentOfGrandTotalTarget {
+    return !!(arg as IPercentOfGrandTotalTarget).percentOfGrandTotal;
 }
 
 export interface IBootstrapEmbedConfiguration {
