@@ -61,6 +61,26 @@ export class CommandsSettingsValidator extends ObjectValidator {
                 field: "spotlight",
                 validators: [Validators.singleCommandSettingsValidator]
             },
+            {
+                field: "insightsAnalysis",
+                validators: [Validators.singleCommandSettingsValidator]
+            },
+            {
+                field: "addComment",
+                validators: [Validators.singleCommandSettingsValidator]
+            },
+            {
+                field: "groupVisualContainers",
+                validators: [Validators.singleCommandSettingsValidator]
+            },
+            {
+                field: "summarize",
+                validators: [Validators.singleCommandSettingsValidator]
+            },
+            {
+                field: "clearSelection",
+                validators: [Validators.singleCommandSettingsValidator]
+            }
         ];
 
         const multipleFieldsValidator = new MultipleFieldsValidator(fields);

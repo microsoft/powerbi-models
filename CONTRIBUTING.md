@@ -16,6 +16,12 @@ Install local dependencies:
 npm install
 ```
 
+Install gulp globally and create a local link to it:
+```bash
+npm install -g gulp
+npm link gulp --no-bin-links
+```
+
 ## Building
 
 ```bash
