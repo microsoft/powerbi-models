@@ -95,7 +95,6 @@ export class SettingsValidator extends ObjectValidator {
     }
 }
 
-
 export class PaginatedReportSettingsValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {

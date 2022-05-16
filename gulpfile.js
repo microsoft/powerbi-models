@@ -3,7 +3,7 @@ var del = require('del'),
     header = require('gulp-header'),
     help = require('gulp-help-four'),
     rename = require('gulp-rename'),
-    tslint = require('gulp-tslint'),
+    eslint = require('gulp-eslint'),
     typedoc = require("gulp-typedoc"),
     uglify = require('gulp-uglify'),
     karma = require('karma'),
@@ -26,7 +26,7 @@ var banner = webpackBanner + "\n";
 
 gulp.task('build', 'Build for release', function (done) {
     return runSequence(
-        'tslint:build',
+        'lint:ts',
         'clean:dist',
         'compile:ts',
         'min',
@@ -38,7 +38,7 @@ gulp.task('build', 'Build for release', function (done) {
 
 gulp.task('test', 'Runs all tests', function (done) {
     return runSequence(
-        'tslint:test',
+        'lint:ts',
         'clean:tmp',
         'compile:spec',
         'test:js',
@@ -139,23 +139,15 @@ gulp.task('test:js', 'Run spec tests', function (done) {
 
     if (argv.chrome) {
         return watch(["src/**/*.ts", "test/**/*.ts"], function () {
-            runSequence( 'tslint:test', 'clean:tmp', 'compile:spec');
+            runSequence( 'lint:ts', 'clean:tmp', 'compile:spec');
         });
     }
 });
 
-gulp.task('tslint:build', 'Run TSLint on src', function () {
-    return gulp.src(["src/**/*.ts"])
-        .pipe(tslint({
-            formatter: "verbose"
-        }))
-        .pipe(tslint.report());
-});
-
-gulp.task('tslint:test', 'Run TSLint on src and tests', function () {
-    return gulp.src(["src/**/*.ts", "test/**/*.ts"])
-        .pipe(tslint({
-            formatter: "verbose"
-        }))
-        .pipe(tslint.report());
-});
+gulp.task('lint:ts', 'Lints all TypeScript', function () {
+    return gulp.src(['./src/**/*.ts', './test/**/*.ts'])
+      .pipe(eslint({
+        formatter: "verbose"
+      }))
+      .pipe(eslint.format());
+  });
