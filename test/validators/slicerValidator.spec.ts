@@ -5,42 +5,39 @@ import { Validators } from '../../src/validators/core/validator';
 
 describe('slicerValidator', () => {
 
-    beforeEach(() => {
-    });
-
     it('validate slicer state with hierarchy filters', () => {
         const slicerJSONInput = {
             filters: [
                 {
-                    "$schema": "http://powerbi.com/product/schema#hierarchy",
-                    "target": [
+                    $schema: "http://powerbi.com/product/schema#hierarchy",
+                    target: [
                         {
-                            "table": "t1",
-                            "column": "c1"
+                            table: "t1",
+                            column: "c1"
                         },
                         {
-                            "table": "t1",
-                            "column": "c2"
+                            table: "t1",
+                            column: "c2"
                         }
                     ],
-                    "filterType": 9,
-                    "hierarchyData": [
+                    filterType: 9,
+                    hierarchyData: [
                         {
-                            "value": "c1 v11",
-                            "operator": "Selected",
-                            "children": [
+                            value: "c1 v11",
+                            operator: "Selected",
+                            children: [
                                 {
-                                    "value": "c2 v12",
-                                    "operator": "NotSelected",
+                                    value: "c2 v12",
+                                    operator: "NotSelected",
                                 }
                             ]
                         },
                         {
-                            "value": "c1 v21",
-                            "children": [
+                            value: "c1 v21",
+                            children: [
                                 {
-                                    "value": "c2 v22",
-                                    "operator": "Selected",
+                                    value: "c2 v22",
+                                    operator: "Selected",
                                 }
                             ]
                         },
@@ -49,16 +46,16 @@ describe('slicerValidator', () => {
             ],
             targets: [
                 {
-                    "table": "t1",
-                    "column": "c1"
+                    table: "t1",
+                    column: "c1"
                 },
                 {
-                    "table": "t1",
-                    "column": "c2"
+                    table: "t1",
+                    column: "c2"
                 },
                 {
-                    "table": "t1",
-                    "column": "c3"
+                    table: "t1",
+                    column: "c3"
                 }
             ]
         };
@@ -71,26 +68,26 @@ describe('slicerValidator', () => {
         const slicerJSONInput = {
             filters: [
                 {
-                    "$schema": "http://powerbi.com/product/schema#hierarchy",
-                    "target": [
+                    $schema: "http://powerbi.com/product/schema#hierarchy",
+                    target: [
                         {
-                            "table": "t1",
-                            "column": "c1"
+                            table: "t1",
+                            column: "c1"
                         },
                         {
-                            "table": "t1",
-                            "column": "c2"
+                            table: "t1",
+                            column: "c2"
                         }
                     ],
-                    "filterType": 9,
-                    "hierarchyData": [
+                    filterType: 9,
+                    hierarchyData: [
                         {
-                            "value": "c1 v11",
-                            "operator": "Selected",
-                            "children": [
+                            value: "c1 v11",
+                            operator: "Selected",
+                            children: [
                                 {
-                                    "value": { value: "c2 v11" },
-                                    "operator": "NotSelected",
+                                    value: { value: "c2 v11" },
+                                    operator: "NotSelected",
                                 }
                             ]
                         }
@@ -99,12 +96,12 @@ describe('slicerValidator', () => {
             ],
             targets: [
                 {
-                    "table": "t1",
-                    "column": "c1"
+                    table: "t1",
+                    column: "c1"
                 },
                 {
-                    "table": "t1",
-                    "column": "c2"
+                    table: "t1",
+                    column: "c2"
                 }
             ]
         };
@@ -117,26 +114,26 @@ describe('slicerValidator', () => {
         const slicerJSONInput = {
             filters: [
                 {
-                    "$schema": "http://powerbi.com/product/schema#hierarchy",
-                    "target": [
+                    $schema: "http://powerbi.com/product/schema#hierarchy",
+                    target: [
                         {
-                            "table": "t1",
-                            "column": "c1"
+                            table: "t1",
+                            column: "c1"
                         },
                         {
-                            "table": "t1",
-                            "column": "c2"
+                            table: "t1",
+                            column: "c2"
                         }
                     ],
-                    "filterType": 9,
-                    "hierarchyData": [
+                    filterType: 9,
+                    hierarchyData: [
                         {
-                            "keyValues": "c1 v11",
-                            "operator": "Selected",
-                            "children": [
+                            keyValues: "c1 v11",
+                            operator: "Selected",
+                            children: [
                                 {
-                                    "value": "c2 v11",
-                                    "operator": "NotSelected",
+                                    value: "c2 v11",
+                                    operator: "NotSelected",
                                 }
                             ]
                         }
@@ -145,12 +142,12 @@ describe('slicerValidator', () => {
             ],
             targets: [
                 {
-                    "table": "t1",
-                    "column": "c1"
+                    table: "t1",
+                    column: "c1"
                 },
                 {
-                    "table": "t1",
-                    "column": "c2"
+                    table: "t1",
+                    column: "c2"
                 }
             ]
         };
