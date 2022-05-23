@@ -1060,6 +1060,7 @@ export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     slicers?: ISlicer[];
     viewMode?: ViewMode;
     theme?: IReportTheme;
+    eventHooks?: EventHooks;
 }
 
 export interface IVisualEmbedConfiguration extends IReportEmbedConfiguration {
@@ -1104,6 +1105,7 @@ export interface IReportLoadConfiguration {
     embedUrl?: string;
     datasetBinding?: IDatasetBinding;
     contrastMode?: ContrastMode;
+    eventHooks?: EventHooks;
 }
 
 export interface IReportCreateConfiguration {
@@ -1115,6 +1117,7 @@ export interface IReportCreateConfiguration {
     tokenType?: TokenType;
     theme?: IReportTheme;
     embedUrl?: string;
+    eventHooks?: EventHooks;
 }
 
 /**
