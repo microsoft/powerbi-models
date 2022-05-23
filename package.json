@@ -8,6 +8,7 @@
         "test": "test"
     },
     "scripts": {
+        "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions",
         "build": "gulp build",
         "test": "gulp test",
         "gulp": "gulp",
@@ -19,6 +20,11 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/Microsoft/powerbi-models"
+    },
+    "resolutions": {
+        "glob-parent": "^6.0.2",
+        "micromatch": "^4.0.5",
+        "braces": "^3.0.2"
     },
     "keywords": [
         "Microsoft",
@@ -39,6 +45,7 @@
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-jsdoc": "^30.7.7",
         "eslint-plugin-prefer-arrow": "^1.2.2",
+        "gulp": "^4.0.2",
         "gulp-eslint": "^6.0.0",
         "gulp-header": "^1.8.7",
         "gulp-help-four": "^0.2.3",
