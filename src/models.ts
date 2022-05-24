@@ -60,8 +60,8 @@ export interface ICustomPageSize extends IPageSize {
     height?: number;
 }
 
-export type PagesLayout = { [key: string]: IPageLayout; };
-export type VisualsLayout = { [key: string]: IVisualLayout; };
+export type PagesLayout = { [key: string]: IPageLayout };
+export type VisualsLayout = { [key: string]: IVisualLayout };
 
 export interface IPageLayout {
     defaultLayout?: IVisualLayout;
@@ -729,6 +729,7 @@ export class BasicFilter extends Filter {
          * new BasicFilter('a', 'b', [1,2]);
          */
         if (Array.isArray(values[0])) {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             this.values = (values[0] as (string | number | boolean)[]);
         }
         else {
@@ -863,6 +864,7 @@ export class AdvancedFilter extends Filter {
          * new AdvancedFilter('a', 'b', "And", [{ value: 1, operator: "Equals" }, { value: 2, operator: "IsGreaterThan" }]);
          */
         if (Array.isArray(conditions[0])) {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             extractedConditions = (conditions[0] as IAdvancedFilterCondition[]);
         }
         else {
@@ -1021,6 +1023,7 @@ export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     slicers?: ISlicer[];
     viewMode?: ViewMode;
     theme?: IReportTheme;
+    eventHooks?: EventHooks;
 }
 
 export interface IVisualEmbedConfiguration extends IReportEmbedConfiguration {
@@ -1065,6 +1068,7 @@ export interface IReportLoadConfiguration {
     embedUrl?: string;
     datasetBinding?: IDatasetBinding;
     contrastMode?: ContrastMode;
+    eventHooks?: EventHooks;
 }
 
 export interface IReportCreateConfiguration {
@@ -1076,6 +1080,7 @@ export interface IReportCreateConfiguration {
     tokenType?: TokenType;
     theme?: IReportTheme;
     embedUrl?: string;
+    eventHooks?: EventHooks;
 }
 
 /**
@@ -1113,7 +1118,7 @@ export interface ISettings {
     background?: BackgroundType;
     bars?: IReportBars;
     bookmarksPaneEnabled?: boolean;
-    commands?: ICommandsSettings[];
+    commands?: ICommandsSettings[] | IPaginatedReportsCommandsSettings;
     customLayout?: ICustomLayout;
     extensions?: Extensions;
     filterPaneEnabled?: boolean;
@@ -1197,6 +1202,8 @@ export interface IPaginatedReportLoadConfiguration {
     groupId?: string;
     settings?: IPaginatedReportSettings;
     tokenType?: TokenType;
+    type?: string;
+    embedUrl?: string;
     parameterValues?: IPaginatedReportParameter[];
 }
 
