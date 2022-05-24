@@ -1118,7 +1118,7 @@ export interface ISettings {
     background?: BackgroundType;
     bars?: IReportBars;
     bookmarksPaneEnabled?: boolean;
-    commands?: ICommandsSettings[];
+    commands?: ICommandsSettings[] | IPaginatedReportsCommandsSettings;
     customLayout?: ICustomLayout;
     extensions?: Extensions;
     filterPaneEnabled?: boolean;
@@ -1202,6 +1202,8 @@ export interface IPaginatedReportLoadConfiguration {
     groupId?: string;
     settings?: IPaginatedReportSettings;
     tokenType?: TokenType;
+    type?: string;
+    embedUrl?: string;
     parameterValues?: IPaginatedReportParameter[];
 }
 
