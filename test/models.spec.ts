@@ -6,7 +6,7 @@ import * as models from '../src/models';
 import { IFilter, ITarget } from '../src/models';
 
 describe('Unit | Models', () => {
-    function testForExpectedMessage(errors: models.IError[], message: string) {
+    function testForExpectedMessage(errors: models.IError[], message: string): void {
         expect(errors).toBeDefined();
         const atLeastOneMessageMatches = errors
             .some((error) => error.message === message);
@@ -21,7 +21,6 @@ describe('Unit | Models', () => {
         const datasetIdRequiredMessage = "datasetId is required";
         const idRequiredMessage = "id is required";
         const idInvalidTypeMessage = "id must be a string";
-        const filtersInvalidMessage = "filters property is invalid";
         const pageNameInvalidTypeMessage = "pageName must be a string";
         const permissionsInvalidMessage = "permissions property is invalid";
         const permissionsInvalidTypeMessage = "permissions must be a number";
@@ -387,16 +386,52 @@ describe('Unit | Models', () => {
     });
 
     describe('validatePaginatedReportLoad', () => {
+        const testData: any = {
+            accessToken: "token",
+            id: "reportid",
+        };
         it(`happy path`, () => {
-            const testData = {
-                load: {
-                    accessToken: "token",
-                    id: "reportid",
-                    settings: { commands: { parameterPanel: { enabled: true, expanded: true } } }
-                }
-            };
-            const errors = models.validatePaginatedReportLoad(testData.load);
+            testData.settings = { commands: { parameterPanel: { enabled: true, expanded: true } } };
+            const errors = models.validatePaginatedReportLoad(testData);
             expect(errors).toBeUndefined();
+        });
+        it(`happy path with parameterValues`, () => {
+            testData.parameterValues =  [{ name: 'dummy name', value: 'dummy value' }];
+            const errors = models.validatePaginatedReportLoad(testData);
+            expect(errors).toBeUndefined();
+        });
+        it('should fail if "parameterValues" is not an array', () => {
+            testData.parameterValues = 'object';
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'parameterValues property is invalid');
+        });
+        it('should fail if name field is not a string', () => {
+            testData.parameterValues = [
+                {
+                    name: {},
+                    value: 'dummy value'
+                }
+            ];
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'parameterValues property is invalid');
+        });
+        it('should fail if value field is not a string or null', () => {
+            testData.parameterValues = [
+                {
+                    name: 'dummy name',
+                    value: 'dummy value'
+                },
+                {
+                    name: 'dummy name 2',
+                    value: null
+                },
+                {
+                    name: 'dummy name 3',
+                    value: 3
+                }
+            ];
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'parameterValues property is invalid');
         });
     });
 
@@ -894,6 +929,7 @@ describe('Unit | Models', () => {
                 expectedFilter.target as models.IFilterTarget,
                 expectedFilter.operator,
                 expectedFilter.itemCount,
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 expectedFilter.orderBy as ITarget);
 
             // Assert
@@ -1790,7 +1826,6 @@ describe('Unit | Models', () => {
     describe('validate Extensions', () => {
         const commandNameInvalidTypeMessage = "name must be a string";
         const commandNameRequiredMessage = "name is required";
-        const menuLocationInvalidMessage = "menuLocation property is invalid";
         const selectorInvalidTypeMessage = "selector property is invalid";
         const visualContextMenuInvalidMessage = "visualContextMenu property is invalid";
 
@@ -3007,11 +3042,11 @@ describe("Unit | Filters", () => {
             const keyValues = [[1, 2], [3, 4]];
 
             // Act
-            const attemptToCreateFilterOnColumn = () => {
+            const attemptToCreateFilterOnColumn = (): models.BasicFilterWithKeys => {
                 return new models.BasicFilterWithKeys({ table: "t", column: "c", keys: ["1"] }, "In", values, keyValues);
             };
             // Act
-            const attemptToCreateFilterOnHierarchy = () => {
+            const attemptToCreateFilterOnHierarchy = (): models.BasicFilterWithKeys => {
                 return new models.BasicFilterWithKeys({ table: "t", hierarchy: "c", hierarchyLevel: "level", keys: ["1"] }, "In", values, keyValues);
             };
             expect(attemptToCreateFilterOnColumn).toThrowError();
@@ -3081,7 +3116,7 @@ describe("Unit | Filters", () => {
             };
 
             // Act
-            const attemptToCreateFilter = () => {
+            const attemptToCreateFilter = (): models.AdvancedFilter => {
                 return new models.AdvancedFilter({ table: "t", column: "c" }, 1 as any, condition);
             };
 
@@ -3107,7 +3142,7 @@ describe("Unit | Filters", () => {
             ];
 
             // Act
-            const attemptToCreateFilter = () => {
+            const attemptToCreateFilter = (): models.AdvancedFilter => {
                 return new models.AdvancedFilter({ table: "Table", column: "c" }, "And", ...conditions);
             };
 
@@ -3119,7 +3154,7 @@ describe("Unit | Filters", () => {
             // Arrange
 
             // Act
-            const attemptToCreateFilter = () => {
+            const attemptToCreateFilter = (): models.AdvancedFilter => {
                 return new models.AdvancedFilter({ table: "Table", column: "c" }, "Or", { value: "a", operator: "Contains" });
             };
 
@@ -3313,6 +3348,7 @@ describe("Unit | Filters", () => {
                 expectedFilter.target as models.IFilterTarget,
                 expectedFilter.operator,
                 expectedFilter.itemCount,
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 expectedFilter.orderBy as ITarget);
 
             // Assert

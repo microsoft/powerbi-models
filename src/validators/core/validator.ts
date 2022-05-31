@@ -47,7 +47,7 @@ import {
 import { LoadQnaValidator, QnaInterpretInputDataValidator, QnaSettingsValidator } from '../models/qnaValidator';
 import { ReportCreateValidator } from '../models/reportCreateValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
-import { PaginatedReportLoadValidator } from '../models/paginatedReportLoadValidator';
+import { PaginatedReportLoadValidator, ReportParameterFieldsValidator } from '../models/paginatedReportLoadValidator';
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { SlicerTargetSelectorValidator, VisualSelectorValidator, VisualTypeSelectorValidator } from '../models/selectorsValidator';
 import { SettingsValidator, PaginatedReportSettingsValidator } from '../models/settingsValidator';
@@ -151,6 +151,7 @@ export const Validators = {
     paginatedReportCommandsValidator: new PaginatedReportCommandsValidator(),
     paginatedReportLoadValidator: new PaginatedReportLoadValidator(),
     paginatedReportsettingsValidator: new PaginatedReportSettingsValidator(),
+    parameterValuesArrayValidator: new ArrayValidator([new ReportParameterFieldsValidator()]),
     parametersPanelValidator: new ParametersPanelValidator(),
     permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
     playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
