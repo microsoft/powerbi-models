@@ -36,7 +36,7 @@ export class ArrayValidator implements IValidator {
         }
 
         for (let i = 0; i < input.length; i++) {
-            const fieldsPath = (path ? path + "." : "") + field + "." + i;
+            const fieldsPath = (path ? path + "." : "") + field + "." + i.toString();
             for (const validator of this.itemValidators) {
                 const errors = validator.validate(input[i], fieldsPath, field);
                 if (errors) {
@@ -207,7 +207,7 @@ export class RangeValidator extends NumberValidator {
         // input is a number, now check if it's in the given range
         if(input > this.maxValue || input < this.minValue) {
             return [{
-                message: field + " must be a number between " + this.minValue + " and " + this.maxValue,
+                message: field + " must be a number between " + this.minValue.toString() + " and " + this.maxValue.toString(),
                 path: (path ? path + "." : "") + field,
                 keyword: "range"
             }];
