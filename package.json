@@ -1,6 +1,6 @@
 {
     "name": "powerbi-models",
-    "version": "1.10.3",
+    "version": "1.10.5",
     "description": "Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK. For each model there is a TypeScript interface, and a validation function to ensure and object is valid.",
     "main": "dist/models.js",
     "typings": "dist/models.d.ts",
@@ -71,6 +71,8 @@
         "webpack-stream": "^7.0.0",
         "yargs": "^17.4.1"
     },
-    "publishConfig": {},
+    "publishConfig": {
+        "tag": "beta"
+    },
     "dependencies": {}
 }
