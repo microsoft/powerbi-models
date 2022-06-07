@@ -132,7 +132,7 @@ export const Validators = {
     includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
     includeExludeFilterTypeValidator: new EnumValidator([3]),
     hierarchyFilterTypeValidator: new EnumValidator([9]),
-    hierarchyFilterValuesValidator: new ArrayValidator([new HierarchyFilterNodeValidator()]), 
+    hierarchyFilterValuesValidator: new ArrayValidator([new HierarchyFilterNodeValidator()]),
     layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),
     loadQnaValidator: new LoadQnaValidator(),
     menuExtensionValidator: new AnyOfValidator([new FlatMenuExtensionValidator(), new GroupedMenuExtensionValidator()]),
