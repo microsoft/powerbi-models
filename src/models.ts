@@ -370,6 +370,10 @@ export interface IFilterColumnAggrTarget extends IFilterColumnTarget, IFilterAgg
 
 export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFilterAggregationTarget { }
 
+export interface IFilterGroupedColumnsTarget extends IFilterColumnTarget {
+    groupedColumns: IFilterTarget[];
+}
+
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
