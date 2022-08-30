@@ -370,6 +370,10 @@ export interface IFilterColumnAggrTarget extends IFilterColumnTarget, IFilterAgg
 
 export interface IFilterHierarchyAggrTarget extends IFilterHierarchyTarget, IFilterAggregationTarget { }
 
+export interface IFilterGroupedColumnsTarget extends IFilterColumnTarget {
+    groupedColumns: IFilterTarget[];
+}
+
 export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHierarchyTarget);
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
@@ -469,12 +473,13 @@ export enum FiltersLevel {
 export type ReportLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
 export type PageLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITupleFilter | IRelativeTimeFilter;
 export type VisualLevelFilters = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | ITopNFilter | IIncludeExcludeFilter | IRelativeTimeFilter;
-export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | IRelativeTimeFilter;
+export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilter | IRelativeDateFilter | IRelativeTimeFilter | IHierarchyFilter;
 
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
 export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
+export type HierarchyFilterNodeOperators = "Selected" | "NotSelected" | "Inherited";
 
 export interface OnLoadFiltersBase {
     operation: FiltersOperations;
@@ -501,6 +506,18 @@ export interface IAdvancedFilter extends IFilter {
     conditions?: IAdvancedFilterCondition[];
 }
 
+export interface IHierarchyFilterNode {
+    value?: PrimitiveValueType;
+    keyValues?: PrimitiveValueType[];
+    children?: IHierarchyFilterNode[];
+    operator?: HierarchyFilterNodeOperators;
+}
+
+export interface IHierarchyFilter extends IFilter {
+    target: (IFilterTarget | IFilterKeyTarget)[];
+    hierarchyData: IHierarchyFilterNode[];
+}
+
 export enum FilterType {
     Advanced = 0,
     Basic = 1,
@@ -511,6 +528,7 @@ export enum FilterType {
     Tuple = 6,
     RelativeTime = 7,
     Identity = 8,
+    Hierarchy = 9,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -891,6 +909,29 @@ export class AdvancedFilter extends Filter {
     }
 }
 
+export class HierarchyFilter extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#hierarchy";
+
+    target: (IFilterTarget | IFilterKeyTarget)[];
+    hierarchyData: IHierarchyFilterNode[];
+
+    constructor(
+        target: (IFilterTarget | IFilterKeyTarget)[],
+        hierarchyData: IHierarchyFilterNode[]
+    ) {
+        super(target, FilterType.Hierarchy);
+        this.schemaUrl = HierarchyFilter.schemaUrl;
+        this.hierarchyData = hierarchyData;
+    }
+
+    toJSON(): IHierarchyFilter {
+        const filter = super.toJSON() as IHierarchyFilter;
+        filter.hierarchyData = this.hierarchyData;
+        filter.target = this.target;
+        return filter;
+    }
+}
+
 export interface IDataReference {
     target: IFilterTarget;
 }
@@ -1083,6 +1124,80 @@ export interface IReportCreateConfiguration {
     eventHooks?: EventHooks;
 }
 
+export interface IQuickCreateConfiguration {
+    type?: "quickCreate";
+    accessToken: string;
+    groupId?: string;
+    settings?: ISettings;
+    tokenType?: TokenType;
+    theme?: IReportTheme;
+    embedUrl?: string;
+    datasetCreateConfig: IDatasetCreateConfiguration;
+    reportCreationMode?: ReportCreationMode;
+    eventHooks?: EventHooks;
+}
+
+export interface IDatasetCreateConfiguration {
+    mashupDocument?: string;
+    locale: string;
+    datasourceConnectionConfig?: IDatasourceConnectionConfiguration;
+    tableSchemaList?: ITableSchema[];
+    data?: IDataTable[];
+}
+
+export enum ICredentialType {
+    NoConnection,
+    OnBehalfOf,
+    Anonymous,
+}
+
+export interface IDatasourceConnectionConfiguration {
+    path: string; // domain name, example "somedomain.dynamics.com"
+    kind: string; // dataSource kind, example: "CommonDataService"
+    dataCacheMode?: DataCacheMode; // DQ or Import
+    credentials?: ICredential;
+}
+
+export interface ICredential {
+    credentialType: ICredentialType;
+    credentialDetails?: { [property: string]: string };
+}
+
+export enum DataCacheMode {
+    Import,
+    DirectQuery,
+}
+
+export interface ITableSchema {
+    name: string;
+    columns: IColumnSchema[];
+}
+
+export interface IColumnSchema {
+    name: string;
+    dataType: DataType;
+}
+
+export const enum DataType {
+    Number = "Number",
+    Currency = "Currency",
+    Int32 = "Int32",
+    Percentage = "Percentage",
+    DateTime = "DateTime",
+    DateTimeZone = "DateTimeZone",
+    Date = "Date",
+    Time = "Time",
+    Duration = "Duration",
+    Text = "Text",
+    Logical = "Logical",
+    Binary = "Binary",
+}
+
+export interface IDataTable {
+    name: string;
+    rows: string[][];
+}
+
 /**
  * @deprecated
  */
@@ -1113,6 +1228,11 @@ export interface ILocaleSettings {
     formatLocale?: string;
 }
 
+export const enum ReportCreationMode {
+    Default = "Default",
+    QuickExplore = "QuickExplore",
+}
+
 export interface ISettings {
     authoringHintsEnabled?: boolean;
     background?: BackgroundType;
@@ -1138,9 +1258,12 @@ export interface ISettings {
 
 export interface IReportBars {
     actionBar?: IActionBar;
+    statusBar?: IStatusBar;
 }
 
 export interface IActionBar extends IHideable { }
+
+export interface IStatusBar extends IHideable { }
 
 export interface IReportPanes extends IPanes {
     bookmarks?: IBookmarksPane;
@@ -1762,6 +1885,11 @@ export function validatePaginatedReportLoad(input: any): IError[] {
 
 export function validateCreateReport(input: any): IError[] {
     const errors: any[] = Validators.reportCreateValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateQuickCreate(input: any): IError[] {
+    const errors: any[] = Validators.quickCreateValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 
