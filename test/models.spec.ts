@@ -3,7 +3,7 @@
 
 import { Validators } from '../src/validators/core/validator';
 import * as models from '../src/models';
-import { IFilter, ITarget } from '../src/models';
+import { IFilter, ITarget, IQuickCreateConfiguration } from '../src/models';
 
 describe('Unit | Models', () => {
     function testForExpectedMessage(errors: models.IError[], message: string): void {
@@ -382,6 +382,246 @@ describe('Unit | Models', () => {
 
             // Assert
             expect(errors).toBeUndefined();
+        });
+    });
+
+    describe('validateQuickCreate', () => {
+        const accessTokenRequiredMessage = "accessToken is required";
+        const accessTokenInvalidTypeMessage = "accessToken must be a string";
+        const rawDataInvalidMessage = "data property is invalid";
+        const rawDataNoSchemaErrorMessage = "tableSchemaList cannot be empty when data is provided";
+        const rawDataAndMashupMissingErrorMessage = "At least one of data or mashupDocument must be provided";
+        const datasourceConfigNoMeshupErrorMessage = "mashupDocument cannot be empty when datasourceConnectionConfig is presented";
+
+        it(`should return errors with one containing message '${accessTokenRequiredMessage}' if accessToken is not defined`, () => {
+            // Arrange
+            const testData = {
+                load: {
+                }
+            };
+
+            // Act
+            const errors = models.validateQuickCreate(testData.load);
+
+            // Assert
+            testForExpectedMessage(errors, accessTokenRequiredMessage);
+        });
+
+        it(`should return errors with one containing message '${accessTokenInvalidTypeMessage}' if accessToken is not a string`, () => {
+            // Arrange
+            const testData = {
+                load: {
+                    accessToken: 1
+                }
+            };
+
+            // Act
+            const errors = models.validateQuickCreate(testData.load);
+
+            // Assert
+            testForExpectedMessage(errors, accessTokenInvalidTypeMessage);
+        });
+
+        describe('datasetCreateConfig', () => {
+            it(`happy path`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            mashupDocument: "document",
+                            datasourceConnectionConfig: {
+                                path: "somedomain.dynamics.com",
+                                kind: "CommonDataService",
+                            },
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                expect(errors).toBeUndefined();
+            });
+
+            it(`should fail when datasourceConnectionConfig is incomplete`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            datasourceConnectionConfig: {
+                                path: "somedomain.dynamics.com",
+                            },
+                            mashupDocument: "document",
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                testForExpectedMessage(errors, "kind is required");
+            });
+
+            it(`dataset with raw data`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            tableSchemaList: [{
+                                name: "Table",
+                                columns: [{
+                                    name: "fieldname",
+                                    dataType: models.DataType.Int32,
+                                }]
+                            }],
+                            data: [{
+                                name: "Table",
+                                rows: [['test','1']]
+                            }],
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                expect(errors).toBeUndefined();
+            });
+
+            it(`dataset with raw data without schema`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            data: [{
+                                name: "Table",
+                                rows: [['test','1']]
+                            }],
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                testForExpectedMessage(errors, rawDataNoSchemaErrorMessage);
+            });
+
+            it(`should fail when raw data has invalid fields`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            data: [{
+                                name: "Table",
+                                rows: [['test', 20]]
+                            }],
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                testForExpectedMessage(errors, rawDataInvalidMessage);
+            });
+
+            it(`should fail when raw data has invalid schema`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            data: [{
+                                name: "Table",
+                                rows: ['test']
+                            }],
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                testForExpectedMessage(errors, rawDataInvalidMessage);
+            });
+
+            it(`dataset with table schema`, () => {
+                // Arrange
+                const testData: IQuickCreateConfiguration = {
+                    accessToken: "fakeToken",
+                    datasetCreateConfig: {
+                        locale: "en_US",
+                        mashupDocument: "testdoc",
+                        tableSchemaList: [{
+                            name: "Table",
+                            columns: [{
+                                name: "fieldname",
+                                dataType: models.DataType.Int32,
+                            }]
+                        }]
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData);
+
+                // Assert
+                expect(errors).toBeUndefined();
+            });
+
+            it(`dataset with no mashup no raw data`, () => {
+                // Arrange
+                const testData: IQuickCreateConfiguration = {
+                    accessToken: "fakeToken",
+                    datasetCreateConfig: {
+                        locale: "en_US"
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData);
+
+                // Assert
+                testForExpectedMessage(errors, rawDataAndMashupMissingErrorMessage);
+            });
+
+            it(`dataset with datasourceConfig no mashup`, () => {
+                // Arrange
+                const testData: IQuickCreateConfiguration = {
+                    accessToken: "fakeToken",
+                    datasetCreateConfig: {
+                        locale: "en_US",
+                        datasourceConnectionConfig: {
+                            path: "somedomain.dynamics.com",
+                            kind: "CommonDataService",
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData);
+
+                // Assert
+                testForExpectedMessage(errors, datasourceConfigNoMeshupErrorMessage);
+            });
         });
     });
 

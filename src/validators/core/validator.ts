@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ActionBarValidator, ReportBarsValidator } from '../models/barsValidator';
+import { ActionBarValidator, StatusBarValidator, ReportBarsValidator } from '../models/barsValidator';
 import { AddBookmarkRequestValidator, ApplyBookmarkByNameRequestValidator, ApplyBookmarkStateRequestValidator, CaptureBookmarkOptionsValidator, CaptureBookmarkRequestValidator, PlayBookmarkRequestValidator } from '../models/bookmarkValidator';
 import { CommandsSettingsValidator, SingleCommandSettingsValidator, PaginatedReportCommandsValidator } from '../models/commandsSettingsValidator';
 import { CustomThemeValidator } from '../models/customThemeValidator';
@@ -20,6 +20,8 @@ import {
     FilterKeyHierarchyTargetValidator,
     FilterMeasureTargetValidator,
     FilterValidator,
+    HierarchyFilterNodeValidator,
+    HierarchyFilterValidator,
     IncludeExcludeFilterValidator,
     NotSupportedFilterValidator,
     OnLoadFiltersBaseRemoveOperationValidator,
@@ -60,6 +62,8 @@ import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { MapValidator } from './mapValidator';
 import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator, NumberArrayValidator, NumberValidator, RangeValidator, StringArrayValidator, StringValidator } from './typeValidator';
 import { ParametersPanelValidator } from '../models/parameterPanelValidator';
+import { DatasetCreateConfigValidator, ColumnSchemaValidator, DatasourceConnectionConfigValidator, TableSchemaValidator, TableDataValidator } from '../models/datasetCreateConfigValidator';
+import { QuickCreateValidator } from '../models/quickCreateValidator';
 
 export interface IValidationError {
     path?: string;
@@ -71,14 +75,20 @@ export interface IValidator {
     validate(input: any, path?: string, fieldName?: string): IValidationError[];
 }
 
+export interface IFieldValidatorsPair {
+    field: string;
+    validators: IValidator[];
+}
+
 export const Validators = {
     addBookmarkRequestValidator: new AddBookmarkRequestValidator(),
     advancedFilterTypeValidator: new EnumValidator([0]),
     advancedFilterValidator: new AdvancedFilterValidator(),
     anyArrayValidator: new ArrayValidator([new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()])]),
-    anyFilterValidator: new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new IncludeExcludeFilterValidator(), new NotSupportedFilterValidator(), new RelativeDateFilterValidator(), new TopNFilterValidator(), new RelativeTimeFilterValidator()]),
+    anyFilterValidator: new AnyOfValidator([new BasicFilterValidator(), new AdvancedFilterValidator(), new IncludeExcludeFilterValidator(), new NotSupportedFilterValidator(), new RelativeDateFilterValidator(), new TopNFilterValidator(), new RelativeTimeFilterValidator(), new HierarchyFilterValidator()]),
     anyValueValidator: new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator()]),
     actionBarValidator: new ActionBarValidator(),
+    statusBarValidator: new StatusBarValidator(),
     applyBookmarkByNameRequestValidator: new ApplyBookmarkByNameRequestValidator(),
     applyBookmarkStateRequestValidator: new ApplyBookmarkStateRequestValidator(),
     applyBookmarkValidator: new AnyOfValidator([new ApplyBookmarkByNameRequestValidator(), new ApplyBookmarkStateRequestValidator()]),
@@ -90,6 +100,7 @@ export const Validators = {
     bookmarksPaneValidator: new BookmarksPaneValidator(),
     captureBookmarkOptionsValidator: new CaptureBookmarkOptionsValidator(),
     captureBookmarkRequestValidator: new CaptureBookmarkRequestValidator(),
+    columnSchemaArrayValidator: new ArrayValidator([new ColumnSchemaValidator()]),
     commandDisplayOptionValidator: new EnumValidator([0, 1, 2]),
     commandExtensionSelectorValidator: new AnyOfValidator([new VisualSelectorValidator(), new VisualTypeSelectorValidator()]),
     commandExtensionArrayValidator: new ArrayValidator([new CommandExtensionValidator()]),
@@ -104,6 +115,8 @@ export const Validators = {
     customThemeValidator: new CustomThemeValidator(),
     dashboardLoadValidator: new DashboardLoadValidator(),
     datasetBindingValidator: new DatasetBindingValidator(),
+    datasetCreateConfigValidator: new DatasetCreateConfigValidator(),
+    datasourceConnectionConfigValidator: new DatasourceConnectionConfigValidator(),
     displayStateModeValidator: new EnumValidator([0, 1]),
     displayStateValidator: new DisplayStateValidator(),
     exportDataRequestValidator: new ExportDataRequestValidator(),
@@ -119,9 +132,9 @@ export const Validators = {
     filterConditionsValidator: new ArrayValidator([new ConditionItemValidator()]),
     filterHierarchyTargetValidator: new FilterHierarchyTargetValidator(),
     filterMeasureTargetValidator: new FilterMeasureTargetValidator(),
-    filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator()]),
+    filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new ArrayValidator([new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new FilterKeyColumnsTargetValidator(), new FilterKeyHierarchyTargetValidator()])])]),
     filterValidator: new FilterValidator(),
-    filterTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6, 7]),
+    filterTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6, 7, 9]),
     filtersArrayValidator: new ArrayValidator([new FilterValidator()]),
     filtersOperationsUpdateValidator: new EnumValidator([1, 2, 3]),
     filtersOperationsRemoveAllValidator: new EnumValidator([0]),
@@ -129,6 +142,8 @@ export const Validators = {
     hyperlinkClickBehaviorValidator: new EnumValidator([0, 1, 2]),
     includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
     includeExludeFilterTypeValidator: new EnumValidator([3]),
+    hierarchyFilterTypeValidator: new EnumValidator([9]),
+    hierarchyFilterValuesValidator: new ArrayValidator([new HierarchyFilterNodeValidator()]),
     layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),
     loadQnaValidator: new LoadQnaValidator(),
     menuExtensionValidator: new AnyOfValidator([new FlatMenuExtensionValidator(), new GroupedMenuExtensionValidator()]),
@@ -158,6 +173,8 @@ export const Validators = {
     qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
     qnaPanesValidator: new QnaPanesValidator(),
     qnaSettingValidator: new QnaSettingsValidator(),
+    quickCreateValidator: new QuickCreateValidator(),
+    rawDataValidator: new ArrayValidator([new ArrayValidator([new StringValidator()])]),
     relativeDateFilterOperatorValidator: new EnumValidator([0, 1, 2]),
     relativeDateFilterTimeUnitTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6]),
     relativeDateFilterTypeValidator: new EnumValidator([4]),
@@ -183,6 +200,8 @@ export const Validators = {
     stringArrayValidator: new StringArrayValidator(),
     stringValidator: new StringValidator(),
     syncSlicersPaneValidator: new SyncSlicersPaneValidator(),
+    tableDataArrayValidator: new ArrayValidator([new TableDataValidator()]),
+    tableSchemaListValidator: new ArrayValidator([new TableSchemaValidator()]),
     tileLoadValidator: new TileLoadValidator(),
     tokenTypeValidator: new EnumValidator([0, 1]),
     topNFilterTypeValidator: new EnumValidator([5]),
