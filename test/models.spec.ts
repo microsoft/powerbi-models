@@ -432,8 +432,7 @@ describe('Unit | Models', () => {
                             locale: "en_US",
                             mashupDocument: "document",
                             datasourceConnectionConfig: {
-                                path: "somedomain.dynamics.com",
-                                kind: "CommonDataService",
+                                credentialType: models.CredentialType.Anonymous
                             },
                         }
                     }
@@ -446,7 +445,7 @@ describe('Unit | Models', () => {
                 expect(errors).toBeUndefined();
             });
 
-            it(`should fail when datasourceConnectionConfig is incomplete`, () => {
+            it(`should fail when datasourceConnectionConfig has unsupported dataCacheMode`, () => {
                 // Arrange
                 const testData = {
                     load: {
@@ -454,7 +453,7 @@ describe('Unit | Models', () => {
                         datasetCreateConfig: {
                             locale: "en_US",
                             datasourceConnectionConfig: {
-                                path: "somedomain.dynamics.com",
+                                dataCacheMode: 3
                             },
                             mashupDocument: "document",
                         }
@@ -465,7 +464,31 @@ describe('Unit | Models', () => {
                 const errors = models.validateQuickCreate(testData.load);
 
                 // Assert
-                testForExpectedMessage(errors, "kind is required");
+                testForExpectedMessage(errors, "dataCacheMode property is invalid");
+            });
+
+            it(`should fail when datasourceConnectionConfig has unsupported credential type`, () => {
+                // Arrange
+                const testData = {
+                    load: {
+                        accessToken: "fakeToken",
+                        datasetCreateConfig: {
+                            locale: "en_US",
+                            datasourceConnectionConfig: {
+                                credentials: {
+                                    credentialType: 5
+                                }
+                            },
+                            mashupDocument: "document",
+                        }
+                    }
+                };
+
+                // Act
+                const errors = models.validateQuickCreate(testData.load);
+
+                // Assert
+                testForExpectedMessage(errors, "credentialType property is invalid");
             });
 
             it(`dataset with raw data`, () => {
@@ -610,8 +633,9 @@ describe('Unit | Models', () => {
                     datasetCreateConfig: {
                         locale: "en_US",
                         datasourceConnectionConfig: {
-                            path: "somedomain.dynamics.com",
-                            kind: "CommonDataService",
+                            credentials: {
+                                credentialType: models.CredentialType.Anonymous
+                            }
                         }
                     }
                 };

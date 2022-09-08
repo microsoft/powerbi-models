@@ -79,12 +79,39 @@ export class DatasourceConnectionConfigValidator extends ObjectValidator {
 
         const fields: IFieldValidatorsPair[] = [
             {
-                field: "path",
-                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
+                field: "dataCacheMode",
+                validators: [Validators.dataCacheModeValidator]
             },
             {
-                field: "kind",
-                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
+                field: "credentials",
+                validators: [Validators.credentialsValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class CredentialsValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "credentialType",
+                validators: [Validators.credentialTypeValidator]
+            },
+            {
+                field: "credentialDetails",
+                validators: [Validators.credentialDetailsValidator]
             }
         ];
 
