@@ -1145,21 +1145,19 @@ export interface IDatasetCreateConfiguration {
     data?: IDataTable[];
 }
 
-export enum ICredentialType {
+export enum CredentialType {
     NoConnection,
     OnBehalfOf,
     Anonymous,
 }
 
 export interface IDatasourceConnectionConfiguration {
-    path: string; // domain name, example "somedomain.dynamics.com"
-    kind: string; // dataSource kind, example: "CommonDataService"
-    dataCacheMode?: DataCacheMode; // DQ or Import
+    dataCacheMode?: DataCacheMode;
     credentials?: ICredential;
 }
 
 export interface ICredential {
-    credentialType: ICredentialType;
+    credentialType: CredentialType;
     credentialDetails?: { [property: string]: string };
 }
 
