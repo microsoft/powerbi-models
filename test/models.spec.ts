@@ -597,6 +597,7 @@ describe('Unit | Models', () => {
                             name: "Table",
                             columns: [{
                                 name: "fieldname",
+                                displayName: "displayName",
                                 dataType: models.DataType.Int32,
                             }]
                         }]
