@@ -518,6 +518,10 @@ export interface IHierarchyFilter extends IFilter {
     hierarchyData: IHierarchyFilterNode[];
 }
 
+export interface ISmartNarratives {
+    summaryText: string;
+}
+
 export enum FilterType {
     Advanced = 0,
     Basic = 1,
