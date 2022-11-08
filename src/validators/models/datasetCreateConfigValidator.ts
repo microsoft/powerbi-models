@@ -137,6 +137,10 @@ export class ColumnSchemaValidator extends ObjectValidator {
                 validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
             },
             {
+                field: "displayName",
+                validators: [Validators.stringValidator]
+            },
+            {
                 field: "dataType",
                 validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
             }

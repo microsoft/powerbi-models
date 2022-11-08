@@ -1173,6 +1173,7 @@ export interface ITableSchema {
 
 export interface IColumnSchema {
     name: string;
+    displayName?: string;
     dataType: DataType;
 }
 
