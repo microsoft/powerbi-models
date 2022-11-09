@@ -14,12 +14,11 @@ module.exports = function (config) {
         exclude: [],
         reporters: argv.debug ? ['spec', 'kjhtml'] : ['spec', 'coverage', 'kjhtml'],
         autoWatch: true,
-        browsers: [argv.chrome ? 'Chrome_headless' : 'PhantomJS'],
+        browsers: ["Chrome_headless"],
         plugins: [
             'karma-chrome-launcher',
             'karma-jasmine',
             'karma-spec-reporter',
-            'karma-phantomjs-launcher',
             'karma-coverage',
             'karma-jasmine-html-reporter'
         ],
