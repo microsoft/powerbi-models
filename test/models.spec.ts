@@ -3510,6 +3510,69 @@ describe("Unit | Filters", () => {
             // Assert
             expect(filter1.toJSON()).toEqual(filter2.toJSON());
         });
+
+        it("should support is empty string condition", () => {
+            // Arrange
+            const expectedFilter: models.IAdvancedFilter = {
+                $schema: "http://powerbi.com/product/schema#advanced",
+                target: {
+                    table: "a",
+                    column: "b"
+                },
+                logicalOperator: "Or",
+                conditions: [
+                    {
+                        operator: "IsEmptyString",
+                        value: ''
+                    },
+                    {
+                        value: "v2",
+                        operator: "Contains"
+                    }
+                ],
+                filterType: models.FilterType.Advanced
+            };
+
+            // Act
+            const filter = new models.AdvancedFilter(
+                expectedFilter.target as models.IFilterTarget,
+                expectedFilter.logicalOperator,
+                expectedFilter.conditions);
+
+            // Assert
+            expect(filter.toJSON()).toEqual(expectedFilter);
+        });
+
+        it("should support is not empty string condition", () => {
+            // Arrange
+            const expectedFilter: models.IAdvancedFilter = {
+                $schema: "http://powerbi.com/product/schema#advanced",
+                target: {
+                    table: "a",
+                    column: "b"
+                },
+                logicalOperator: "Or",
+                conditions: [
+                    {
+                        operator: "IsNotEmptyString",
+                        value: ''
+                    },
+                    {
+                        operator: "IsNotBlank"
+                    }
+                ],
+                filterType: models.FilterType.Advanced
+            };
+
+            // Act
+            const filter = new models.AdvancedFilter(
+                expectedFilter.target as models.IFilterTarget,
+                expectedFilter.logicalOperator,
+                expectedFilter.conditions);
+
+            // Assert
+            expect(filter.toJSON()).toEqual(expectedFilter);
+        });
     });
 
     describe("RelativeDateFilter", () => {
