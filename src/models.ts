@@ -1179,6 +1179,18 @@ export interface IColumnSchema {
     name: string;
     displayName?: string;
     dataType: DataType;
+    aggregateFunction?: AggregateFunction;
+}
+
+export enum AggregateFunction {
+    Default = 1,
+    None,
+    Sum,
+    Min,
+    Max,
+    Count,
+    Average,
+    DistinctCount
 }
 
 export const enum DataType {
