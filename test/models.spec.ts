@@ -1490,6 +1490,8 @@ describe('Unit | Models', () => {
         const layoutTypeInvalidTypeMessage = "layoutType must be a number";
         const layoutTypeInvalidMessage = "layoutType property is invalid";
         const customLayoutInvalidMessage = "customLayout must be an object";
+        const browserPrintAdjustmentsModeInvalidMessage = "browserPrintAdjustmentsMode property is invalid";
+        const printSettingsInvalidMessage = "printSettings must be an object";
         const hyperlinkClickBehaviorInvalidTypeMessage = "hyperlinkClickBehavior must be a number";
         const hyperlinkClickBehaviorInvalidMessage = "hyperlinkClickBehavior property is invalid";
         const modeInvalidMessage = "mode property is invalid";
@@ -1766,6 +1768,38 @@ describe('Unit | Models', () => {
             testForExpectedMessage(errors, modeInvalidMessage);
         });
 
+        it(`should return errors with one containing message '${printSettingsInvalidMessage}' if printSettings type is not valid`, () => {
+            // Arrange
+            const testData = {
+                settings: {
+                    printSettings: 1
+                }
+            };
+
+            // Act
+            const errors = models.validateSettings(testData.settings);
+
+            // Assert
+            testForExpectedMessage(errors, printSettingsInvalidMessage);
+        });
+
+        it(`should return errors with one containing message '${browserPrintAdjustmentsModeInvalidMessage}' if browserPrintAdjustmentsMode value is not valid`, () => {
+            // Arrange
+            const testData = {
+                settings: {
+                    printSettings: {
+                        browserPrintAdjustmentsMode: 2
+                    }
+                }
+            };
+
+            // Act
+            const errors = models.validateSettings(testData.settings);
+
+            // Assert
+            testForExpectedMessage(errors, browserPrintAdjustmentsModeInvalidMessage);
+        });
+
         it(`should return undefined if settings is valid (empty)`, () => {
             // Arrange
             const testData = {
@@ -1791,7 +1825,8 @@ describe('Unit | Models', () => {
                     extensions: [{ command: { name: "name", extend: {}, title: "title" } }],
                     commands: [{ exportData: { displayOption: models.CommandDisplayOption.Enabled } }],
                     layoutType: 0,
-                    customLayout: {}
+                    customLayout: {},
+                    printSettings: { browserPrintAdjustmentsMode: 1 }
                 }
             };
 

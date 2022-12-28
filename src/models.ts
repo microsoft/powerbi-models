@@ -1239,6 +1239,15 @@ export interface ILocaleSettings {
     formatLocale?: string;
 }
 
+export enum BrowserPrintAdjustmentsMode {
+    Default,
+    NoAdjustments
+}
+
+export interface IPrintSettings {
+    browserPrintAdjustmentsMode: BrowserPrintAdjustmentsMode;
+}
+
 export const enum ReportCreationMode {
     Default = "Default",
     QuickExplore = "QuickExplore",
@@ -1265,6 +1274,7 @@ export interface ISettings {
     visualSettings?: IVisualSettings;
     localeSettings?: ILocaleSettings;
     zoomLevel?: number;
+    printSettings?: IPrintSettings;
 }
 
 export interface IReportBars {
