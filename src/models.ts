@@ -1249,7 +1249,7 @@ export enum BrowserPrintAdjustmentsMode {
 }
 
 export interface IPrintSettings {
-    browserPrintAdjustmentsMode: BrowserPrintAdjustmentsMode;
+    browserPrintAdjustmentsMode?: BrowserPrintAdjustmentsMode;
 }
 
 export const enum ReportCreationMode {
