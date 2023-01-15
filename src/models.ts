@@ -1689,6 +1689,7 @@ export interface ICommandsSettings {
     groupVisualContainers?: ICommandSettings;
     summarize?: ICommandSettings;
     clearSelection?: ICommandSettings;
+    focusMode?: ICommandSettings;
 }
 
 export interface IPaginatedReportsCommandSettings {
