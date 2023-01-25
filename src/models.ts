@@ -478,7 +478,7 @@ export type ISlicerFilter = IBasicFilter | IBasicFilterWithKeys | IAdvancedFilte
 export type TopNFilterOperators = "Top" | "Bottom";
 export type BasicFilterOperators = "In" | "NotIn" | "All";
 export type AdvancedFilterLogicalOperators = "And" | "Or";
-export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank";
+export type AdvancedFilterConditionOperators = "None" | "LessThan" | "LessThanOrEqual" | "GreaterThan" | "GreaterThanOrEqual" | "Contains" | "DoesNotContain" | "StartsWith" | "DoesNotStartWith" | "Is" | "IsNot" | "IsBlank" | "IsNotBlank" | "IsEmptyString" | "IsNotEmptyString";
 export type HierarchyFilterNodeOperators = "Selected" | "NotSelected" | "Inherited";
 
 export interface OnLoadFiltersBase {
@@ -1145,21 +1145,19 @@ export interface IDatasetCreateConfiguration {
     data?: IDataTable[];
 }
 
-export enum ICredentialType {
+export enum CredentialType {
     NoConnection,
     OnBehalfOf,
     Anonymous,
 }
 
 export interface IDatasourceConnectionConfiguration {
-    path: string; // domain name, example "somedomain.dynamics.com"
-    kind: string; // dataSource kind, example: "CommonDataService"
-    dataCacheMode?: DataCacheMode; // DQ or Import
+    dataCacheMode?: DataCacheMode;
     credentials?: ICredential;
 }
 
 export interface ICredential {
-    credentialType: ICredentialType;
+    credentialType: CredentialType;
     credentialDetails?: { [property: string]: string };
 }
 
@@ -1175,6 +1173,7 @@ export interface ITableSchema {
 
 export interface IColumnSchema {
     name: string;
+    displayName?: string;
     dataType: DataType;
 }
 
