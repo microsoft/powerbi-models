@@ -87,6 +87,10 @@ export class SettingsValidator extends ObjectValidator {
             {
                 field: "authoringHintsEnabled",
                 validators: [Validators.booleanValidator]
+            },
+            {
+                field: "printSettings",
+                validators: [Validators.printSettingsValidator]
             }
         ];
 

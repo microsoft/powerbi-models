@@ -64,6 +64,7 @@ import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator,
 import { ParametersPanelValidator } from '../models/parameterPanelValidator';
 import { DatasetCreateConfigValidator, ColumnSchemaValidator, DatasourceConnectionConfigValidator, TableSchemaValidator, TableDataValidator, CredentialsValidator } from '../models/datasetCreateConfigValidator';
 import { QuickCreateValidator } from '../models/quickCreateValidator';
+import { PrintSettingsValidator } from '../models/printSettingsValidator';
 
 export interface IValidationError {
     path?: string;
@@ -174,6 +175,7 @@ export const Validators = {
     parametersPanelValidator: new ParametersPanelValidator(),
     permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
     playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
+    printSettingsValidator: new PrintSettingsValidator(),
     qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
     qnaPanesValidator: new QnaPanesValidator(),
     qnaSettingValidator: new QnaSettingsValidator(),

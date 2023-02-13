@@ -1239,6 +1239,15 @@ export interface ILocaleSettings {
     formatLocale?: string;
 }
 
+export enum BrowserPrintAdjustmentsMode {
+    Default,
+    NoAdjustments
+}
+
+export interface IPrintSettings {
+    browserPrintAdjustmentsMode?: BrowserPrintAdjustmentsMode;
+}
+
 export const enum ReportCreationMode {
     Default = "Default",
     QuickExplore = "QuickExplore",
@@ -1265,6 +1274,7 @@ export interface ISettings {
     visualSettings?: IVisualSettings;
     localeSettings?: ILocaleSettings;
     zoomLevel?: number;
+    printSettings?: IPrintSettings;
 }
 
 export interface IReportBars {
@@ -1971,5 +1981,10 @@ export function validateCustomTheme(input: any): IError[] {
 
 export function validateZoomLevel(input: any): IError[] {
     const errors: any[] = Validators.zoomLevelValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePrintSettings(input: any): IError[] {
+    const errors: any[] = Validators.printSettingsValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
