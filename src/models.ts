@@ -1983,3 +1983,8 @@ export function validateZoomLevel(input: any): IError[] {
     const errors: any[] = Validators.zoomLevelValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
+
+export function validatePrintSettings(input: any): IError[] {
+    const errors: any[] = Validators.printSettingsValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
