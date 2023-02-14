@@ -62,7 +62,7 @@ import { FieldRequiredValidator } from './fieldRequiredValidator';
 import { MapValidator } from './mapValidator';
 import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator, NumberArrayValidator, NumberValidator, RangeValidator, StringArrayValidator, StringValidator } from './typeValidator';
 import { ParametersPanelValidator } from '../models/parameterPanelValidator';
-import { DatasetCreateConfigValidator, ColumnSchemaValidator, DatasourceConnectionConfigValidator, TableSchemaValidator, TableDataValidator } from '../models/datasetCreateConfigValidator';
+import { DatasetCreateConfigValidator, ColumnSchemaValidator, DatasourceConnectionConfigValidator, TableSchemaValidator, TableDataValidator, CredentialsValidator } from '../models/datasetCreateConfigValidator';
 import { QuickCreateValidator } from '../models/quickCreateValidator';
 
 export interface IValidationError {
@@ -109,11 +109,15 @@ export const Validators = {
     commandsSettingsValidator: new CommandsSettingsValidator(),
     conditionItemValidator: new ConditionItemValidator(),
     contrastModeValidator: new EnumValidator([0, 1, 2, 3, 4]),
+    credentialDetailsValidator: new MapValidator([new StringValidator()], [new StringValidator()]),
+    credentialsValidator: new CredentialsValidator(),
+    credentialTypeValidator: new EnumValidator([0, 1, 2]),
     customLayoutDisplayOptionValidator: new EnumValidator([0, 1, 2]),
     customLayoutValidator: new CustomLayoutValidator(),
     customPageSizeValidator: new CustomPageSizeValidator(),
     customThemeValidator: new CustomThemeValidator(),
     dashboardLoadValidator: new DashboardLoadValidator(),
+    dataCacheModeValidator: new EnumValidator([0, 1]),
     datasetBindingValidator: new DatasetBindingValidator(),
     datasetCreateConfigValidator: new DatasetCreateConfigValidator(),
     datasourceConnectionConfigValidator: new DatasourceConnectionConfigValidator(),
