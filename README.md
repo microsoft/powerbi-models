@@ -40,7 +40,7 @@ Validation:
 ```typescript
 let testObject = { x: 1 };
 
-const errors = models.validateLoad(testObject);
+const errors = models.validateLoadQnaConfiguration(testObject);
 
 if(errors) {
   console.warn(errors);
