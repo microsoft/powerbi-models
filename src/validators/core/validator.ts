@@ -65,6 +65,7 @@ import { ParametersPanelValidator } from '../models/parameterPanelValidator';
 import { DatasetCreateConfigValidator, ColumnSchemaValidator, DatasourceConnectionConfigValidator, TableSchemaValidator, TableDataValidator, CredentialsValidator } from '../models/datasetCreateConfigValidator';
 import { QuickCreateValidator } from '../models/quickCreateValidator';
 import { PrintSettingsValidator } from '../models/printSettingsValidator';
+import { PaginatedReportDatasetBindingValidator } from '../models/paginatedReportDatasetBindingValidator';
 
 export interface IValidationError {
     path?: string;
@@ -169,6 +170,7 @@ export const Validators = {
     pageViewFieldValidator: new PageViewFieldValidator(),
     pagesLayoutValidator: new MapValidator([new StringValidator()], [new PageLayoutValidator()]),
     paginatedReportCommandsValidator: new PaginatedReportCommandsValidator(),
+    paginatedReportDatasetBindingArrayValidator: new ArrayValidator([new PaginatedReportDatasetBindingValidator()]),
     paginatedReportLoadValidator: new PaginatedReportLoadValidator(),
     paginatedReportsettingsValidator: new PaginatedReportSettingsValidator(),
     parameterValuesArrayValidator: new ArrayValidator([new ReportParameterFieldsValidator()]),

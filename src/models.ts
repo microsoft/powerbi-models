@@ -173,7 +173,13 @@ export interface IVisual {
 }
 
 export interface IDatasetBinding {
-    datasetId: string;
+    datasetId?: string;
+    paginatedReportBindings?: IPaginatedReportDatasetBinding[];
+}
+
+export interface IPaginatedReportDatasetBinding {
+    sourceDatasetId: string;
+    targetDatasetId: string;
 }
 
 export enum Permissions {
@@ -1353,6 +1359,7 @@ export interface IPaginatedReportLoadConfiguration {
     type?: string;
     embedUrl?: string;
     parameterValues?: IPaginatedReportParameter[];
+    datasetBindings?: IPaginatedReportDatasetBinding[];
 }
 
 export interface IPaginatedReportSettings {

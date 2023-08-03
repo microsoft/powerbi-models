@@ -47,6 +47,10 @@ export class PaginatedReportLoadValidator extends ObjectValidator {
             {
                 field: "parameterValues",
                 validators: [Validators.parameterValuesArrayValidator]
+            },
+            {
+                field: "datasetBindings",
+                validators: [Validators.paginatedReportDatasetBindingArrayValidator]
             }
         ];
 
