@@ -5,7 +5,7 @@ import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleF
 import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
 
-export class DatasetBindingValidator extends ObjectValidator {
+export class PaginatedReportDatasetBindingValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
             return null;
@@ -16,22 +16,14 @@ export class DatasetBindingValidator extends ObjectValidator {
             return errors;
         }
 
-        if (!input["datasetId"] && !input["paginatedReportBindings"]) {
-            return [{
-                message: "datasetBinding cannot be empty",
-                path: (path ? path + "." : "") + field,
-                keyword: "invalid"
-            }];
-        }
-
         const fields: IFieldValidatorsPair[] = [
             {
-                field: "datasetId",
-                validators: [Validators.stringValidator]
+                field: "sourceDatasetId",
+                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
             },
             {
-                field: "paginatedReportBindings",
-                validators: [Validators.paginatedReportDatasetBindingArrayValidator]
+                field: "targetDatasetId",
+                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
             }
         ];
 
