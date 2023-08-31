@@ -18,7 +18,6 @@ describe('Unit | Models', () => {
         const accessTokenRequiredMessage = "accessToken is required";
         const accessTokenInvalidTypeMessage = "accessToken must be a string";
         const datasetIdInvalidTypeMessage = "datasetId must be a string";
-        const datasetIdRequiredMessage = "datasetId is required";
         const idRequiredMessage = "id is required";
         const idInvalidTypeMessage = "id must be a string";
         const pageNameInvalidTypeMessage = "pageName must be a string";
@@ -266,7 +265,7 @@ describe('Unit | Models', () => {
             expect(errors).toBeUndefined();
         });
 
-        it(`should return errors with one containing message '${datasetIdRequiredMessage}' if datasetId doesn't exists`, () => {
+        it(`should return errors if no datasetId nor PaginatedReportDatasetBindings is provided`, () => {
             // Arrange
             const testData = {
                 load: {
@@ -276,11 +275,51 @@ describe('Unit | Models', () => {
                     }
                 }
             };
+            // Act
+            const errors = models.validateReportLoad(testData.load);
+            // Assert
+            testForExpectedMessage(errors, "datasetBinding cannot be empty");
+        });
+
+        it(`should return undefined if id, accessToken are provided and paginatedReportBindings is valid`, () => {
+            // Arrange
+            const testData = {
+                load: {
+                    id: 'fakeId',
+                    accessToken: 'fakeAccessToken',
+                    datasetBinding: {
+                        paginatedReportBindings: [
+                            { sourceDatasetId: 'sourceDatasetId', targetDatasetId: 'targetDatasetId' }
+                        ]
+                    }
+                }
+            };
 
             // Act
             const errors = models.validateReportLoad(testData.load);
             // Assert
-            testForExpectedMessage(errors, datasetIdRequiredMessage);
+            expect(errors).toBeUndefined();
+        });
+
+        it(`should return undefined if id, accessToken are provided and both datasetBinding and paginatedReportBindings is valid`, () => {
+            // Arrange
+            const testData = {
+                load: {
+                    id: 'fakeId',
+                    accessToken: 'fakeAccessToken',
+                    datasetBinding: {
+                        datasetId: "fakeDatasetId",
+                        paginatedReportBindings: [
+                            { sourceDatasetId: 'sourceDatasetId', targetDatasetId: 'targetDatasetId' }
+                        ]
+                    }
+                }
+            };
+
+            // Act
+            const errors = models.validateReportLoad(testData.load);
+            // Assert
+            expect(errors).toBeUndefined();
         });
 
         it(`should return errors with one containing message '${datasetIdInvalidTypeMessage}' if datasetId is not a string`, () => {
@@ -651,10 +690,16 @@ describe('Unit | Models', () => {
     });
 
     describe('validatePaginatedReportLoad', () => {
-        const testData: any = {
+        let testData: any = {
             accessToken: "token",
             id: "reportid",
         };
+        beforeEach(() => {
+            testData = {
+                accessToken: "token",
+                id: "reportid",
+            };
+        });
         it(`happy path`, () => {
             testData.settings = { commands: { parameterPanel: { enabled: true, expanded: true } } };
             const errors = models.validatePaginatedReportLoad(testData);
@@ -697,6 +742,34 @@ describe('Unit | Models', () => {
             ];
             const errors = models.validatePaginatedReportLoad(testData);
             testForExpectedMessage(errors, 'parameterValues property is invalid');
+        });
+        it('should fail if datasetBindings are defined without sourceDatasetId', () => {
+            testData.datasetBindings = [
+                {
+                    targetDatasetId: 'targetDatasetId'
+                }
+            ];
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'datasetBindings property is invalid');
+        });
+        it('should fail if datasetBindings are defined without targetDatasetId', () => {
+            testData.datasetBindings = [
+                {
+                    sourceDatasetId: 'sourceDatasetId'
+                }
+            ];
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'datasetBindings property is invalid');
+        });
+        it('should fail if datasetBindings are defined with not string types', () => {
+            testData.datasetBindings = [
+                {
+                    sourceDatasetId: 2,
+                    targetDatasetId: null
+                }
+            ];
+            const errors = models.validatePaginatedReportLoad(testData);
+            testForExpectedMessage(errors, 'datasetBindings property is invalid');
         });
     });
 
