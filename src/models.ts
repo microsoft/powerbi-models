@@ -384,7 +384,8 @@ export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHier
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IIdentityFilterTarget = number[];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget;
+export type IIncludeExcludeFilterTarget = IFilterTarget | IFilterKeyTarget | (IFilterTarget | IFilterKeyTarget)[][];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
@@ -410,7 +411,8 @@ export interface INotSupportedFilter extends IFilter {
 }
 
 export interface IIncludeExcludeFilter extends IFilter {
-    values: (string | number | boolean)[];
+    values: (string | number | boolean)[] | IncludeExcludeFilterValuesType;
+    target: IIncludeExcludeFilterTarget;
     isExclude: boolean;
 }
 
@@ -457,6 +459,14 @@ export interface ITupleFilter extends IFilter {
     target: ITupleFilterTarget;
     values: TupleValueType[];
 }
+
+export interface IIncludeExcludeTargetValue {
+    value: PrimitiveValueType;
+    keyValues?: PrimitiveValueType[];
+}
+export type IncludeExcludePointType = IIncludeExcludeTargetValue[];
+export type IncludeExcludePointsGroupType = IncludeExcludePointType[];
+export type IncludeExcludeFilterValuesType = IncludeExcludePointsGroupType[];
 
 export enum FiltersOperations {
     RemoveAll,
@@ -617,14 +627,16 @@ export class NotSupportedFilter extends Filter {
 
 export class IncludeExcludeFilter extends Filter {
     static schemaUrl: string = "http://powerbi.com/product/schema#includeExclude";
-    values: (string | number | boolean)[];
+    values: (string | number | boolean)[] | IncludeExcludeFilterValuesType;
     isExclude: boolean;
+    target: IIncludeExcludeFilterTarget;
 
     constructor(
-        target: IFilterTarget,
+        target: IIncludeExcludeFilterTarget,
         isExclude: boolean,
-        values: (string | number | boolean)[]) {
+        values: (string | number | boolean)[] | IncludeExcludeFilterValuesType) {
         super(target, FilterType.IncludeExclude);
+        this.target = target;
         this.values = values;
         this.isExclude = isExclude;
         this.schemaUrl = IncludeExcludeFilter.schemaUrl;
