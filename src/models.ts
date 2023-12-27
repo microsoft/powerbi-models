@@ -384,7 +384,7 @@ export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHier
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IIdentityFilterTarget = number[];
-export type IIncludeExcludeFilterTarget = IFilterTarget | IFilterKeyTarget | (IFilterTarget | IFilterKeyTarget)[][];
+export type IIncludeExcludeFilterTarget = IFilterTarget | (IFilterTarget | IFilterKeyTarget)[][];
 export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget;
 export interface IFilter {
     $schema: string;
