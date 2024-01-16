@@ -1320,6 +1320,44 @@ describe('Unit | Models', () => {
             expect(models.validateFilter(filter.toJSON())).toBeUndefined();
         });
 
+        it("should return undefined if object is valid include/exclude filter schema with multiple targets", () => {
+            // Arrange
+            const expectedFilter: models.IIncludeExcludeFilter = {
+                $schema: "http://powerbi.com/product/schema#includeExclude",
+                target: [
+                    [{
+                        table: "a",
+                        column: "b"
+                    },
+                    {
+                        table: "a",
+                        column: "c"
+                    }]
+                ],
+                values: [
+                    [
+                        [
+                            {value: 1}, {value: 2}
+                        ],
+                        [
+                            {value: 3}, {value: 4}
+                        ]
+                    ]
+                ],
+                isExclude: false,
+                filterType: models.FilterType.IncludeExclude
+            };
+
+            // Act
+            const filter = new models.IncludeExcludeFilter(
+                expectedFilter.target,
+                expectedFilter.isExclude,
+                expectedFilter.values);
+
+            // Assert
+            expect(models.validateFilter(filter.toJSON())).toBeUndefined();
+        });
+
         it("should return undefined if object is valid advanced filter schema", () => {
             // Arrange
             const expectedFilter: models.IAdvancedFilter = {
@@ -3809,6 +3847,56 @@ describe("Unit | Filters", () => {
             // Act
             const filter = new models.IncludeExcludeFilter(
                 expectedFilter.target as models.IFilterTarget,
+                expectedFilter.isExclude,
+                expectedFilter.values);
+
+            // Assert
+            expect(filter.toJSON()).toEqual(expectedFilter);
+        });
+
+        it("should output the correct json when toJSON is called with multiple targets", () => {
+            // Arrange
+            const expectedFilter: models.IIncludeExcludeFilter = {
+                $schema: "http://powerbi.com/product/schema#includeExclude",
+                target: [
+                    [{
+                        table: "a",
+                        column: "b"
+                    },
+                    {
+                        table: "a",
+                        column: "c"
+                    }],
+                    [{
+                        table: "a",
+                        column: "d"
+                    }]
+                ],
+                values: [
+                    [
+                        [
+                            {value: 1}, {value: 2}
+                        ],
+                        [
+                            {value: 3}, {value: 4}
+                        ]
+                    ],
+                    [
+                        [
+                            {value: 5}
+                        ],
+                        [
+                            {value: 6}
+                        ]
+                    ]
+                ],
+                isExclude: false,
+                filterType: models.FilterType.IncludeExclude
+            };
+
+            // Act
+            const filter = new models.IncludeExcludeFilter(
+                expectedFilter.target,
                 expectedFilter.isExclude,
                 expectedFilter.values);
 
