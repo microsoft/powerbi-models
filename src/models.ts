@@ -51,6 +51,14 @@ export enum BackgroundType {
     Transparent
 }
 
+export interface ICopilotSummary {
+    summary: string;
+}
+
+export interface ICopilotPrompt {
+    prompt: string;
+}
+
 export interface IPageSize {
     type: PageSizeType;
 }
