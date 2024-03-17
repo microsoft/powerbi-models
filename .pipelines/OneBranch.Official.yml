@@ -1,3 +1,10 @@
+schedules: 
+- cron: "0 0 * * SUNDAY"
+  displayName: CodeQL weekly scan 
+  branches:
+    include: 
+    - portal
+  always: true
 #################################################################################
 #   Onebranch Pipelines - Official MSBuild (CDPXMigrated)                       #
 # This pipeline was created by EasyStart from a sample located at:              #
@@ -8,7 +15,8 @@
 # Support:        https://aka.ms/onebranchsup                                   #
 #################################################################################
 
-trigger: none # https://aka.ms/obpipelines/triggers
+trigger:
+- portal # https://aka.ms/obpipelines/triggers
 
 parameters: # parameters are shown up in ADO UI in a build queue time
 - name: 'debug'
