@@ -3,7 +3,7 @@ schedules:
   displayName: CodeQL weekly scan 
   branches:
     include: 
-    - portal
+    - master
   always: true
 #################################################################################
 #   Onebranch Pipelines - Official MSBuild (CDPXMigrated)                       #
@@ -16,7 +16,7 @@ schedules:
 #################################################################################
 
 trigger:
-- portal # https://aka.ms/obpipelines/triggers
+- master # https://aka.ms/obpipelines/triggers
 
 parameters: # parameters are shown up in ADO UI in a build queue time
 - name: 'debug'
