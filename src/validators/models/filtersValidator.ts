@@ -430,7 +430,7 @@ export class IncludeExcludeFilterValidator extends FilterValidatorBase {
             },
             {
                 field: "values",
-                validators: [Validators.fieldRequiredValidator, Validators.anyArrayValidator]
+                validators: [Validators.fieldRequiredValidator, Validators.includeExcludeFilterValuesValidator]
             },
             {
                 field: "filterType",
@@ -497,6 +497,33 @@ export class HierarchyFilterNodeValidator extends ObjectValidator {
             {
                 field: "operator",
                 validators: [Validators.stringValidator]
+            }
+        ];
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+        return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class IncludeExcludePointValueValidator extends ObjectValidator {
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const fields: IFieldValidatorsPair[] = [
+            {
+                field: "value",
+                validators: [Validators.fieldRequiredValidator, Validators.anyValueValidator]
+            },
+            {
+                field: "keyValues",
+                validators: [Validators.anyArrayValidator]
             }
         ];
 
