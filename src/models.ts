@@ -173,7 +173,13 @@ export interface IVisual {
 }
 
 export interface IDatasetBinding {
-    datasetId: string;
+    datasetId?: string;
+    paginatedReportBindings?: IPaginatedReportDatasetBinding[];
+}
+
+export interface IPaginatedReportDatasetBinding {
+    sourceDatasetId: string;
+    targetDatasetId: string;
 }
 
 export enum Permissions {
@@ -307,6 +313,10 @@ export enum MenuLocation {
     Top
 }
 
+export interface IQueryNameTarget {
+    queryName: string;
+}
+
 export interface IBaseTarget {
     table: string;
     $schema?: string;
@@ -378,7 +388,9 @@ export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHier
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IIdentityFilterTarget = number[];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget;
+export type IHierarchyIdentityFilterTarget = IQueryNameTarget[];
+export type IIncludeExcludeFilterTarget = IFilterTarget | (IFilterTarget | IFilterKeyTarget)[][];
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget | IHierarchyIdentityFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
@@ -404,7 +416,8 @@ export interface INotSupportedFilter extends IFilter {
 }
 
 export interface IIncludeExcludeFilter extends IFilter {
-    values: (string | number | boolean)[];
+    values: (string | number | boolean)[] | IncludeExcludeFilterValuesType;
+    target: IIncludeExcludeFilterTarget;
     isExclude: boolean;
 }
 
@@ -451,6 +464,14 @@ export interface ITupleFilter extends IFilter {
     target: ITupleFilterTarget;
     values: TupleValueType[];
 }
+
+export interface IIncludeExcludeTargetValue {
+    value: PrimitiveValueType;
+    keyValues?: PrimitiveValueType[];
+}
+export type IncludeExcludePointType = IIncludeExcludeTargetValue[];
+export type IncludeExcludePointsGroupType = IncludeExcludePointType[];
+export type IncludeExcludeFilterValuesType = IncludeExcludePointsGroupType[];
 
 export enum FiltersOperations {
     RemoveAll,
@@ -518,6 +539,21 @@ export interface IHierarchyFilter extends IFilter {
     hierarchyData: IHierarchyFilterNode[];
 }
 
+export interface IHierarchyIdentityFilterNode<IdentityType> {
+    identity: IdentityType;
+    children?: IHierarchyIdentityFilterNode<IdentityType>[];
+    operator: HierarchyFilterNodeOperators;
+}
+
+export interface IHierarchyIdentityFilter<IdentityType> extends IFilter {
+    target: IHierarchyIdentityFilterTarget;
+    hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[];
+}
+
+export interface ISmartNarratives {
+    summaryText: string;
+}
+
 export enum FilterType {
     Advanced = 0,
     Basic = 1,
@@ -529,6 +565,7 @@ export enum FilterType {
     RelativeTime = 7,
     Identity = 8,
     Hierarchy = 9,
+    HierarchyIdentity = 10,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -607,14 +644,16 @@ export class NotSupportedFilter extends Filter {
 
 export class IncludeExcludeFilter extends Filter {
     static schemaUrl: string = "http://powerbi.com/product/schema#includeExclude";
-    values: (string | number | boolean)[];
+    values: (string | number | boolean)[] | IncludeExcludeFilterValuesType;
     isExclude: boolean;
+    target: IIncludeExcludeFilterTarget;
 
     constructor(
-        target: IFilterTarget,
+        target: IIncludeExcludeFilterTarget,
         isExclude: boolean,
-        values: (string | number | boolean)[]) {
+        values: (string | number | boolean)[] | IncludeExcludeFilterValuesType) {
         super(target, FilterType.IncludeExclude);
+        this.target = target;
         this.values = values;
         this.isExclude = isExclude;
         this.schemaUrl = IncludeExcludeFilter.schemaUrl;
@@ -932,6 +971,29 @@ export class HierarchyFilter extends Filter {
     }
 }
 
+export class HierarchyIdentityFilter<IdentityType> extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#hierarchyIdentity";
+
+    target: IHierarchyIdentityFilterTarget;
+    hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[];
+
+    constructor(
+        target: IHierarchyIdentityFilterTarget,
+        hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[]
+    ) {
+        super(target, FilterType.HierarchyIdentity);
+        this.schemaUrl = HierarchyIdentityFilter.schemaUrl;
+        this.hierarchyData = hierarchyData;
+    }
+
+    toJSON(): IHierarchyIdentityFilter<IdentityType> {
+        const filter = super.toJSON() as IHierarchyIdentityFilter<IdentityType>;
+        filter.hierarchyData = this.hierarchyData;
+        filter.target = this.target;
+        return filter;
+    }
+}
+
 export interface IDataReference {
     target: IFilterTarget;
 }
@@ -1175,6 +1237,18 @@ export interface IColumnSchema {
     name: string;
     displayName?: string;
     dataType: DataType;
+    aggregateFunction?: AggregateFunction;
+}
+
+export enum AggregateFunction {
+    Default = 1,
+    None,
+    Sum,
+    Min,
+    Max,
+    Count,
+    Average,
+    DistinctCount
 }
 
 export const enum DataType {
@@ -1227,6 +1301,15 @@ export interface ILocaleSettings {
     formatLocale?: string;
 }
 
+export enum BrowserPrintAdjustmentsMode {
+    Default,
+    NoAdjustments
+}
+
+export interface IPrintSettings {
+    browserPrintAdjustmentsMode?: BrowserPrintAdjustmentsMode;
+}
+
 export const enum ReportCreationMode {
     Default = "Default",
     QuickExplore = "QuickExplore",
@@ -1253,6 +1336,7 @@ export interface ISettings {
     visualSettings?: IVisualSettings;
     localeSettings?: ILocaleSettings;
     zoomLevel?: number;
+    printSettings?: IPrintSettings;
 }
 
 export interface IReportBars {
@@ -1327,6 +1411,7 @@ export interface IPaginatedReportLoadConfiguration {
     type?: string;
     embedUrl?: string;
     parameterValues?: IPaginatedReportParameter[];
+    datasetBindings?: IPaginatedReportDatasetBinding[];
 }
 
 export interface IPaginatedReportSettings {
@@ -1663,6 +1748,7 @@ export interface ICommandsSettings {
     groupVisualContainers?: ICommandSettings;
     summarize?: ICommandSettings;
     clearSelection?: ICommandSettings;
+    focusMode?: ICommandSettings;
 }
 
 export interface IPaginatedReportsCommandSettings {
@@ -1959,5 +2045,10 @@ export function validateCustomTheme(input: any): IError[] {
 
 export function validateZoomLevel(input: any): IError[] {
     const errors: any[] = Validators.zoomLevelValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validatePrintSettings(input: any): IError[] {
+    const errors: any[] = Validators.printSettingsValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }

@@ -23,6 +23,7 @@ import {
     HierarchyFilterNodeValidator,
     HierarchyFilterValidator,
     IncludeExcludeFilterValidator,
+    IncludeExcludePointValueValidator,
     NotSupportedFilterValidator,
     OnLoadFiltersBaseRemoveOperationValidator,
     OnLoadFiltersBaseValidator,
@@ -64,6 +65,8 @@ import { ArrayValidator, BooleanArrayValidator, BooleanValidator, EnumValidator,
 import { ParametersPanelValidator } from '../models/parameterPanelValidator';
 import { DatasetCreateConfigValidator, ColumnSchemaValidator, DatasourceConnectionConfigValidator, TableSchemaValidator, TableDataValidator, CredentialsValidator } from '../models/datasetCreateConfigValidator';
 import { QuickCreateValidator } from '../models/quickCreateValidator';
+import { PrintSettingsValidator } from '../models/printSettingsValidator';
+import { PaginatedReportDatasetBindingValidator } from '../models/paginatedReportDatasetBindingValidator';
 
 export interface IValidationError {
     path?: string;
@@ -136,7 +139,7 @@ export const Validators = {
     filterConditionsValidator: new ArrayValidator([new ConditionItemValidator()]),
     filterHierarchyTargetValidator: new FilterHierarchyTargetValidator(),
     filterMeasureTargetValidator: new FilterMeasureTargetValidator(),
-    filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new ArrayValidator([new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new FilterKeyColumnsTargetValidator(), new FilterKeyHierarchyTargetValidator()])])]),
+    filterTargetValidator: new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new ArrayValidator([new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new FilterKeyColumnsTargetValidator(), new FilterKeyHierarchyTargetValidator(), new ArrayValidator([new AnyOfValidator([new FilterColumnTargetValidator(), new FilterHierarchyTargetValidator(), new FilterMeasureTargetValidator(), new FilterKeyColumnsTargetValidator(), new FilterKeyHierarchyTargetValidator()])])])])]),
     filterValidator: new FilterValidator(),
     filterTypeValidator: new EnumValidator([0, 1, 2, 3, 4, 5, 6, 7, 9]),
     filtersArrayValidator: new ArrayValidator([new FilterValidator()]),
@@ -146,6 +149,7 @@ export const Validators = {
     hyperlinkClickBehaviorValidator: new EnumValidator([0, 1, 2]),
     includeExcludeFilterValidator: new IncludeExcludeFilterValidator(),
     includeExludeFilterTypeValidator: new EnumValidator([3]),
+    includeExcludeFilterValuesValidator: new ArrayValidator([new AnyOfValidator([new StringValidator(), new NumberValidator(), new BooleanValidator(), new ArrayValidator([new ArrayValidator([new IncludeExcludePointValueValidator()])])])]),
     hierarchyFilterTypeValidator: new EnumValidator([9]),
     hierarchyFilterValuesValidator: new ArrayValidator([new HierarchyFilterNodeValidator()]),
     layoutTypeValidator: new EnumValidator([0, 1, 2, 3]),
@@ -168,12 +172,14 @@ export const Validators = {
     pageViewFieldValidator: new PageViewFieldValidator(),
     pagesLayoutValidator: new MapValidator([new StringValidator()], [new PageLayoutValidator()]),
     paginatedReportCommandsValidator: new PaginatedReportCommandsValidator(),
+    paginatedReportDatasetBindingArrayValidator: new ArrayValidator([new PaginatedReportDatasetBindingValidator()]),
     paginatedReportLoadValidator: new PaginatedReportLoadValidator(),
     paginatedReportsettingsValidator: new PaginatedReportSettingsValidator(),
     parameterValuesArrayValidator: new ArrayValidator([new ReportParameterFieldsValidator()]),
     parametersPanelValidator: new ParametersPanelValidator(),
     permissionsValidator: new EnumValidator([0, 1, 2, 4, 7]),
     playBookmarkRequestValidator: new PlayBookmarkRequestValidator(),
+    printSettingsValidator: new PrintSettingsValidator(),
     qnaInterpretInputDataValidator: new QnaInterpretInputDataValidator(),
     qnaPanesValidator: new QnaPanesValidator(),
     qnaSettingValidator: new QnaSettingsValidator(),
