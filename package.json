@@ -1,6 +1,6 @@
 {
     "name": "powerbi-models",
-    "version": "1.12.4",
+    "version": "1.15.2",
     "description": "Contains JavaScript &amp; TypeScript object models for Microsoft Power BI JavaScript SDK. For each model there is a TypeScript interface, and a validation function to ensure and object is valid.",
     "main": "dist/models.js",
     "typings": "dist/models.d.ts",
@@ -61,9 +61,7 @@
         "karma-coverage": "^2.0.1",
         "karma-jasmine": "^0.3.8",
         "karma-jasmine-html-reporter": "^0.2.2",
-        "karma-phantomjs-launcher": "^1.0.4",
         "karma-spec-reporter": "0.0.32",
-        "phantomjs-prebuilt": "^2.1.7",
         "ts-loader": "^6.2.1",
         "typedoc": "^0.22.14",
         "typescript": "~4.6.0",
