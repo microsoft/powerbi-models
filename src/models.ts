@@ -55,8 +55,23 @@ export interface ICopilotSummary {
     summary: string;
 }
 
+export type pageName = string;
+
+export interface ICopilotPromptReportSelection {
+    isEntireReportSelected: boolean;
+    pages?: Record<pageName, ICopilotPromptPageSelection>;
+}
+
+export type visualName = string;
+
+export interface ICopilotPromptPageSelection {
+    isEntirePageSelected: boolean;
+    visuals?: Record<visualName, boolean>;
+}
+
 export interface ICopilotPrompt {
     prompt: string;
+    reportSelection: ICopilotPromptReportSelection;
 }
 
 export interface IPageSize {
