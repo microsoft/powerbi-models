@@ -51,8 +51,19 @@ export enum BackgroundType {
     Transparent
 }
 
+export interface ICopilotSummaryReference {
+    title: string;
+    visualName: string;
+    pageName: string;
+}
+
+export type copilotSummaryReferenceId = string;
+
+export type CopilotSummaryReferenceLookup = Record<copilotSummaryReferenceId, ICopilotSummaryReference>;
+
 export interface ICopilotSummary {
     summary: string;
+    references: CopilotSummaryReferenceLookup;
 }
 
 export type pageName = string;
