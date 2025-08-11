@@ -318,7 +318,6 @@ export interface IQueryNameTarget {
 }
 
 export interface IBaseTarget {
-    table: string;
     $schema?: string;
 }
 
@@ -328,6 +327,7 @@ export interface IPercentOfGrandTotalTarget {
 
 export interface IColumnTarget extends IBaseTarget {
     column: string;
+    table: string;
 }
 
 export interface IKeyColumnsTarget extends IColumnTarget {
@@ -341,16 +341,28 @@ export interface IKeyHierarchyTarget extends IHierarchyLevelTarget {
 export interface IHierarchyLevelTarget extends IBaseTarget {
     hierarchy: string;
     hierarchyLevel: string;
+    table: string;
 }
 
-export interface INotSupportedTarget extends IBaseTarget { }
+export interface IVisualCalculationTarget extends IBaseTarget {
+    name: string;
+    daxExpression: string;
+    hidden?: boolean;
+}
+
+export interface INotSupportedTarget extends IBaseTarget {
+    table: string;
+}
 
 export interface IMeasureTarget extends IBaseTarget, IPercentOfGrandTotalTarget {
     measure: string;
+    table: string;
+    hidden?: boolean;
 }
 
 export interface IAggregationTarget extends IPercentOfGrandTotalTarget {
     aggregationFunction: string;
+    hidden?: boolean;
 }
 
 export interface IColumnAggrTarget extends IColumnTarget, IAggregationTarget { }
@@ -360,7 +372,9 @@ export interface IHierarchyLevelAggrTarget extends IHierarchyLevelTarget, IAggre
 export declare type IKeyTarget = (IKeyColumnsTarget | IKeyHierarchyTarget);
 export declare type ITarget = (IColumnTarget | IHierarchyLevelTarget | IMeasureTarget | INotSupportedTarget | IColumnAggrTarget | IHierarchyLevelAggrTarget);
 
-export interface IBaseFilterTarget extends IBaseTarget { }
+export interface IBaseFilterTarget extends IBaseTarget {
+    table: string;
+}
 
 export interface IFilterColumnTarget extends IBaseFilterTarget, IColumnTarget { }
 
@@ -1069,6 +1083,10 @@ export function isColumnAggr(arg: any): arg is IColumnAggrTarget {
 
 export function isPercentOfGrandTotal(arg: any): arg is IPercentOfGrandTotalTarget {
     return !!(arg as IPercentOfGrandTotalTarget).percentOfGrandTotal;
+}
+
+export function isVisualCalculation(arg: any): arg is IVisualCalculationTarget {
+    return !!(arg.name && arg.daxExpression);
 }
 
 export interface IBootstrapEmbedConfiguration {
