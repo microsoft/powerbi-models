@@ -51,40 +51,6 @@ export enum BackgroundType {
     Transparent
 }
 
-export interface ICopilotSummaryReference {
-    title: string;
-    visualName: string;
-    pageName: string;
-}
-
-export type copilotSummaryReferenceId = string;
-
-export type CopilotSummaryReferenceLookup = Record<copilotSummaryReferenceId, ICopilotSummaryReference>;
-
-export interface ICopilotSummary {
-    summary: string;
-    references: CopilotSummaryReferenceLookup;
-}
-
-export type pageName = string;
-
-export interface ICopilotPromptReportSelection {
-    isEntireReportSelected: boolean;
-    pages?: Record<pageName, ICopilotPromptPageSelection>;
-}
-
-export type visualName = string;
-
-export interface ICopilotPromptPageSelection {
-    isEntirePageSelected: boolean;
-    visuals?: Record<visualName, boolean>;
-}
-
-export interface ICopilotPrompt {
-    prompt: string;
-    reportSelection: ICopilotPromptReportSelection;
-}
-
 export interface IPageSize {
     type: PageSizeType;
 }
@@ -347,11 +313,8 @@ export enum MenuLocation {
     Top
 }
 
-export interface IQueryNameTarget {
-    queryName: string;
-}
-
 export interface IBaseTarget {
+    table: string;
     $schema?: string;
 }
 
@@ -361,7 +324,6 @@ export interface IPercentOfGrandTotalTarget {
 
 export interface IColumnTarget extends IBaseTarget {
     column: string;
-    table: string;
 }
 
 export interface IKeyColumnsTarget extends IColumnTarget {
@@ -375,28 +337,16 @@ export interface IKeyHierarchyTarget extends IHierarchyLevelTarget {
 export interface IHierarchyLevelTarget extends IBaseTarget {
     hierarchy: string;
     hierarchyLevel: string;
-    table: string;
 }
 
-export interface IVisualCalculationTarget extends IBaseTarget {
-    name: string;
-    daxExpression: string;
-    hidden?: boolean;
-}
-
-export interface INotSupportedTarget extends IBaseTarget {
-    table: string;
-}
+export interface INotSupportedTarget extends IBaseTarget { }
 
 export interface IMeasureTarget extends IBaseTarget, IPercentOfGrandTotalTarget {
     measure: string;
-    table: string;
-    hidden?: boolean;
 }
 
 export interface IAggregationTarget extends IPercentOfGrandTotalTarget {
     aggregationFunction: string;
-    hidden?: boolean;
 }
 
 export interface IColumnAggrTarget extends IColumnTarget, IAggregationTarget { }
@@ -406,9 +356,7 @@ export interface IHierarchyLevelAggrTarget extends IHierarchyLevelTarget, IAggre
 export declare type IKeyTarget = (IKeyColumnsTarget | IKeyHierarchyTarget);
 export declare type ITarget = (IColumnTarget | IHierarchyLevelTarget | IMeasureTarget | INotSupportedTarget | IColumnAggrTarget | IHierarchyLevelAggrTarget);
 
-export interface IBaseFilterTarget extends IBaseTarget {
-    table: string;
-}
+export interface IBaseFilterTarget extends IBaseTarget { }
 
 export interface IFilterColumnTarget extends IBaseFilterTarget, IColumnTarget { }
 
@@ -436,9 +384,8 @@ export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHier
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IIdentityFilterTarget = number[];
-export type IHierarchyIdentityFilterTarget = IQueryNameTarget[];
 export type IIncludeExcludeFilterTarget = IFilterTarget | (IFilterTarget | IFilterKeyTarget)[][];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget | IHierarchyIdentityFilterTarget;
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
@@ -587,17 +534,6 @@ export interface IHierarchyFilter extends IFilter {
     hierarchyData: IHierarchyFilterNode[];
 }
 
-export interface IHierarchyIdentityFilterNode<IdentityType> {
-    identity: IdentityType;
-    children?: IHierarchyIdentityFilterNode<IdentityType>[];
-    operator: HierarchyFilterNodeOperators;
-}
-
-export interface IHierarchyIdentityFilter<IdentityType> extends IFilter {
-    target: IHierarchyIdentityFilterTarget;
-    hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[];
-}
-
 export interface ISmartNarratives {
     summaryText: string;
 }
@@ -613,7 +549,6 @@ export enum FilterType {
     RelativeTime = 7,
     Identity = 8,
     Hierarchy = 9,
-    HierarchyIdentity = 10,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -1019,29 +954,6 @@ export class HierarchyFilter extends Filter {
     }
 }
 
-export class HierarchyIdentityFilter<IdentityType> extends Filter {
-    static schemaUrl: string = "http://powerbi.com/product/schema#hierarchyIdentity";
-
-    target: IHierarchyIdentityFilterTarget;
-    hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[];
-
-    constructor(
-        target: IHierarchyIdentityFilterTarget,
-        hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[]
-    ) {
-        super(target, FilterType.HierarchyIdentity);
-        this.schemaUrl = HierarchyIdentityFilter.schemaUrl;
-        this.hierarchyData = hierarchyData;
-    }
-
-    toJSON(): IHierarchyIdentityFilter<IdentityType> {
-        const filter = super.toJSON() as IHierarchyIdentityFilter<IdentityType>;
-        filter.hierarchyData = this.hierarchyData;
-        filter.target = this.target;
-        return filter;
-    }
-}
-
 export interface IDataReference {
     target: IFilterTarget;
 }
@@ -1117,10 +1029,6 @@ export function isColumnAggr(arg: any): arg is IColumnAggrTarget {
 
 export function isPercentOfGrandTotal(arg: any): arg is IPercentOfGrandTotalTarget {
     return !!(arg as IPercentOfGrandTotalTarget).percentOfGrandTotal;
-}
-
-export function isVisualCalculation(arg: any): arg is IVisualCalculationTarget {
-    return !!(arg.name && arg.daxExpression);
 }
 
 export interface IBootstrapEmbedConfiguration {
@@ -1801,7 +1709,6 @@ export interface ICommandsSettings {
     summarize?: ICommandSettings;
     clearSelection?: ICommandSettings;
     focusMode?: ICommandSettings;
-    visualCalculation?: ICommandSettings;
 }
 
 export interface IPaginatedReportsCommandSettings {
