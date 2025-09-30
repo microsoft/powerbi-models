@@ -313,6 +313,10 @@ export enum MenuLocation {
     Top
 }
 
+export interface IQueryNameTarget {
+    queryName: string;
+}
+
 export interface IBaseTarget {
     table: string;
     $schema?: string;
@@ -384,8 +388,9 @@ export declare type IFilterKeyTarget = (IFilterKeyColumnsTarget | IFilterKeyHier
 export declare type IFilterTarget = (IFilterColumnTarget | IFilterHierarchyTarget | IFilterMeasureTarget | INotSupportedFilterTarget | IFilterColumnAggrTarget | IFilterHierarchyAggrTarget);
 export type ITupleFilterTarget = IFilterTarget[];
 export type IIdentityFilterTarget = number[];
+export type IHierarchyIdentityFilterTarget = IQueryNameTarget[];
 export type IIncludeExcludeFilterTarget = IFilterTarget | (IFilterTarget | IFilterKeyTarget)[][];
-export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget;
+export type IFilterGeneralTarget = IFilterTarget | IFilterKeyTarget | ITupleFilterTarget | IIdentityFilterTarget | IIncludeExcludeFilterTarget | IHierarchyIdentityFilterTarget;
 export interface IFilter {
     $schema: string;
     target: IFilterGeneralTarget;
@@ -534,6 +539,17 @@ export interface IHierarchyFilter extends IFilter {
     hierarchyData: IHierarchyFilterNode[];
 }
 
+export interface IHierarchyIdentityFilterNode<IdentityType> {
+    identity: IdentityType;
+    children?: IHierarchyIdentityFilterNode<IdentityType>[];
+    operator: HierarchyFilterNodeOperators;
+}
+
+export interface IHierarchyIdentityFilter<IdentityType> extends IFilter {
+    target: IHierarchyIdentityFilterTarget;
+    hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[];
+}
+
 export interface ISmartNarratives {
     summaryText: string;
 }
@@ -549,6 +565,7 @@ export enum FilterType {
     RelativeTime = 7,
     Identity = 8,
     Hierarchy = 9,
+    HierarchyIdentity = 10,
 }
 
 export enum RelativeDateFilterTimeUnit {
@@ -948,6 +965,29 @@ export class HierarchyFilter extends Filter {
 
     toJSON(): IHierarchyFilter {
         const filter = super.toJSON() as IHierarchyFilter;
+        filter.hierarchyData = this.hierarchyData;
+        filter.target = this.target;
+        return filter;
+    }
+}
+
+export class HierarchyIdentityFilter<IdentityType> extends Filter {
+    static schemaUrl: string = "http://powerbi.com/product/schema#hierarchyIdentity";
+
+    target: IHierarchyIdentityFilterTarget;
+    hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[];
+
+    constructor(
+        target: IHierarchyIdentityFilterTarget,
+        hierarchyData: IHierarchyIdentityFilterNode<IdentityType>[]
+    ) {
+        super(target, FilterType.HierarchyIdentity);
+        this.schemaUrl = HierarchyIdentityFilter.schemaUrl;
+        this.hierarchyData = hierarchyData;
+    }
+
+    toJSON(): IHierarchyIdentityFilter<IdentityType> {
+        const filter = super.toJSON() as IHierarchyIdentityFilter<IdentityType>;
         filter.hierarchyData = this.hierarchyData;
         filter.target = this.target;
         return filter;
