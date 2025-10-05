@@ -56,11 +56,20 @@ extends:
           ob_outputDirectory: '$(OUTPUTROOT)' # this directory is uploaded to pipeline artifacts, reddog and cloudvault. More info at https://aka.ms/obpipelines/artifacts
 
         steps:
+        - task: DownloadPipelineArtifact@2
+          displayName: "Download build files from the powerbi-models-Official pipeline"
+          inputs:
+            buildType: 'specific'
+            project: '4c7b5adb-c2d0-4f18-b23c-edc4ac30f4e1' # Embedded
+            definition: '8545' # powerbi-models-Official
+            buildVersionToDownload: 'latest'
+            artifactName: 'drop'
+            targetPath: '$(Pipeline.Workspace)\PublishedNpmArtifact'
         - task: Npm@1
           displayName: 'npm publish internal'
           inputs:
             command: publish
-            workingDir: '$(Build.SourcesDirectory)'
+            workingDir: '$(Pipeline.Workspace)\PublishedNpmArtifact\outputs\build\build_artifacts'
             verbose: true
             publishRegistry: useFeed
             publishFeed: 'd95dbb95-6687-4730-b306-abe69704b45d' # PowerBI.SDKs
