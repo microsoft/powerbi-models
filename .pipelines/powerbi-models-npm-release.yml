@@ -56,37 +56,46 @@ extends:
           ob_outputDirectory: '$(OUTPUTROOT)' # this directory is uploaded to pipeline artifacts, reddog and cloudvault. More info at https://aka.ms/obpipelines/artifacts
 
         steps:
+        - task: DownloadPipelineArtifact@2
+          displayName: "Download build files from the powerbi-models-Official pipeline"
+          inputs:
+            buildType: 'specific'
+            project: '4c7b5adb-c2d0-4f18-b23c-edc4ac30f4e1' # Embedded
+            definition: '8545' # powerbi-models-Official
+            buildVersionToDownload: 'latest'
+            artifactName: 'drop'
+            targetPath: '$(Pipeline.Workspace)\PublishedNpmArtifact'
         - task: Npm@1
           displayName: 'npm publish internal'
           inputs:
             command: publish
-            workingDir: '$(Build.SourcesDirectory)'
+            workingDir: '$(Pipeline.Workspace)\PublishedNpmArtifact\outputs\build\build_artifacts'
             verbose: true
             publishRegistry: useFeed
             publishFeed: 'd95dbb95-6687-4730-b306-abe69704b45d' # PowerBI.SDKs
 
-    - stage: Prod_ApprovalToExternalPublish
-      displayName: Approval to external publish
-      trigger: manual
+    - stage: Prod_Approval
+      displayName: Approval Service
       dependsOn: []
       variables:
         ob_release_environment: Production
-        ob_release_usedeploymentjob: true
-        ob_deploymentjob_environment: PBIEmbed
-
       jobs:
-      - job: ApprovalToExternalPublish
-        displayName: Approval to publish the powerbi-models package to external
+      - job: Approval
+        displayName: Wait for Approval
         pool:
-          type: release
-
-        steps:
-        - download: PowerbiModelsOfficial
+          type: server
+        variables: # More settings at https://aka.ms/obpipelines/yaml/jobs
+          ob_sdl_binskim_break: true
+          persistCredentials: true
+          ob_sdl_cg_failOnAlert: false
+          ob_sdl_publishLogs_enabled: true
+          ob_release_usedeploymentjob: true
+          ob_deploymentjob_environment: Prod_PowerBIModels
+          ob_release_environment: prod
 
     - stage: Release_External
       displayName: Release NPM external
-      dependsOn: Prod_ApprovalToExternalPublish
-      condition: succeeded()
+      dependsOn: [Prod_Approval]
 
       jobs:
       - job: PublishToNPMExternal
