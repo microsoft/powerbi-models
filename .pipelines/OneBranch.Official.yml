@@ -5,7 +5,6 @@ schedules:
     include: 
     - master
   always: true
-
 #################################################################################
 #   Onebranch Pipelines - Official MSBuild (CDPXMigrated)                       #
 # This pipeline was created by EasyStart from a sample located at:              #
