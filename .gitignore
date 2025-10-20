@@ -7,3 +7,6 @@ tmp
 .publish
 npm-debug.log*
 .vscode
+.pipelines
+.config
+*.yml
