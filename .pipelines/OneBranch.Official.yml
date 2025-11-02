@@ -4,6 +4,7 @@ schedules:
   branches:
     include: 
     - master
+    - portal
   always: true
 #################################################################################
 #   Onebranch Pipelines - Official MSBuild (CDPXMigrated)                       #
