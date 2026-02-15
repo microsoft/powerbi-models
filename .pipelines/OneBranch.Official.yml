@@ -3,7 +3,7 @@ schedules:
   displayName: CodeQL weekly scan 
   branches:
     include: 
-    - master
+    - portal
   always: true
 #################################################################################
 #   Onebranch Pipelines - Official MSBuild (CDPXMigrated)                       #
@@ -49,6 +49,9 @@ extends:
   template: ${{ variables.obpTemplate }}
   parameters:
     globalSdl: # https://aka.ms/obpipelines/sdl
+      codeql:
+        compiled: 
+          enabled: true
       tsa:
         enabled: true# onebranch publish all sdl results to TSA. If TSA is disabled all SDL tools will forced into 'break' build mode.
       cg:
