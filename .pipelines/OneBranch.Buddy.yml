@@ -82,11 +82,6 @@ extends:
             inputs:
               workingFile: '$(Build.SourcesDirectory)\.npmrc'
 
-          - script: |
-              echo "📦 Installing test dependencies..."
-              npm install --save-dev karma karma-coverage karma-typescript typescript
-            displayName: 'Install Karma + Coverage Dependencies'      
-
           - task: PowerShell@2
             displayName: 'Restore'
             inputs:
@@ -102,8 +97,6 @@ extends:
               workingDirectory: '$(Build.SourcesDirectory)'
 
           - script: |
-              echo "Installing puppeteer (includes headless Chromium)..."
-              npm install puppeteer --save-dev
               echo "Setting CHROME_BIN for Karma..."
               echo "##vso[task.setvariable variable=CHROME_BIN]$(Build.SourcesDirectory)/node_modules/puppeteer/.local-chromium/*/chrome-linux/chrome"
             displayName: 'Install Puppeteer and set CHROME_BIN'

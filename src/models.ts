@@ -1466,6 +1466,30 @@ export enum ExportDataType {
     Underlying,
 }
 
+export enum ExportDataResultType {
+    Summarized = 0,
+    Underlying = 1,
+    DataWithCurrentLayout = 2,
+}
+
+export enum ExportDataResultFormat {
+    Csv = 0,
+    Xlsx = 1
+}
+
+export enum ExportDataCompletedStatus {
+    Succeeded = 0,
+    Failed = 1,
+}
+
+export interface IExportDataCompletedEvent {
+    status: ExportDataCompletedStatus;
+    exportDataType: ExportDataResultType;
+    exportFormat: ExportDataResultFormat;
+    pageName: string;
+    visualName: string;
+}
+
 export enum BookmarksPlayMode {
     Off,
     Presentation,
