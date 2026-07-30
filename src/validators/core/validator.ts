@@ -50,6 +50,7 @@ import {
 import { LoadQnaValidator, QnaInterpretInputDataValidator, QnaSettingsValidator } from '../models/qnaValidator';
 import { ReportCreateValidator } from '../models/reportCreateValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
+import { ReportDefinitionValidator } from '../models/reportDefinitionValidator';
 import { PaginatedReportLoadValidator, ReportParameterFieldsValidator } from '../models/paginatedReportLoadValidator';
 import { SaveAsParametersValidator } from '../models/saveAsParametersValidator';
 import { SlicerTargetSelectorValidator, VisualSelectorValidator, VisualTypeSelectorValidator } from '../models/selectorsValidator';
@@ -196,6 +197,7 @@ export const Validators = {
     relativeTimeFilterValidator: new RelativeTimeFilterValidator(),
     reportBarsValidator: new ReportBarsValidator(),
     reportCreateValidator: new ReportCreateValidator(),
+    reportDefinitionValidator: new ReportDefinitionValidator(),
     reportLoadFiltersValidator: new AnyOfValidator([new ArrayValidator([new FilterValidator()]), new OnLoadFiltersValidator()]),
     reportLoadValidator: new ReportLoadValidator(),
     reportPanesValidator: new ReportPanesValidator(),

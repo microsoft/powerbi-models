@@ -5,11 +5,12 @@ import { IFieldValidatorsPair, MultipleFieldsValidator } from '../core/multipleF
 import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
 
-export class ReportCreateValidator extends ObjectValidator {
+export class ReportDefinitionValidator extends ObjectValidator {
     public validate(input: any, path?: string, field?: string): IValidationError[] {
         if (input == null) {
             return null;
         }
+
         const errors = super.validate(input, path, field);
         if (errors) {
             return errors;
@@ -17,29 +18,9 @@ export class ReportCreateValidator extends ObjectValidator {
 
         const fields: IFieldValidatorsPair[] = [
             {
-                field: "accessToken",
+                field: "definition",
                 validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
-            },
-            {
-                field: "datasetId",
-                validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
-            },
-            {
-                field: "groupId",
-                validators: [Validators.stringValidator]
-            },
-            {
-                field: "tokenType",
-                validators: [Validators.tokenTypeValidator]
-            },
-            {
-                field: "theme",
-                validators: [Validators.customThemeValidator]
-            },
-            {
-                field: "reportDefinition",
-                validators: [Validators.reportDefinitionValidator]
-            },
+            }
         ];
 
         const multipleFieldsValidator = new MultipleFieldsValidator(fields);

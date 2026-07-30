@@ -1136,6 +1136,10 @@ export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     permissions?: Permissions;
 }
 
+export interface IReportDefinition {
+    definition: string;
+}
+
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     filters?: ReportLevelFilters[] | OnLoadFilters;
     datasetBinding?: IDatasetBinding;
@@ -1202,6 +1206,7 @@ export interface IReportCreateConfiguration {
     theme?: IReportTheme;
     embedUrl?: string;
     eventHooks?: EventHooks;
+    reportDefinition?: IReportDefinition;
 }
 
 export interface IQuickCreateConfiguration {
