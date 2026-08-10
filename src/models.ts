@@ -1206,7 +1206,10 @@ export interface IReportCreateConfiguration {
     theme?: IReportTheme;
     embedUrl?: string;
     eventHooks?: EventHooks;
-    reportDefinition?: IReportDefinition;
+}
+
+export interface IReportCreateFromDefinitionConfiguration extends IReportCreateConfiguration {
+    reportDefinition: IReportDefinition;
 }
 
 export interface IQuickCreateConfiguration {
@@ -2018,6 +2021,11 @@ export function validatePaginatedReportLoad(input: any): IError[] {
 
 export function validateCreateReport(input: any): IError[] {
     const errors: any[] = Validators.reportCreateValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCreateReportFromDefinition(input: any): IError[] {
+    const errors: any[] = Validators.reportCreateFromDefinitionValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 

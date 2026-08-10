@@ -48,7 +48,7 @@ import {
     VisualizationsPaneValidator
 } from '../models/panesValidator';
 import { LoadQnaValidator, QnaInterpretInputDataValidator, QnaSettingsValidator } from '../models/qnaValidator';
-import { ReportCreateValidator } from '../models/reportCreateValidator';
+import { ReportCreateFromDefinitionValidator, ReportCreateValidator } from '../models/reportCreateValidator';
 import { ReportLoadValidator } from '../models/reportLoadValidator';
 import { ReportDefinitionValidator } from '../models/reportDefinitionValidator';
 import { PaginatedReportLoadValidator, ReportParameterFieldsValidator } from '../models/paginatedReportLoadValidator';
@@ -196,6 +196,7 @@ export const Validators = {
     relativeTimeFilterTypeValidator: new EnumValidator([7]),
     relativeTimeFilterValidator: new RelativeTimeFilterValidator(),
     reportBarsValidator: new ReportBarsValidator(),
+    reportCreateFromDefinitionValidator: new ReportCreateFromDefinitionValidator(),
     reportCreateValidator: new ReportCreateValidator(),
     reportDefinitionValidator: new ReportDefinitionValidator(),
     reportLoadFiltersValidator: new AnyOfValidator([new ArrayValidator([new FilterValidator()]), new OnLoadFiltersValidator()]),
