@@ -1136,6 +1136,10 @@ export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     permissions?: Permissions;
 }
 
+export interface IReportDefinition {
+    definition: string;
+}
+
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     filters?: ReportLevelFilters[] | OnLoadFilters;
     datasetBinding?: IDatasetBinding;
@@ -1202,6 +1206,10 @@ export interface IReportCreateConfiguration {
     theme?: IReportTheme;
     embedUrl?: string;
     eventHooks?: EventHooks;
+}
+
+export interface IReportCreateFromDefinitionConfiguration extends IReportCreateConfiguration {
+    reportDefinition: IReportDefinition;
 }
 
 export interface IQuickCreateConfiguration {
@@ -2013,6 +2021,11 @@ export function validatePaginatedReportLoad(input: any): IError[] {
 
 export function validateCreateReport(input: any): IError[] {
     const errors: any[] = Validators.reportCreateValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCreateReportFromDefinition(input: any): IError[] {
+    const errors: any[] = Validators.reportCreateFromDefinitionValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 
