@@ -6,16 +6,8 @@ import { ObjectValidator } from '../core/typeValidator';
 import { IValidationError, Validators } from '../core/validator';
 
 export class ReportCreateValidator extends ObjectValidator {
-    public validate(input: any, path?: string, field?: string): IValidationError[] {
-        if (input == null) {
-            return null;
-        }
-        const errors = super.validate(input, path, field);
-        if (errors) {
-            return errors;
-        }
-
-        const fields: IFieldValidatorsPair[] = [
+    protected getFields(): IFieldValidatorsPair[] {
+        return [
             {
                 field: "accessToken",
                 validators: [Validators.fieldRequiredValidator, Validators.stringValidator]
@@ -37,8 +29,30 @@ export class ReportCreateValidator extends ObjectValidator {
                 validators: [Validators.customThemeValidator]
             },
         ];
+    }
 
-        const multipleFieldsValidator = new MultipleFieldsValidator(fields);
+    public validate(input: any, path?: string, field?: string): IValidationError[] {
+        if (input == null) {
+            return null;
+        }
+        const errors = super.validate(input, path, field);
+        if (errors) {
+            return errors;
+        }
+
+        const multipleFieldsValidator = new MultipleFieldsValidator(this.getFields());
         return multipleFieldsValidator.validate(input, path, field);
+    }
+}
+
+export class ReportCreateFromDefinitionValidator extends ReportCreateValidator {
+    protected getFields(): IFieldValidatorsPair[] {
+        return [
+            ...super.getFields(),
+            {
+                field: "reportDefinition",
+                validators: [Validators.fieldRequiredValidator, Validators.reportDefinitionValidator]
+            },
+        ];
     }
 }
