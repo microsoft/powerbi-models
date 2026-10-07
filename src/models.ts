@@ -1136,6 +1136,10 @@ export interface ICommonEmbedConfiguration extends IEmbedConfigurationBase {
     permissions?: Permissions;
 }
 
+export interface IReportDefinition {
+    definition: string;
+}
+
 export interface IReportEmbedConfiguration extends ICommonEmbedConfiguration {
     filters?: ReportLevelFilters[] | OnLoadFilters;
     datasetBinding?: IDatasetBinding;
@@ -1202,6 +1206,10 @@ export interface IReportCreateConfiguration {
     theme?: IReportTheme;
     embedUrl?: string;
     eventHooks?: EventHooks;
+}
+
+export interface IReportCreateFromDefinitionConfiguration extends IReportCreateConfiguration {
+    reportDefinition: IReportDefinition;
 }
 
 export interface IQuickCreateConfiguration {
@@ -1464,6 +1472,30 @@ export enum QnaMode {
 export enum ExportDataType {
     Summarized,
     Underlying,
+}
+
+export enum ExportDataResultType {
+    Summarized = 0,
+    Underlying = 1,
+    DataWithCurrentLayout = 2,
+}
+
+export enum ExportDataResultFormat {
+    Csv = 0,
+    Xlsx = 1
+}
+
+export enum ExportDataCompletedStatus {
+    Succeeded = 0,
+    Failed = 1,
+}
+
+export interface IExportDataCompletedEvent {
+    status: ExportDataCompletedStatus;
+    exportDataType: ExportDataResultType;
+    exportFormat: ExportDataResultFormat;
+    pageName: string;
+    visualName: string;
 }
 
 export enum BookmarksPlayMode {
@@ -1989,6 +2021,11 @@ export function validatePaginatedReportLoad(input: any): IError[] {
 
 export function validateCreateReport(input: any): IError[] {
     const errors: any[] = Validators.reportCreateValidator.validate(input);
+    return errors ? errors.map(normalizeError) : undefined;
+}
+
+export function validateCreateReportFromDefinition(input: any): IError[] {
+    const errors: any[] = Validators.reportCreateFromDefinitionValidator.validate(input);
     return errors ? errors.map(normalizeError) : undefined;
 }
 
