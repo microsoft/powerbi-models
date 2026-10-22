@@ -1097,6 +1097,10 @@ export interface IBootstrapEmbedConfiguration {
     type?: string;
     groupId?: string;
     bootstrapped?: boolean;
+
+    // Applied before the iframe is inserted; see the note in Embed.setIframe.
+    iframeAllow?: string;
+    iframeSandbox?: string;
 }
 
 export interface IEmbedConfigurationBase extends IBootstrapEmbedConfiguration {
